@@ -15,7 +15,7 @@ const config: Config = {
   baseUrl: '/',
 
   organizationName: 'MSK Scripts',
-  projectName: 'documentation',
+  projectName: 'msk-scripts-documentation',
 
   onBrokenLinks: 'throw',
 
@@ -32,7 +32,7 @@ const config: Config = {
         path: 'guides',
         routeBasePath: 'guides',
         sidebarPath: './sidebars-guides.ts',
-        editUrl: 'https://github.com/MSK-Scripts/documentation/tree/main/',
+        editUrl: 'https://github.com/MSK-Scripts/msk-scripts-documentation/tree/main/',
       },
     ],
   ],
@@ -44,7 +44,7 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           editUrl:
-            'https://github.com/MSK-Scripts/documentation/tree/main/',
+            'https://github.com/MSK-Scripts/msk-scripts-documentation/tree/main/',
         },
         blog: false,
         theme: {
