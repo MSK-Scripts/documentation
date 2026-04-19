@@ -136,6 +136,13 @@
   margin: 0;
 }
 
+.cardBadges {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
 .cardBadge {
   font-size: 0.7rem;
   font-weight: 600;

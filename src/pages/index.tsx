@@ -45,7 +45,7 @@ type Resource = {
   title: string;
   image: string;
   description: string;
-  badge: string;
+  badges: string[];
   to: string;
   features: string[];
 };
@@ -54,24 +54,42 @@ const resources: Resource[] = [
   {
     title: 'Discord Ticketbot',
     image: '/img/discord_ticketbot_banner.png',
-    badge: 'Javascript',
+    badges: ['Javascript'],
     description:
-      'A feature-rich inventory system with support for stashes, trunks, gloveboxes, shops, crafting and more.',
+      'A Dicord ticketbot, allowing players to create support tickets directly from Discord.',
     to: '/docs/discord_ticketbot/getting-started',
-    features: ['Events', 'Exports', 'Event Handler'],
+    features: ['Installation', 'Configuration'],
   },
   {
     title: 'MSK Core',
     image: '/img/logo.png',
-    badge: 'Standalone',
+    badges: ['Standalone'],
     description:
       'Our core library for our resources, providing common utilities, and more.',
-    to: '/docs/msk_core/getting-started',
-    features: ['Events', 'Exports'],
+    to: '/docs/msk_core/',
+    features: ['Client', 'Shared', 'Server'],
+  },
+  {
+    title: 'MSK Handcuffs',
+    image: '/img/msk_handcuffs.png',
+    badges: ['ESX', 'QBCore'],
+    description:
+      'A handcuff resource, allowing you to restrain players with various options and features.',
+    to: '/docs/msk_handcuffs/',
+    features: ['Events', 'Exports', 'Event Handler'],
+  },
+  {
+    title: 'MSK Vehiclekeys',
+    image: '/img/msk_vehiclekeys.png',
+    badges: ['ESX', 'QBCore'],
+    description:
+      'A vehicle key management resource, allowing you to manage vehicle keys with various options and features.',
+    to: '/docs/msk_vehiclekeys/',
+    features: ['Exports'],
   },
 ];
 
-function ResourceCard({ title, image, badge, description, to, features }: Resource) {
+function ResourceCard({ title, image, badges, description, to, features }: Resource) {
   return (
     <div className={styles.card}>
       <div className={styles.cardImage}>
@@ -82,7 +100,11 @@ function ResourceCard({ title, image, badge, description, to, features }: Resour
           <Heading as="h2" className={styles.cardTitle}>
             {title}
           </Heading>
-          <span className={styles.cardBadge}>{badge}</span>
+          <div className={styles.cardBadges}>
+            {badges.map((b) => (
+              <span key={b} className={styles.cardBadge}>{b}</span>
+            ))}
+          </div>
         </div>
         <p className={styles.cardDescription}>{description}</p>
         <div className={styles.cardTags}>

@@ -3,7 +3,7 @@ title: MSK EngineToggle
 sidebar_position: 1
 ---
 
-# MSK EngineToggle
+![MSK EngineToggle](/img/msk_enginetoggle.png)
 
 [GitHub Download](https://github.com/MSK-Scripts/msk_enginetoggle) | [CFX Post](https://forum.cfx.re/t/msk-enginetoggle-toggle-engine-on-off/4793840)
 
