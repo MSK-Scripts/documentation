@@ -44,7 +44,7 @@ export default function Footer(): ReactNode {
               alt="MSK Scripts Logo"
               className={styles.brandLogo}
             />
-            <span className={styles.brandName}>MSK Scripts Documentation</span>
+            <span className={styles.brandName}>MSK Scripts</span>
           </Link>
           <p className={styles.brandTagline}>
             Documentation for MSK Scripts resources.

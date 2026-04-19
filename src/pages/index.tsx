@@ -20,7 +20,7 @@ function Hero() {
           className={styles.heroLogo}
         />
         <Heading as="h1" className={styles.heroTitle}>
-          {siteConfig.title}
+          {siteConfig.themeConfig.navbar.title}
         </Heading>
         <p className={styles.heroSubtitle}>{siteConfig.tagline}</p>
         <div className={styles.heroButtons}>
@@ -29,9 +29,9 @@ function Hero() {
           </Link>
           <Link
             className="button button--secondary button--lg"
-            href="https://discord.gg/5hHSBRHvJE"
+            href="https://www.msk-scripts.de"
           >
-            Discord
+            Tebex Shop
           </Link>
         </div>
       </div>

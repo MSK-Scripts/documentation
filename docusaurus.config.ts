@@ -72,7 +72,7 @@ const config: Config = {
       respectPrefersColorScheme: false,
     },
     navbar: {
-      title: 'MSK Scripts Documentation',
+      title: 'MSK Scripts',
       logo: {
         alt: 'MSK Scripts Logo',
         src: 'img/logo.png',
