@@ -3,7 +3,7 @@ title: MSK VehicleKeys
 sidebar_position: 1
 ---
 
-![MSK VehicleKeys](/img/msk_vehiclekeys.png)
+![MSK VehicleKeys](/img/msk_vehiclekeys_banner.png)
 
 [**Tebex [18.99€ inkl. MwSt.]**](https://www.msk-scripts.de/category/encrypted) — _~80% encrypted_  
 [**Tebex [37.99€ inkl. MwSt.]**](https://www.msk-scripts.de/category/source-code) — _~10% encrypted_

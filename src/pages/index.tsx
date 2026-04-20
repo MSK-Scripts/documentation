@@ -9,10 +9,10 @@ import styles from './index.module.css';
 
 // ─── Hero ────────────────────────────────────────────────────────────────────
 
-function Hero() {
+/* function Hero() {
   const { siteConfig } = useDocusaurusContext();
   return (
-    <header className={styles.hero}>
+    <header className={styles.hero} style={{ backgroundImage: 'url("/img/msk_scripts_banner.png")', backgroundSize: 'cover', backgroundPosition: 'center', }}>
       <div className={styles.heroInner}>
         <img
           src="img/logo.png"
@@ -36,6 +36,20 @@ function Hero() {
         </div>
       </div>
     </header>
+  );
+} */
+
+function Hero() {
+  return (
+    <header
+      className={styles.hero}
+      style={{
+        backgroundImage: 'url("/img/msk_scripts_banner.png")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: '34vh',
+      }}
+    />
   );
 }
 
@@ -71,7 +85,7 @@ const resources: Resource[] = [
   },
   {
     title: 'MSK Handcuffs',
-    image: '/img/msk_handcuffs.png',
+    image: '/img/msk_handcuffs_banner.png',
     badges: ['ESX', 'QBCore'],
     description:
       'A handcuff resource, allowing you to restrain players with various options and features.',
@@ -80,7 +94,7 @@ const resources: Resource[] = [
   },
   {
     title: 'MSK Vehiclekeys',
-    image: '/img/msk_vehiclekeys.png',
+    image: '/img/msk_vehiclekeys_banner.png',
     badges: ['ESX', 'QBCore'],
     description:
       'A vehicle key management resource, allowing you to manage vehicle keys with various options and features.',

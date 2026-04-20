@@ -65,7 +65,7 @@ const config: Config = {
   ],
 
   themeConfig: {
-    image: 'img/msk_core_banner.png',
+    image: 'img/msk_scripts_banner.png',
     colorMode: {
       defaultMode: 'dark',
       disableSwitch: true,

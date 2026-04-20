@@ -3,7 +3,7 @@ title: MSK Handcuffs
 sidebar_position: 1
 ---
 
-![MSK Handcuffs](/img/msk_handcuffs.png)
+![MSK Handcuffs](/img/msk_handcuffs_banner.png)
 
 [**Tebex [11.99€ inkl. MwSt.]**](https://www.msk-scripts.de/category/encrypted) — _~80% encrypted_  
 [**Tebex [23.99€ inkl. MwSt.]**](https://www.msk-scripts.de/category/open-clientside) — _~10% encrypted_
