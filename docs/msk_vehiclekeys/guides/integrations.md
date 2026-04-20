@@ -5,10 +5,6 @@ sidebar_position: 2
 
 # Integrations
 
-:::danger
-You need **msk_core**! — [Download it here](https://github.com/MSK-Scripts/msk_core)
-:::
-
 :::info
 This guide shows examples on how to integrate `msk_vehiclekeys` into VehicleShops, etc.
 :::

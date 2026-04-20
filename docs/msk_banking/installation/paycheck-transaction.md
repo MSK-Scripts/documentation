@@ -5,10 +5,6 @@ sidebar_position: 2
 
 # Paycheck Transaction
 
-:::danger
-You need **msk_core**! — [Download it here](https://github.com/MSK-Scripts/msk_core)
-:::
-
 1. Go to `es_extended/server/paycheck.lua`
 2. Replace the file with the following code
 

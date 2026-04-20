@@ -5,10 +5,6 @@ sidebar_position: 1
 
 # Installation
 
-:::danger
-You need **msk_core**! — [Download it here](https://github.com/MSK-Scripts/msk_core)
-:::
-
 1. Drag & Drop the folder `msk_vehiclekeys` into your resource folder
 2. Add `ensure msk_vehiclekeys` to your `server.cfg`
 3. Configure the `config.lua`

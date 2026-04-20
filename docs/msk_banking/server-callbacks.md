@@ -5,10 +5,6 @@ sidebar_position: 5
 
 # Server Callbacks
 
-:::danger
-You need **msk_core**! — [Download it here](https://github.com/MSK-Scripts/msk_core)
-:::
-
 ## hasBankcard
 
 **Returns**  

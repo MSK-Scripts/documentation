@@ -3,11 +3,9 @@ title: MSK Radio
 sidebar_position: 1
 ---
 
-# MSK Radio
+![MSK Radio](/img/msk_radio.png)
 
-[**Tebex [4.99€ inkl. MwSt.]**](https://www.msk-scripts.de/category/encrypted) — _~80% encrypted_  
-[**Tebex [9.99€ inkl. MwSt.]**](https://www.msk-scripts.de/category/source-code) — _~10% encrypted_
-
+[**Github Download**](https://github.com/MSK-Scripts/msk_radio) | 
 [**CFX Post**](https://forum.cfx.re/t/esx-qbcore-msk-radio/5237033)
 
 ## Description

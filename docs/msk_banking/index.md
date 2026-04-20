@@ -3,10 +3,9 @@ title: MSK Banking
 sidebar_position: 1
 ---
 
-# MSK Banking
+![MSK Banking](/img/msk_banking.png)
 
-[**Tebex [16.99€ inkl. MwSt.]**](https://www.msk-scripts.de/package/5118928) — _Encrypted_  
-[**Tebex [29.99€ inkl. MwSt.]**](https://www.msk-scripts.de/package/5302445) — _Only Serverside Encrypted_
+[**Github Download**](https://github.com/MSK-Scripts/msk_banking)
 
 [**YouTube Video Preview**](https://youtu.be/tZTx9l5vr_w) | [**CFX Post**](https://forum.cfx.re/t/esx-msk-banking-advanced-bankingsystem/4859560)
 

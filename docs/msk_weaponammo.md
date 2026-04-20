@@ -5,10 +5,6 @@ sidebar_position: 14
 
 # MSK WeaponAmmo
 
-:::danger
-You need **msk_core**! — [Download it here](https://github.com/MSK-Scripts/msk_core)
-:::
-
 ## Common Errors
 
 ### SCRIPT ERROR: bad argument #1 to 'upper' (string expected, got table)

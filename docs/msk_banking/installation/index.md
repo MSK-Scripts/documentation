@@ -5,10 +5,6 @@ sidebar_position: 2
 
 # Installation
 
-:::danger
-You need **msk_core**! — [Download it here](https://github.com/MSK-Scripts/msk_core)
-:::
-
 1. Upload the `msk_banking` folder.
 2. Add `ensure msk_banking` to your `server.cfg`.
 3. Configure the `config.lua` before starting the script.
