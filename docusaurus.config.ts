@@ -25,6 +25,7 @@ const config: Config = {
   },
 
   plugins: [
+    ['docusaurus-lunr-search', {}],
     [
       '@docusaurus/plugin-content-docs',
       {
