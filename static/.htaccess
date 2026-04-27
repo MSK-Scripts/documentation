@@ -1,3 +1,12 @@
+# ─── Block Source Maps ────────────────────────────────────────────────────────
+
+<FilesMatch "\.map$">
+    <IfModule mod_headers.c>
+        Header always set X-Robots-Tag "noindex, nofollow"
+    </IfModule>
+    Require all denied
+</FilesMatch>
+
 # ─── Security Headers ──────────────────────────────────────────────────────────
 
 <IfModule mod_headers.c>
@@ -8,8 +17,8 @@
     # Verhindert MIME-Sniffing
     Header always set X-Content-Type-Options "nosniff"
 
-    # Schutz gegen Clickjacking
-    Header always set X-Frame-Options "SAMEORIGIN"
+    # Schutz gegen Clickjacking (DENY da frame-ancestors 'none' im CSP)
+    Header always set X-Frame-Options "DENY"
 
     # Referrer nur über HTTPS weitergeben
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
