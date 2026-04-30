@@ -131,6 +131,8 @@
   color: rgba(255, 255, 255, 0.25);
   font-size: 0.75rem;
   text-align: right;
+  gap: 1rem;
+  display: flex;
 }
 
 /* ─── Responsive ─────────────────────────────────────────────────────────────── */

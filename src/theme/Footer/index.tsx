@@ -78,7 +78,13 @@ export default function Footer(): ReactNode {
           Copyright © {new Date().getFullYear()} MSK Scripts. All rights reserved.
         </p>
         <p className={styles.disclaimer}>
-          This is an official documentation site by MSK Scripts.
+          <Link className={styles.disclaimer} to="/impressum">
+            Impressum
+          </Link>
+            |
+          <Link className={styles.disclaimer} to="/datenschutz">
+            Datenschutz
+          </Link>
         </p>
       </div>
     </footer>
