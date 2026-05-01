@@ -29,28 +29,28 @@ UPDATE_NOTIFY_ROLE_ID=your_update_notify_role_id_here
 GIVEAWAY_NOTIFY_ROLE_ID=your_giveaway_notify_role_id_here
 TEAM_ROLE_ID=your_team_role_id_here
 
-# ─── Datenbank (für /backup_database) ────────────────────────────────────────
+# ─── Database (for /backup_database) ────────────────────────────────────────
 DB_HOST=your_db_host_here
 DB_USER=your_db_user_here
 DB_PASS='your_db_pass_here'
 DB_NAME=your_db_name_here
 ```
 
-### Einzelnen Bot deaktivieren
+### Disable a Bot
 
-Token in `.env` leer lassen – der Bot wird beim Start automatisch übersprungen:
+Leave the token empty in `.env` — the bot will be automatically skipped on startup:
 
 ```bash
-# Beispiel: Minigames Bot deaktivieren
+# Example: disable the Minigames Bot
 MINIGAMES_BOT_TOKEN=
 ```
 
 ---
 
-### Punktesystem konfigurieren
+### Configure the Points System
 
-Alle Punktwerte und Belohnungen befinden sich in `bots/minigames/points_config.json`.
-Rollen-IDs für automatische Rollenvergabe dort eintragen:
+All point values and rewards are defined in `bots/minigames/points_config.json`.
+To enable automatic role assignment, add the Discord role ID:
 
 ```json
 { "points": 1500, "description": "🥈 Silver Player", "role_id": 123456789 }
