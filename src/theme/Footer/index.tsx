@@ -9,6 +9,7 @@ const columns = [
     title: 'Discord Bots',
     links: [
       { label: 'Discord Ticketbot', to: '/discord/discord_ticketbot/getting-started' },
+      { label: 'Discord Multibot', to: '/discord/discord_multibot/getting-started' },
     ],
   },
   {
