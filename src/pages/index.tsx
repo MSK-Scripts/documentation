@@ -77,9 +77,18 @@ const resources: Resource[] = [
     features: ['Installation', 'Configuration'],
   },
   {
+    title: 'Discord Multibot',
+    image: '/img/msk_multi_bot_banner.png',
+    badges: ['Python'],
+    description:
+      'A Dicord multibot, allowing you to create multiple bots for different purposes, such as a event bot, a command bot, and more.',
+    to: '/discord/discord_multibot/getting-started',
+    features: ['Installation', 'Configuration'],
+  },
+  {
     title: 'MSK Core',
     image: '/img/msk_core_banner.png',
-    badges: ['Standalone'],
+    badges: ['Standalone', 'Lua'],
     description:
       'Our core library for our resources, providing common utilities, and more.',
     to: '/docs/msk_core/',
@@ -88,7 +97,7 @@ const resources: Resource[] = [
   {
     title: 'MSK Handcuffs',
     image: '/img/msk_handcuffs_banner.png',
-    badges: ['ESX', 'QBCore'],
+    badges: ['ESX', 'QBCore', 'Lua'],
     description:
       'A handcuff resource, allowing you to restrain players with various options and features.',
     to: '/docs/msk_handcuffs/',
@@ -97,7 +106,7 @@ const resources: Resource[] = [
   {
     title: 'MSK Vehiclekeys',
     image: '/img/msk_vehiclekeys_banner.png',
-    badges: ['ESX', 'QBCore'],
+    badges: ['ESX', 'QBCore', 'Lua'],
     description:
       'A vehicle key management resource, allowing you to manage vehicle keys with various options and features.',
     to: '/docs/msk_vehiclekeys/',
@@ -109,7 +118,7 @@ function ResourceCard({ title, image, badges, description, to, features }: Resou
   return (
     <div className={styles.card}>
       <div className={styles.cardImage}>
-        <img src={image} alt={title} />
+        <img src={image} alt={title} onError={(e) => { (e.target as HTMLImageElement).src = 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'; (e.target as HTMLImageElement).style.objectFit = 'contain'; (e.target as HTMLImageElement).style.padding = '1.5rem'; (e.target as HTMLImageElement).style.filter = 'invert(1) opacity(0.15)'; }} />
       </div>
       <div className={styles.cardBody}>
         <div className={styles.cardHeader}>

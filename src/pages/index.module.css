@@ -79,11 +79,32 @@
 }
 
 .cardGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1.75rem;
-  max-width: 900px;
+  max-width: 1400px;
   margin: 0 auto;
+}
+
+.cardGrid > * {
+  flex: 0 1 calc(33.333% - 1.75rem);
+  min-width: 320px;
+  max-width: 420px;
+}
+
+@media (max-width: 1200px) {
+  .cardGrid > * {
+    flex: 0 1 calc(50% - 1.75rem);
+    max-width: 480px;
+  }
+}
+
+@media (max-width: 640px) {
+  .cardGrid > * {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
 }
 
 /* ─── Card ──────────────────────────────────────────────────────────────────── */
@@ -228,6 +249,16 @@
 [data-theme='dark'] .cardBadge[data-badge="Standalone"] {
   background: #2a2a2a;
   color: #ccc;
+}
+
+/* Python — blue/yellow */
+.cardBadge[data-badge="Python"] {
+  background: #e8f0fe;
+  color: #1a56a0;
+}
+[data-theme='dark'] .cardBadge[data-badge="Python"] {
+  background: #0d1f3d;
+  color: #5b9bd5;
 }
 
 .cardDescription {
