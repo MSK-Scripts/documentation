@@ -168,7 +168,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} MSK Scripts · <a href="/impressum" style="color:inherit;text-decoration:none;">Impressum</a> · <a href="/datenschutz" style="color:inherit;text-decoration:none;">Datenschutz</a>`,
+      copyright: `Copyright © ${new Date().getFullYear()} MSK Scripts. All rights reserved.`,
     },
     prism: {
       theme: prismThemes.github,
