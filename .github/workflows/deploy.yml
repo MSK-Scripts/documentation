@@ -1,19 +1,27 @@
-name: Deploy Docusaurus to Webserver
+name: Deploy MSK Scripts Docs
 
 on:
   push:
     branches:
-      - main # Startet das Deployment, wenn Code in 'main' gepusht wird
+      - main 
+
+# SECURITY: GITHUB_TOKEN auf Minimum beschränken
+permissions:
+  contents: read
 
 jobs:
   build-and-deploy:
+    name: Build & Deploy
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: ⬇️ Checkout Repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: yarn
