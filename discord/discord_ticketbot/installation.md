@@ -7,8 +7,9 @@ sidebar_position: 2
 ## 🚀 Installation
 
 ### Requirements
+
 - **Node.js** v18 or newer
-- A Discord bot token (https://discord.com/developers/applications)
+- A Discord bot token — [discord.com/developers/applications](https://discord.com/developers/applications)
 
 ### 1. Install dependencies
 
@@ -24,10 +25,16 @@ cp .env.example .env
 ```
 
 Fill in `.env`:
+
 ```bash
+# Required
 TOKEN="your_bot_token"
 CLIENT_ID="your_application_id"
 GUILD_ID="your_server_id"
+
+# Optional — MSK Transcript Service (get your key at www.msk-scripts.de/verify)
+MSK_API_KEY="your_msk_api_key"
+MSK_API_URL="https://www.msk-scripts.de"
 ```
 
 ### 3. Set up the configuration
@@ -61,13 +68,8 @@ The included `ticketbot.service` file lets the bot start automatically after a s
 ### 1. Copy the bot files to the server
 
 ```bash
-# Copy project folder to /opt
 sudo cp -r discord_ticketbot /opt/discord_ticketbot
-
-# Create a dedicated system user (recommended — never run as root)
 sudo useradd -r -s /bin/false discord
-
-# Set permissions
 sudo chown -R discord:discord /opt/discord_ticketbot
 ```
 
@@ -81,7 +83,7 @@ sudo nano /opt/discord_ticketbot/.env
 
 ```bash
 which node
-# Output e.g.: /usr/bin/node
+# e.g.: /usr/bin/node
 ```
 
 If the path differs, adjust `ExecStart` in `ticketbot.service` accordingly.
@@ -97,10 +99,7 @@ sudo systemctl enable --now ticketbot.service
 ### 5. Check the status
 
 ```bash
-# Show current status
 sudo systemctl status ticketbot.service
-
-# Follow live logs
 sudo journalctl -u ticketbot.service -f
 ```
 
