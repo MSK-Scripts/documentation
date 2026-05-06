@@ -32,12 +32,18 @@ A modern, self-hosted Discord ticket bot built on **Discord.js v14** and **SQLit
 | ⏰ Staff Reminder | Automatic ping inside the ticket if no staff responds within X hours |
 | ⏰ Auto-Close | Automatically close inactive tickets with a configurable warning period |
 | 🔗 Transcript Links | Transcripts stored online and accessible via a public link |
-| 📄 HTML Transcript | Full HTML transcript with all messages, embeds and attachments |
+| 📄 HTML Transcript | Full self-contained HTML transcript — avatars embedded as Base64, no CDN required |
 | 🌐 Custom Domain | Premium users can serve transcripts under their own domain |
 | 📊 Statistics | Server-wide stats and detailed per-user stats via `/stats` |
 | 🚫 Blacklist | `/blacklist add/remove/list` to block users from opening tickets |
+| 💬 Canned Responses | Pre-defined snippets sent with one command — configured in `snippets.jsonc` |
+| 🔒 Ticket Lock | Lock/unlock a ticket to prevent the user from sending messages |
+| 📢 Broadcast | Send a message to all open ticket channels at once |
+| 🔔 User Notifications | Optional DM notification for users when a staff member replies |
+| 🎮 Dynamic Bot Status | Automatically display the number of open tickets in the bot status |
 | 🌍 Multilingual | German and English included, easily extensible |
 | 🗄️ SQLite | No external database required — file is created automatically |
+| 🔄 Auto-Update Check | Checks for new GitHub releases on startup and notifies with update instructions |
 
 ---
 
@@ -95,7 +101,8 @@ discord_ticketbot/
 │   ├── logo.png                # Panel logo thumbnail (place your own here)
 │   └── banner.png              # Panel banner image (place your own here)
 ├── config/
-│   └── config.example.jsonc    # Configuration template (with comments)
+│   ├── config.example.jsonc    # Configuration template (with comments)
+│   └── snippets.example.jsonc  # Canned responses template
 ├── docs/
 │   ├── setup-en.md             # MSK Transcript Service setup guide (English)
 │   └── setup-de.md             # MSK Transcript Service setup guide (German)
@@ -125,10 +132,13 @@ discord_ticketbot/
     │   ├── priority.js         # /priority   – Set priority (topic + embed)
     │   ├── note.js             # /note       – Staff notes
     │   ├── blacklist.js        # /blacklist  – Block users
-    │   └── stats.js            # /stats      – Statistics (server & user)
+    │   ├── stats.js            # /stats      – Statistics (server & user)
+    │   ├── snippet.js          # /snippet    – Send canned responses
+    │   ├── broadcast.js        # /broadcast  – Send to all open tickets
+    │   └── lock.js             # /lock       – Lock/unlock ticket
     ├── events/
     │   ├── ready.js            # Bot start, status, auto-close & staff reminder loop
-    │   ├── messageCreate.js    # Track last activity
+    │   ├── messageCreate.js    # Activity tracking + DM notifications
     │   └── interactionCreate.js # Route all interactions
     ├── components/
     │   ├── buttons/
@@ -140,7 +150,8 @@ discord_ticketbot/
     │   │   ├── deleteTicket.js     # tb_delete
     │   │   ├── deleteConfirm.js    # tb_deleteConfirm
     │   │   ├── deleteCancel.js     # tb_deleteCancel
-    │   │   └── rateTicket.js       # tb_rate:N
+    │   │   ├── rateTicket.js       # tb_rate:N
+    │   │   └── notifyToggle.js     # tb_notifyToggle
     │   ├── modals/
     │   │   ├── closeReason.js      # tb_modalClose
     │   │   └── ticketQuestions.js  # tb_modalQuestions:type
@@ -151,9 +162,11 @@ discord_ticketbot/
     └── utils/
         ├── logger.js           # Coloured console logger
         ├── embeds.js           # All embed constructors
-        ├── transcript.js       # HTML transcript generator
+        ├── transcript.js       # Self-contained HTML (avatars embedded as Base64)
         ├── mskApi.js           # MSK Transcript Service API client
-        └── ticketActions.js    # Core logic: openTicket, performClose, performMove
+        ├── ticketActions.js    # Core logic: openTicket, performClose, performMove
+        ├── versionCheck.js     # Startup update check against GitHub releases
+        └── snippets.js         # Snippet loader & placeholder engine
 ```
 
 ---
@@ -176,9 +189,14 @@ discord_ticketbot/
 | `/note list`        | Staff         | List all notes for this ticket                                        |
 | `/stats`            | Staff         | Server-wide ticket statistics                                         |
 | `/stats @user`      | Staff         | Detailed statistics for a specific user                               |
-| `/blacklist add`    | Manage Guild  | Block a user                                                          |
-| `/blacklist remove` | Manage Guild  | Unblock a user                                                        |
-| `/blacklist list`   | Manage Guild  | Show the blacklist                                                    |
+| `/blacklist add`       | Manage Guild  | Block a user                                                       |
+| `/blacklist remove`    | Manage Guild  | Unblock a user                                                     |
+| `/blacklist list`      | Manage Guild  | Show the blacklist                                                  |
+| `/snippet send <name>` | Staff         | Send a canned response into the ticket                              |
+| `/snippet list`        | Staff         | Show all available snippets                                         |
+| `/lock lock [reason]`  | Staff         | Lock ticket — user cannot send messages                             |
+| `/lock unlock`         | Staff         | Unlock ticket — restore user message access                         |
+| `/broadcast <message>` | Staff         | Send a message to all open ticket channels                          |
 
 ---
 
@@ -193,19 +211,28 @@ Every ticket channel contains a button row at the top:
 | 🙌 Unclaim       | `claimButton: true`, already claimed | Staff releases — topic & embed update, button becomes Claim          |
 | 🔀 Move          | More than 1 ticket type configured   | Staff opens type selection (staff only)                              |
 | 🗑️ Delete Ticket | After closing                        | Deletes the channel after confirmation                               |
+| 🔕 Notify me     | `userNotifications.enabled: true`    | User opts in to DM notifications when a staff member replies         |
 
 ---
 
 ## 🗄️ Database Schema
 
-The SQLite database is created automatically at `data/tickets.db`. Existing databases are automatically migrated if columns are missing.
+The SQLite database is created automatically at `data/tickets.db`. Columns are added automatically via migration if they are missing.
 
-| Table         | Contents                                                              |
-| ------------- | --------------------------------------------------------------------- |
-| `tickets`     | All tickets: status, type, priority, claim info, reminder, transcript |
-| `blacklist`   | Blocked users with reason and timestamp                               |
-| `staff_notes` | Private staff notes per ticket                                        |
-| `ratings`     | Ratings (1–5 ⭐) with optional comment                                 |
+| Table         | Contents                                                                       |
+| ------------- | ------------------------------------------------------------------------------ |
+| `tickets`     | All tickets: status, type, priority, claim, lock, notify, reminder, transcript |
+| `blacklist`   | Blocked users with reason and timestamp                                        |
+| `staff_notes` | Private staff notes per ticket                                                 |
+| `ratings`     | Ratings (1–5 ⭐) with optional comment                                          |
+
+**Columns added in recent updates:**
+
+| Column | Default | Purpose |
+| --- | --- | --- |
+| `locked` | `0` | Whether the ticket is currently locked |
+| `notify_on_reply` | `0` | Whether the creator opted in to DM notifications |
+| `last_notify_sent` | `NULL` | Timestamp of the last notification DM (30-min cooldown) |
 
 ---
 

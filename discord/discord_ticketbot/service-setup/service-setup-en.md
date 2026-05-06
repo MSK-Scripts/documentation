@@ -68,7 +68,7 @@ configure a **custom domain** so transcripts are served under their own URL.
 
 These values go into `.env.local` on the **web server** (not the bot's `.env`):
 
-```env
+```bash
 GITHUB_CLIENT_ID=your_client_id_here
 GITHUB_CLIENT_SECRET=your_client_secret_here
 ```
@@ -96,7 +96,7 @@ GITHUB_CLIENT_SECRET=your_client_secret_here
 
 ### Where to add these
 
-```env
+```bash
 DISCORD_VERIFY_CLIENT_ID=your_client_id_here
 DISCORD_VERIFY_CLIENT_SECRET=your_client_secret_here
 ```
@@ -153,7 +153,7 @@ Select the server you want the API key for and click **"Generate API Key"**.
 After generation, your personal API key is displayed.  
 **Copy it immediately** — it will not be shown again.
 
-```
+```bash
 MSK_API_KEY=a1b2c3d4e5f6...
 ```
 
@@ -171,7 +171,7 @@ MSK_API_KEY=a1b2c3d4e5f6...
 
 Open the `.env` file in your bot folder and add:
 
-```env
+```bash
 MSK_API_KEY="your_api_key_here"
 MSK_API_URL="https://www.msk-scripts.de"
 ```
@@ -241,7 +241,7 @@ The VirtualHost will be removed from the server and transcripts revert to the de
 
 When the bot starts you will see the following in the terminal:
 
-```
+```bash
                         ███╗   ███╗███████╗██╗  ██╗
                         ████╗ ████║██╔════╝██║ ██╔╝
                         ██╔████╔██║███████╗█████╔╝
@@ -252,23 +252,37 @@ When the bot starts you will see the following in the terminal:
 ...
                  https://github.com/MSK-Scripts/discord_ticketbot
 
-Checking API Key... [result]
+Checking for updates... up to date (v1.3.0)
+Checking API Key... API key valid → Premium+
 
 Connecting to Discord...
+
+[INFO] Database initialized.
+[INFO] Commands loaded...
+[OK  ] Slash commands registered successfully.
+...
+[OK  ] Logged in as BotName#1234
+[INFO] Serving 1 guild(s).
+[INFO] Status set: WATCHING "Support Tickets"
 
   ✔ MSK Ticket Bot successfully started!
   ──────────────────────────────────────────
   Bot       BotName#1234
-  Guilds    3
-  Commands  17
+  Guilds    1
+  Commands  19
 ```
+
+> **Tip:** To see colors when running as a systemd service, use:
+> ```bash
+> journalctl -u ticketbot.service -f --output=cat
+> ```
 
 ### Possible API Key results
 
 | Output | Meaning |
 |---|---|
-| `Kein API Key konfiguriert → Basic` | No `MSK_API_KEY` set in `.env` |
-| `API Key ungültig → Basic` | The key is incorrect or has been regenerated |
-| `MSK-Server nicht erreichbar → Basic` | www.msk-scripts.de is temporarily unreachable |
-| `API Key gültig → Premium` | ✅ Premium active |
-| `API Key gültig → Premium+` | ✅ Premium+ active |
+| `No API key configured → Basic` | No `MSK_API_KEY` set in `.env` |
+| `Invalid API key → Basic` | The key is incorrect or has been regenerated |
+| `MSK server unreachable → Basic` | www.msk-scripts.de is temporarily unreachable |
+| `API key valid → Premium` | ✅ Premium active |
+| `API key valid → Premium+` | ✅ Premium+ active |

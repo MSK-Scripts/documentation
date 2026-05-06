@@ -45,7 +45,15 @@ cp config/config.example.jsonc config/config.jsonc
 
 Edit `config/config.jsonc` as needed — all fields are commented.
 
-### 4. Start the bot
+### 4. (Optional) Set up canned responses
+
+```bash
+cp config/snippets.example.jsonc config/snippets.jsonc
+```
+
+Edit `config/snippets.jsonc` to define your team's canned responses. If the file does not exist, `/snippet` commands will show a setup hint.
+
+### 5. Start the bot
 
 ```bash
 npm start
@@ -112,4 +120,4 @@ sudo journalctl -u ticketbot.service -f
 | `sudo systemctl restart ticketbot.service` | Restart the bot   |
 | `sudo systemctl enable ticketbot.service`  | Enable autostart  |
 | `sudo systemctl disable ticketbot.service` | Disable autostart |
-| `sudo journalctl -u ticketbot.service -f`  | Follow live logs  |
+| `sudo journalctl -u ticketbot.service -f`  | Follow live logs with colors |

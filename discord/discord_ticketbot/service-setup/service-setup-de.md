@@ -68,7 +68,7 @@ Premium-Nutzer erhalten zusätzlich herunterladbare Dateianhänge im Transkript 
 
 Diese Werte kommen in die `.env.local` auf dem **Webserver** (nicht in die Bot-`.env`):
 
-```env
+```bash
 GITHUB_CLIENT_ID=deine_client_id_hier
 GITHUB_CLIENT_SECRET=dein_client_secret_hier
 ```
@@ -96,7 +96,7 @@ GITHUB_CLIENT_SECRET=dein_client_secret_hier
 
 ### Wo eintragen
 
-```env
+```bash
 DISCORD_VERIFY_CLIENT_ID=deine_client_id_hier
 DISCORD_VERIFY_CLIENT_SECRET=dein_client_secret_hier
 ```
@@ -153,7 +153,7 @@ Wähle den Server aus, für den du den API Key haben möchtest, und klicke auf *
 Nach der Generierung wird dein persönlicher API Key angezeigt.  
 **Kopiere ihn sofort** — er wird nicht erneut angezeigt.
 
-```
+```bash
 MSK_API_KEY=a1b2c3d4e5f6...
 ```
 
@@ -171,7 +171,7 @@ MSK_API_KEY=a1b2c3d4e5f6...
 
 Öffne die `.env`-Datei in deinem Bot-Ordner und trage ein:
 
-```env
+```bash
 MSK_API_KEY="dein_api_key_hier"
 MSK_API_URL="https://www.msk-scripts.de"
 ```
@@ -241,7 +241,7 @@ Der VirtualHost wird vom Server entfernt und Transkripte sind wieder über die S
 
 Beim Start siehst du folgende Ausgabe im Terminal:
 
-```
+```bash
                         ███╗   ███╗███████╗██╗  ██╗
                         ████╗ ████║██╔════╝██║ ██╔╝
                         ██╔████╔██║███████╗█████╔╝
@@ -252,23 +252,37 @@ Beim Start siehst du folgende Ausgabe im Terminal:
 ...
                  https://github.com/MSK-Scripts/discord_ticketbot
 
-Checking API Key... [Ergebnis]
+Checking for updates... up to date (v1.3.0)
+Checking API Key... API key valid → Premium+
 
 Connecting to Discord...
+
+[INFO] Database initialized.
+[INFO] Commands loaded...
+[OK  ] Slash commands registered successfully.
+...
+[OK  ] Logged in as BotName#1234
+[INFO] Serving 1 guild(s).
+[INFO] Status set: WATCHING "Support Tickets"
 
   ✔ MSK Ticket Bot successfully started!
   ──────────────────────────────────────────
   Bot       BotName#1234
-  Guilds    3
-  Commands  17
+  Guilds    1
+  Commands  19
 ```
+
+> **Tipp:** Um Farben beim Betrieb als systemd-Service zu sehen:
+> ```bash
+> journalctl -u ticketbot.service -f --output=cat
+> ```
 
 ### Mögliche API Key Ergebnisse
 
 | Ausgabe | Bedeutung |
 |---|---|
-| `Kein API Key konfiguriert → Basic` | Kein `MSK_API_KEY` in der `.env` eingetragen |
-| `API Key ungültig → Basic` | Der Key ist falsch oder wurde neu generiert |
-| `MSK-Server nicht erreichbar → Basic` | www.msk-scripts.de ist vorübergehend nicht erreichbar |
-| `API Key gültig → Premium` | ✅ Premium aktiv |
-| `API Key gültig → Premium+` | ✅ Premium+ aktiv |
+| `No API key configured → Basic` | Kein `MSK_API_KEY` in der `.env` eingetragen |
+| `Invalid API key → Basic` | Der Key ist falsch oder wurde neu generiert |
+| `MSK server unreachable → Basic` | www.msk-scripts.de ist vorübergehend nicht erreichbar |
+| `API key valid → Premium` | ✅ Premium aktiv |
+| `API key valid → Premium+` | ✅ Premium+ aktiv |

@@ -6,6 +6,13 @@ sidebar_position: 3
 
 ## 🛠️ Configuration Reference
 
+### Startup Log Visibility
+
+```json
+"showLog": true   // Show INFO log messages on startup (commands, events, components)
+                  // Set to false for a cleaner output in production
+```
+
 ### Panel Interaction Type
 
 ```json
@@ -38,6 +45,7 @@ Supported formats: PNG, JPG, GIF, WEBP. Run `/setup` again after adding or chang
 | `/priority urgent` | `ticket-username`        | `🔴 Urgent`                        | Priority: 🔴 Urgent  |
 | `/claim`           | `ticket-username`        | `🟡 Medium \| 🙋 Claimed by @Staff` | + Claimed by field  |
 | `/unclaim`         | `ticket-username`        | `🟡 Medium`                        | field removed       |
+| `/lock lock`       | `ticket-username`        | unchanged                         | lock notice posted  |
 | Ticket closed      | `closed-ticket-username` | unchanged                         | all buttons removed |
 
 > **Note on rate-limits:** Discord limits channel topic changes to 2 per 10 minutes. A warning is shown in the ticket and the update appears automatically once the limit resets.
@@ -62,6 +70,66 @@ Supported formats: PNG, JPG, GIF, WEBP. Run `/setup` again after adding or chang
   ]
 }
 ```
+
+### Bot Status
+
+```json
+"status": {
+  "enabled": true,
+  "dynamic": false,              // true = live ticket count in status
+  "dynamicText": "🎫 {open} open tickets", // placeholders: {open}, {total}, {closed}
+  "dynamicInterval": 5,          // update interval in minutes
+  "text": "Support Tickets",     // used when dynamic: false
+  "type": "WATCHING",            // PLAYING, WATCHING, LISTENING, STREAMING, COMPETING
+  "status": "online"
+}
+```
+
+### User Notifications
+
+```json
+"userNotifications": {
+  "enabled": true   // Show a 🔕 "Notify me" button in new tickets.
+                    // User opts in → receives a DM when staff first replies.
+                    // Rate-limited to 1 DM per 30 minutes per ticket.
+}
+```
+
+### Canned Responses (Snippets)
+
+Snippets are defined in a separate file — **not** in `config.jsonc`:
+
+```bash
+cp config/snippets.example.jsonc config/snippets.jsonc
+```
+
+```json
+{
+  "snippets": [
+    {
+      "name": "welcome",
+      "description": "Welcome message at the start of a ticket",
+      "content": "Hey {user}! 👋 Thanks for opening a ticket. We'll be with you shortly.",
+      "embed": {
+        "title": "👋 Welcome",
+        "color": "#5865F2"
+      }
+    },
+    {
+      "name": "docs",
+      "description": "Link to the MSK-Scripts documentation",
+      "content": "Hey {user}, check out our docs: https://docu.msk-scripts.de",
+      "embed": null
+    }
+  ]
+}
+```
+
+**Available placeholders:** `{user}` · `{staff}` · `{type}` · `{priority}`
+
+**Commands:** `/snippet send <name>` · `/snippet list`
+
+Snippets support autocomplete — start typing the name or description to filter.
 
 ### Staff Reminder
 
