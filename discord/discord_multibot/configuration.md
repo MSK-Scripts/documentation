@@ -8,39 +8,48 @@ sidebar_position: 3
 
 ### ENV File
 
-```bash
-# ─── Bot Tokens ──────────────────────────────────────────────────────────────
-# Each bot requires its own bot application in the Discord Developer Portal.
-# Copy this file to .env and enter your tokens.
+All configuration is done via a `.env` file in the root directory. Copy `.env.example` and fill in your values.
 
-COMMANDS_BOT_TOKEN='your_commands_bot_token_here'
-EVENTS_BOT_TOKEN='your_events_bot_token_here'
-MINIGAMES_BOT_TOKEN='your_minigames_bot_token_here'
+#### Required
 
-# ─── Guild & Channel IDs ─────────────────────────────────────────────────────
-GUILD_ID=your_guild_id_here
-LOG_CHANNEL_ID=your_log_channel_id_here
-MEMBER_COUNT_CHANNEL_ID=your_member_count_channel_id_here
-FEEDBACK_CHANNEL_ID=your_feedback_channel_id_here
-
-# ─── Role IDs ────────────────────────────────────────────────────────────────
-MEMBER_ROLE_ID=your_member_role_id_here
-UPDATE_NOTIFY_ROLE_ID=your_update_notify_role_id_here
-GIVEAWAY_NOTIFY_ROLE_ID=your_giveaway_notify_role_id_here
-TEAM_ROLE_ID=your_team_role_id_here
-
-# ─── Database (for /backup_database) ────────────────────────────────────────
-DB_HOST=your_db_host_here
-DB_USER=your_db_user_here
-DB_PASS='your_db_pass_here'
-DB_NAME=your_db_name_here
+```env
+COMMANDS_BOT_TOKEN=your_commands_bot_token
+EVENTS_BOT_TOKEN=your_events_bot_token
+MINIGAMES_BOT_TOKEN=your_minigames_bot_token
+GUILD_ID=your_guild_id
 ```
+
+#### Optional (fall back to hardcoded MSK Scripts defaults)
+
+```env
+# Logging & Channels
+LOG_CHANNEL_ID=
+FEEDBACK_CHANNEL_ID=
+MEMBER_COUNT_CHANNEL_ID=
+
+# Role IDs
+MEMBER_ROLE_ID=
+TEAM_ROLE_ID=
+GIVEAWAY_NOTIFY_ROLE_ID=
+GARAGE_ROLE_ID=
+HANDCUFFS_ROLE_ID=
+STORAGE_ROLE_ID=
+VEHICLEKEYS_ROLE_ID=
+
+# Database (for /backup_database)
+DB_HOST=localhost
+DB_USER=
+DB_PASS=
+DB_NAME=es_extended
+```
+
+---
 
 ### Disable a Bot
 
 Leave the token empty in `.env` — the bot will be automatically skipped on startup:
 
-```bash
+```env
 # Example: disable the Minigames Bot
 MINIGAMES_BOT_TOKEN=
 ```
@@ -49,9 +58,23 @@ MINIGAMES_BOT_TOKEN=
 
 ### Configure the Points System
 
-All point values and rewards are defined in `bots/minigames/points_config.json`.
-To enable automatic role assignment, add the Discord role ID:
+All point values and reward thresholds are defined in `bots/minigames/points_config.json`.
+
+To enable automatic role assignment when a reward threshold is reached, add the Discord role ID to the respective reward entry:
 
 ```json
 { "points": 1500, "description": "🥈 Silver Player", "role_id": 123456789 }
 ```
+
+> Restart the bot after any changes to `points_config.json`.
+
+---
+
+### Dependencies
+
+| Package | Version |
+|---|---|
+| [discord.js](https://discord.js.org) | `^14.26.4` |
+| [dotenv](https://github.com/motdotla/dotenv) | `^16.6.1` |
+
+Dependency updates are monitored automatically via Dependabot (weekly, grouped).

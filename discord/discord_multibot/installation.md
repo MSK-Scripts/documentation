@@ -7,87 +7,83 @@ sidebar_position: 2
 ## 🚀 Installation
 
 ### Requirements
-- **Python 3.9+**
-- **pip**
+- **Node.js >= 18** (built-in `fetch` required for the Trivia API)
+- **npm**
 - Optional: `mysqldump` for `/backup_database`
 
-### 1. Create directory and copy files
+### 1. Clone the repository
 
 ```bash
-sudo mkdir -p /opt/discord_multibot
-sudo chown $USER:$USER /opt/discord_multibot
-cd /opt/discord_multibot
-# Copy all project files here
+git clone https://github.com/MSK-Scripts/discord-multibot-js.git
+cd discord-multibot-js
 ```
 
-### 2. Virtual environment & dependencies
+### 2. Install dependencies
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+npm install
 ```
 
 ### 3. Configure environment variables
 
 ```bash
 cp .env.example .env
-nano .env    # Fill in your tokens and IDs
+# → Fill in your tokens, IDs and database credentials
 ```
 
-> **Note:** Each bot requires its own bot application in the
+> Each bot requires its own bot application in the
 > [Discord Developer Portal](https://discord.com/developers/applications).
 > Bots without a token are automatically skipped on startup.
 
 ### 4. Manual test run
 
 ```bash
-source venv/bin/activate
-python main.py
+node main.js
 ```
 
 ---
 
-## systemd-Service
+## systemd Service
 
-### Create a system user (recommended)
+A ready-to-use systemd unit file is included at `multibot-js.service`.
+
+### 1. Adjust paths and user if necessary
+
+Default values in the service file: user `deploy`, path `/home/deploy/discord_multibot_js`.
+
+### 2. Copy the service file
 
 ```bash
-# Create a dedicated system user (recommended — never run as root)
-sudo useradd --system --no-create-home --shell /sbin/nologin discord
-
-# Set permissions
-sudo chown -R discord:discord /opt/discord_multibot
+sudo cp multibot-js.service /etc/systemd/system/
 ```
 
-### Install & enable the service
+### 3. Enable and start the service
 
 ```bash
-sudo cp multibot.service /etc/systemd/system/
 sudo systemctl daemon-reload
-sudo systemctl enable --now multibot.service
+sudo systemctl enable multibot-js
+sudo systemctl start multibot-js
 ```
 
-### Nützliche Befehle
+> **Note:** The service reads the `.env` file via `EnvironmentFile=`. Make sure the file exists at the configured path and is readable by the service user.
+
+### Useful Commands
 
 ```bash
 # Show status
-sudo systemctl status multibot.service
+sudo systemctl status multibot-js
 
-# Live logs (journald)
-sudo journalctl -u multibot.service -f
+# Live logs
+journalctl -u multibot-js -f
 
-# File log
-tail -f /opt/discord_multibot/multibot.log
-
-# Restart (e.g. after .env changes)
-sudo systemctl restart multibot.service
+# Restart (e.g. after .env changes or updates)
+sudo systemctl restart multibot-js
 
 # Stop
-sudo systemctl stop multibot.service
+sudo systemctl stop multibot-js
 
 # Disable autostart
-sudo systemctl disable multibot.service
+sudo systemctl disable multibot-js
 ```
 
 ---
@@ -95,6 +91,6 @@ sudo systemctl disable multibot.service
 ## Security Notes
 
 - Never commit `.env` — it is listed in `.gitignore`
-- `/backup_database` uses `os.system` — only use on trusted servers
-- The systemd service runs under a restricted `discord` user with no root privileges
+- `/backup_database` uses `execFile` (no shell injection risk) — only use on trusted servers
+- The service user (`deploy`) should have no root privileges
 - Permission changes on roles are highlighted in **red** in the log channel
