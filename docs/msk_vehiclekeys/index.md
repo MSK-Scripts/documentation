@@ -5,8 +5,8 @@ sidebar_position: 1
 
 ![MSK VehicleKeys](/img/msk_vehiclekeys_banner.png)
 
-[**Tebex [18.99€ inkl. MwSt.]**](https://www.msk-scripts.de/category/encrypted) — _~80% encrypted_  
-[**Tebex [37.99€ inkl. MwSt.]**](https://www.msk-scripts.de/category/source-code) — _~10% encrypted_
+[**Tebex [16.99€ inkl. MwSt.]**](https://www.msk-scripts.de/category/encrypted) — _~80% encrypted_  
+[**Tebex [34.99€ inkl. MwSt.]**](https://www.msk-scripts.de/category/source-code) — _~10% encrypted_
 
 [**CFX Post**](https://forum.cfx.re/t/esx-qbcore-msk-vehiclekeys-unique-items/5264475)
 
