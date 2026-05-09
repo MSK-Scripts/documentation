@@ -79,7 +79,7 @@ const resources: Resource[] = [
   {
     title: 'Discord Multibot',
     image: '/img/msk_multi_bot_banner.png',
-    badges: ['Python'],
+    badges: ['Javascript'],
     description:
       'A Dicord multibot, allowing you to create multiple bots for different purposes, such as a event bot, a command bot, and more.',
     to: '/discord/discord_multibot/getting-started',
