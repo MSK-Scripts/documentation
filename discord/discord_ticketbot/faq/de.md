@@ -30,3 +30,9 @@ im Dashboard angezeigte IP zeigt. Die Propagierung kannst du mit [dnschecker.org
 ### Ist das SSL-Zertifikat kostenlos?
 Ja. SSL-Zertifikate werden automatisch über **Let's Encrypt** (Certbot) ohne Kosten eingerichtet  
 und erneuern sich automatisch vor Ablauf.
+
+### Was ist „Gehostetes Bot-Management"?
+Premium+-Kunden können ihren Bot vollständig von MSK Scripts hosten lassen. Der Bot läuft auf dem MSK-Server und wird komplett über das Dashboard verwaltet — Konfigurationsdateien bearbeiten, Bot starten/stoppen/neustarten/aktualisieren und die Live-Log-Ausgabe in Echtzeit im Browser verfolgen. Kein SSH-Zugang oder Server-Wissen erforderlich. Melde dich über [Discord](https://discord.gg/5hHSBRHvJE) bei MSK Scripts, um ein gehostetes Premium+-Paket zu vereinbaren.
+
+### Ich bin Hosted-Kunde — wie rufe ich das Management-Panel auf?
+Melde dich unter [www.msk-scripts.de/dashboard](https://www.msk-scripts.de/dashboard) an. Das Bot-Management-Panel erscheint automatisch, sobald deine gehostete Instanz von MSK Scripts eingerichtet wurde. Falls es nicht sichtbar ist, stelle sicher, dass du mit dem richtigen Discord-Account eingeloggt bist, und wende dich per [Discord](https://discord.gg/5hHSBRHvJE) an den Support.

@@ -35,6 +35,7 @@ configure a **custom domain** so transcripts are served under their own URL.
 | Max. attachment size per ticket | — | 150 MB | 500 MB |
 | Custom domain | ❌ | ✅ | ✅ |
 | Storage duration | 30 days | 60 days | 90 days |
+| **Hosted bot management** | ❌ | ❌ | ✅ |
 
 > Premium and Premium+ are unlocked via **GitHub Sponsors**.  
 > Sponsor here: [github.com/sponsors/MSK-Scripts](https://github.com/sponsors/MSK-Scripts)
@@ -237,7 +238,32 @@ The VirtualHost will be removed from the server and transcripts revert to the de
 
 ---
 
-## 8. Console Output on Startup
+## 8. Step 6 – Hosted Bot Management (Premium+)
+
+> This step is **only available for Premium+** subscribers who have arranged a hosted bot plan with MSK Scripts.  
+> Premium and Basic users can skip this step.
+
+Hosted Premium+ customers can manage their bot entirely through the dashboard — no SSH access or server knowledge required.
+
+![Dashboard — Hosted Bot Management](/img/discord_ticketbot_dashboard.png)
+
+### What's available
+
+| Feature | Description |
+|---|---|
+| **Bot Configuration Editor** | Edit `config.jsonc`, `snippets.jsonc` and `.env` directly in the browser. Changes take effect after a restart. |
+| **Bot Control** | Start, stop and restart the bot with a single click. |
+| **One-click Update** | Downloads the latest version via `git pull`, installs new dependencies. Restart required afterwards. |
+| **Live Log Console** | Real-time stream of the bot's PM2 output directly in the browser. |
+
+### How to get hosted
+
+Contact MSK Scripts via [Discord](https://discord.gg/5hHSBRHvJE) to arrange a hosted Premium+ plan.  
+Once set up, the management panel appears automatically in your dashboard after logging in.
+
+---
+
+## 9. Console Output on Startup
 
 When the bot starts you will see the following in the terminal:
 

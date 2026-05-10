@@ -35,6 +35,7 @@ Premium-Nutzer erhalten zusätzlich herunterladbare Dateianhänge im Transkript 
 | Max. Anhangsgröße pro Ticket | — | 150 MB | 500 MB |
 | Eigene Domain | ❌ | ✅ | ✅ |
 | Speicherdauer | 30 Tage | 60 Tage | 90 Tage |
+| **Gehostetes Bot-Management** | ❌ | ❌ | ✅ |
 
 > Premium und Premium+ werden über **GitHub Sponsors** freigeschaltet.  
 > Hier sponsern: [github.com/sponsors/MSK-Scripts](https://github.com/sponsors/MSK-Scripts)
@@ -237,7 +238,32 @@ Der VirtualHost wird vom Server entfernt und Transkripte sind wieder über die S
 
 ---
 
-## 8. Konsolenausgabe beim Start
+## 8. Schritt 6 – Gehostetes Bot-Management (Premium+)
+
+> Dieser Schritt ist **nur für Premium+**-Abonnenten** verfügbar, die ein gehostetes Bot-Paket mit MSK Scripts vereinbart haben.  
+> Premium- und Basic-Nutzer können diesen Schritt überspringen.
+
+Gehostete Premium+-Kunden können ihren Bot vollständig über das Dashboard verwalten — kein SSH-Zugang oder Server-Wissen erforderlich.
+
+![Dashboard — Gehostetes Bot-Management](/img/discord_ticketbot_dashboard.png)
+
+### Was verfügbar ist
+
+| Feature | Beschreibung |
+|---|---|
+| **Bot-Konfigurations-Editor** | `config.jsonc`, `snippets.jsonc` und `.env` direkt im Browser bearbeiten. Änderungen werden nach einem Neustart aktiv. |
+| **Bot-Steuerung** | Bot per Klick starten, stoppen und neu starten. |
+| **Update per Klick** | Lädt die neueste Version via `git pull` und installiert neue Abhängigkeiten. Danach ist ein Neustart erforderlich. |
+| **Live-Log-Konsole** | Echtzeit-Stream der Bot-Ausgabe direkt im Browser. |
+
+### Wie man gehostet wird
+
+Melde dich über [Discord](https://discord.gg/5hHSBRHvJE) bei MSK Scripts, um ein gehostetes Premium+-Paket zu vereinbaren.  
+Sobald eingerichtet, erscheint das Management-Panel automatisch in deinem Dashboard nach dem Einloggen.
+
+---
+
+## 9. Konsolenausgabe beim Start
 
 Beim Start siehst du folgende Ausgabe im Terminal:
 
