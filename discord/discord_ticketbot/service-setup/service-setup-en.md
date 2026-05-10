@@ -35,7 +35,7 @@ configure a **custom domain** so transcripts are served under their own URL.
 | Max. attachment size per ticket | — | 150 MB | 500 MB |
 | Custom domain | ❌ | ✅ | ✅ |
 | Storage duration | 30 days | 60 days | 90 days |
-| **Hosted bot management** | ❌ | ❌ | ✅ |
+| **Hosted bot management** | ❌ | ✅ | ✅ |
 
 > Premium and Premium+ are unlocked via **GitHub Sponsors**.  
 > Sponsor here: [github.com/sponsors/MSK-Scripts](https://github.com/sponsors/MSK-Scripts)
@@ -238,10 +238,10 @@ The VirtualHost will be removed from the server and transcripts revert to the de
 
 ---
 
-## 8. Step 6 – Hosted Bot Management (Premium+)
+## 8. Step 6 – Hosted Bot Management (Premium & Premium+)
 
-> This step is **only available for Premium+** subscribers who have arranged a hosted bot plan with MSK Scripts.  
-> Premium and Basic users can skip this step.
+> This step is **only available for Premium and Premium+** subscribers who have arranged a hosted bot plan with MSK Scripts.  
+> Basic users can skip this step.
 
 Hosted Premium+ customers can manage their bot entirely through the dashboard — no SSH access or server knowledge required.
 
@@ -258,7 +258,7 @@ Hosted Premium+ customers can manage their bot entirely through the dashboard �
 
 ### How to get hosted
 
-Contact MSK Scripts via [Discord](https://discord.gg/5hHSBRHvJE) to arrange a hosted Premium+ plan.  
+Contact MSK Scripts via [Discord](https://discord.gg/5hHSBRHvJE) to arrange a hosted plan.  
 Once set up, the management panel appears automatically in your dashboard after logging in.
 
 ---
