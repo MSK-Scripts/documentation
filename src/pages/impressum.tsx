@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Layout from '@theme/Layout';
 import styles from './legal.module.css';
+
+const STORAGE_KEY = 'msk-docu-legal-lang';
 
 const content = {
   de: {
@@ -16,7 +18,7 @@ const content = {
           Stettiner Str. 41<br />
           35410 Hungen
         </p>
-        <p><strong>Kontakt:</strong><br />E-Mail: info@musiker15.de</p>
+        <p><strong>Kontakt:</strong><br />E-Mail: info@msk-scripts.de</p>
 
         <h3>Nutzung der Kontaktdaten für Werbezwecke ausgeschlossen</h3>
         <p>
@@ -67,9 +69,10 @@ const content = {
           <strong>Moritz Kohm</strong><br />
           c/o Impressumservice Dein-Impressum<br />
           Stettiner Str. 41<br />
-          35410 Hungen, Germany
+          35410 Hungen<br />
+          Germany
         </p>
-        <p><strong>Contact:</strong><br />Email: info@musiker15.de</p>
+        <p><strong>Contact:</strong><br />Email: info@msk-scripts.de</p>
 
         <h3>Use of contact data for advertising purposes excluded</h3>
         <p>
@@ -83,7 +86,8 @@ const content = {
           <strong>Moritz Kohm</strong><br />
           c/o Impressumservice Dein-Impressum<br />
           Stettiner Str. 41<br />
-          35410 Hungen, Germany
+          35410 Hungen<br />
+          Germany
         </p>
 
         <h2>Consumer Dispute Resolution</h2>
@@ -114,25 +118,46 @@ const content = {
 
 export default function Impressum() {
   const [lang, setLang] = useState<'de' | 'en'>('en');
+
+  useEffect(() => {
+    const stored =
+      typeof window !== 'undefined' ? window.localStorage.getItem(STORAGE_KEY) : null;
+    if (stored === 'de' || stored === 'en') {
+      setLang(stored);
+      return;
+    }
+    const browserLang =
+      typeof navigator !== 'undefined' ? navigator.language?.toLowerCase() ?? '' : '';
+    setLang(browserLang.startsWith('de') ? 'de' : 'en');
+  }, []);
+
+  const handleChange = (value: 'de' | 'en') => {
+    setLang(value);
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem(STORAGE_KEY, value);
+    }
+  };
+
   const c = content[lang];
 
   return (
     <Layout title={c.title}>
       <div className={styles.legalPage}>
         <div className={styles.langSwitcher}>
-          <span className={styles.langLabel}>🌐</span>
+          <span className={styles.langLabel} aria-hidden="true">
+            🌐
+          </span>
           <select
             value={lang}
-            onChange={(e) => setLang(e.target.value as 'de' | 'en')}
+            onChange={(e) => handleChange(e.target.value as 'de' | 'en')}
             className={styles.langSelect}
+            aria-label="Sprache wählen / Choose language"
           >
             <option value="de">🇩🇪 Deutsch</option>
             <option value="en">🇬🇧 English</option>
           </select>
         </div>
-        <div className={styles.legalContent}>
-          {c.sections}
-        </div>
+        <div className={styles.legalContent}>{c.sections}</div>
       </div>
     </Layout>
   );

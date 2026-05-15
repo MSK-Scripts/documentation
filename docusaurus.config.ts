@@ -46,6 +46,16 @@ const config: Config = {
         editUrl: 'https://github.com/MSK-Scripts/documentation/tree/main/',
       },
     ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'ecosystem',
+        path: 'ecosystem',
+        routeBasePath: 'ecosystem',
+        sidebarPath: './sidebars-ecosystem.ts',
+        editUrl: 'https://github.com/MSK-Scripts/documentation/tree/main/',
+      },
+    ],
   ],
 
   presets: [
@@ -95,6 +105,13 @@ const config: Config = {
         },
         {
           type: 'docSidebar',
+          sidebarId: 'ecosystemSidebar',
+          docsPluginId: 'ecosystem',
+          position: 'left',
+          label: 'Ecosystem',
+        },
+        {
+          type: 'docSidebar',
           sidebarId: 'guidesSidebar',
           docsPluginId: 'guides',
           position: 'left',
@@ -130,6 +147,10 @@ const config: Config = {
             {
               label: 'Guides',
               to: '/guides',
+            },
+            {
+              label: 'Ecosystem',
+              to: '/ecosystem',
             },
             {
               label: 'Discord Bots',

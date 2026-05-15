@@ -1,0 +1,9 @@
+{
+  "label": "MSK Shortener",
+  "position": 3,
+  "collapsed": true,
+  "link": {
+    "type": "doc",
+    "id": "msk-shortener/index"
+  }
+}

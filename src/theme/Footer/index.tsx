@@ -6,6 +6,13 @@ import styles from './styles.module.css';
 
 const columns = [
   {
+    title: 'Ecosystem',
+    links: [
+      { label: 'MSK Paste', to: '/ecosystem/msk-paste/' },
+      { label: 'MSK Shortener', to: '/ecosystem/msk-shortener/' },
+    ],
+  },
+  {
     title: 'Discord Bots',
     links: [
       { label: 'Discord Ticketbot', to: '/discord/discord_ticketbot/getting-started' },
@@ -18,14 +25,6 @@ const columns = [
       { label: 'MSK Core', to: '/docs/msk_core/' },
       { label: 'MSK Handcuffs', to: '/docs/msk_handcuffs/' },
       { label: 'MSK VehicleKeys', to: '/docs/msk_vehiclekeys/' },
-    ],
-  },
-  {
-    title: 'Community',
-    links: [
-      { label: 'Shop', to: 'https://www.msk-scripts.de' },
-      { label: 'GitHub', to: 'https://github.com/MSK-Scripts' },
-      { label: 'Discord', to: 'https://discord.gg/5hHSBRHvJE' },
     ],
   },
 ];
