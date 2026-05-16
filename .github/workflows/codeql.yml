@@ -36,12 +36,12 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: '20'
-          cache: 'npm'
+          cache: 'yarn'
 
       # ── 3. Install dependencies ────────────────────────────────
       # Required so CodeQL can trace the build and resolve imports.
       - name: Install dependencies
-        run: npm ci
+        run: yarn install --frozen-lockfile
 
       # ── 4. Initialize CodeQL ───────────────────────────────────
       # Downloads the CodeQL toolchain and sets up the database.
