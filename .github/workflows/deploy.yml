@@ -1,99 +1,53 @@
-name: Deploy MSK Shop
+name: Deploy MSK Scripts Docs
 
 on:
   push:
     branches:
-      - main
+      - main 
 
 permissions:
   contents: read
 
 jobs:
-  deploy:
+  build-and-deploy:
     name: Build & Deploy
     runs-on: ubuntu-latest
 
     steps:
-      # ── 1. Checkout ──────────────────────────────────────────
-      - name: ⬇️ Checkout repository
-        uses: actions/checkout@v6
+      - name: ⬇️ Checkout Repository
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0
 
-      # ── 2. Node.js ───────────────────────────────────────────
-      - name: ⚙️ Setup Node.js
-        uses: actions/setup-node@v6
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: npm
+          node-version: 20
+          cache: yarn
 
-      # ── 3. Install ───────────────────────────────────────────
-      - name: 📦 Install dependencies
-        run: npm ci
+      - name: 📦 Install Dependencies
+        run: yarn install --frozen-lockfile
 
-      # ── 4. Build ─────────────────────────────────────────────
-      # NEXT_PUBLIC_* vars must be available at build time.
-      - name: 🏗️ Build
-        env:
-          NEXT_PUBLIC_TEBEX_PUBLIC_TOKEN: ${{ secrets.NEXT_PUBLIC_TEBEX_PUBLIC_TOKEN }}
-          NEXT_PUBLIC_TEBEX_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_TEBEX_PROJECT_ID }}
-          NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
-          TEBEX_PRIVATE_KEY: ${{ secrets.TEBEX_PRIVATE_KEY }}
-        run: npm run build
+      - name: 🏗️ Build Project
+        run: yarn build
 
-      # ── 5. Deploy via SCP ────────────────────────────────────
-      # Transfers build output + runtime files to the server.
-      # Source must be comma-separated (not YAML block scalar).
-      - name: 🚀 Deploy to server
-        uses: appleboy/scp-action@v0.1.7
+      - name: 🚀 Deploy to Server via SFTP
+        uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.FTP_PORT }}
-          source: ".next/,public/,content/,package.json,package-lock.json,next.config.js,msk-shop.service"
-          target: /opt/msk-shop/
+          source: "build/*"
+          target: "/var/www/html/docs_msk-scripts/"
+          strip_components: 1
 
-      # ── 6. Server setup ──────────────────────────────────────
-      # Secrets are passed via env: (not interpolated into script text)
-      # and written to .env.local using printf for safe handling.
-      - name: 🛠️ Install production deps, set permissions & restart
-        uses: appleboy/ssh-action@v1.2.5
-        env:
-          TEBEX_PUBLIC_TOKEN: ${{ secrets.NEXT_PUBLIC_TEBEX_PUBLIC_TOKEN }}
-          TEBEX_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_TEBEX_PROJECT_ID }}
-          BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
-          TEBEX_PRIVATE: ${{ secrets.TEBEX_PRIVATE_KEY }}
+      - name: 🛠️ Setze Datei-Besitzer auf www-data
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.FTP_PORT }}
-          envs: TEBEX_PUBLIC_TOKEN,TEBEX_PROJECT_ID,BASE_URL,TEBEX_PRIVATE
           script: |
-            cd /opt/msk-shop
-
-            # Stop the service before touching node_modules to avoid ENOTEMPTY
-            systemctl stop msk-shop || true
-
-            # Fix npm cache permissions for www-data (uid 33)
-            mkdir -p /var/www/.npm
-            chown -R 33:33 /var/www/.npm
-
-            # Clean node_modules to ensure a fresh install (avoids ENOTEMPTY on npm ci)
-            rm -rf /opt/msk-shop/node_modules
-
-            # Install only production dependencies
-            npm ci --omit=dev
-
-            # Fix all permissions — must run after npm ci and before restart
-            chown -R musiker15:musiker15 /opt/msk-shop/
-            chmod -R u+w /opt/msk-shop/.next/
-
-            # Reload service file if it changed
-            cp /opt/msk-shop/msk-shop.service /etc/systemd/system/msk-shop.service
-            systemctl daemon-reload
-
-            # Restart the shop
-            systemctl restart msk-shop
-            systemctl status msk-shop --no-pager
+            chown -R www-data:www-data /var/www/html/docs_msk-scripts/
