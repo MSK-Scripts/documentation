@@ -8,7 +8,7 @@ sidebar_position: 1
 **A self-hostable, zero-knowledge Kanban board** — part of the MSK ecosystem alongside [MSK Paste](../msk-paste/index.md) and [MSK Shortener](../msk-shortener/index.md).
 
 - **Source code:** [github.com/MSK-Scripts/mskanban](https://github.com/MSK-Scripts/mskanban)
-- **Container image:** [`ghcr.io/musiker15/mskanban`](https://github.com/musiker15/mskanban/pkgs/container/mskanban)
+- **Container image:** [`ghcr.io/msk-scripts/mskanban`](https://github.com/MSK-Scripts/mskanban/pkgs/container/mskanban)
 - **License:** AGPL-3.0-or-later
 - **Current release:** `v0.1.0-beta` (pre-1.0 — see the [release notes](https://github.com/MSK-Scripts/mskanban/releases))
 
