@@ -193,7 +193,7 @@ Please do **not** open a public GitHub issue for security findings.
 |---|---|
 | Internal threat model + code review | ✅ documented in `docs/threat-model.md` |
 | Static analysis (CodeQL) | ✅ blocking in CI |
-| Container signing (cosign keyless OIDC) | ✅ all `ghcr.io/musiker15/mskanban` tags |
+| Container signing (cosign keyless OIDC) | ✅ all `ghcr.io/msk-scripts/mskanban` tags |
 | SBOM (CycloneDX + SPDX) | ✅ attached to every release |
 | External audit | ⚪ not yet — planned for the v1.0 cycle |
 | Penetration test | ⚪ not yet — planned for the v1.0 cycle |
