@@ -1,0 +1,9 @@
+{
+  "label": "MSKanban",
+  "position": 4,
+  "collapsed": true,
+  "link": {
+    "type": "doc",
+    "id": "mskanban/index"
+  }
+}
