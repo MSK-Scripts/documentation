@@ -1,6 +1,6 @@
 # Security Policy
 
-## Supported Versions
+## Supported Versions 
 
 Only the latest release deployed at [docu.msk-scripts.de](https://docu.msk-scripts.de) (i.e. the current `main` branch) receives security updates. Older snapshots or forks are not maintained.
 
