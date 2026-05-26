@@ -142,13 +142,19 @@ if (styleAttrHashes.size > 0) {
 }
 const styleSrc = styleSrcParts.filter(Boolean).join(' ');
 
+// Mozilla Observatory verlangt `default-src 'none'` für volle Punktzahl
+// → alle benötigten Ressourcen-Typen müssen explizit gelistet werden.
 const cspDirectives = [
-  `default-src 'self'`,
+  `default-src 'none'`,
   `script-src ${scriptSrc}`,
   `style-src ${styleSrc}`,
   `img-src 'self' data:`,
   `font-src 'self' data:`,
   `connect-src 'self'`,
+  `manifest-src 'self'`,
+  `media-src 'self'`,
+  `worker-src 'self'`,
+  `frame-src 'none'`,
   `object-src 'none'`,
   `frame-ancestors 'none'`,
   `base-uri 'self'`,
