@@ -47,24 +47,48 @@ jobs:
           target: "/var/www/html/docs_msk-scripts/"
           strip_components: 1
 
-      - name: 🛠️ Setze Datei-Besitzer + aktualisiere CSP-Snippet
+      - name: 🛠️ Postdeploy — Ownership, CSP-Snippet, Apache-Reload
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.FTP_PORT }}
+          script_stop: true
           script: |
-            # Datei-Besitzer auf www-data setzen
-            chown -R www-data:www-data /var/www/html/docs_msk-scripts/
+            set -euo pipefail
 
-            # CSP-Hash-Snippet aus dem Build nach Apache-Snippets übernehmen
-            # und Apache neu laden, damit die neuen Hashes greifen.
-            # Vorausgesetzt: sudo NOPASSWD für die folgenden Befehle.
-            # Siehe apache/README.md.
-            sudo /bin/cp /var/www/html/docs_msk-scripts/csp-hashes.conf /etc/apache2/snippets/docu-csp-hashes.conf
-            sudo /bin/chown root:root /etc/apache2/snippets/docu-csp-hashes.conf
-            sudo /bin/systemctl reload apache2
+            DOCROOT=/var/www/html/docs_msk-scripts
+            SNIPPETS_DIR=/etc/apache2/snippets
+            SNIPPET_DST="${SNIPPETS_DIR}/docu-csp-hashes.conf"
+            SNIPPET_SRC="${DOCROOT}/csp-hashes.conf"
+
+            echo "::group::Datei-Besitzer auf www-data setzen"
+            chown -R www-data:www-data "${DOCROOT}"
+            echo "::endgroup::"
+
+            echo "::group::CSP-Snippet ablegen"
+            if [ ! -f "${SNIPPET_SRC}" ]; then
+              echo "❌ ${SNIPPET_SRC} fehlt — build erzeugt es normalerweise via scripts/generate-csp.mjs"
+              exit 1
+            fi
+            mkdir -p "${SNIPPETS_DIR}"
+            install -o root -g root -m 0644 "${SNIPPET_SRC}" "${SNIPPET_DST}"
+            # Snippet aus dem DocumentRoot wieder entfernen, damit es nicht
+            # versehentlich öffentlich ausgeliefert wird (FilesMatch im vhost
+            # schützt zusätzlich, aber doppelt hält besser).
+            rm -f "${SNIPPET_SRC}"
+            echo "✓ ${SNIPPET_DST} aktualisiert"
+            echo "::endgroup::"
+
+            echo "::group::Apache-Config testen"
+            apachectl configtest
+            echo "::endgroup::"
+
+            echo "::group::Apache reloaden"
+            systemctl reload apache2
+            systemctl is-active --quiet apache2 && echo "✓ apache2 läuft"
+            echo "::endgroup::"
 
       - name: ✅ Post CI commit status (legacy API)
         if: always()
