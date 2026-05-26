@@ -47,7 +47,7 @@ jobs:
           target: "/var/www/html/docs_msk-scripts/"
           strip_components: 1
 
-      - name: 🛠️ Setze Datei-Besitzer auf www-data
+      - name: 🛠️ Setze Datei-Besitzer + aktualisiere CSP-Snippet
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.FTP_SERVER }}
@@ -55,7 +55,16 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.FTP_PORT }}
           script: |
+            # Datei-Besitzer auf www-data setzen
             chown -R www-data:www-data /var/www/html/docs_msk-scripts/
+
+            # CSP-Hash-Snippet aus dem Build nach Apache-Snippets übernehmen
+            # und Apache neu laden, damit die neuen Hashes greifen.
+            # Vorausgesetzt: sudo NOPASSWD für die folgenden Befehle.
+            # Siehe apache/README.md.
+            sudo /bin/cp /var/www/html/docs_msk-scripts/csp-hashes.conf /etc/apache2/snippets/docu-csp-hashes.conf
+            sudo /bin/chown root:root /etc/apache2/snippets/docu-csp-hashes.conf
+            sudo /bin/systemctl reload apache2
 
       - name: ✅ Post CI commit status (legacy API)
         if: always()
