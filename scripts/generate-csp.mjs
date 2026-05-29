@@ -30,8 +30,11 @@ const BUILD_DIR = 'build';
 const OUTPUT_FILE = join(BUILD_DIR, 'csp-hashes.conf');
 
 // ----- Regex -------------------------------------------------------
-const SCRIPT_RE = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi;
-const STYLE_RE = /<style\b[^>]*>([\s\S]*?)<\/style>/gi;
+// Closing-Tags erlauben optionalen Whitespace vor ">" (z. B. "</script >"),
+// wie es die HTML-Spec zulässt. Ohne \s* würde ein solches End-Tag verfehlt
+// und der Block bis zum nächsten echten End-Tag (oder gar nicht) erfasst.
+const SCRIPT_RE = /<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi;
+const STYLE_RE = /<style\b[^>]*>([\s\S]*?)<\/style\s*>/gi;
 const STYLE_ATTR_RE = /\sstyle\s*=\s*(?:"([^"]*)"|'([^']*)')/gi;
 
 const HAS_SRC_RE = /\bsrc\s*=/i;
