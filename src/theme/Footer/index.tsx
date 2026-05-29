@@ -8,6 +8,7 @@ const columns = [
   {
     title: 'Ecosystem',
     links: [
+      { label: 'MSKanban', to: '/ecosystem/mskanban/' },
       { label: 'MSK Paste', to: '/ecosystem/msk-paste/' },
       { label: 'MSK Shortener', to: '/ecosystem/msk-shortener/' },
     ],
@@ -25,6 +26,7 @@ const columns = [
       { label: 'MSK Core', to: '/docs/msk_core/' },
       { label: 'MSK Handcuffs', to: '/docs/msk_handcuffs/' },
       { label: 'MSK VehicleKeys', to: '/docs/msk_vehiclekeys/' },
+      { label: 'MSK EngineToggle', to: '/docs/msk_enginetoggle/' },
     ],
   },
 ];
