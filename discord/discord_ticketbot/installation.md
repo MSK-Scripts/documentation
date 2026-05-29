@@ -8,7 +8,7 @@ sidebar_position: 2
 
 ### Requirements
 
-- **Node.js** v18 or newer
+- **Node.js** v22 or newer
 - A Discord bot token — [discord.com/developers/applications](https://discord.com/developers/applications)
 
 ### 1. Install dependencies
