@@ -4,8 +4,9 @@
  * ------------------------------------------------------------------
  * Postbuild-Script für die Docusaurus-Site docu.msk-scripts.de.
  *
- * Walks `build/` rekursiv, extrahiert pro HTML-Datei:
- *   - alle inline <script>…</script>      (ohne src)
+ * Walks `build/` rekursiv und extrahiert pro HTML-Datei mit einem echten
+ * HTML-Parser (cheerio):
+ *   - alle inline <script>…</script>      (ohne src, nur ausführbares JS)
  *   - alle inline <style>…</style>
  *   - alle style="…"-Attribute
  *
@@ -17,6 +18,19 @@
  * Für die inline style="…"-Attribute wird `'unsafe-hashes'` zusätzlich
  * gesetzt (W3C-Spec: pro Attribut-Hash erforderlich).
  *
+ * Warum cheerio statt Regex? "Parsing general HTML using regular
+ * expressions is impossible" — ein Regex übersieht z. B. unquoted
+ * Attribute (style=foo:bar) und matcht fälschlich style= innerhalb von
+ * <script>-Text. Der Parser bildet exakt das ab, was der Browser parst
+ * und hasht. (Vermeidet außerdem CodeQL js/bad-tag-filter.)
+ *
+ * Hash-Korrektheit:
+ *   - <script>/<style> sind "raw text" → cheerio .html() liefert den
+ *     Inhalt unverändert; der Browser hasht denselben Rohtext.
+ *   - style="…" wird vom Parser entity-dekodiert (&quot; → "); der
+ *     Browser hasht ebenfalls den dekodierten Wert. cheerios .attr()
+ *     liefert genau diesen dekodierten Wert.
+ *
  * Apache reload nach Deploy nicht vergessen.
  * ------------------------------------------------------------------
  */
@@ -25,53 +39,37 @@ import {readdir, readFile, writeFile} from 'node:fs/promises';
 import {existsSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {join} from 'node:path';
+import {load} from 'cheerio';
 
 const BUILD_DIR = 'build';
 const OUTPUT_FILE = join(BUILD_DIR, 'csp-hashes.conf');
 
-// ----- Regex -------------------------------------------------------
-// Closing-Tags erlauben optionalen Whitespace vor ">" (z. B. "</script >"),
-// wie es die HTML-Spec zulässt. Ohne \s* würde ein solches End-Tag verfehlt
-// und der Block bis zum nächsten echten End-Tag (oder gar nicht) erfasst.
-const SCRIPT_RE = /<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi;
-const STYLE_RE = /<style\b[^>]*>([\s\S]*?)<\/style\s*>/gi;
-const STYLE_ATTR_RE = /\sstyle\s*=\s*(?:"([^"]*)"|'([^']*)')/gi;
+// JS-MIME-Types laut HTML-Spec. Nur diese (oder kein/leerer type, oder
+// "module") sind ausführbar und werden von CSP `script-src` enforced.
+// Nicht-ausführbare Types wie application/ld+json müssen NICHT gehasht werden.
+const JS_MIME_TYPES = new Set([
+  'text/javascript',
+  'application/javascript',
+  'application/ecmascript',
+  'text/ecmascript',
+  'application/x-ecmascript',
+  'application/x-javascript',
+  'text/javascript1.0',
+  'text/javascript1.1',
+  'text/javascript1.2',
+  'text/javascript1.3',
+  'text/javascript1.4',
+  'text/javascript1.5',
+  'text/jscript',
+  'text/livescript',
+  'text/x-ecmascript',
+  'text/x-javascript',
+]);
 
-const HAS_SRC_RE = /\bsrc\s*=/i;
-const TYPE_ATTR_RE = /\btype\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i;
-
-/**
- * Liefert true, wenn das <script>-Tag als ausführbares JavaScript zählt
- * (und damit von CSP `script-src` enforced wird). Nicht-ausführbare Types
- * wie application/ld+json, application/json oder template-Daten werden
- * laut W3C-CSP-Spec ignoriert — die müssen wir nicht hashen.
- */
-function isExecutableJsScript(attrs) {
-  const m = attrs.match(TYPE_ATTR_RE);
-  if (!m) return true; // kein type → JS
-  const value = (m[1] ?? m[2] ?? m[3] ?? '').trim().toLowerCase();
-  if (value === '') return true;
-  if (value === 'module') return true;
-  // JS MIME types laut HTML-Spec
-  const jsMimes = new Set([
-    'text/javascript',
-    'application/javascript',
-    'application/ecmascript',
-    'text/ecmascript',
-    'application/x-ecmascript',
-    'application/x-javascript',
-    'text/javascript1.0',
-    'text/javascript1.1',
-    'text/javascript1.2',
-    'text/javascript1.3',
-    'text/javascript1.4',
-    'text/javascript1.5',
-    'text/jscript',
-    'text/livescript',
-    'text/x-ecmascript',
-    'text/x-javascript',
-  ]);
-  return jsMimes.has(value);
+function isExecutableJsType(typeAttr) {
+  const value = (typeAttr ?? '').trim().toLowerCase();
+  if (value === '' || value === 'module') return true;
+  return JS_MIME_TYPES.has(value);
 }
 
 // ----- State -------------------------------------------------------
@@ -84,26 +82,6 @@ let htmlCount = 0;
 // ----- Helpers -----------------------------------------------------
 function sha256Base64(input) {
   return createHash('sha256').update(input, 'utf8').digest('base64');
-}
-
-/**
- * Dekodiert HTML-Entities in einem Attributwert. Wichtig für style="…":
- * Der Browser berechnet den CSP-Hash über den DEKODIERTEN Attributwert,
- * der Parser dekodiert Entities (z. B. &quot; → "). Ohne Dekodierung würde
- * der Hash nicht matchen und der Style würde blockiert.
- * (Der Inhalt von <script>/<style> ist hingegen "raw text" und wird NICHT
- * dekodiert — daher nur hier nötig.)
- */
-function decodeHtmlEntities(str) {
-  if (!str.includes('&')) return str;
-  return str
-    .replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCodePoint(parseInt(hex, 16)))
-    .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(parseInt(dec, 10)))
-    .replace(/&quot;/g, '"')
-    .replace(/&apos;/g, "'")
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&amp;/g, '&'); // zuletzt, sonst Doppel-Dekodierung
 }
 
 async function walk(dir) {
@@ -121,31 +99,31 @@ async function walk(dir) {
 async function processHtml(path) {
   htmlCount++;
   const html = await readFile(path, 'utf8');
+  const $ = load(html);
 
-  // Inline <script> — nur ausführbares JavaScript hashen.
-  // JSON-LD / application/json u. Ä. werden von CSP `script-src` nicht enforced.
-  for (const match of html.matchAll(SCRIPT_RE)) {
-    const [, attrs, body] = match;
-    if (HAS_SRC_RE.test(attrs)) continue;
-    if (!body.trim()) continue;
-    if (!isExecutableJsScript(attrs)) continue;
+  // Inline <script> — ohne src, nur ausführbares JavaScript.
+  $('script').each((_, el) => {
+    if (el.attribs && 'src' in el.attribs) return;
+    if (!isExecutableJsType(el.attribs?.type)) return;
+    const body = $(el).html() ?? '';
+    if (!body.trim()) return;
     scriptHashes.add(sha256Base64(body));
-  }
+  });
 
   // Inline <style>
-  for (const match of html.matchAll(STYLE_RE)) {
-    const [, body] = match;
-    if (!body.trim()) continue;
+  $('style').each((_, el) => {
+    const body = $(el).html() ?? '';
+    if (!body.trim()) return;
     styleBlockHashes.add(sha256Base64(body));
-  }
+  });
 
-  // style="…" attributes — Entities dekodieren, da der Browser den Hash
-  // über den geparsten (dekodierten) Attributwert bildet.
-  for (const match of html.matchAll(STYLE_ATTR_RE)) {
-    const raw = match[1] ?? match[2] ?? '';
-    if (!raw) continue;
-    styleAttrHashes.add(sha256Base64(decodeHtmlEntities(raw)));
-  }
+  // style="…" Attribute — cheerio liefert den entity-dekodierten Wert,
+  // exakt wie der Browser ihn hasht.
+  $('[style]').each((_, el) => {
+    const value = el.attribs?.style ?? '';
+    if (!value) return;
+    styleAttrHashes.add(sha256Base64(value));
+  });
 }
 
 function formatHashList(set) {
