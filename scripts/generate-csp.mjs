@@ -22,6 +22,7 @@
  */
 
 import {readdir, readFile, writeFile} from 'node:fs/promises';
+import {existsSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {join} from 'node:path';
 
@@ -82,6 +83,26 @@ function sha256Base64(input) {
   return createHash('sha256').update(input, 'utf8').digest('base64');
 }
 
+/**
+ * Dekodiert HTML-Entities in einem Attributwert. Wichtig für style="…":
+ * Der Browser berechnet den CSP-Hash über den DEKODIERTEN Attributwert,
+ * der Parser dekodiert Entities (z. B. &quot; → "). Ohne Dekodierung würde
+ * der Hash nicht matchen und der Style würde blockiert.
+ * (Der Inhalt von <script>/<style> ist hingegen "raw text" und wird NICHT
+ * dekodiert — daher nur hier nötig.)
+ */
+function decodeHtmlEntities(str) {
+  if (!str.includes('&')) return str;
+  return str
+    .replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCodePoint(parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(parseInt(dec, 10)))
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&'); // zuletzt, sonst Doppel-Dekodierung
+}
+
 async function walk(dir) {
   const entries = await readdir(dir, {withFileTypes: true});
   for (const entry of entries) {
@@ -115,11 +136,12 @@ async function processHtml(path) {
     styleBlockHashes.add(sha256Base64(body));
   }
 
-  // style="…" attributes
+  // style="…" attributes — Entities dekodieren, da der Browser den Hash
+  // über den geparsten (dekodierten) Attributwert bildet.
   for (const match of html.matchAll(STYLE_ATTR_RE)) {
-    const value = match[1] ?? match[2] ?? '';
-    if (!value) continue;
-    styleAttrHashes.add(sha256Base64(value));
+    const raw = match[1] ?? match[2] ?? '';
+    if (!raw) continue;
+    styleAttrHashes.add(sha256Base64(decodeHtmlEntities(raw)));
   }
 }
 
@@ -128,6 +150,13 @@ function formatHashList(set) {
 }
 
 // ----- Main --------------------------------------------------------
+if (!existsSync(BUILD_DIR)) {
+  console.error(
+    `[csp] ✗ "${BUILD_DIR}/" nicht gefunden. Zuerst "docusaurus build" ausführen.`,
+  );
+  process.exit(1);
+}
+
 console.log(`[csp] Walking ${BUILD_DIR}/ …`);
 await walk(BUILD_DIR);
 

@@ -104,7 +104,6 @@ const config: Config = {
   ],
 
   plugins: [
-    ['docusaurus-lunr-search', {}],
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -151,6 +150,25 @@ const config: Config = {
           customCss: './src/css/custom.css',
         },
       } satisfies Preset.Options,
+    ],
+  ],
+
+  // Offline-Volltextsuche, die vollständig im Browser läuft und KEIN
+  // `unsafe-eval` benötigt (im Gegensatz zu docusaurus-lunr-search).
+  // Wichtig für die strikte Content-Security-Policy (siehe apache/).
+  themes: [
+    [
+      require.resolve('@easyops-cn/docusaurus-search-local'),
+      {
+        hashed: true,
+        language: ['en'],
+        indexBlog: false,
+        // Alle vier Docs-Instanzen indexieren (Default + guides/discord/ecosystem)
+        docsRouteBasePath: ['docs', 'guides', 'discord', 'ecosystem'],
+        docsDir: ['docs', 'guides', 'discord', 'ecosystem'],
+        highlightSearchTermsOnTargetPage: true,
+        searchResultLimits: 8,
+      },
     ],
   ],
 

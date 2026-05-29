@@ -246,15 +246,15 @@ const content = {
           Servern Dritter (insbesondere Google Fonts) findet dabei <strong>nicht</strong> statt.
         </p>
 
-        <h3>Such­funktion (lunr-search)</h3>
+        <h3>Such­funktion (Offline-Suche)</h3>
         <p>
           Die Such­funktion dieser Dokumentation basiert auf{' '}
           <a
-            href="https://github.com/lelouch77/docusaurus-lunr-search"
+            href="https://github.com/easyops-cn/docusaurus-search-local"
             target="_blank"
             rel="noreferrer"
           >
-            docusaurus-lunr-search
+            @easyops-cn/docusaurus-search-local
           </a>{' '}
           und läuft vollständig <strong>im Browser des Besuchers</strong>. Es findet keine
           Übermittlung von Such­eingaben an unseren Server oder an externe Such-Dienste statt.
@@ -504,15 +504,15 @@ const content = {
           takes place.
         </p>
 
-        <h3>Search Function (lunr-search)</h3>
+        <h3>Search Function (offline search)</h3>
         <p>
           The search function of this documentation is based on{' '}
           <a
-            href="https://github.com/lelouch77/docusaurus-lunr-search"
+            href="https://github.com/easyops-cn/docusaurus-search-local"
             target="_blank"
             rel="noreferrer"
           >
-            docusaurus-lunr-search
+            @easyops-cn/docusaurus-search-local
           </a>{' '}
           and runs <strong>entirely in the visitor's browser</strong>. Search queries are not
           transmitted to our server or to any external search service.

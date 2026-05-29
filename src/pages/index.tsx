@@ -113,11 +113,23 @@ const resources: Resource[] = [
   },
 ];
 
+// Lokaler, CSP-konformer Fallback (img-src 'self'), falls ein Card-Banner fehlt.
+// `onerror = null` verhindert eine Endlosschleife, wenn auch der Fallback scheitert.
+const FALLBACK_IMAGE = '/img/logo.png';
+function handleImageError(e: React.SyntheticEvent<HTMLImageElement>) {
+  const img = e.currentTarget;
+  img.onerror = null;
+  img.src = FALLBACK_IMAGE;
+  img.style.objectFit = 'contain';
+  img.style.padding = '1.5rem';
+  img.style.filter = 'opacity(0.25)';
+}
+
 function ResourceCard({ title, image, badges, description, to, features }: Resource) {
   return (
     <div className={styles.card}>
       <div className={styles.cardImage}>
-        <img src={image} alt={title} onError={(e) => { (e.target as HTMLImageElement).src = 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'; (e.target as HTMLImageElement).style.objectFit = 'contain'; (e.target as HTMLImageElement).style.padding = '1.5rem'; (e.target as HTMLImageElement).style.filter = 'invert(1) opacity(0.15)'; }} />
+        <img src={image} alt={title} onError={handleImageError} />
       </div>
       <div className={styles.cardBody}>
         <div className={styles.cardHeader}>

@@ -24,9 +24,10 @@ jobs:
       - name: Dependency Review
         uses: actions/dependency-review-action@v5
         with:
-          # Fail on any severity: critical, high, moderate, low
+          # Fail the PR on vulnerabilities of this severity or higher
+          # (moderate, high, critical). Low-severity advisories only warn.
           fail-on-severity: moderate
           # Post a comment on the PR with a summary of findings
           comment-summary-in-pr: always
-          # Deny packages with known malware
+          # Block copyleft licenses incompatible with this project
           deny-licenses: GPL-2.0, GPL-3.0
