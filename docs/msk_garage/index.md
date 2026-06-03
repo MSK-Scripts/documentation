@@ -10,7 +10,7 @@ sidebar_position: 1
 
 [**Images: MSK Garage UI — Imgur Album**](https://imgur.com/a/2p759FR) | [**CFX Post**](https://forum.cfx.re/t/esx-msk-garage-and-impound/5122014)
 
-:::tip v4.0.0 — Full Rewrite
+:::tip[v4.0.0 — Full Rewrite]
 The UI was rebuilt in **React + Vite + TypeScript** (no more jQuery / external
 CDNs — everything is bundled and works offline) and the backend was moved to a
 strict **server-authority** model: every park-in / park-out is validated

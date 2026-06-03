@@ -5,7 +5,7 @@ sidebar_position: 2
 
 # Server Exports
 
-:::info v4.0.0
+:::info[v4.0.0]
 These exports were added with the full rewrite. Custom garages and impounds are
 now **registered server-side** so a modified client can no longer forge park-out
 coordinates, vehicle types, or (for impounds) a `fee = 0`.
@@ -40,7 +40,7 @@ local ok = exports.msk_garage:RegisterCustomGarage(src, {
 })
 ```
 
-:::note Field names
+:::note[Field names]
 The server reads `park_out` (the canonical field). `parkOutCoords` from the
 client export is also accepted as a fallback, but prefer `park_out` here.
 :::

@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Client Exports
 
-:::warning v4.0.0 — custom garages/impounds need a server-side registration
+:::warning[v4.0.0 — custom garages/impounds need a server-side registration]
 For security, the server no longer trusts a garage/impound definition that comes
 from the client. The client exports below still **open the UI**, but park-in /
 park-out / the vehicle list only work if the **same definition was registered

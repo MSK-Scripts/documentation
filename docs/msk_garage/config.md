@@ -5,7 +5,7 @@ sidebar_position: 2
 
 # Config
 
-:::info v4.0.0
+:::info[v4.0.0]
 Since the full rewrite the configuration is **split across three files** inside
 the `config/` folder. All of them are escrow-open (`escrow_ignore`), so you can
 edit them freely:
@@ -215,7 +215,7 @@ The fee is built as `fee = { enable = price > 0, price = price, account = 'money
 Set the fee to `0` to make the impound free. The fee is **always charged
 server-side** and **fully refunded** if the park-out fails for any reason.
 
-:::tip How the impound decides what to show
+:::tip[How the impound decides what to show]
 The impound lists the player's vehicles whose `stored` column is `0` (i.e. lost
 in the world after a crash, death or restart). A garage lists vehicles with
 `stored = 1` (safely parked). Retrieving a vehicle from the impound charges the
