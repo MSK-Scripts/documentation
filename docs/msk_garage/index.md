@@ -5,10 +5,10 @@ sidebar_position: 1
 
 # MSK Garage
 
-[**Tebex [19.99€ inkl. MwSt.]**](https://www.msk-scripts.de/category/encrypted) — _Encrypted_  
+[**Tebex [14.99€ inkl. MwSt.]**](https://www.msk-scripts.de/category/encrypted) — _Encrypted_  
 [**Tebex [29.99€ inkl. MwSt.]**](https://www.msk-scripts.de/category/source-code) — _Source Code_
 
-[**Images: MSK Garage UI — Imgur Album**](https://imgur.com/a/2p759FR) | [**CFX Post**](https://forum.cfx.re/t/esx-msk-garage-and-impound/5122014)
+[**CFX Post**](https://forum.cfx.re/t/esx-msk-garage-and-impound/5122014)
 
 :::tip[v4.0.0 — Full Rewrite]
 The UI was rebuilt in **React + Vite + TypeScript** (no more jQuery / external
