@@ -5,25 +5,29 @@ sidebar_position: 3
 
 # Math
 
-## MSK.Math.Number
+## MSK.Math.Random
 
-Generates a random number.
+Generates a random number (as a string of digits) of the given length.
 
 **Parameters**  
 **length** - `number` - The Length of the number
 
 **Returns**  
-**number** - `number` - The Number of the given length
+**number** - `string` - The number of the given length
 
 ```lua
-local number = MSK.Math.Number(length)
+local number = MSK.Math.Random(length)
 
 -- Example
-local number = MSK.Math.Number(3) -- Output: 123 or 475 or 285 or ...
+local number = MSK.Math.Random(3) -- Output: "123" or "475" or "285" or ...
 
 -- As an Export:
 local number = exports.msk_core:GetRandomNumber(length)
 ```
+
+:::tip
+`MSK.Math.Number` is kept as a backwards-compatible alias for `MSK.Math.Random`.
+:::
 
 ## MSK.Math.Round
 
