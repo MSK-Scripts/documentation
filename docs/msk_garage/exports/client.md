@@ -5,9 +5,20 @@ sidebar_position: 1
 
 # Client Exports
 
+:::warning v4.0.0 — custom garages/impounds need a server-side registration
+For security, the server no longer trusts a garage/impound definition that comes
+from the client. The client exports below still **open the UI**, but park-in /
+park-out / the vehicle list only work if the **same definition was registered
+server-side** for that player via
+[`RegisterCustomGarage` / `RegisterCustomImpound`](./server.md).
+
+Typical flow: your server script registers the session, then triggers a client
+event that calls `openGarage` / `openImpound`.
+:::
+
 ## openGarage
 
-Opens a custom garage.
+Opens a custom garage UI for the player.
 
 **Parameters**  
 **label** - `string` - The Label of the Garage  
@@ -34,7 +45,7 @@ exports.msk_garage:openGarage({
 
 ## openImpound
 
-Opens a custom impound.
+Opens a custom impound UI for the player.
 
 **Parameters**  
 **label** - `string` - The Label of the Impound  

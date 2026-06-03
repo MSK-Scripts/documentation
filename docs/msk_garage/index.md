@@ -10,13 +10,21 @@ sidebar_position: 1
 
 [**Images: MSK Garage UI — Imgur Album**](https://imgur.com/a/2p759FR) | [**CFX Post**](https://forum.cfx.re/t/esx-msk-garage-and-impound/5122014)
 
+:::tip v4.0.0 — Full Rewrite
+The UI was rebuilt in **React + Vite + TypeScript** (no more jQuery / external
+CDNs — everything is bundled and works offline) and the backend was moved to a
+strict **server-authority** model: every park-in / park-out is validated
+server-side, custom garages are [registered server-side](./exports/server.md),
+and the impound fee is always charged on the server (and refunded on failure).
+:::
+
 ## Description
 
 - Set as many Garages and Impounds as you want
 - Custom License plates support (e.g. "CUSTOM")
 - Park in and park out a vehicle if you have a Key _(supported KeyScript required)_
 - Set waypoint to your vehicle at the Impound
-- Support for okokTextUI and esx_textUI
+- Built-in TextUI or your own (e.g. okokTextUI) — or use `ox_target`
 - Set if vehicles park out where they parked in, or everywhere
 - Set your own Fuel System _(default: ox_fuel)_
 - Set Jobs and Grades who can access the Garage or Impound
@@ -24,6 +32,7 @@ sidebar_position: 1
 - Multiple parkout spots per garage
 - Set the Blip or deactivate it
 - Set a vehicle as Favourite and rename it
+- Server-side validated spawns (anti-dupe plate lock, spawn claim/rollback)
 
 ## Requirements
 
