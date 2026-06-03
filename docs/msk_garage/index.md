@@ -5,9 +5,6 @@ sidebar_position: 1
 
 # MSK Garage & Impound
 
-[**Tebex [14.99€ inkl. MwSt.]**](https://www.msk-scripts.de/category/encrypted) — _Encrypted_  
-[**Tebex [29.99€ inkl. MwSt.]**](https://www.msk-scripts.de/category/source-code) — _Source Code_
-
 [**CFX Post**](https://forum.cfx.re/t/esx-msk-garage-and-impound/5122014)
 
 :::tip[v4.0.0 — Full Rewrite]
