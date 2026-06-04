@@ -15,7 +15,7 @@ sidebar_position: 1
 
 Vehicle keys are stored in a MariaDB table (`msk_vehiclekeys_keys`). The table is created automatically on first start — **no manual SQL import is required**.
 
-:::info Migration from older versions
+:::info [Migration from older versions]
 If you are updating from a version that used `vehiclekeys.json`, the keys are imported into the database **automatically and only once** on the first start. The old `vehiclekeys.json` file is no longer used afterwards and can be deleted.
 :::
 
