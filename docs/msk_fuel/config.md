@@ -32,9 +32,17 @@ Config.FuelStationBlips = {
     id = 361,
     color = 6,
     scale = 0.8,
+    label = Translate('fuel_station_blip'),
 }
 
+-- GLOBAL fuel consumption rate multiplier for all vehicles operated by a player
 Config.FuelConsumptionRateMultiplier = 2.0
+
+-- Per-vehicle handling consumption rate (fPetrolConsumptionRate) applied while the engine is running
+Config.PetrolConsumptionRate = 2.0
+
+-- Max distance (units) a player may be away from a vehicle to fuel it (serverside anti-exploit check)
+Config.MaxFuelingDistance = 100.0
 
 Config.Refill = {
     tick = 250,   -- ms

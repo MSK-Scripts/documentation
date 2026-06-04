@@ -13,10 +13,10 @@ sidebar_position: 1
 6. Add the **itemName** from `Config.Settings` to your inventory or database
 7. Activate or deactivate `uniqueItems` if you use one of the supported inventories
 
-MSK VehicleKeys doesn't need any SQL file. All vehicle keys are saved in `vehiclekeys.json`.
+Vehicle keys are stored in a MariaDB table (`msk_vehiclekeys_keys`). The table is created automatically on first start — **no manual SQL import is required**.
 
-:::warning
-Do NOT manually add or delete anything in `vehiclekeys.json`! It will be overwritten as the script saves data every 5 minutes and when the script stops.
+:::info Migration from older versions
+If you are updating from a version that used `vehiclekeys.json`, the keys are imported into the database **automatically and only once** on the first start. The old `vehiclekeys.json` file is no longer used afterwards and can be deleted.
 :::
 
 ## Items
@@ -72,33 +72,14 @@ setContainerProperties('keyring', {
 })
 ```
 
-## qs-inventory
+## jaksam_inventory
 
-Add to `qs-inventory/shared/items.lua`:
+Add the `keys`, `contract` and `keyring` items to your jaksam_inventory items list.
+The items must be set as **unique / metadata** items (the script writes the plate into
+the item's metadata). Mark `keys` and `contract` as usable so they can trigger the
+`toggleLock` / `openDialog` exports.
 
-```lua
-['keys'] = {
-    ['name'] = 'keys',
-    ['label'] = 'Vehicle Key',
-    ['weight'] = 35,
-    ['type'] = 'item',
-    ['image'] = 'keys.png',
-    ['unique'] = true,
-    ['useable'] = true,
-    ['shouldClose'] = true,
-    ['combinable'] = nil,
-    ['description'] = 'Key for a Vehicle'
-},
-['contract'] = {
-    ['name'] = 'contract',
-    ['label'] = 'Contract',
-    ['weight'] = 1,
-    ['type'] = 'item',
-    ['image'] = 'contract.png',
-    ['unique'] = false,
-    ['useable'] = true,
-    ['shouldClose'] = true,
-    ['combinable'] = nil,
-    ['description'] = 'Contract to sell your vehicle'
-},
-```
+:::warning
+Only `ox_inventory` and `jaksam_inventory` are supported. Support for `qs-inventory`
+and `core_inventory` was removed in v2.0.0.
+:::

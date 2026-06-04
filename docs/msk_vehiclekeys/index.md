@@ -20,15 +20,17 @@ sidebar_position: 1
 - Admin Vehicles _(Admins with ace permission can use hotkey)_
 - Exchange Vehicle Locks _(deletes all keys from other players)_
 - Transfer Vehicle _(transfer ownership to another player)_
-- Keyring System _(Save all Keys in a second inventory — ox_inventory only)_
+- Keyring System _(Save all Keys in a second inventory — ox_inventory & jaksam_inventory)_
 - Lock NPC vehicles and carjacking support
 
 ## Inventory Support
 
-- [ox_inventory](https://github.com/overextended/ox_inventory) — **recommended**
+- [ox_inventory](https://github.com/overextended/ox_inventory) — **recommended**, Keyring supported
 - [jaksam_inventory](https://fivem.jaksam-scripts.com/package/7091785) — Keyring supported
-- [qs-inventory](https://www.quasar-store.com/de/package/6304046) — Keyring not supported
-- [core_inventory](https://forum.cfx.re/t/core-inventory-qb-esx-advanced-grid-based-inventory/4859943) — Keyring not supported
+
+:::info
+Vehicle keys are metadata-based unique items. Only `ox_inventory` and `jaksam_inventory` are supported.
+:::
 
 ## Requirements
 
