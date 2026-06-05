@@ -18,6 +18,7 @@ const columns = [
     links: [
       { label: 'Discord Ticketbot', to: '/discord/discord_ticketbot/getting-started' },
       { label: 'Discord Multibot', to: '/discord/discord_multibot/getting-started' },
+      { label: 'Discord Giveawaybot', to: '/discord/discord_giveaway/getting-started' },
     ],
   },
   {
