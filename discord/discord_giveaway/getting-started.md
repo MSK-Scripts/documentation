@@ -16,7 +16,7 @@ A multilingual, per-guild configurable Discord giveaway bot built on **Discord.j
 
 The easiest way to use the bot is to invite the **official public instance** — no hosting, no database, no setup required.
 
-> [**🎉 Invite the Giveaway Bot →**](https://discord.com/oauth2/authorize?client_id=1512397062652690502&scope=bot+applications.commands&permissions=478208)
+> [**🎉 Invite the Giveaway Bot →**](https://discord.com/oauth2/authorize?client_id=1512465732179329065&scope=bot+applications.commands&permissions=478208)
 
 You can also retrieve this link at any time inside Discord with the `/ginvite` command.
 
@@ -73,7 +73,7 @@ Anonymous, server-wide statistics of the official instance are available at
 
 Running your own copy of this bot is **neither supported nor encouraged**. The source code is published for transparency — so users can see exactly how the bot behaves and fellow developers can learn from it — not as a ready-made product to redeploy. There is no support for installing, modifying, or building your own instance.
 
-Just [invite the official instance](https://discord.com/oauth2/authorize?client_id=1512397062652690502&scope=bot+applications.commands&permissions=478208) instead.
+Just [invite the official instance](https://discord.com/oauth2/authorize?client_id=1512465732179329065&scope=bot+applications.commands&permissions=478208) instead.
 
 ---
 
