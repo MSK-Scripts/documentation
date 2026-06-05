@@ -30,8 +30,8 @@ Once the bot has joined, a server manager runs [`/gcreate`](./commands) to open 
 |---|---|
 | 🎉 Button Entry | Members join with a single click — customisable emoji, label and button style |
 | 🔁 Restart-Safe | A poll-based scheduler means no giveaway is lost or orphaned, even after a reboot |
-| 👥 Weighted Bonus Entries | Grant specific roles extra entries (0–100) for a fairer or reward-driven draw |
-| 🛡️ Eligibility Rules | Whitelist / blacklist roles, minimum account age and minimum server membership |
+| 👥 Weighted Bonus Entries | Grant specific roles extra entries (up to 100) for a fairer or reward-driven draw |
+| 🛡️ Eligibility Rules | Whitelist / blacklist roles — server-wide or scoped to a single giveaway — plus minimum account age and server membership |
 | ⏸️ Pause & Resume | Freeze the timer mid-giveaway and resume seamlessly where you left off |
 | 🗂️ Templates | Save and reuse giveaway configurations for recurring events |
 | ✨ Reroll | Draw fresh winners for any ended giveaway, respecting the blacklist |
