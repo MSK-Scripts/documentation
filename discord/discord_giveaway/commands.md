@@ -38,7 +38,8 @@ All commands are Discord **slash commands**. They split into two groups by who m
 | Command | Description |
 |---|---|
 | `/gsettings show` | Displays the current per-server configuration |
-| `/gsettings set …` | Configures the bot — see [Configuration](./configuration) |
+| `/gsettings set …` | Sets or adds a setting — see [Configuration](./configuration) |
+| `/gsettings remove …` | Removes or clears a setting — see [Configuration](./configuration) |
 
 > **The giveaway ID** (`<id>`) is the short public code shown in the footer of every giveaway embed (e.g. `A1B2C3`). Use `/glist` or `/ginfo` to look it up.
 
