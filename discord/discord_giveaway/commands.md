@@ -17,8 +17,10 @@ All commands are Discord **slash commands**. They split into two groups by who m
 | Command | Description |
 |---|---|
 | `/gcreate` | Opens a modal to create a giveaway in the **current channel** |
+| `/gedit <id> [title] [description] [winners] [prize]` | Edit a running giveaway |
+| `/gextend <id> <duration>` | Extend the end time of a running giveaway |
 | `/gend <id>` | Ends a giveaway immediately and draws the winners |
-| `/greroll <id>` | Draws new winners for an **ended** giveaway (respects the blacklist) |
+| `/greroll <id> [winner]` | Draws new winners for an **ended** giveaway. With `winner`, replaces only that single winner |
 | `/gcancel <id>` | Cancels an active giveaway **without** drawing a winner |
 | `/gpause <id>` | Pauses a giveaway and freezes its timer |
 | `/gresume <id>` | Resumes a paused giveaway |
@@ -30,6 +32,7 @@ All commands are Discord **slash commands**. They split into two groups by who m
 |---|---|
 | `/glist` | Lists the active giveaways in the server |
 | `/ginfo <id>` | Shows details about a specific giveaway |
+| `/gstats` | Shows this server's giveaway statistics (totals, entries, win rate) |
 | `/ghelp` | Overview of all commands |
 | `/ginvite` | Returns the bot's invite link |
 
@@ -47,7 +50,7 @@ All commands are Discord **slash commands**. They split into two groups by who m
 
 ## 🎉 Creating a Giveaway — `/gcreate`
 
-`/gcreate` opens a modal with four fields:
+`/gcreate` opens a modal with five fields:
 
 | Field | Type | Limits |
 |---|---|---|
@@ -55,6 +58,7 @@ All commands are Discord **slash commands**. They split into two groups by who m
 | **Description** | Paragraph | up to 2000 characters |
 | **Duration** | Short text | format like `1d2h30m`, `45m`, `90s` — **min 10s, max 1 year** |
 | **Winners** | Number | 1–100 |
+| **Prize** *(optional)* | Short text | up to 256 characters — shown in the embed and the winner DM |
 
 ### Duration format
 
