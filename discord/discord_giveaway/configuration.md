@@ -36,6 +36,8 @@ Settings take effect immediately and apply to all future giveaways on that serve
 | `manager <role>` | role | — | Role allowed to manage giveaways without *Manage Server* |
 | `notify <role>` | role | — | Role pinged when a giveaway is created |
 | `log <channel>` | channel | — | Channel that receives giveaway audit logs (toggle) |
+| `reminder <minutes>` | `0`–`1440` | `0` (off) | Post an "ending soon" reminder *N* minutes before a giveaway ends |
+| `claim <text>` | text | — | Instructions added to the winner DM (e.g. how to claim the prize) |
 
 ### `/gsettings remove …`
 
@@ -46,6 +48,7 @@ Settings take effect immediately and apply to all future giveaways on that serve
 | `bonus <role> [giveaway_id]` | role (+ optional ID) | Remove the bonus entries for a role |
 | `manager <role>` | role | Clear the manager role |
 | `notify <role>` | role | Clear the notify role |
+| `claim` | — | Clear the winner-DM claim instructions |
 
 ---
 
@@ -109,3 +112,16 @@ By default, only members with the **Manage Server** permission can run the manag
 
 - **Notify role** — pinged once when a new giveaway is created. The bot restricts its pings to this role only (no `@everyone`). The role must be mentionable by the bot. Clear it with `remove notify <role>`.
 - **Log channel** — when set, the bot posts an audit entry for every giveaway event (created, ended, rerolled, cancelled, …) to this channel.
+
+---
+
+### Winner DMs & Reminders
+
+- **Winner DMs** — when a giveaway ends (or a winner is rerolled), each winner automatically receives a direct message with the prize, the configured **claim instructions** (`set claim <text>`) and a link to the giveaway. If a winner has DMs disabled, it is silently skipped.
+- **"Ending soon" reminder** — `set reminder <minutes>` makes the bot post a reminder in the giveaway channel that many minutes before the end (pinging the notify role if configured). `0` disables it. The reminder also re-schedules itself when you extend a giveaway with `/gextend`.
+
+---
+
+### Eligibility requirements in the embed
+
+Whenever a giveaway has eligibility rules (required/blocked roles, minimum account age or membership), they are listed in a **Requirements** field on the giveaway embed, so members can see at a glance whether they qualify.
