@@ -35,6 +35,8 @@ Once the bot has joined, a server manager runs [`/gcreate`](./commands) to open 
 | ⏸️ Pause & Resume | Freeze the timer mid-giveaway and resume seamlessly where you left off |
 | 🗂️ Templates | Save and reuse giveaway configurations for recurring events |
 | ✨ Reroll | Draw fresh winners for any ended giveaway, respecting the blacklist |
+| 🖥️ Web Dashboard | Create and fully manage giveaways and settings from the browser — Discord login, no commands required |
+| 🏆 Public Results Pages | Every finished giveaway gets a shareable results page with the winners and participant count |
 | 🌐 Multilingual | English, German, French and Spanish — selectable per server |
 | 🎨 Per-Guild Branding | Custom embed colour, button emoji and style |
 | 📜 Audit Logging | Optional log channel records every giveaway event |
@@ -66,6 +68,26 @@ The bot uses **only** the `Guilds` gateway intent. It requires no privileged int
 
 Anonymous, server-wide statistics of the official instance are available at
 **[msk-scripts.de/giveaway/stats](https://www.msk-scripts.de/giveaway/stats)** — total servers, giveaways, entries and winners, plus language and status distribution. No server IDs, user IDs or other personal data are shown.
+
+---
+
+## 🖥️ Web Dashboard
+
+Prefer a browser over slash commands? Server admins can manage everything at
+**[msk-scripts.de/giveaway/dashboard](https://www.msk-scripts.de/giveaway/dashboard)**:
+
+1. Log in with **Discord** (you'll only see servers where you have *Manage Server* **and** the bot is present).
+2. Pick a server.
+3. Create, edit, extend, pause/resume, end, cancel and reroll giveaways — and change every per-server setting.
+
+Behind the scenes the dashboard forwards each action to the running bot over a private, server-internal channel, so the Discord message, button, winner DMs and audit log stay perfectly in sync — exactly as if you had used the slash commands. Everything you do on the dashboard is still recorded in your [log channel](./configuration).
+
+---
+
+## 🏆 Public Results Pages
+
+When a giveaway ends, the bot publishes a clean, shareable results page at
+**`msk-scripts.de/giveaway/g/<token>`** — linked automatically in the results message and in the winner DMs. It shows the giveaway title and prize, the **winners** and the **number of participants**. For privacy, the full participant list is never published. The page is removed automatically if the bot is removed from your server.
 
 ---
 

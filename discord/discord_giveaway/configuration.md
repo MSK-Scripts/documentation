@@ -16,6 +16,10 @@ Settings take effect immediately and apply to all future giveaways on that serve
 
 > **set vs. remove:** `set` adds a role to a list (blacklist/whitelist) or sets a single value (manager/notify/bonus); `remove` takes it back out. The `log` channel is the exception — `set log` toggles it (running it again with the same channel clears it).
 
+:::tip Configure in the browser
+All of these settings can also be edited from the [**Web Dashboard**](./getting-started#-web-dashboard) (Discord login) — handy for picking roles and channels from a list instead of typing IDs.
+:::
+
 ---
 
 ## ⚙️ Options

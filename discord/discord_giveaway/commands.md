@@ -12,6 +12,10 @@ All commands are Discord **slash commands**. They split into two groups by who m
 - **Manager** — `Manage Server` permission **or** the configured [`manager` role](./configuration#manager-role)
 - **Manage Server** — server settings, gated behind the native *Manage Server* permission
 
+:::tip Prefer a browser?
+Every manager command below can also be performed from the [**Web Dashboard**](./getting-started#-web-dashboard) at [msk-scripts.de/giveaway/dashboard](https://www.msk-scripts.de/giveaway/dashboard) — log in with Discord and manage your giveaways visually.
+:::
+
 ### Manager Commands
 
 | Command | Description |
