@@ -19,7 +19,7 @@ A modern, self-hosted Discord ticket bot built on **Discord.js v14** and **SQLit
 | 🎫 Ticket Types | Up to 25 configurable types with individual emoji, color, category & questions |
 | 📋 Questionnaires | Modal forms (up to 5 questions) shown when opening a ticket |
 | 🙋 Claim System | Staff can claim/unclaim — button toggles, embed & topic update automatically |
-| 🔴 Priorities | Low / Medium / High / Urgent via `/priority` — shown in channel topic & embed |
+| 🔴 Priorities | Low / Medium / High / Urgent — predefined per ticket type or set via `/priority`, shown in channel topic & embed |
 | 📝 Staff Notes | Private notes via `/note add` / `/note list` |
 | 🔀 Move Ticket | Move to a different type/category via `/move` or button (staff only) |
 | 🛡️ Type-specific Staff Roles | Each ticket type can define its own staff roles |
@@ -28,6 +28,7 @@ A modern, self-hosted Discord ticket bot built on **Discord.js v14** and **SQLit
 | ⭐ Rating System | 1–5 star feedback after closing, automatically posted to a configured channel |
 | ⏰ Staff Reminder | Automatic ping inside the ticket if no staff responds within X hours |
 | ⏰ Auto-Close | Automatically close inactive tickets with a configurable warning period |
+| ♻️ Reopen Tickets | Reopen a closed ticket via the `♻️` button or `/reopen` — configurable, restores access & moves it back |
 | 🔗 Transcript Links | Transcripts stored online and accessible via a public link |
 | 📄 HTML Transcript | Full self-contained HTML transcript — avatars embedded as Base64, no CDN required |
 | 🌐 Custom Domain | Premium users can serve transcripts under their own domain |
@@ -142,6 +143,7 @@ discord_ticketbot/
     ├── commands/               # Slash commands
     │   ├── setup.js            # /setup      – Send panel
     │   ├── close.js            # /close      – Close ticket
+    │   ├── reopen.js           # /reopen     – Reopen a closed ticket
     │   ├── add.js              # /add        – Add user
     │   ├── remove.js           # /remove     – Remove user
     │   ├── claim.js            # /claim      – Claim ticket
@@ -170,6 +172,7 @@ discord_ticketbot/
     │   │   ├── deleteTicket.js     # tb_delete
     │   │   ├── deleteConfirm.js    # tb_deleteConfirm
     │   │   ├── deleteCancel.js     # tb_deleteCancel
+    │   │   ├── reopenTicket.js     # tb_reopen
     │   │   ├── rateTicket.js       # tb_rate:N:id
     │   │   └── notifyToggle.js     # tb_notifyToggle
     │   ├── modals/
@@ -184,7 +187,7 @@ discord_ticketbot/
         ├── embeds.js           # All embed constructors
         ├── transcript.js       # Self-contained HTML (avatars embedded as Base64)
         ├── mskApi.js           # MSK Transcript Service API client
-        ├── ticketActions.js    # Core logic: openTicket, performClose, performMove
+        ├── ticketActions.js    # Core logic: openTicket, performClose, performReopen, performMove
         ├── versionCheck.js     # Startup update check against GitHub releases
         └── snippets.js         # Snippet loader & placeholder engine
 ```
@@ -197,6 +200,7 @@ discord_ticketbot/
 | ------------------- | ------------- | --------------------------------------------------------------------- |
 | `/setup`            | Administrator | Send the ticket panel                                                 |
 | `/close [reason]`   | Configurable  | Close the current ticket                                              |
+| `/reopen`           | Configurable  | Reopen a closed ticket — restores access & moves it back              |
 | `/claim`            | Staff         | Claim a ticket — updates topic & embed, button toggles to Unclaim     |
 | `/unclaim`          | Staff         | Release a claimed ticket — updates topic & embed, button toggles back |
 | `/move`             | Staff         | Move ticket to a different type/category                              |
@@ -231,6 +235,7 @@ Every ticket channel contains a button row at the top:
 | 🙌 Unclaim       | `claimButton: true`, already claimed | Staff releases — topic & embed update, button becomes Claim          |
 | 🔀 Move          | More than 1 ticket type configured   | Staff opens type selection (staff only)                              |
 | 🗑️ Delete Ticket | After closing                        | Deletes the channel after confirmation                               |
+| ♻️ Reopen        | After closing (`reopenOption.enabled`) | Reopens the ticket — restores access & moves it back to its category |
 | 🔕 Notify me     | `userNotifications.enabled: true`    | User opts in to DM notifications when a staff member replies         |
 
 ---
