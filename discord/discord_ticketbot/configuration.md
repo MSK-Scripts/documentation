@@ -47,6 +47,7 @@ Supported formats: PNG, JPG, GIF, WEBP. Run `/setup` again after adding or chang
 | `/unclaim`         | `ticket-username`        | `🟡 Medium`                        | field removed       |
 | `/lock lock`       | `ticket-username`        | unchanged                         | lock notice posted  |
 | Ticket closed      | `closed-ticket-username` | unchanged                         | all buttons removed |
+| Reopen             | `ticket-username`        | restored                          | reopen embed + ticket buttons restored |
 
 > **Note on rate-limits:** Discord limits channel topic changes to 2 per 10 minutes. A warning is shown in the ticket and the update appears automatically once the limit resets.
 
@@ -60,6 +61,7 @@ Supported formats: PNG, JPG, GIF, WEBP. Run `/setup` again after adding or chang
   "emoji": "💡",
   "color": "#ff0000",             // Hex color or "" to use mainColor
   "categoryId": "123456789",
+  "priority": "medium",           // Predefined start priority: "low", "medium", "high" or "urgent" (defaults to "medium")
   "ticketNameOption": "",         // USERNAME, USERID, TICKETCOUNT or ""
   "customDescription": "...",     // Variables: REASON1, REASON2, USERNAME, USERID
   "cantAccess": ["roleId"],
@@ -163,6 +165,28 @@ The bot checks all open tickets every **15 minutes**. Each ticket is only remind
   "excludeClaimed": true
 }
 ```
+
+### Reopen
+
+Closed tickets can be reopened via a `♻️ Reopen` button on the closed-ticket message and the `/reopen` command.
+
+```json
+"reopenOption": {
+  "enabled": true,            // Master switch for the reopen feature (button + /reopen)
+  "button": true,             // Show the ♻️ Reopen button on the closed-ticket message
+  "whoCanReopen": "STAFFONLY" // "EVERYONE" or "STAFFONLY"
+}
+```
+
+| Field          | Description                                                                                  |
+| -------------- | -------------------------------------------------------------------------------------------- |
+| `enabled`      | Master switch. When `false`, the button is hidden and `/reopen` replies that it is disabled. |
+| `button`       | Whether the `♻️ Reopen` button is shown on the closed-ticket message.                         |
+| `whoCanReopen` | `"STAFFONLY"` (default) requires staff. `"EVERYONE"` allows anyone who can see the channel.   |
+
+Reopening restores the creator's channel access, moves the channel back to its ticket type's category and drops the `closed-` name prefix.
+
+> **Note:** Closed channels are usually only visible to staff (the creator's view is removed on close), so `"EVERYONE"` mainly matters if you keep closed channels visible to users.
 
 ### Statistics
 
