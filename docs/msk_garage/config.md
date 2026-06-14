@@ -1,21 +1,18 @@
 ---
 title: Config
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 # Config
 
-:::info[v4.0.0]
-Since the full rewrite the configuration is **split across three files** inside
-the `config/` folder. All of them are escrow-open (`escrow_ignore`), so you can
-edit them freely:
+The configuration is **split across three files** inside the `config/` folder.
+All of them are escrow-open (`escrow_ignore`), so you can edit them freely:
 
 | File | Contains |
 |---|---|
 | `config/settings.lua` | General settings (`Config.*`) |
 | `config/garages.lua` | `Config.Garages` (uses a `garage()` template helper) |
 | `config/impounds.lua` | `Config.Impounds` (uses an `impound()` template helper) |
-:::
 
 ## `config/settings.lua`
 
@@ -102,22 +99,35 @@ Config.needEnoughMoney = true
 Config.useSocietyName = false
 ```
 
-### Notes
+### Settings reference
 
-- **`Config.defaultTextUI`** — `true` uses the built-in `msk_core`
-  HelpNotification. Set it to `false` to route prompts through your own
-  `Config.openTextUI` / `Config.closeTextUI` (the example wires `okokTextUI`).
-- **`Config.TargetSystem`** — when enabled the interaction runs through the
-  target script (default `ox_target`) instead of the hotkey + TextUI flow. Add
-  your own target adapter in `client/target.lua`.
-- **`Config.VehicleKeys.script`** — supported out of the box: `msk_vehiclekeys`,
-  `VehicleKeyChain`, `vehicles_keys` (bridges live in `server/keys/`).
+| Key | Type | Description |
+|---|---|---|
+| `Config.Locale` | `string` | Active locale (`'de'` / `'en'`), see `locales/`. |
+| `Config.Debug` | `boolean` | Prints verbose debug logging via `MSK.Logging`. |
+| `Config.VersionChecker` | `boolean` | Checks for new releases on start. |
+| `Config.Notification` | `function` | Notification adapter (works client **and** server). |
+| `Config.Hotkey` | `number` | Interaction key (default `38` = E). Players can rebind it in FiveM. |
+| `Config.npcVoice` | `table` | Ped "greet/farewell" voice line on enter/leave. |
+| `Config.TargetSystem` | `table` | Use a target script (`ox_target`) instead of hotkey + TextUI. |
+| `Config.defaultTextUI` | `boolean` | `true` = msk_core HelpNotification, `false` = your TextUI. |
+| `Config.openTextUI` / `closeTextUI` | `function` | Your TextUI adapter (example wires `okokTextUI`). |
+| `Config.MySQL` | `table` | Column name mapping for the `owned_vehicles` table — see [Database](./database.md). |
+| `Config.Parking` | `string` | `'specific'` = park out only at the storing garage, `'all'` = anywhere. |
+| `Config.DefaultGarage` | `string` | Garage id used when a vehicle has no specific garage. |
+| `Config.VehicleKeys` | `table` | Second-key support — see [Integrations](./guides/integrations.md#vehicle-keys). |
+| `Config.AdvancedParking` | `boolean` | Enable [AdvancedParking](./guides/integrations.md#advancedparking) integration. |
+| `Config.SetFuel` / `GetFuel` | `function` | [Fuel](./guides/integrations.md#fuel) adapter (clientside). |
+| `Config.enableImpound` | `boolean` | Register the impound locations from `config/impounds.lua`. |
+| `Config.parkoutWithKey` | `boolean` | Key holders may also retrieve from the impound. |
+| `Config.needEnoughMoney` | `boolean` | Require the player to afford the impound fee. |
+| `Config.useSocietyName` | `boolean` | Own job vehicles via `society_<job>` instead of per-player. |
 
 ## `config/garages.lua`
 
-Garages are no longer written out as full tables. A `garage()` helper builds the
-entry from shared defaults, so you only pass the parts that differ. Any field can
-still be overridden via the `opts` table (last argument).
+Garages are not written out as full tables. A `garage()` helper builds the entry
+from shared defaults, so you only pass the parts that differ. Any field can still
+be overridden via the `opts` table (last argument).
 
 ```lua
 -- garage(id, label, types, location, parkOut, blip, opts)
@@ -149,8 +159,8 @@ Config.Garages = {
 }
 ```
 
-The resulting table per garage looks like this (this is what custom-garage
-exports must also provide — see [Server Exports](./exports/server.md)):
+The resulting table per garage looks like this (this is also the shape a
+custom-garage export must provide — see [Server Exports](./exports/server.md)):
 
 ```lua
 {
@@ -170,26 +180,29 @@ exports must also provide — see [Server Exports](./exports/server.md)):
 }
 ```
 
-**Jobs block**
+### Jobs block
 
 | Field | Type | Description |
 |---|---|---|
-| `enable` | `boolean` | Restrict the garage to job(s) |
-| `identifier` | `string` | `'player'` (owned by the member) or `'society'` (shared) |
-| `ownJob` | `boolean` | Only show vehicles of the player's current job |
-| `jobs` | `table` | List of `{ job = 'police', grade = 0 }` (grade = minimum) |
+| `enable` | `boolean` | Restrict the garage to job(s). |
+| `identifier` | `string` | `'player'` (owned by the member) or `'society'` (shared). |
+| `ownJob` | `boolean` | Only show vehicles of the player's current job. |
+| `jobs` | `table` | List of `{ job = 'police', grade = 0 }` (grade = minimum). |
 
 ## `config/impounds.lua`
 
-Same pattern with the `impound()` helper.
+Same pattern with the `impound()` helper. The **first argument is the impound
+id** (the table key) — it must match the key so the server can resolve the
+impound when listing or retrieving vehicles.
 
 ```lua
--- impound(label, types, location, parkOut, blipId, fee, warp)
+-- impound(id, label, types, location, parkOut, blipId, fee, warp)
 Config.Impounds = {
     ['impound_car'] = impound(
+        'impound_car',                                  -- id (must match the table key)
         'Impound | Car',
         { 'car', 'truck' },
-        vector4(409.0, -1622.75, 29.29, 231.88),       -- ped / blip / marker location
+        vector4(409.0, -1622.75, 29.29, 231.88),        -- ped / blip / marker location
         {                                               -- park-out spot(s)
             vector4(401.36, -1647.98, 29.29, 318.54),
             vector4(406.09, -1652.36, 29.29, 320.51),
@@ -199,17 +212,24 @@ Config.Impounds = {
         false   -- warp
     ),
 
-    ['impound_boat'] = impound('Impound | Boat', { 'boat' },
+    ['impound_boat'] = impound('impound_boat', 'Impound | Boat', { 'boat' },
         vector4(-788.38, -1490.3, 1.6, 289.21),
         { vector4(-797.84, -1490.21, -0.47, 301.0) },
         410, 200, true),
 
-    ['impound_heli'] = impound('Impound | Aircrafts', { 'aircraft', 'helicopter' },
+    ['impound_heli'] = impound('impound_heli', 'Impound | Aircrafts', { 'aircraft', 'helicopter' },
         vector4(-1070.57, -2867.78, 13.95, 152.85),
         { vector4(-1112.54, -2883.81, 13.95, 147.98) },
         569, 500, false),
 }
 ```
+
+:::warning[The id is required]
+Each impound entry carries an `impoundId` field (set from the first argument). If
+it is missing or doesn't match the table key, the impound's vehicle list resolves
+to nothing server-side and **no vehicles are shown**. Always pass the id and keep
+it identical to the table key.
+:::
 
 The fee is built as `fee = { enable = price > 0, price = price, account = 'money' }`.
 Set the fee to `0` to make the impound free. The fee is **always charged
@@ -219,5 +239,5 @@ server-side** and **fully refunded** if the park-out fails for any reason.
 The impound lists the player's vehicles whose `stored` column is `0` (i.e. lost
 in the world after a crash, death or restart). A garage lists vehicles with
 `stored = 1` (safely parked). Retrieving a vehicle from the impound charges the
-fee and sets `stored = 0 -> spawned`.
+fee and spawns it (`stored` stays `0` until it's parked again).
 :::

@@ -1,6 +1,6 @@
 ---
 title: Events
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 # Events
@@ -8,6 +8,12 @@ sidebar_position: 4
 The script emits these events on **both** the client and the server so other
 resources can react to park-in / park-out. They are plain `TriggerEvent` calls,
 so use `AddEventHandler` (not `RegisterNetEvent`).
+
+:::tip
+Empty handler stubs already exist in `client/handler.lua` and
+`server/handler.lua` — both files are escrow-open, so you can add your own logic
+there directly if you prefer not to create a separate resource.
+:::
 
 ## Client events
 
@@ -32,6 +38,12 @@ end)
 | `plate` | `string` | The vehicle plate |
 | `fuel` | `number` | Fuel level |
 | `garage` / `impound` | `table` | The resolved garage / impound definition |
+
+:::note[Argument order]
+Note the order differs slightly between `vehicleParkedIn`
+(`vehicle, props, plate, fuel, …`) and the two park-out events
+(`vehicle, plate, fuel, props, …`).
+:::
 
 ## Server events
 

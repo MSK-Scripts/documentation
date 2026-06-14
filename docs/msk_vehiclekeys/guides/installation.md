@@ -5,27 +5,41 @@ sidebar_position: 1
 
 # Installation
 
-1. Drag & Drop the folder `msk_vehiclekeys` into your resource folder
-2. Add `ensure msk_vehiclekeys` to your `server.cfg`
-3. Configure the `config.lua`
-4. Set your Framework at `Config.Framework`
-5. Set the Hotkeys you want _(Users can change them in FiveM keybind settings)_
-6. Add the **itemName** from `Config.Settings` to your inventory or database
-7. Activate or deactivate `uniqueItems` if you use one of the supported inventories
+## Steps
 
-Vehicle keys are stored in a MariaDB table (`msk_vehiclekeys_keys`). The table is created automatically on first start — **no manual SQL import is required**.
+1. Drag & drop the `msk_vehiclekeys` folder into your resources directory.
+2. Add `ensure msk_vehiclekeys` to your `server.cfg`.
+3. Make sure all [dependencies](../index.md#requirements) start **before** `msk_vehiclekeys`.
+4. Configure `config.lua`.
+5. Set your framework at `Config.Framework` (or leave it on `AUTO`).
+6. Set the hotkeys you want — players can rebind them in the FiveM keybind settings.
+7. Add the **items** (`keys`, `keyring`, `contract`) to your inventory.
+8. Enable or disable `uniqueItems` depending on your inventory.
+
+:::info[Load order]
+`oxmysql`, `ox_lib` and `msk_core` must be started before `msk_vehiclekeys`.
+:::
+
+## Database
+
+Vehicle keys are stored in a MariaDB table (`msk_vehiclekeys_keys`). **The table is created
+automatically on first start — no manual SQL import is required.**
 
 :::info[Migration from older versions]
-If you are updating from a version that used `vehiclekeys.json`, the keys are imported into the database **automatically and only once** on the first start. The old `vehiclekeys.json` file is no longer used afterwards and can be deleted.
+If you are updating from a version that used `vehiclekeys.json`, the keys are imported into
+the database **automatically and only once** on the first start. The old `vehiclekeys.json`
+file is no longer used afterwards and can be deleted.
 :::
 
 ## Items
 
-Add these items to your inventory or database (names can be changed in `config.lua`):
+Add these items to your inventory (names can be changed in `config.lua`):
 
-- `keys` — The Vehicle Key Item
-- `keyring` — Opens your Keyring _(ox_inventory and jaksam_inventory only)_
-- `contract` — Sell your vehicle to another player
+| Item | Config option | Purpose |
+|---|---|---|
+| `keys` | `Config.Settings.key.itemName` | The vehicle key item |
+| `keyring` | `Config.KeyRingSystem.item` | Opens your keyring *(ox_inventory & jaksam_inventory only)* |
+| `contract` | `Config.Settings.transfer.itemName` | Sell / transfer your vehicle to another player |
 
 ## ox_inventory
 
@@ -62,7 +76,7 @@ Add to `ox_inventory/data/items.lua`:
 },
 ```
 
-Add to `ox_inventory/modules/items/containers.lua`:
+For the **Keyring System**, add to `ox_inventory/modules/items/containers.lua`:
 
 ```lua title="/modules/items/containers.lua"
 setContainerProperties('keyring', {
@@ -75,11 +89,16 @@ setContainerProperties('keyring', {
 ## jaksam_inventory
 
 Add the `keys`, `contract` and `keyring` items to your jaksam_inventory items list.
-The items must be set as **unique / metadata** items (the script writes the plate into
-the item's metadata). Mark `keys` and `contract` as usable so they can trigger the
-`toggleLock` / `openDialog` exports.
+
+- The items **must** be set as **unique / metadata** items (the script writes the plate into
+  the item's metadata).
+- Mark `keys` and `contract` as **usable** so they can trigger the `toggleLock` / `openDialog`
+  exports.
+
+## Inventory Note
 
 :::warning
-Only `ox_inventory` and `jaksam_inventory` are supported. Support for `qs-inventory`
-and `core_inventory` was removed in v2.0.0.
+Vehicle keys are **metadata-based unique items**. Only `ox_inventory` and `jaksam_inventory`
+are supported. Support for `qs-inventory` and `core_inventory` was removed in **v2.0.0**.
 :::
+</content>

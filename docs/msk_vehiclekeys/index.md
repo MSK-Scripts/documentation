@@ -7,29 +7,45 @@ sidebar_position: 1
 
 [**CFX Post**](https://forum.cfx.re/t/esx-qbcore-msk-vehiclekeys-unique-items/5264475)
 
-## Description
+# MSK VehicleKeys
 
-- (Un)lock a vehicle with Command, Hotkey or Target _(ox_target)_
-- Choose on which seat to sit with Target _(ox_target)_
-- Open Keys Menu with Command and Hotkey
-- Admin Command to (un)lock a vehicle without a key
-- Primary, Secondary and Temporary Keys
-- Keys as unique items _(every vehicle has a unique key item)_
-- Job Vehicle Keys _(players with specific jobs can (un)lock specific vehicles)_
-- Whitelist and Blacklist for vehicles
-- Admin Vehicles _(Admins with ace permission can use hotkey)_
-- Exchange Vehicle Locks _(deletes all keys from other players)_
-- Transfer Vehicle _(transfer ownership to another player)_
-- Keyring System _(Save all Keys in a second inventory — ox_inventory & jaksam_inventory)_
-- Lock NPC vehicles and carjacking support
+A complete vehicle key system for **ESX** and **QBCore**. Lock and unlock vehicles
+with a command, a hotkey or a target — manage primary, secondary and temporary keys,
+hand keys to other players, exchange locks at a locksmith and even transfer ownership
+of a vehicle to another player.
+
+Vehicle keys are stored **metadata-based as unique items** (every vehicle gets its own
+unique key item) and persisted in a MariaDB table that is created automatically on first
+start.
+
+## Features
+
+- **(Un)lock vehicles** via command, hotkey or target *(ox_target)*
+- **Seat selection** — choose which seat to enter when using the target *(ox_target)*
+- **Keys menu** opened by command or hotkey
+- **Three key types** — Primary, Secondary and Temporary keys
+- **Unique key items** — every vehicle has its own metadata-based key item
+- **Give keys** to other players *(secondary key, primary key or full ownership transfer)*
+- **Transfer vehicle** — sell/hand a vehicle including ownership to another player
+- **Exchange vehicle locks** at a locksmith *(removes every other player's key for that vehicle)*
+- **Keyring system** — store all keys in a second inventory *(ox_inventory & jaksam_inventory)*
+- **Job vehicles** — players with a specific job (and optionally rank) can (un)lock matching vehicles
+- **Whitelist / Blacklist** for models and plates
+- **Admin vehicles** — only configured admin groups can (un)lock them
+- **Admin command** to (un)lock any vehicle without a key
+- **NPC vehicle locking** with configurable carjacking probability
+- **Version checker** and a full **export API** (client & server)
 
 ## Inventory Support
 
-- [ox_inventory](https://github.com/overextended/ox_inventory) — **recommended**, Keyring supported
-- [jaksam_inventory](https://fivem.jaksam-scripts.com/package/7091785) — Keyring supported
+| Inventory | Keyring | Notes |
+|---|---|---|
+| [ox_inventory](https://github.com/overextended/ox_inventory) | ✅ | **Recommended** |
+| [jaksam_inventory](https://fivem.jaksam-scripts.com/package/7091785) | ✅ | Items must be metadata / unique |
 
 :::info
-Vehicle keys are metadata-based unique items. Only `ox_inventory` and `jaksam_inventory` are supported.
+Vehicle keys are **metadata-based unique items**. Only `ox_inventory` and `jaksam_inventory`
+are supported. Support for `qs-inventory` and `core_inventory` was removed in **v2.0.0**.
 :::
 
 ## Requirements
@@ -37,8 +53,18 @@ Vehicle keys are metadata-based unique items. Only `ox_inventory` and `jaksam_in
 - [ESX 1.9.2+](https://github.com/esx-framework/esx_core) or [QBCore](https://github.com/qbcore-framework/qb-core)
 - [msk_core](https://github.com/MSK-Scripts/msk_core)
 - [ox_lib](https://github.com/overextended/ox_lib)
+- [oxmysql](https://github.com/overextended/oxmysql)
 
 ## Optional Requirements
 
-- [ox_target](https://github.com/overextended/ox_target)
-- [msk_enginetoggle](https://forum.cfx.re/t/msk-enginetoggle-toggle-engine-on-off/4793840)
+- [ox_target](https://github.com/overextended/ox_target) — target-based (un)locking & seat selection
+- [msk_enginetoggle](https://forum.cfx.re/t/msk-enginetoggle-toggle-engine-on-off/4793840) — engine toggle integration
+
+## Documentation Overview
+
+- **[Installation](guides/installation.md)** — install the resource and set up the items
+- **[Config](config.md)** — every option in `config.lua` explained
+- **[Commands & Keybinds](commands.md)** — player and admin commands and their hotkeys
+- **[Integrations](guides/integrations.md)** — wire `msk_vehiclekeys` into vehicle shops & garages
+- **[Client Exports](exports/client.md)** / **[Server Exports](exports/server.md)** — the full export API
+</content>

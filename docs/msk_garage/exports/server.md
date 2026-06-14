@@ -5,10 +5,10 @@ sidebar_position: 2
 
 # Server Exports
 
-:::info[v4.0.0]
-These exports were added with the full rewrite. Custom garages and impounds are
-now **registered server-side** so a modified client can no longer forge park-out
-coordinates, vehicle types, or (for impounds) a `fee = 0`.
+:::info[Server-authoritative custom locations]
+Custom garages and impounds are **registered server-side** so a modified client
+can no longer forge park-out coordinates, vehicle types, or (for impounds) a
+`fee = 0`.
 
 A session is bound to a player `src`, **auto-expires after 60 seconds** without a
 write, and is cleared automatically on `playerDropped`.
@@ -20,11 +20,11 @@ Registers a trusted custom garage definition for one player. Call this **before*
 the player opens the garage UI (via the client
 [`openGarage`](./client.md#opengarage) export).
 
-**Parameters**  
-**playerSrc** - `number` - The player's server id  
+**Parameters**
+**playerSrc** - `number` - The player's server id
 **def** - `table` - A garage definition (same shape as `Config.Garages` entries)
 
-**Returns**  
+**Returns**
 **ok** - `boolean` - `true` if the session was stored
 
 ```lua
@@ -49,11 +49,11 @@ client export is also accepted as a fallback, but prefer `park_out` here.
 
 Registers a trusted custom impound definition for one player.
 
-**Parameters**  
-**playerSrc** - `number` - The player's server id  
+**Parameters**
+**playerSrc** - `number` - The player's server id
 **def** - `table` - An impound definition (same shape as `Config.Impounds` entries)
 
-**Returns**  
+**Returns**
 **ok** - `boolean` - `true` if the session was stored
 
 ```lua
@@ -73,7 +73,7 @@ Clears any custom garage/impound session for a player (sessions also expire on
 their own after 60s and on disconnect, so this is only needed if you want to
 revoke access early).
 
-**Parameters**  
+**Parameters**
 **playerSrc** - `number` - The player's server id
 
 ```lua
@@ -82,7 +82,7 @@ exports.msk_garage:ClearCustomSession(src)
 
 ## Example: full server-side flow
 
-```lua
+```lua title="server"
 RegisterCommand('opentestgarage', function(src)
     exports.msk_garage:RegisterCustomGarage(src, {
         id = 'test', label = 'Garage Test', type = { 'car', 'truck' },
@@ -94,8 +94,7 @@ RegisterCommand('opentestgarage', function(src)
 end)
 ```
 
-```lua
--- client
+```lua title="client"
 RegisterNetEvent('myscript:openTestGarage', function()
     exports.msk_garage:openGarage({
         label = 'Garage Test', garageId = 'test',

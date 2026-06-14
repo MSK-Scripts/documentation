@@ -6,17 +6,22 @@ sidebar_position: 2
 # Integrations
 
 :::info
-This guide shows examples on how to integrate `msk_vehiclekeys` into VehicleShops, etc.
+This guide shows examples on how to integrate `msk_vehiclekeys` into vehicle shops, garages
+and engine-toggle scripts using the [export API](../exports/client.md).
 :::
 
 :::tip
-It is already integrated in [MSK EngineToggle](https://forum.cfx.re/t/msk-enginetoggle-toggle-engine-on-off/4793840) and [MSK Garage](https://forum.cfx.re/t/esx-msk-garage-and-impound/5122014).
+`msk_vehiclekeys` is already integrated in
+[MSK EngineToggle](https://forum.cfx.re/t/msk-enginetoggle-toggle-engine-on-off/4793840) and
+[MSK Garage](https://forum.cfx.re/t/esx-msk-garage-and-impound/5122014).
 :::
 
 ## EngineToggle Scripts
 
-- Use the [clientside export](../exports/client.md#hasplayerkeyorisvehicleowner) `HasPlayerKeyOrIsVehicleOwner`
-- Use the [serverside export](../exports/server.md#hasplayerkeyorisvehicleowner) `HasPlayerKeyOrIsVehicleOwner`
+To check whether a player may start the engine, use the `HasPlayerKeyOrIsVehicleOwner` export:
+
+- Clientside: [`HasPlayerKeyOrIsVehicleOwner`](../exports/client.md#hasplayerkeyorisvehicleowner)
+- Serverside: [`HasPlayerKeyOrIsVehicleOwner`](../exports/server.md#hasplayerkeyorisvehicleowner)
 
 ## okokVehicleShop
 
@@ -122,3 +127,4 @@ function RemoveVehiclekeys(vehicle, plate)
     exports.msk_vehiclekeys:RemovePrimaryKey(vehicle)
 end
 ```
+</content>
