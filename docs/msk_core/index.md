@@ -73,3 +73,13 @@ See [Installation](./installation.md) for the full setup, [Configuration](./conf
 
 ![Numpad Numbers](/img/numpad_numbers.png)
 ![Numpad Masked](/img/numpad_masked.png)
+
+## License
+
+msk_core is licensed under the **GNU Lesser General Public License v3.0 or later** ([LGPL-3.0-or-later](https://www.gnu.org/licenses/lgpl-3.0.html)).
+
+The core itself is open and must stay open, but **any** resource — free or paid — may use msk_core as a dependency without being forced to adopt the same license.
+
+:::info
+The names, logos, and brands **"MSK Scripts"** and **"Musiker15"** are trademarks of the Licensor and are not covered by the LGPL.
+:::
