@@ -12,7 +12,7 @@ sidebar_position: 1
 - **License:** AGPL-3.0-or-later
 - **Current release:** `v0.1.0-beta` (pre-1.0 — see the [release notes](https://github.com/MSK-Scripts/mskanban/releases))
 
-:::warning Pre-1.0
+:::warning[Pre-1.0]
 The crypto envelope, database schema and public API may still change without a major-version bump. Each change is documented in the project [`CHANGELOG`](https://github.com/MSK-Scripts/mskanban/blob/main/CHANGELOG.md). **Do not put production data on it yet.**
 :::
 
