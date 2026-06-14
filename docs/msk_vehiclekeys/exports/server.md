@@ -7,13 +7,13 @@ sidebar_position: 2
 
 All server exports are called via `exports.msk_vehiclekeys:<name>(...)`.
 
-:::info Player identification
+:::info[Player identification]
 Functions that act on a player take a **playerData** table — either
 `{source = playerId}` (ServerId) **or** `{identifier = '<identifier>'}`. Using the
 identifier lets you target offline players.
 :::
 
-:::info Vehicle data
+:::info[Vehicle data]
 Key functions take a **vehicleData** table — `{plate, model}` for non-spawned vehicles
 **or** `{netId}` for a spawned vehicle's network id.
 :::
