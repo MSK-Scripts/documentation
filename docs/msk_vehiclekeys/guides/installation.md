@@ -101,4 +101,3 @@ Add the `keys`, `contract` and `keyring` items to your jaksam_inventory items li
 Vehicle keys are **metadata-based unique items**. Only `ox_inventory` and `jaksam_inventory`
 are supported. Support for `qs-inventory` and `core_inventory` was removed in **v2.0.0**.
 :::
-</content>

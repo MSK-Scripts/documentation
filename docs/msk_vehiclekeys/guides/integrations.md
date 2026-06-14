@@ -127,4 +127,3 @@ function RemoveVehiclekeys(vehicle, plate)
     exports.msk_vehiclekeys:RemovePrimaryKey(vehicle)
 end
 ```
-</content>

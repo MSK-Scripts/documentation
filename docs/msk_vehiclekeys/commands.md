@@ -60,4 +60,3 @@ add_ace group.superadmin command.adlock allow
 Admins in `Config.AdminCommand.groups` can also use the **lock hotkey** on vehicles listed
 in [`Config.AdminVehicles`](config.md#admin-vehicles) without owning a key.
 :::
-</content>

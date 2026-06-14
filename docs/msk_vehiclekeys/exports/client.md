@@ -360,4 +360,3 @@ Plays the lock/unlock sound and indicator flash.
 ```lua
 exports.msk_vehiclekeys:playDoorLockEffects(vehicle, true)
 ```
-</content>

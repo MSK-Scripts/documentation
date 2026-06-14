@@ -397,4 +397,3 @@ local hasItem = exports.msk_vehiclekeys:hasCorrectItem({source = playerId}, Conf
 exports.msk_vehiclekeys:AddKeyToInv({source = playerId}, plate, 'primary')
 exports.msk_vehiclekeys:RemoveKeyFromInv({source = playerId}, plate)
 ```
-</content>

@@ -67,4 +67,3 @@ are supported. Support for `qs-inventory` and `core_inventory` was removed in **
 - **[Commands & Keybinds](commands.md)** — player and admin commands and their hotkeys
 - **[Integrations](guides/integrations.md)** — wire `msk_vehiclekeys` into vehicle shops & garages
 - **[Client Exports](exports/client.md)** / **[Server Exports](exports/server.md)** — the full export API
-</content>
