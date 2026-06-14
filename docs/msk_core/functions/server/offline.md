@@ -1,6 +1,6 @@
 ---
 title: Offline
-sidebar_position: 8
+sidebar_position: 13
 ---
 
 # Offline
@@ -13,7 +13,7 @@ The `identifier` parameter depends on the framework:
 - **QBCore** — the player `citizenid` → reads/writes `players.money`
 
 :::info
-All functions are **server-side** only and run synchronous database queries (via oxmysql).
+All functions are **server-side** only and run synchronous database queries (via oxmysql). On **OXCore** and **STANDALONE** there is no mapping, so every function returns `nil` / `false`.
 :::
 
 :::warning
@@ -64,7 +64,7 @@ local success = exports.msk_core:OfflineAddBank(identifier, amount)
 
 ## MSK.Offline.RemoveBank
 
-Remove money from an offline player's bank balance. The deduction is **atomic** — it only succeeds if the player has sufficient funds.
+Remove money from an offline player's bank balance. The deduction is **atomic** — the SQL `WHERE` guard ensures it only succeeds if the player has sufficient funds.
 
 **Parameters**  
 **identifier** - `string` - The player identifier (ESX) or citizenid (QBCore)  

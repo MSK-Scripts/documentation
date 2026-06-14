@@ -1,6 +1,6 @@
 ---
 title: Table
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 # Table
@@ -29,6 +29,10 @@ local contains = MSK.Table.Contains(tbl, {'value_1', 'value_5'})
 local contains = exports.msk_core:TableContains(tbl, value)
 ```
 
+:::tip
+`MSK.Table_Contains` is an alias for `MSK.Table.Contains`.
+:::
+
 ## MSK.Table.Dump
 
 Dumps the given table to a readable string with a tree structure.
@@ -50,6 +54,10 @@ print(MSK.Table.Dump(tbl))
 -- As an Export:
 local text = exports.msk_core:TableDump(tbl)
 ```
+
+:::tip
+`MSK.DumpTable` is an alias for `MSK.Table.Dump`.
+:::
 
 ## MSK.Table.Size
 

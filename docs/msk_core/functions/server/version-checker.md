@@ -1,11 +1,21 @@
 ---
 title: Version Checker
-sidebar_position: 9
+sidebar_position: 17
 ---
 
 # Version Checker
 
-Check your resource against the latest GitHub release and validate dependency versions. Both functions are **server-side** only.
+Check your resource against the latest GitHub release and validate dependency versions. Both functions are **server-side** only and are exposed under the `MSK.Check` namespace.
+
+`MSK.Check` is also callable directly — `MSK.Check(repo)` is shorthand for `MSK.Check.Version(repo)`.
+
+## Config
+
+```lua
+Config.VersionChecker = true
+```
+
+`Config.VersionChecker` controls only the **self-check of `msk_core`** (printed on resource start, e.g. "up to date" / beta-version notices). The `MSK.Check.*` functions below are always available regardless of this setting.
 
 ## MSK.Check.Version
 
@@ -36,7 +46,7 @@ exports.msk_core:CheckVersion({ author = 'MSK-Scripts', name = 'msk_garage' })
 ```
 
 :::tip
-The `version` in your `fxmanifest.lua` and the GitHub release tag must follow the `x.x.x` format (e.g. `1.0.0`).
+The `version` in your `fxmanifest.lua` and the GitHub release tag must follow the `x.x.x` format (e.g. `1.0.0`). Prereleases are ignored.
 :::
 
 ## MSK.Check.Dependency

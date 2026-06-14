@@ -1,69 +1,93 @@
 ---
 title: Timeout
-sidebar_position: 5
+sidebar_position: 6
 ---
 
 # Timeout
 
+Asynchronous timeout helpers: schedule, cancel, and poll-until-ready.
+
+:::info
+The module is callable directly: `MSK.Timeout(ms, cb, data)` is a shortcut for `MSK.Timeout.Set(ms, cb, data)`.
+:::
+
 ## MSK.Timeout.Set
 
-Set a new asynchronous timeout.
+Schedules `cb(data)` to run after `ms` milliseconds. Returns a `requestId` that can be passed to `MSK.Timeout.Clear` to cancel it.
 
 **Parameters**  
-**milliseconds** - `number` - Time to wait  
-**cb** - `function` - Callback Function
+**ms** - `number` - Time to wait in milliseconds  
+**cb** - `function` - Callback `cb(data)` executed when the timeout fires  
+**data** - `any` - Optional - Value passed to the callback
+
+**Returns**  
+**requestId** - `number` - The id of the scheduled timeout
 
 ```lua
-timeout = MSK.Timeout.Set(milliseconds, function(data)
+local requestId = MSK.Timeout.Set(ms, cb, data)
+
+-- Example
+local requestId = MSK.Timeout.Set(1000, function(data)
     print(data) -- Output: 'Hello World'
 end, 'Hello World')
 
--- You can also use:
-timeout = MSK.Timeout(milliseconds, function(data)
-    print(data) -- Output: 'Hello World'
+-- Shorthand (callable module):
+local requestId = MSK.Timeout(1000, function(data)
+    print(data)
 end, 'Hello World')
 
 -- As an Export:
-local timeout = exports.msk_core:SetTimeout(milliseconds, cb)
+local requestId = exports.msk_core:SetTimeout(ms, cb, data)
 ```
+
+:::tip
+`MSK.AddTimeout` is an alias for `MSK.Timeout.Set`.
+:::
 
 ## MSK.Timeout.Clear
 
-Clears the given timeout.
+Cancels a scheduled timeout by its `requestId`.
 
 **Parameters**  
-**timeout** - `number` - Timeout ID
+**requestId** - `number` - The id returned by `MSK.Timeout.Set`
 
 ```lua
-MSK.Timeout.Clear(timeout)
+MSK.Timeout.Clear(requestId)
 
 -- As an Export:
-exports.msk_core:ClearTimeout(timeout)
+exports.msk_core:ClearTimeout(requestId)
 ```
+
+:::tip
+`MSK.DelTimeout` is an alias for `MSK.Timeout.Clear`.
+:::
 
 ## MSK.Timeout.Await
 
-Calls a function repeatedly until it receives a non-nil value, or it times out.
+Calls `cb` repeatedly (polling) until it returns a non-nil value, then returns that value. Time-limit semantics: a `number` sets the limit in milliseconds; `nil` or any other truthy value defaults to `1000` ms; an explicit `false` disables the limit (waits forever). When the limit is exceeded, an error is raised.
 
-Thanks to [ox_lib](https://overextended.dev/ox_lib/Modules/WaitFor/Shared) for this function!
+Thanks to [ox_lib](https://overextended.dev/ox_lib/Modules/WaitFor/Shared) for the inspiration behind this function.
 
 **Parameters**  
-**milliseconds** - `number` - Time to wait  
-**cb** - `function` - Callback Function  
-**errorMessage** - `string` - Message on error
+**timeout** - `number|boolean` - Optional - Default: `1000` - Time limit in ms, or `false` for no limit  
+**cb** - `function` - Callback that returns a value once ready  
+**errMessage** - `string` - Optional - Message used in the timeout error
 
 **Returns**  
-**value** - `?` - The given value
+**value** - `any` - The first non-nil value returned by `cb`
 
 ```lua
+local value = MSK.Timeout.Await(timeout, cb, errMessage)
+
+-- Example
 local value = MSK.Timeout.Await(5000, function()
     if math.random(0, 1) == 1 then
         return 'abc'
     end
-end, 'This is an Error Message')
+end, 'This is an error message')
 
 print(value) -- Output: 'abc'
 
 -- As an Export:
-local value = exports.msk_core:AwaitTimeout(ms, cb, errorMessage)
+local value = exports.msk_core:AwaitTimeout(timeout, cb, errMessage)
 ```

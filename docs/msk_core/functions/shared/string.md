@@ -1,26 +1,28 @@
 ---
 title: String
-sidebar_position: 2
+sidebar_position: 4
 ---
 
 # String
 
+String helper functions: random strings, prefix checks, trimming, and splitting.
+
 ## MSK.String.Random
 
-Generate a Random String.
+Generates a random letter string (characters `A`–`Z` and `a`–`z`) of the given length.
 
 **Parameters**  
-**length** - `number` - The Length of the string
+**length** - `number` - Length of the generated string
 
 **Returns**  
-**text** - `string` - The Text of the given length
+**text** - `string` - The random string
 
 ```lua
 local text = MSK.String.Random(length)
 
 -- Example
-local text = MSK.String.Random(3) -- abc
-local text = string.upper(MSK.String.Random(3)) -- ABC
+local text = MSK.String.Random(3)               -- e.g. 'aBc'
+local text = string.upper(MSK.String.Random(3)) -- e.g. 'ABC'
 
 -- As an Export:
 local text = exports.msk_core:GetRandomString(length)
@@ -28,67 +30,78 @@ local text = exports.msk_core:GetRandomString(length)
 
 ## MSK.String.StartsWith
 
-Checks if the given string starts with the given string.
+Checks whether `str` begins with `startStr`.
 
 **Parameters**  
-**text** - `string` - Text that should be checked  
-**letter** - `string` - Letter to search for
+**str** - `string` - The string to check  
+**startStr** - `string` - The prefix to search for
 
 **Returns**  
-**startsWith** - `boolean` - Whether the text starts with the given letter
+**startsWith** - `boolean` - Whether `str` starts with `startStr`
 
 ```lua
+local startsWith = MSK.String.StartsWith(str, startStr)
+
+-- Example
 local text = 'Hello'
-local startsWith = MSK.String.StartsWith(text, 'H') -- Returns true
-local startsWith = MSK.String.StartsWith(text, 'e') -- Returns false
+local startsWith = MSK.String.StartsWith(text, 'H') -- true
+local startsWith = MSK.String.StartsWith(text, 'e') -- false
 
 -- As an Export:
-local text = exports.msk_core:StartsWith(text, letter)
+local startsWith = exports.msk_core:StartsWith(str, startStr)
 ```
 
 ## MSK.String.Trim
 
-Removes spaces in a string.
+Trims a string. Without `bool` it removes only leading/trailing whitespace; with `bool = true` it removes **all** whitespace.
 
 **Parameters**  
-**text** - `string` - Text that should be trimmed  
-**hardtrim** - `boolean` - All spaces will be trimmed - Optional
+**str** - `string` - The string to trim  
+**bool** - `boolean` - Optional - `true` removes all whitespace
 
 **Returns**  
-**trimmed** - `string` - The trimmed text
+**trimmed** - `string` - The trimmed string
 
 ```lua
-local trimmed = MSK.String.Trim(text, hardtrim)
+local trimmed = MSK.String.Trim(str, bool)
 
 -- Example
 local text = ' Hello World '
-
--- Removes leading and trailing spaces
-MSK.String.Trim(text) -- Output: 'Hello World'
-
--- Removes ALL spaces
-MSK.String.Trim(text, true) -- Output: 'HelloWorld'
+MSK.String.Trim(text)       -- 'Hello World' (leading/trailing only)
+MSK.String.Trim(text, true) -- 'HelloWorld'  (all whitespace)
 
 -- As an Export:
-local text = exports.msk_core:Trim(text, hardtrim)
+local trimmed = exports.msk_core:Trim(str, bool)
 ```
+
+:::caution
+`MSK.Trim` and `MSK.String.Trim` behave **differently**. The top-level alias `MSK.Trim` resolves to `String.TrimLegacy`, which has the **inverted** boolean semantic from v2:
+
+- `MSK.Trim(str)` removes **all** whitespace (equivalent to `MSK.String.Trim(str, true)`).
+- `MSK.Trim(str, true)` removes only leading/trailing whitespace (equivalent to `MSK.String.Trim(str)`).
+
+The export `exports.msk_core:Trim` is the non-legacy `String.Trim`, so it matches `MSK.String.Trim` — not `MSK.Trim`.
+:::
 
 ## MSK.String.Split
 
-Splits a string into two different strings.
+Splits `str` at every occurrence of `delimiter` into a list of substrings.
 
 **Parameters**  
-**text** - `string` - Text that should be split  
-**delimiter** - `string` - Delimiter where the text should be split
+**str** - `string` - The string to split  
+**delimiter** - `string` - The delimiter to split on
 
 **Returns**  
-**result** - `table` - Includes the split strings
+**result** - `string[]` - The list of substrings
 
 ```lua
+local result = MSK.String.Split(str, delimiter)
+
+-- Example
 local text = 'license:12345678'
 local result = MSK.String.Split(text, ':')
-print(result[1], result[2]) -- Output: license, 12345678
+print(result[1], result[2]) -- Output: license  12345678
 
 -- As an Export:
-local result = exports.msk_core:Split(text, delimiter)
+local result = exports.msk_core:Split(str, delimiter)
 ```

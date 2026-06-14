@@ -1,93 +1,98 @@
 ---
 title: Points
-sidebar_position: 6
+sidebar_position: 7
 ---
 
 # Points
 
+A lightweight point system (inspired by ox_lib). A point is a coordinate with a trigger radius that fires `onEnter` / `onExit` callbacks as the player moves in and out of range. The module runs a single tracking thread in the core and tracks the closest point.
+
+The functions live under the `MSK.Points` namespace and each has a matching `exports.msk_core` export.
+
 ## MSK.Points.Add
 
-Adds a new Point.
+Registers a new point. A point object is returned, which also carries a `Remove` method (`point:Remove()`).
 
 **Parameters**  
-**data** - `table` - Point data
+**properties** - `table` - Point definition. Must contain `coords` and `distance`. Supported fields:
+
+- **coords** - `vector3 | vector4 | table` - The point's position (required)
+- **distance** - `number` - The trigger radius (required)
+- **onEnter** - `function` - Called with the point when the player enters the radius (optional)
+- **onExit** - `function` - Called with the point when the player leaves the radius (optional)
+- **onRemove** - `function` - Called with the point when it is removed (optional)
 
 **Returns**  
-**point** - `table` - The added point
+**point** - `table` - The registered point object (with `id`, the normalized `coords`, and a `Remove` method)
 
 ```lua
+local point = MSK.Points.Add(properties)
+
+-- Example
 local point = MSK.Points.Add({
-    coords = vector3(576.13, 2723.86, 42.06),
+    coords = vector3(100.0, 200.0, 30.0),
     distance = 5.0,
-    onEnter = function(point)
-        print('onEnter', point.id, point.coords, point.distance)
-    end,
-    onExit = function(point)
-        print('onExit', point.id, point.coords, point.distance)
-    end,
-    onRemove = function(point)
-        print('onRemove', ("Deleted Point with ID %s"):format(point.id))
-    end
+    onEnter = function(self) print('entered', self.id) end,
+    onExit = function(self) print('left', self.id) end,
 })
 
-print(point.id, point.coords, point.distance)
-
--- To remove the Point:
-point.Remove()
+-- As an Export:
+local point = exports.msk_core:AddPoint(properties)
 ```
 
 ## MSK.Points.Remove
 
-Removes the given point.
+Removes a registered point by its id.
 
 **Parameters**  
-**pointId** - `number` - ID of the Point
+**pointId** - `number` - The id of the point to remove
 
 **Returns**  
-**success** - `boolean`
+**success** - `boolean` - `true` if the point existed and was removed, otherwise `false`
 
 ```lua
-local success = MSK.Points.Remove(point.id)
+local success = MSK.Points.Remove(pointId)
 
-if success then
-    -- Point was found and deleted
-else
-    -- Point does not exist
-end
+-- Example
+MSK.Points.Remove(point.id)
+
+-- As an Export:
+local success = exports.msk_core:RemovePoint(pointId)
 ```
 
 ## MSK.Points.GetAllPoints
 
-Get all Points.
+Returns the table of all currently registered points, keyed by id.
 
 **Returns**  
-**points** - `table` - All Points
+**points** - `table` - All registered points
 
 ```lua
 local points = MSK.Points.GetAllPoints()
 
-for k, point in pairs(points) do
-    print(point.id, point.coords, point.distance, point.inside)
-
-    -- To remove the Point:
-    point.Remove()
+-- Example
+for id, point in pairs(MSK.Points.GetAllPoints()) do
+    print(id, point.coords)
 end
+
+-- As an Export:
+local points = exports.msk_core:GetAllPoints()
 ```
 
 ## MSK.Points.GetClosestPoint
 
-Get the Point the Player is at.
+Returns the point the player is currently closest to (and inside its radius), or `nil` if none.
 
 **Returns**  
-**point** - `table?` - The Point the Player is at, or `nil` if the Player is not inside any point
+**point** - `table | nil` - The closest point, or `nil`
 
 ```lua
 local point = MSK.Points.GetClosestPoint()
 
-if point then
-    print(point.id, point.coords, point.distance)
-    point.Remove()
-else
-    -- Player is not inside of any point
-end
+-- Example
+local point = MSK.Points.GetClosestPoint()
+if point then print('closest', point.id, point.currentDistance) end
+
+-- As an Export:
+local point = exports.msk_core:GetClosestPoint()
 ```

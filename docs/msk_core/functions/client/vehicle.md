@@ -1,25 +1,28 @@
 ---
 title: Vehicle
-sidebar_position: 9
+sidebar_position: 5
 ---
 
 # Vehicle
 
+Client-side vehicle helpers built on top of the Entities module. Every function is also available as an `exports.msk_core` export. The module also runs the core enter/exit detection thread that fires vehicle events.
+
 ## MSK.GetClosestVehicle
 
+Returns the closest vehicle to the given coordinates.
+
 **Parameters**  
-**coords** - `vector3` - Coords - Optional, default: `playerCoords`
+**coords** - `vector3` - Coordinates to measure from. Defaults to the local player's coords (optional)
 
 **Returns**  
-**vehicle** - `number` - A vehicle handle  
-**distance** - `float` - The Distance to this vehicle
+**vehicle** - `number` - The closest vehicle handle, or `-1` if none found  
+**distance** - `number` - Distance to the closest vehicle
 
 ```lua
 local vehicle, distance = MSK.GetClosestVehicle(coords)
 
-if DoesEntityExist(vehicle) and distance <= 2.5 then
-    -- Do something with this vehicle
-end
+-- Example
+local vehicle, distance = MSK.GetClosestVehicle()
 
 -- As an Export:
 local vehicle, distance = exports.msk_core:GetClosestVehicle(coords)
@@ -27,31 +30,42 @@ local vehicle, distance = exports.msk_core:GetClosestVehicle(coords)
 
 ## MSK.GetClosestVehicles
 
+Returns all vehicles within `distance` of the given coordinates.
+
 **Parameters**  
-**coords** - `vector3` - Player Coords  
-**maxDistance** - `float` - Max distance to check for vehicles (Max: 200.0)
+**coords** - `vector3` - Coordinates to measure from. Defaults to the local player's coords (optional)  
+**distance** - `number` - Maximum distance to include
+
+**Returns**  
+**vehicles** - `table` - Array of vehicle handles
 
 ```lua
-local vehicles = MSK.GetClosestVehicles(GetEntityCoords(PlayerPedId()), 25.0)
+local vehicles = MSK.GetClosestVehicles(coords, distance)
+
+-- Example
+local vehicles = MSK.GetClosestVehicles(nil, 10.0)
 
 -- As an Export:
-local vehicles = exports.msk_core:GetClosestVehicles(coords, maxDistance)
+local vehicles = exports.msk_core:GetClosestVehicles(coords, distance)
 ```
 
 ## MSK.GetVehicleWithPlate
 
-Get a vehicle with a specific number plate near the given coords.
+Searches vehicles within `distance` of `coords` and returns the one whose number plate matches `plate`.
 
 **Parameters**  
-**plate** - `string` - The number plate to search for  
-**coords** - `vector3` - The coords to search around  
-**distance** - `float` - Max distance to check for vehicles
+**plate** - `string` - The number plate to look for (trimmed before comparison)  
+**coords** - `vector3` - Coordinates to measure from  
+**distance** - `number` - Maximum distance to include
 
 **Returns**  
-**vehicle** - `number or false` - A vehicle handle, or `false` if none was found
+**vehicle** - `number | boolean` - The matching vehicle handle, or `false` if none found
 
 ```lua
 local vehicle = MSK.GetVehicleWithPlate(plate, coords, distance)
+
+-- Example
+local vehicle = MSK.GetVehicleWithPlate('ABC123', MSK.Player.coords, 10.0)
 
 -- As an Export:
 local vehicle = exports.msk_core:GetVehicleWithPlate(plate, coords, distance)
@@ -59,55 +73,82 @@ local vehicle = exports.msk_core:GetVehicleWithPlate(plate, coords, distance)
 
 ## MSK.GetVehicleInDirection
 
-Get the Vehicle in front of the player. Also available as `MSK.GetVehicleInFront`.
+Performs a raycast in front of the player and returns the vehicle that was hit. Also available under the alias `MSK.GetVehicleInFront` (and the `GetVehicleInFront` export).
 
 **Parameters**  
-**distance** - `number` - The raycast distance to check
+**distance** - `number` - Raycast distance. Defaults to `5.0` (optional)
 
 **Returns**  
-**vehicle** - `int` - A vehicle handle  
-**coords** - `vector3` - The vehicle coords  
-**distance** - `float` - The distance between the vehicle and the player
+**entity** - `number | boolean` - The vehicle handle that was hit, or `false`/`0` if nothing was hit  
+**entityCoords** - `vector3` - Coordinates of the hit entity (only when an entity was hit)  
+**distance** - `string` - Distance to the hit entity formatted to 2 decimals (only when an entity was hit)
 
 ```lua
 local vehicle, coords, distance = MSK.GetVehicleInDirection(distance)
 
--- Alias
-local vehicle, coords, distance = MSK.GetVehicleInFront(distance)
+-- Example
+local vehicle = MSK.GetVehicleInDirection(8.0)
 
 -- As an Export:
 local vehicle, coords, distance = exports.msk_core:GetVehicleInDirection(distance)
 ```
 
-## MSK.IsVehicleEmpty
+## MSK.GetPedVehicleSeat
+
+Returns the seat index a ped is sitting in within a vehicle.
 
 **Parameters**  
-**vehicle** - `int` - A vehicle handle
+**playerPed** - `number` - The ped to check. Defaults to the local player's ped (optional)  
+**vehicle** - `number` - The vehicle to check. Defaults to the player's current vehicle (optional)
 
 **Returns**  
-**isVehicleEmpty** - `boolean` - Whether the vehicle is empty or not
+**seat** - `number | boolean` - The seat index (`-1` = driver), or `false` if the ped is not in the vehicle / the vehicle does not exist
 
 ```lua
-local vehicle, coords, distance = MSK.GetVehicleInDirection()
-local isVehicleEmpty = MSK.IsVehicleEmpty(vehicle)
-print(isVehicleEmpty)
+local seat = MSK.GetPedVehicleSeat(playerPed, vehicle)
+
+-- Example
+local seat = MSK.GetPedVehicleSeat()
 
 -- As an Export:
-local isVehicleEmpty = exports.msk_core:IsVehicleEmpty(vehicle)
+local seat = exports.msk_core:GetPedVehicleSeat(playerPed, vehicle)
+```
+
+## MSK.IsVehicleEmpty
+
+Checks whether a vehicle is empty (no passengers and a free driver seat).
+
+**Parameters**  
+**vehicle** - `number` - The vehicle to check (must exist)
+
+**Returns**  
+**isEmpty** - `boolean` - Whether the vehicle is empty
+
+```lua
+local isEmpty = MSK.IsVehicleEmpty(vehicle)
+
+-- Example
+if MSK.IsVehicleEmpty(vehicle) then print('empty') end
+
+-- As an Export:
+local isEmpty = exports.msk_core:IsVehicleEmpty(vehicle)
 ```
 
 ## MSK.GetVehicleLabel
 
-Get the display label of a vehicle. You can pass either a `vehicle` handle **or** a `model` (at least one is required).
+Returns the display label of a vehicle. You can pass either a vehicle handle or a model. Returns `'Unknown'` when no label can be resolved.
 
 **Parameters**  
-**vehicle** - `int` - A vehicle handle - Optional  
-**model** - `number/string` - A vehicle model - Optional
+**vehicle** - `number` - The vehicle handle (optional if `model` is given)  
+**model** - `number | string` - The vehicle model (optional if `vehicle` is given)
 
 **Returns**  
-**label** - `string` - Label of the vehicle (`'Unknown'` if it cannot be resolved)
+**label** - `string` - The vehicle's display label, or `'Unknown'`
 
 ```lua
+local label = MSK.GetVehicleLabel(vehicle, model)
+
+-- Example
 local label = MSK.GetVehicleLabel(vehicle)
 
 -- As an Export:
@@ -116,16 +157,19 @@ local label = exports.msk_core:GetVehicleLabel(vehicle, model)
 
 ## MSK.GetVehicleLabelFromModel
 
-Get the display label directly from a vehicle model.
+Convenience wrapper around `MSK.GetVehicleLabel` that resolves the label from a model only.
 
 **Parameters**  
-**model** - `number/string` - A vehicle model
+**model** - `number | string` - The vehicle model
 
 **Returns**  
-**label** - `string` - Label of the vehicle
+**label** - `string` - The vehicle's display label, or `'Unknown'`
 
 ```lua
-local label = MSK.GetVehicleLabelFromModel(`adder`)
+local label = MSK.GetVehicleLabelFromModel(model)
+
+-- Example
+local label = MSK.GetVehicleLabelFromModel('adder')
 
 -- As an Export:
 local label = exports.msk_core:GetVehicleLabelFromModel(model)
@@ -133,14 +177,32 @@ local label = exports.msk_core:GetVehicleLabelFromModel(model)
 
 ## MSK.CloseVehicleDoors
 
-Closes all open doors of a vehicle.
+Shuts all open doors of a vehicle.
 
 **Parameters**  
-**vehicle** - `int` - A vehicle handle
+**vehicle** - `number` - The vehicle handle (must exist)
 
 ```lua
 MSK.CloseVehicleDoors(vehicle)
 
+-- Example
+MSK.CloseVehicleDoors(MSK.Player.vehicle)
+
 -- As an Export:
 exports.msk_core:CloseVehicleDoors(vehicle)
+```
+
+## Vehicle Events
+
+The Vehicle module runs a single enter/exit detection thread in the core and triggers the following events on both the client and the server.
+
+**msk_core:enteringVehicle** - Fired when the player starts entering a vehicle. Client args: `vehicle, plate, seat, netId, isEngineOn, isDamaged`. Server args: `plate, seat, netId, isEngineOn, isDamaged`.  
+**msk_core:enteringVehicleAborted** - Fired when the player aborts entering a vehicle.  
+**msk_core:enteredVehicle** - Fired when the player has entered a vehicle. Same args as `enteringVehicle`.  
+**msk_core:exitedVehicle** - Fired when the player has left a vehicle. Same args as `enteredVehicle`.
+
+```lua
+AddEventHandler('msk_core:enteredVehicle', function(vehicle, plate, seat, netId, isEngineOn, isDamaged)
+    print(('Entered %s (seat %s)'):format(plate, seat))
+end)
 ```

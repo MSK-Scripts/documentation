@@ -1,20 +1,31 @@
 ---
 title: Player
-sidebar_position: 5
+sidebar_position: 2
 ---
 
 # Player
 
-## MSK.Player
+On the server the core keeps a mirrored player table, `MSK.Player[source]`, that is kept in sync by the `msk_core:onPlayer` net event sent from each client. In addition the Player module exposes a set of framework wrappers (`MSK.GetPlayer`, `MSK.GetPlayers`, and the convenience getters below) that return the underlying framework player / job objects.
+
+## MSK.Player[source]
+
+The mirrored table for a connected player, keyed by their server id. Computed keys (`coords`, `heading`, `state`) are resolved on access; all other keys are populated from the client's `msk_core:onPlayer` updates.
 
 **Properties**  
-**clientId** - `number` - Player Index — equal to `PlayerId()`  
+**clientId** - `number` - Player Index on the client — equal to `PlayerId()`  
+**serverId** - `number` - Player Server Id  
+**playerId** - `number` - Alias of `serverId`  
 **ped** - `number` - Player Ped — equal to `GetPlayerPed(source)`  
-**coords** - `vector3` - Player Coords — equal to `GetEntityCoords(GetPlayerPed(source))`  
-**heading** - `float` - Player Heading — equal to `GetEntityHeading(GetPlayerPed(source))`  
-**vehicle** - `number` - A vehicle handle  
-**seat** - `number` - Seat the player is in  
-**weapon** - `number` - Hash of Players current weapon
+**playerPed** - `number` - Alias of `ped`  
+**coords** - `vector3` - Player Coords — equal to `GetEntityCoords(ped)`  
+**heading** - `float` - Player Heading — equal to `GetEntityHeading(ped)`  
+**state** - `table` - The player's state bag — equal to `Player(serverId).state`  
+**vehicle** - `number` - The vehicle entity the player is in (resolved from the replicated network id)  
+**vehNetId** - `number` - The network id of the player's vehicle  
+**seat** - `number` - Seat index the player is in  
+**weapon** - `number` - Hash of the player's current weapon  
+**isDead** - `boolean` - Whether the player is dead  
+**Notify** - `function` - Shorthand for `MSK.Notification(source, title, message, type, duration)`
 
 ```lua
 local clientId = MSK.Player[source].clientId
@@ -29,19 +40,39 @@ local seat = MSK.Player[source].seat
 local currentWeapon = MSK.Player[source].weapon
 
 -- Notification
-MSK.Player[source].Notify(header, message, type, duration)
+MSK.Player[source].Notify(title, message, type, duration)
+```
+
+## MSK.GetMirroredPlayer
+
+Returns the mirrored player table (`MSK.Player[id]`) directly. This is the export used by consumer resources to read the server mirror.
+
+**Parameters**  
+**id** - `number` - The server id of the player
+
+**Returns**  
+**player** - `table` - The mirrored player table
+
+```lua
+local player = MSK.GetMirroredPlayer(id)
+
+-- Example
+local coords = MSK.GetMirroredPlayer(source).coords
+
+-- As an Export:
+local player = exports.msk_core:GetMirroredPlayer(id)
 ```
 
 :::info
-The following getter functions require a framework (**ESX** / **QBCore** / **ox_core**) and are not available in `STANDALONE` mode. They are convenience wrappers around [`MSK.GetPlayer`](./index.md) and `MSK.GetPlayerJob`.
+The following getter wrappers require a framework (**ESX** / **QBCore** / **OXCore**) and are **not registered in `STANDALONE` mode**. They are convenience wrappers around `MSK.GetPlayer` and `MSK.GetPlayerJob`.
 :::
 
 ## MSK.GetPlayerFromId
 
-Get the framework player object from a server id.
+Gets the framework player object from a server id. Wrapper for `MSK.GetPlayer({source = playerId})`.
 
 **Parameters**  
-**playerId** - `number` - The ServerId of the player
+**playerId** - `number` - The server id of the player
 
 **Returns**  
 **player** - `table` - The framework player object
@@ -49,13 +80,16 @@ Get the framework player object from a server id.
 ```lua
 local xPlayer = MSK.GetPlayerFromId(playerId)
 
+-- Example
+local xPlayer = MSK.GetPlayerFromId(source)
+
 -- As an Export:
 local xPlayer = exports.msk_core:GetPlayerFromId(playerId)
 ```
 
 ## MSK.GetPlayerFromIdentifier
 
-Get the framework player object from an identifier.
+Gets the framework player object from an identifier. Wrapper for `MSK.GetPlayer({identifier = identifier})`.
 
 **Parameters**  
 **identifier** - `string` - The player identifier
@@ -66,13 +100,16 @@ Get the framework player object from an identifier.
 ```lua
 local xPlayer = MSK.GetPlayerFromIdentifier(identifier)
 
+-- Example
+local xPlayer = MSK.GetPlayerFromIdentifier('license:abc123')
+
 -- As an Export:
 local xPlayer = exports.msk_core:GetPlayerFromIdentifier(identifier)
 ```
 
 ## MSK.GetPlayerByCitizenId
 
-Get the framework player object from a citizenid (QBCore) / identifier.
+Gets the framework player object from a citizenid (QBCore) / identifier. Wrapper for `MSK.GetPlayer({citizenid = citizenid})`.
 
 **Parameters**  
 **citizenid** - `string` - The citizenid of the player
@@ -83,16 +120,19 @@ Get the framework player object from a citizenid (QBCore) / identifier.
 ```lua
 local xPlayer = MSK.GetPlayerByCitizenId(citizenid)
 
+-- Example
+local xPlayer = MSK.GetPlayerByCitizenId('ABCD1234')
+
 -- As an Export:
 local xPlayer = exports.msk_core:GetPlayerByCitizenId(citizenid)
 ```
 
 ## MSK.GetPlayerJobFromId
 
-Get the job of a player from a server id.
+Gets the job of a player from a server id. Wrapper for `MSK.GetPlayerJob({source = playerId})`.
 
 **Parameters**  
-**playerId** - `number` - The ServerId of the player
+**playerId** - `number` - The server id of the player
 
 **Returns**  
 **job** - `table` - The job object
@@ -100,13 +140,16 @@ Get the job of a player from a server id.
 ```lua
 local job = MSK.GetPlayerJobFromId(playerId)
 
+-- Example
+local job = MSK.GetPlayerJobFromId(source)
+
 -- As an Export:
 local job = exports.msk_core:GetPlayerJobFromId(playerId)
 ```
 
 ## MSK.GetPlayerJobFromIdentifier
 
-Get the job of a player from an identifier.
+Gets the job of a player from an identifier. Wrapper for `MSK.GetPlayerJob({identifier = identifier})`.
 
 **Parameters**  
 **identifier** - `string` - The player identifier
@@ -117,13 +160,16 @@ Get the job of a player from an identifier.
 ```lua
 local job = MSK.GetPlayerJobFromIdentifier(identifier)
 
+-- Example
+local job = MSK.GetPlayerJobFromIdentifier('license:abc123')
+
 -- As an Export:
 local job = exports.msk_core:GetPlayerJobFromIdentifier(identifier)
 ```
 
 ## MSK.GetPlayerJobByCitizenId
 
-Get the job of a player from a citizenid (QBCore) / identifier.
+Gets the job of a player from a citizenid (QBCore) / identifier. Wrapper for `MSK.GetPlayerJob({citizenid = citizenid})`.
 
 **Parameters**  
 **citizenid** - `string` - The citizenid of the player
@@ -134,23 +180,37 @@ Get the job of a player from a citizenid (QBCore) / identifier.
 ```lua
 local job = MSK.GetPlayerJobByCitizenId(citizenid)
 
+-- Example
+local job = MSK.GetPlayerJobByCitizenId('ABCD1234')
+
 -- As an Export:
 local job = exports.msk_core:GetPlayerJobByCitizenId(citizenid)
 ```
 
-## MSK.GetMirroredPlayer
+## MSK.GetPlayers
 
-Get the mirrored player table (`MSK.Player[playerId]`) directly.
+Returns the framework's list of players, optionally filtered by a key/value pair. The behaviour and filter keys depend on the active framework:
+
+- **ESX** — returns `ESX.GetExtendedPlayers(key, value)`.
+- **QBCore** — without a `key` returns all QB players; with a `key` filters by `'job'`, `'gang'` or `'group'` (ACE-based).
+- **OXCore** — returns `Ox.GetPlayers({[key] = value})` (or all players when no key is given).
 
 **Parameters**  
-**playerId** - `number` - The ServerId of the player
+**key** - `string` - The filter key (optional) — e.g. `'job'`, `'gang'`, `'group'`  
+**value** - `any` - The value to filter by (optional)
 
 **Returns**  
-**player** - `table` - The mirrored player table
+**players** - `table` - The list of framework player objects
 
 ```lua
-local player = MSK.GetMirroredPlayer(playerId)
+local players = MSK.GetPlayers(key, value)
+
+-- Example: all players
+local players = MSK.GetPlayers()
+
+-- Example: all police
+local police = MSK.GetPlayers('job', 'police')
 
 -- As an Export:
-local player = exports.msk_core:GetMirroredPlayer(playerId)
+local players = exports.msk_core:GetPlayers(key, value)
 ```
