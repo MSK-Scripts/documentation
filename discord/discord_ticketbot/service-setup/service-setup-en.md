@@ -27,7 +27,7 @@ configure a **custom domain** so transcripts are served under their own URL.
 
 ## 2. Subscription Tiers
 
-| Feature | Basic (free) | Premium (€5/month) | Premium+ (€10/month) |
+| Feature | Basic (free) | Premium ($4/month) | Premium+ ($8/month) |
 |---|---|---|---|
 | Transcript as link | ✅ | ✅ | ✅ |
 | Max. transcript size | 10 MB | 100 MB | 250 MB |
