@@ -21,8 +21,8 @@ accept a `{plate, model}` table so you can act on vehicles that are not currentl
 (Un)locks a vehicle. When used as the inventory item export, the vehicle data is read from
 the item's metadata.
 
-**Parameters**
-**data** - `any` - Reserved (pass `nil`)
+**Parameters**  
+**data** - `any` - Reserved (pass `nil`)  
 **slot** - `table` - `{metadata = {plate, model}}` or `{metadata = {vehicle}}`
 
 ```lua
@@ -39,7 +39,7 @@ exports.msk_vehiclekeys:toggleLock(nil, {metadata = {vehicle = vehicle}})
 (Un)locks a vehicle **without** needing a key. The caller must be allowed by
 `Config.AdminCommand`.
 
-**Parameters**
+**Parameters**  
 **data** - `table` - `{vehicle}` or `{plate, model}`
 
 ```lua
@@ -53,10 +53,10 @@ exports.msk_vehiclekeys:toggleLockAdmin({plate = 'LS 1234', model = `adder`})
 
 ### GetVehicleLockState
 
-**Parameters**
+**Parameters**  
 **vehicle** - `int` - A vehicle handle
 
-**Returns**
+**Returns**  
 **isLocked** - `boolean`
 
 ```lua
@@ -66,10 +66,10 @@ local isLocked = Entity(vehicle).state.isLocked -- alternative
 
 ### GetVehicleLockStatus
 
-**Parameters**
+**Parameters**  
 **vehicle** - `int` - A vehicle handle
 
-**Returns**
+**Returns**  
 **lockStatus** - `number` - `1` = unlocked, `2` = locked
 
 ```lua
@@ -118,7 +118,7 @@ exports.msk_vehiclekeys:openDialog()
 
 Adds missing permanent keys from the player's owned vehicles.
 
-**Parameters**
+**Parameters**  
 **rtn** - `boolean?` - Await and return the result instead of firing async
 
 ```lua
@@ -127,10 +127,10 @@ exports.msk_vehiclekeys:RefreshPlayerKeys()
 
 ### GetPlayerKeys
 
-**Parameters**
+**Parameters**  
 **playerId** - `number?` - ServerId (self if omitted)
 
-**Returns**
+**Returns**  
 **keys** - `table`
 
 ```lua
@@ -163,7 +163,7 @@ local allKeys = exports.msk_vehiclekeys:GetAllVehicleKeys()
 
 Returns the player's owned vehicles (`{plate, model}`).
 
-**Parameters**
+**Parameters**  
 **playerId** - `number?` - ServerId (self if omitted)
 
 ```lua
@@ -188,10 +188,10 @@ local keys, vehicles = exports.msk_vehiclekeys:GetPlayerKeysAndVehicles()
 
 ### HasPlayerKey
 
-**Parameters**
+**Parameters**  
 **vehicle** - `int` - A vehicle handle
 
-**Returns**
+**Returns**  
 **hasKey** - `boolean`
 
 ```lua
@@ -208,10 +208,10 @@ local hasTemp      = exports.msk_vehiclekeys:HasPlayerTempKey(vehicle)
 
 ### IsVehicleOwner
 
-**Parameters**
+**Parameters**  
 **vehicle** - `int` - A vehicle handle
 
-**Returns**
+**Returns**  
 **isOwner** - `boolean`
 
 ```lua
@@ -223,10 +223,10 @@ local isOwner = exports.msk_vehiclekeys:IsVehicleOwner(vehicle)
 Returns `true` if the player has any key for the vehicle **or** owns it. Ideal for
 engine-toggle scripts.
 
-**Parameters**
+**Parameters**  
 **vehicle** - `int` - A vehicle handle
 
-**Returns**
+**Returns**  
 **hasKeyOrIsOwner** - `boolean`
 
 ```lua
@@ -239,9 +239,9 @@ local allowed = exports.msk_vehiclekeys:HasPlayerKeyOrIsVehicleOwner(vehicle)
 
 ### AddKey
 
-**Parameters**
-**vehicle** - `int` or `table` - Vehicle handle or `{plate, model}`
-**type** - `string` - `'primary'`, `'secondary'` or `'temporary'`
+**Parameters**  
+**vehicle** - `int` or `table` - Vehicle handle or `{plate, model}`  
+**type** - `string` - `'primary'`, `'secondary'` or `'temporary'`  
 **playerId** - `number?` - ServerId (self if omitted)
 
 ```lua
@@ -255,8 +255,8 @@ Convenience wrappers around `AddKey`.
 
 ```lua
 exports.msk_vehiclekeys:AddPrimaryKey(vehicle)
-exports.msk_vehiclekeys:AddPrimaryKey(vehicle, playerId)
-exports.msk_vehiclekeys:AddSecondaryKey({plate = vehiclePlate, model = vehicleModel})
+exports.msk_vehiclekeys:AddPrimaryKey({plate = vehiclePlate, model = vehicleModel})
+exports.msk_vehiclekeys:AddSecondaryKey(vehicle)
 exports.msk_vehiclekeys:AddTempKey(vehicle)
 ```
 
@@ -266,9 +266,9 @@ exports.msk_vehiclekeys:AddTempKey(vehicle)
 
 ### RemoveKey
 
-**Parameters**
-**vehicle** - `int` or `table` - Vehicle handle or `{plate, model}`
-**type** - `string` - `'primary'`, `'secondary'` or `'temporary'`
+**Parameters**  
+**vehicle** - `int` or `table` - Vehicle handle or `{plate, model}`  
+**type** - `string` - `'primary'`, `'secondary'` or `'temporary'`  
 **playerId** - `number?` - ServerId (self if omitted)
 
 ```lua
@@ -279,8 +279,9 @@ exports.msk_vehiclekeys:RemoveKey(vehicle, 'temporary')
 
 ```lua
 exports.msk_vehiclekeys:RemovePrimaryKey(vehicle)
-exports.msk_vehiclekeys:RemoveSecondaryKey(vehicle, playerId)
-exports.msk_vehiclekeys:RemoveTempKey({plate = vehiclePlate, model = vehicleModel})
+exports.msk_vehiclekeys:RemovePrimaryKey({plate = vehiclePlate, model = vehicleModel})
+exports.msk_vehiclekeys:RemoveSecondaryKey(vehicle)
+exports.msk_vehiclekeys:RemoveTempKey(vehicle)
 ```
 
 ---
@@ -291,7 +292,7 @@ exports.msk_vehiclekeys:RemoveTempKey({plate = vehiclePlate, model = vehicleMode
 
 Deletes every key **other** players have for this vehicle.
 
-**Parameters**
+**Parameters**  
 **vehicle** - `int` or `table` - Vehicle handle or `{plate, model}`
 
 ```lua
@@ -303,9 +304,9 @@ exports.msk_vehiclekeys:ExchangeVehicleLocks({plate = vehiclePlate, model = vehi
 
 Transfers a vehicle (including ownership) to another player.
 
-**Parameters**
-**targetId** - `number` - ServerId of the target player
-**vehicle** - `int` or `table` - Vehicle handle or `{plate, model}`
+**Parameters**  
+**targetId** - `number` - ServerId of the target player  
+**vehicle** - `int` or `table` - Vehicle handle or `{plate, model}`  
 **showDialog** - `boolean` - Show the price input dialog
 
 ```lua
@@ -321,11 +322,11 @@ exports.msk_vehiclekeys:TransferVehicle(targetId, {plate = vehiclePlate, model =
 
 Check a plate/model against `Config.Whitelist` / `Config.Blacklist`.
 
-**Parameters**
-**plate** - `string?`
-**model** - `number?`
+**Parameters**  
+**plate** - `string?`  
+**model** - `number?`  
 
-**Returns**
+**Returns**  
 **result** - `boolean`
 
 ```lua
@@ -353,8 +354,8 @@ exports.msk_vehiclekeys:playLockAnim()
 
 Plays the lock/unlock sound and indicator flash.
 
-**Parameters**
-**vehicle** - `int` - A vehicle handle
+**Parameters**  
+**vehicle** - `int` - A vehicle handle  
 **state** - `boolean` - `true` = locked effect, `false` = unlocked effect
 
 ```lua

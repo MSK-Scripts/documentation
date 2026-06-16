@@ -24,9 +24,9 @@ Key functions take a **vehicleData** table — `{plate, model}` for non-spawned 
 
 ### toggleLock
 
-**Parameters**
-**playerId** - `number` - ServerId of the player
-**plate** - `string?` - Plate to (un)lock (closest owned vehicle if omitted)
+**Parameters**  
+**playerId** - `number` - ServerId of the player  
+**plate** - `string?` - Plate to (un)lock (closest owned vehicle if omitted)  
 **model** - `number?` - Vehicle model
 
 ```lua
@@ -47,10 +47,10 @@ exports.msk_vehiclekeys:toggleLockAdmin(playerId, plate)
 
 ### GetVehicleLockState
 
-**Parameters**
+**Parameters**  
 **vehicle** - `int` - A vehicle handle
 
-**Returns**
+**Returns**  
 **isLocked** - `boolean`
 
 ```lua
@@ -60,7 +60,7 @@ local isLocked = Entity(vehicle).state.isLocked -- alternative
 
 ### GetVehicleLockStatus
 
-**Returns**
+**Returns**  
 **lockStatus** - `number` - `1` = unlocked, `2` = locked
 
 ```lua
@@ -78,10 +78,10 @@ Do not call them unless you know exactly what you are doing — they can break t
 
 ### GetPlayerKeys
 
-**Parameters**
+**Parameters**  
 **playerData** - `table` - `{source}` or `{identifier}`
 
-**Returns**
+**Returns**  
 **keys** - `table`
 
 ```lua
@@ -134,10 +134,10 @@ local keys, vehicles = exports.msk_vehiclekeys:GetPlayerKeysAndVehicles({source 
 
 Adds missing permanent keys from the player's owned vehicles.
 
-**Parameters**
+**Parameters**  
 **playerId** - `number` - ServerId
 
-**Returns**
+**Returns**  
 **result** - `table` - `{owned_keys, added_primary_keys, added_secondary_keys}`
 
 ```lua
@@ -150,12 +150,12 @@ local result = exports.msk_vehiclekeys:RefreshPlayerKeys(playerId)
 
 ### HasPlayerKey
 
-**Parameters**
-**playerData** - `table` - `{source}` or `{identifier}`
-**plate** - `string`
+**Parameters**  
+**playerData** - `table` - `{source}` or `{identifier}`  
+**plate** - `string`  
 **model** - `number`
 
-**Returns**
+**Returns**  
 **hasKey** - `boolean`
 
 ```lua
@@ -172,11 +172,11 @@ local hasTemp      = exports.msk_vehiclekeys:HasPlayerTempKey({source = playerId
 
 ### IsVehicleOwner
 
-**Parameters**
-**playerData** - `table` - `{source}` or `{identifier}`
+**Parameters**  
+**playerData** - `table` - `{source}` or `{identifier}`  
 **plate** - `string`
 
-**Returns**
+**Returns**  
 **isOwner** - `boolean`
 
 ```lua
@@ -188,7 +188,7 @@ local isOwner = exports.msk_vehiclekeys:IsVehicleOwner({source = playerId}, plat
 Returns `true` if the player has any key for the vehicle **or** owns it. Ideal for
 engine-toggle scripts.
 
-**Returns**
+**Returns**  
 **hasKeyOrIsOwner** - `boolean`
 
 ```lua
@@ -201,9 +201,9 @@ local allowed = exports.msk_vehiclekeys:HasPlayerKeyOrIsVehicleOwner({source = p
 
 ### AddKey
 
-**Parameters**
-**playerData** - `table` - `{source}` or `{identifier}`
-**vehicleData** - `table` - `{plate, model, type}` or `{netId, type}`
+**Parameters**  
+**playerData** - `table` - `{source}` or `{identifier}`  
+**vehicleData** - `table` - `{plate, model, type}` or `{netId, type}`  
 **ignoreInv** - `boolean?` - Skip giving the key item to the inventory
 
 ```lua
@@ -230,9 +230,9 @@ exports.msk_vehiclekeys:AddTempKey({source = playerId}, {plate = 'LS 1234', mode
 
 ### RemoveKey
 
-**Parameters**
-**playerData** - `table` - `{source}` or `{identifier}`
-**vehicleData** - `table` - `{plate, type}` or `{netId, type}`
+**Parameters**  
+**playerData** - `table` - `{source}` or `{identifier}`  
+**vehicleData** - `table` - `{plate, type}` or `{netId, type}`  
 **ignoreInv** - `boolean?` - Skip removing the key item from the inventory
 
 ```lua
@@ -251,7 +251,7 @@ exports.msk_vehiclekeys:RemoveTempKey({source = playerId}, {plate = 'LS 1234'})
 
 Removes **every** key for a plate, from **all** players (cache, database and inventory).
 
-**Parameters**
+**Parameters**  
 **plate** - `string`
 
 ```lua
@@ -266,8 +266,8 @@ exports.msk_vehiclekeys:RemoveAllExistingKeys('LS 1234')
 
 Deletes every key **other** players have for this vehicle (keeps the caller's key).
 
-**Parameters**
-**playerData** - `table` - `{source}` or `{identifier}`
+**Parameters**  
+**playerData** - `table` - `{source}` or `{identifier}`  
 **vehicleData** - `table` - `{plate}` or `{netId}` (a plate string is also accepted)
 
 ```lua
@@ -278,9 +278,9 @@ exports.msk_vehiclekeys:ExchangeVehicleLocks({source = playerId}, {plate = 'LS 1
 
 Transfers a vehicle (including ownership) from one player to another.
 
-**Parameters**
-**ownerData** - `table` - `{source}` or `{identifier}`
-**targetData** - `table` - `{source}` or `{identifier}`
+**Parameters**  
+**ownerData** - `table` - `{source}` or `{identifier}`  
+**targetData** - `table` - `{source}` or `{identifier}`  
 **vehicleData** - `table` - `{plate, model}` or `{netId}`
 
 ```lua
@@ -292,9 +292,9 @@ exports.msk_vehiclekeys:TransferVehicle({source = playerId}, {source = targetId}
 Changes the plate of all existing keys. Optionally also updates the SQL `owned_vehicles`
 table.
 
-**Parameters**
-**oldPlate** - `string`
-**newPlate** - `string`
+**Parameters**  
+**oldPlate** - `string`  
+**newPlate** - `string`  
 **changeSQL** - `boolean` - Also update the SQL table — default `false`
 
 ```lua
@@ -310,11 +310,11 @@ exports.msk_vehiclekeys:ChangeNumberPlate("ABC 123", "XYZ 789", false)
 
 Check a plate/model against `Config.Whitelist` / `Config.Blacklist`.
 
-**Parameters**
-**plate** - `string?`
+**Parameters**  
+**plate** - `string?`  
 **model** - `number?`
 
-**Returns**
+**Returns**  
 **result** - `boolean`
 
 ```lua
@@ -334,9 +334,9 @@ local isAdminVehicle = exports.msk_vehiclekeys:IsAdminVehicle(plate, model)
 
 Returns `true` if the player is Ace-allowed **and** the vehicle is an admin vehicle.
 
-**Parameters**
-**playerId** - `number` - ServerId
-**plate** - `string?`
+**Parameters**  
+**playerId** - `number` - ServerId  
+**plate** - `string?`  
 **model** - `number?`
 
 ```lua
@@ -348,10 +348,10 @@ local allowed = exports.msk_vehiclekeys:IsAdminVehicleAllowed(playerId, plate, m
 Returns `true` if a job (and optionally rank) may (un)lock the given vehicle — checks both
 `society_<job>` owned vehicles and `Config.JobVehicles`.
 
-**Parameters**
-**jobName** - `string`
-**jobRank** - `string`
-**plate** - `string?`
+**Parameters**  
+**jobName** - `string`  
+**jobRank** - `string`  
+**plate** - `string?`  
 **model** - `number?`
 
 ```lua
@@ -363,9 +363,9 @@ local isJobVehicle = exports.msk_vehiclekeys:IsJobVehicle('police', 'officer', p
 Returns all spawned vehicles in `radius` the player is allowed to (un)lock (keys, job,
 whitelist or admin).
 
-**Parameters**
-**playerId** - `number` - ServerId
-**playerCoords** - `vector3`
+**Parameters**  
+**playerId** - `number` - ServerId  
+**playerCoords** - `vector3`  
 **radius** - `number`
 
 ```lua
