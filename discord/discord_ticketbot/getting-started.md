@@ -30,7 +30,7 @@ A modern, self-hosted Discord ticket bot built on **Discord.js v14** and **SQLit
 | ⏰ Auto-Close | Automatically close inactive tickets with a configurable warning period |
 | ♻️ Reopen Tickets | Reopen a closed ticket via the `♻️` button or `/reopen` — configurable, restores access & moves it back |
 | 🔗 Transcript Links | Transcripts stored online and accessible via a public link |
-| 📄 HTML Transcript | Full self-contained HTML transcript — avatars embedded as Base64, no CDN required |
+| 📄 HTML Transcript | Self-contained HTML transcript in a **modern or classic** style — avatars & custom emojis embedded as Base64, mentions and Created/Claimed/Closed-by shown as names, no CDN required |
 | 🌐 Custom Domain | Premium users can serve transcripts under their own domain |
 | 📊 Statistics | Server-wide stats and detailed per-user stats via `/stats` |
 | 🚫 Blacklist | `/blacklist add/remove/list` to block users from opening tickets |

@@ -188,6 +188,26 @@ Reopening restores the creator's channel access, moves the channel back to its t
 
 > **Note:** Closed channels are usually only visible to staff (the creator's view is removed on close), so `"EVERYONE"` mainly matters if you keep closed channels visible to users.
 
+### Transcript Design
+
+The generated HTML transcript can be rendered in two styles:
+
+```json
+"transcriptDesign": "modern"   // "modern" (default) or "classic"
+```
+
+| Value      | Look                                                                 |
+| ---------- | ------------------------------------------------------------------- |
+| `"modern"` | Minimal, MSK-branded layout (default — also used if the key is absent). |
+| `"classic"`| The original Discord-style dark layout.                              |
+
+Both styles are fully **self-contained / offline-safe** (no external requests):
+
+- Avatars **and custom emojis** are embedded as Base64 (custom emojis fall back to `:name:` text if the image can't be fetched at generation time).
+- User mentions and the header fields **Created by / Claimed by / Closed by** are shown as **display names** instead of raw user IDs (unresolvable IDs fall back to the ID).
+- The header also shows **Closed by** and the **close reason** — the reason only when one was provided.
+- Fenced code blocks show their language as a small label (e.g. `LUA`); no syntax colouring (kept dependency-free).
+
 ### Statistics
 
 `/stats` shows server-wide numbers. `/stats @user` shows a detailed profile split into **👤 As a User** and **🛡️ As Staff**.
