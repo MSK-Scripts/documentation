@@ -10,8 +10,9 @@ sidebar_position: 2
 Nein. Ohne API Key funktioniert der Bot normal und sendet das Transkript als Datei per DM.  
 Der Key ist nur nötig, wenn Transkripte als öffentliche Links gespeichert werden sollen.
 
-### Was passiert wenn mein Sponsoring ausläuft?
-Dein Tier wird automatisch auf Basic zurückgestuft. Bestehende Transkripte bleiben bis zu  
+### Was passiert wenn ich mein Abo kündige?
+Zum Ende des bezahlten Zeitraums wird dein Tier automatisch auf Basic zurückgestuft (eine Kündigung  
+während der 14-tägigen Testphase verursacht keine Kosten). Bestehende Transkripte bleiben bis zu  
 ihrem Ablaufdatum abrufbar. Eigene Domains werden deaktiviert.
 
 ### Kann ich den API Key für mehrere Server nutzen?

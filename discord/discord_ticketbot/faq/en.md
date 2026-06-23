@@ -10,9 +10,10 @@ sidebar_position: 1
 No. Without an API key the bot works normally and sends the transcript as a file via DM.  
 The API key is only needed if you want transcripts stored as public links.
 
-### What happens when my sponsorship expires?
-Your tier is automatically downgraded to Basic. Existing transcripts remain accessible  
-until their individual expiry date. Custom domains are deactivated.
+### What happens when I cancel my subscription?
+At the end of the paid period your tier is automatically downgraded to Basic (cancelling during  
+the 14-day free trial incurs no charge). Existing transcripts remain accessible until their  
+individual expiry date. Custom domains are deactivated.
 
 ### Can I use the same API key for multiple servers?
 No. Each API key is bound to one specific Discord server.  
