@@ -60,7 +60,7 @@ AddStateBagChangeHandler('isHandcuffed', nil, function(bagName, key, value)
 end)
 ```
 
-:::info Security note
+:::info[Security note]
 Statebags are the **transport / read layer**. Security-relevant decisions (can this player
 be hardcuffed? is the target really cuffed?) are made by the server against its own
 authoritative state, not against a client-written statebag.

@@ -108,7 +108,7 @@ exports.msk_handcuffs:putPlayerInCar(closestPlayer)
 exports.msk_handcuffs:putPlayerOutOfCar(closestPlayer)
 ```
 
-:::note Removed in v3
+:::note[Removed in v3]
 `getObjectState`, the self-cuff exports `Cuff` / `Hardcuff` / `Uncuff`, the client admin
 exports and the aliases `gethasAnkletracker` / `gethasHeadbag` were removed. See
 [Migration](../migration.md).

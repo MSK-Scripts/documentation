@@ -62,7 +62,7 @@ local hasTape = exports.msk_handcuffs:gethasPlayerTape({source = playerId})
 local hasTape = Player(playerId).state.hasTape
 ```
 
-:::note Removed in v3
+:::note[Removed in v3]
 `getDatabase`, `getPlayerFromDatabase` and the admin exports (`cuffAdmin`, `uncuffAdmin`, …)
 were removed. Use [statebags](../statebags.md), the getters above, or the
 [admin commands](../commands.md). See [Migration](../migration.md).

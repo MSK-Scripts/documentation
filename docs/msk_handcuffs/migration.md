@@ -69,7 +69,7 @@ local isCuffed = Player(targetId).state.isHandcuffed
 local isCuffed = exports.msk_handcuffs:getIsPlayerHandcuffed({source = targetId})
 ```
 
-:::note Need the old names back?
+:::note[Need the old names back?]
 If other resources depend on a removed export/event, a thin compatibility layer can map the
 old names onto the new logic. Open an issue / ask in the MSK Scripts Discord.
 :::

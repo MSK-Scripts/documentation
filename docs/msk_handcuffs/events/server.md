@@ -46,7 +46,7 @@ TriggerClientEvent('msk_handcuffs:useItem', source, 'tape')
 from the client, use the [client exports](../exports/client.md) with a player argument.
 :::
 
-:::note Migrating from v2
+:::note[Migrating from v2]
 This single event replaces the old `msk_handcuffs:cuff` / `:hardcuff` / `:uncuff` /
 `:setAnkletracker` / `:setHeadbag` / `:setTape` events. See [Migration](../migration.md).
 :::

@@ -25,7 +25,7 @@ Make sure the following resources are installed and **start before** `msk_handcu
 
 ## 2. Start order
 
-```cfg
+```bash
 ensure oxmysql
 ensure es_extended      # or qb-core
 ensure msk_core

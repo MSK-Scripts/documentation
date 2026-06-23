@@ -32,7 +32,7 @@ TriggerServerEvent('msk_handcuffs:requestRestore')
 The server then re-applies the stored status (statebags, timer, ankletracker, mute) and
 sends the authoritative snapshot back to the client.
 
-:::note What changed from v2
+:::note[What changed from v2]
 v2 used `msk_handcuffs:setCuffStatus` and read from `database.json`. v3 stores status in
 MySQL and uses `msk_handcuffs:requestRestore`. See [Migration](../migration.md).
 :::
