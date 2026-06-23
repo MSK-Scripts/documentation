@@ -1,186 +1,115 @@
 ---
 title: Client
 sidebar_position: 1
+description: Client exports for msk_handcuffs v3 - status getters and action exports (cuffPlayer, uncuffPlayer, dragPlayer, ...) with full signatures.
+keywords:
+  - msk_handcuffs client exports
+  - cuffPlayer
+  - uncuffPlayer
+  - dragPlayer
+  - getIsHandcuffed
 ---
 
 # Client Exports
 
-## getIsHandcuffed
+The action exports run the same server-validated logic as the in-game items. Their
+signatures are unchanged from v2.
 
-Check if a player is handcuffed.
+`player` is an optional **local player index** (e.g. from `MSK.GetClosestPlayer()` or
+`ESX.Game.GetClosestPlayer()`). When omitted, the closest player is used.
 
-**Parameters**  
-**player** - `table` - Optional, for other players
-
-**Returns**  
-**isHandcuffed** - `boolean`
+## Status getters
 
 ```lua
--- Self
-local isHandcuffed = exports.msk_handcuffs:getIsHandcuffed()
-local isHandcuffed = LocalPlayer.state.isHandcuffed -- alternative
+-- Self (or read the statebag directly)
+local isHandcuffed   = exports.msk_handcuffs:getIsHandcuffed()      -- or LocalPlayer.state.isHandcuffed
+local isHardcuffed   = exports.msk_handcuffs:getIsHardcuffed()      -- or LocalPlayer.state.isHardcuffed
+local hasAnkletracker = exports.msk_handcuffs:getHasAnkletracker()  -- or LocalPlayer.state.hasAnkleTracker
+local hasHeadbag     = exports.msk_handcuffs:getHasHeadbag()        -- or LocalPlayer.state.hasHeadbag
+local hasTape        = exports.msk_handcuffs:getHasTape()           -- or LocalPlayer.state.hasTape
 
--- Other Players
-local isHandcuffed = exports.msk_handcuffs:getIsHandcuffed({source = targetId})
-```
-
-## getIsHardcuffed
-
-Check if a player is hardcuffed.
-
-```lua
-local isHardcuffed = exports.msk_handcuffs:getIsHardcuffed()
-local isHardcuffed = LocalPlayer.state.isHardcuffed -- alternative
-
--- Other Players
-local isHardcuffed = exports.msk_handcuffs:getIsHardcuffed({source = targetId})
-```
-
-## getHasAnkletracker
-
-Check if a player has an Ankletracker.
-
-```lua
-local hasAnkletracker = exports.msk_handcuffs:getHasAnkletracker()
-local hasAnkletracker = LocalPlayer.state.hasAnkletracker -- alternative
-
--- Other Players
-local hasAnkletracker = exports.msk_handcuffs:getHasAnkletracker({source = targetId})
-```
-
-## getHasHeadbag
-
-Check if a player has a Headbag.
-
-```lua
-local hasHeadbag = exports.msk_handcuffs:getHasHeadbag()
-local hasHeadbag = LocalPlayer.state.hasHeadbag -- alternative
-
--- Other Players
-local hasHeadbag = exports.msk_handcuffs:getHasHeadbag({source = targetId})
-```
-
-## getHasTape
-
-Check if a player has Tape.
-
-```lua
-local hasTape = exports.msk_handcuffs:getHasTape()
-local hasTape = LocalPlayer.state.hasTape -- alternative
-
--- Other Players
-local hasTape = exports.msk_handcuffs:getHasTape({source = targetId})
+-- Other players (by statebag — recommended)
+local isHandcuffed = Player(targetServerId).state.isHandcuffed
 ```
 
 ## cuffPlayer
 
-Cuff a player.
-
-**Parameters**  
-**item** - `string` - The Item to cuff with - Optional  
-**player** - `player` - The target Player - Optional
-
-**Description**  
-If `item` is `nil`, the script checks the correct item from `Config.RestrictItems` if enabled, or cuffs without an item `(isAdminCuffed)`.
+**`cuffPlayer(item?, player?)`** — Cuff a player.
+If `item` is `nil`, the script resolves it from `Config.RestrictItems` (per job) when enabled.
 
 ```lua
-exports.msk_handcuffs:cuffPlayer(item, player)
-
-exports.msk_handcuffs:cuffPlayer()                      -- closest player, auto item
-exports.msk_handcuffs:cuffPlayer('cuffs')               -- closest player with item
-exports.msk_handcuffs:cuffPlayer(nil, closestPlayer)    -- specific player, auto item
-exports.msk_handcuffs:cuffPlayer('cuffs', closestPlayer) -- specific player with item
+exports.msk_handcuffs:cuffPlayer()                       -- closest player, auto item
+exports.msk_handcuffs:cuffPlayer('cuffs')                -- closest player, specific item
+exports.msk_handcuffs:cuffPlayer(nil, closestPlayer)     -- specific player, auto item
+exports.msk_handcuffs:cuffPlayer('cuffs', closestPlayer) -- specific player & item
 ```
 
 ## hardcuffPlayer
 
-Hardcuff a player.
+**`hardcuffPlayer(item?, player?)`** — Hardcuff a player (must be cuffed first).
 
 ```lua
-exports.msk_handcuffs:hardcuffPlayer(item, player)
-
 exports.msk_handcuffs:hardcuffPlayer()
-exports.msk_handcuffs:hardcuffPlayer('hardcuff')
-exports.msk_handcuffs:hardcuffPlayer(nil, closestPlayer)
 exports.msk_handcuffs:hardcuffPlayer('hardcuff', closestPlayer)
 ```
 
 ## uncuffPlayer
 
-Uncuff a player. Checks if the item is correct.
+**`uncuffPlayer(item?, player?)`** — Uncuff a player. The uncuff item must match the cuff
+item (`Config.ItemSettings`).
 
 ```lua
-exports.msk_handcuffs:uncuffPlayer(item, player)
-
 exports.msk_handcuffs:uncuffPlayer()
-exports.msk_handcuffs:uncuffPlayer('cuff_keys')
-exports.msk_handcuffs:uncuffPlayer(nil, closestPlayer)
 exports.msk_handcuffs:uncuffPlayer('cuff_keys', closestPlayer)
 ```
 
 ## ankleTrackerPlayer
 
-Activate/Deactivate an Ankletracker.
+**`ankleTrackerPlayer(player?, remove?)`** — Toggle an ankletracker (target must be cuffed).
 
 ```lua
-exports.msk_handcuffs:ankleTrackerPlayer(player)
-
 exports.msk_handcuffs:ankleTrackerPlayer()
 exports.msk_handcuffs:ankleTrackerPlayer(closestPlayer)
 ```
 
 ## headbagPlayer
 
-Activate/Deactivate a Headbag.
+**`headbagPlayer(player?, remove?)`** — Toggle a headbag.
 
 ```lua
-exports.msk_handcuffs:headbagPlayer(player)
-
 exports.msk_handcuffs:headbagPlayer()
 exports.msk_handcuffs:headbagPlayer(closestPlayer)
 ```
 
 ## tapePlayer
 
-Activate/Deactivate Tape.
+**`tapePlayer(player?, remove?)`** — Toggle tape (mute).
 
 ```lua
-exports.msk_handcuffs:tapePlayer(player)
-
 exports.msk_handcuffs:tapePlayer()
 exports.msk_handcuffs:tapePlayer(closestPlayer)
 ```
 
 ## dragPlayer / escortPlayer
 
-Drag/Escort the closest player.
+**`dragPlayer(player?)`** — Toggle dragging/escorting (target must be cuffed).
+`escortPlayer` is an alias.
 
 ```lua
-exports.msk_handcuffs:dragPlayer(player)
-exports.msk_handcuffs:escortPlayer(player) -- alias
-
-exports.msk_handcuffs:escortPlayer()
-exports.msk_handcuffs:escortPlayer(closestPlayer)
+exports.msk_handcuffs:dragPlayer()
+exports.msk_handcuffs:dragPlayer(closestPlayer)
 ```
 
-## putPlayerInCar
-
-Puts the closest player in the car.
+## putPlayerInCar / putPlayerOutOfCar
 
 ```lua
-exports.msk_handcuffs:putPlayerInCar(player)
-
-exports.msk_handcuffs:putPlayerInCar()
+exports.msk_handcuffs:putPlayerInCar()       -- closest player
 exports.msk_handcuffs:putPlayerInCar(closestPlayer)
-```
-
-## putPlayerOutOfCar
-
-Puts the closest player out of a car.
-
-```lua
-exports.msk_handcuffs:putPlayerOutOfCar(player)
-
-exports.msk_handcuffs:putPlayerOutOfCar()
 exports.msk_handcuffs:putPlayerOutOfCar(closestPlayer)
 ```
+
+:::note Removed in v3
+`getObjectState`, the self-cuff exports `Cuff` / `Hardcuff` / `Uncuff`, the client admin
+exports and the aliases `gethasAnkletracker` / `gethasHeadbag` were removed. See
+[Migration](../migration.md).
+:::

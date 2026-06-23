@@ -1,26 +1,38 @@
 ---
 title: Multichar
 sidebar_position: 4
+description: Fix for multichar scripts that don't emit a standard playerLoaded event - manually trigger the msk_handcuffs restore so stored status is re-applied after character select.
+keywords:
+  - msk_handcuffs multichar
+  - requestRestore
+  - playerLoaded
+  - relog status
 ---
 
 # Multichar
 
-On some multichar scripts, the ESX event `'esx:playerLoaded'` won't be triggered correctly. This event is necessary so that `msk_handcuffs` can load the data stored in `database.json`.
+After a character is selected, msk_handcuffs restores the stored status (cuffed,
+ankletracker, …) by reacting to the framework's `playerLoaded` event and requesting its
+snapshot from the server.
 
-If you set `Config.Debug = true` and get the following error, or if the player is not handcuffed anymore after relog, add the following event to your multichar after the character was selected.
-
-## Error
-
-```
-[msk_handcuffs] [Error] Player not found on esx:playerLoaded
-```
+Some multichar scripts don't emit a standard `esx:playerLoaded` /
+`QBCore:Client:OnPlayerLoaded` event. In that case the client never asks the server to
+restore, and the player appears uncuffed after relog.
 
 ## Fix
 
-```lua
--- Clientside
-TriggerEvent('msk_handcuffs:setCuffStatus')
+Trigger the restore request **on the client** after the character was selected and the
+player is fully loaded:
 
--- Serverside
-TriggerClientEvent('msk_handcuffs:setCuffStatus', source)
+```lua
+-- Clientside, after character selection
+TriggerServerEvent('msk_handcuffs:requestRestore')
 ```
+
+The server then re-applies the stored status (statebags, timer, ankletracker, mute) and
+sends the authoritative snapshot back to the client.
+
+:::note What changed from v2
+v2 used `msk_handcuffs:setCuffStatus` and read from `database.json`. v3 stores status in
+MySQL and uses `msk_handcuffs:requestRestore`. See [Migration](../migration.md).
+:::

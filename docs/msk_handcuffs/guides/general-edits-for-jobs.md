@@ -45,11 +45,11 @@ ESX.OpenContext("right", elements2, function(menu2, element2)
         elseif action == 'ankletracker' then
             exports.msk_handcuffs:ankleTrackerPlayer(closestPlayer)
         elseif action == 'drag' then
-            TriggerServerEvent('msk_handcuffs:setDrag', GetPlayerServerId(closestPlayer))
+            exports.msk_handcuffs:dragPlayer(closestPlayer)
         elseif action == 'put_in_vehicle' then
-            TriggerServerEvent('msk_handcuffs:putInCar', GetPlayerServerId(closestPlayer))
+            exports.msk_handcuffs:putPlayerInCar(closestPlayer)
         elseif action == 'out_the_vehicle' then
-            TriggerServerEvent('msk_handcuffs:outOfCar', GetPlayerServerId(closestPlayer))
+            exports.msk_handcuffs:putPlayerOutOfCar(closestPlayer)
         end
     else
         ESX.ShowNotification(TranslateCap('no_players_nearby'))

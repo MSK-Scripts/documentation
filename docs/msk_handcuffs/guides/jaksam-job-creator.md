@@ -100,17 +100,17 @@ local function openActionsMenu()
         elseif action == 'drag' then
             local player, distance = ESX.Game.GetClosestPlayer()
             if player ~= -1 and distance <= 2.5 then
-                TriggerServerEvent('msk_handcuffs:setDrag', GetPlayerServerId(player))
+                exports.msk_handcuffs:dragPlayer(player)
             end
         elseif action == 'putInCar' then
             local player, distance = ESX.Game.GetClosestPlayer()
             if player ~= -1 and distance <= 2.5 then
-                TriggerServerEvent('msk_handcuffs:putInCar', GetPlayerServerId(player))
+                exports.msk_handcuffs:putPlayerInCar(player)
             end
         elseif action == 'takeFromCar' then
             local player, distance = ESX.Game.GetClosestPlayer()
             if player ~= -1 and distance <= 2.5 then
-                TriggerServerEvent('msk_handcuffs:outOfCar', GetPlayerServerId(player))
+                exports.msk_handcuffs:putPlayerOutOfCar(player)
             end
         else
             TriggerEvent(Utils.eventsPrefix .. ':actions:' .. action, data.current.extraData)
@@ -169,17 +169,17 @@ local function openActionsMenu()
         elseif args.value == 'drag' then
             local player, distance = ESX.Game.GetClosestPlayer()
             if player ~= -1 and distance <= 2.5 then
-                TriggerServerEvent('msk_handcuffs:setDrag', GetPlayerServerId(player))
+                exports.msk_handcuffs:dragPlayer(player)
             end
         elseif args.value == 'putInCar' then
             local player, distance = ESX.Game.GetClosestPlayer()
             if player ~= -1 and distance <= 2.5 then
-                TriggerServerEvent('msk_handcuffs:putInCar', GetPlayerServerId(player))
+                exports.msk_handcuffs:putPlayerInCar(player)
             end
         elseif args.value == 'takeFromCar' then
             local player, distance = ESX.Game.GetClosestPlayer()
             if player ~= -1 and distance <= 2.5 then
-                TriggerServerEvent('msk_handcuffs:outOfCar', GetPlayerServerId(player))
+                exports.msk_handcuffs:putPlayerOutOfCar(player)
             end
         else
             TriggerEvent(Utils.eventsPrefix .. ':actions:' .. args.value, args.extraData)

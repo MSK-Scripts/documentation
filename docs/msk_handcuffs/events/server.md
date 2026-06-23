@@ -1,72 +1,52 @@
 ---
 title: Server
 sidebar_position: 2
+description: Server-to-client trigger events for msk_handcuffs v3 - the unified msk_handcuffs:useItem event to start an action on a player's client.
+keywords:
+  - msk_handcuffs server events
+  - useItem
+  - trigger cuff from server
 ---
 
 # Server Events
 
-## Cuff
+To start an action on a player from a **server** script, trigger `useItem` on their client.
+The client then runs the interaction UX (closest player, animation) and sends a
+server-validated request.
 
-**Parameters**  
-**item** - `string` - The Item to cuff with - Optional  
-**player** - `player` - The target Player - Optional
+## `msk_handcuffs:useItem`
 
-```lua
-TriggerClientEvent('msk_handcuffs:cuff', source, item, player)
+**Signature**
+`TriggerClientEvent('msk_handcuffs:useItem', source, action, payload)`
 
-TriggerClientEvent('msk_handcuffs:cuff', source)
-TriggerClientEvent('msk_handcuffs:cuff', source, 'cuffs')
-TriggerClientEvent('msk_handcuffs:cuff', source, nil, GetPlayerFromServerId(targetId))
-TriggerClientEvent('msk_handcuffs:cuff', source, 'cuffs', GetPlayerFromServerId(targetId))
-```
-
-## Hardcuff
+| Param | Type | Description |
+|---|---|---|
+| `source` | number | Server id of the **officer** (the acting player) |
+| `action` | string | `'cuff'`, `'hardcuff'`, `'uncuff'`, `'ankletracker'`, `'headbag'`, `'tape'` |
+| `payload` | string \| boolean | For cuff actions: the item. For ankletracker/headbag/tape: `true` to force removal |
 
 ```lua
-TriggerClientEvent('msk_handcuffs:hardcuff', source, item, player)
+-- Cuff the closest player (auto item from job/restrictions)
+TriggerClientEvent('msk_handcuffs:useItem', source, 'cuff')
 
-TriggerClientEvent('msk_handcuffs:hardcuff', source)
-TriggerClientEvent('msk_handcuffs:hardcuff', source, 'hardcuff')
-TriggerClientEvent('msk_handcuffs:hardcuff', source, nil, GetPlayerFromServerId(targetId))
-TriggerClientEvent('msk_handcuffs:hardcuff', source, 'hardcuff', GetPlayerFromServerId(targetId))
+-- Cuff with a specific item
+TriggerClientEvent('msk_handcuffs:useItem', source, 'cuff', 'cuffs')
+
+-- Uncuff
+TriggerClientEvent('msk_handcuffs:useItem', source, 'uncuff', 'cuff_keys')
+
+-- Toggle ankletracker / headbag / tape
+TriggerClientEvent('msk_handcuffs:useItem', source, 'ankletracker')
+TriggerClientEvent('msk_handcuffs:useItem', source, 'headbag')
+TriggerClientEvent('msk_handcuffs:useItem', source, 'tape')
 ```
 
-## Uncuff
+:::tip
+`useItem` always acts on the **closest player** to `source`. To target a specific player
+from the client, use the [client exports](../exports/client.md) with a player argument.
+:::
 
-Checks if the item is correct to uncuff someone.
-
-```lua
-TriggerClientEvent('msk_handcuffs:uncuff', source, item, player)
-
-TriggerClientEvent('msk_handcuffs:uncuff', source)
-TriggerClientEvent('msk_handcuffs:uncuff', source, 'cuff_keys')
-TriggerClientEvent('msk_handcuffs:uncuff', source, nil, GetPlayerFromServerId(targetId))
-TriggerClientEvent('msk_handcuffs:uncuff', source, 'cuff_keys', GetPlayerFromServerId(targetId))
-```
-
-## Ankletracker
-
-```lua
-TriggerClientEvent('msk_handcuffs:setAnkletracker', source, player)
-
-TriggerClientEvent('msk_handcuffs:setAnkletracker', source)
-TriggerClientEvent('msk_handcuffs:setAnkletracker', source, GetPlayerFromServerId(targetId))
-```
-
-## Headbag
-
-```lua
-TriggerClientEvent('msk_handcuffs:setHeadbag', source, player)
-
-TriggerClientEvent('msk_handcuffs:setHeadbag', source)
-TriggerClientEvent('msk_handcuffs:setHeadbag', source, GetPlayerFromServerId(targetId))
-```
-
-## Tape
-
-```lua
-TriggerClientEvent('msk_handcuffs:setTape', source, player)
-
-TriggerClientEvent('msk_handcuffs:setTape', source)
-TriggerClientEvent('msk_handcuffs:setTape', source, GetPlayerFromServerId(targetId))
-```
+:::note Migrating from v2
+This single event replaces the old `msk_handcuffs:cuff` / `:hardcuff` / `:uncuff` /
+`:setAnkletracker` / `:setHeadbag` / `:setTape` events. See [Migration](../migration.md).
+:::
