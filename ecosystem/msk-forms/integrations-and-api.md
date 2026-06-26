@@ -1,0 +1,89 @@
+---
+title: Integrations & API
+sidebar_position: 7
+---
+
+# Integrations & API
+
+MSK Forms connects to the rest of your stack through outgoing webhooks, Zapier / Make, and a REST API.
+
+---
+
+## Outgoing webhooks
+
+:::note Pro feature
+Webhooks require a [Pro](plans.md) subscription.
+:::
+
+Register HTTP endpoints that receive a POST when something happens. Manage them on **Dashboard → your server → Webhooks** (manager-only).
+
+**Events:**
+
+- `submission.created`
+- `submission.status_changed`
+
+**Delivery:**
+
+- Each request is **HMAC-SHA256 signed** with a per-webhook secret, sent as `X-MSK-Signature: sha256=…`, alongside `X-MSK-Event`.
+- Deliveries are queued (an outbox) and drained by the bot every 15 seconds, with retry + backoff up to 6 attempts before being marked failed.
+- The payload is **hydrated** at delivery time with the full submission: form metadata, status, score, applicant, and formatted answers.
+
+Verify a webhook by recomputing the HMAC over the raw request body with your secret and comparing it to the `X-MSK-Signature` header.
+
+---
+
+## Zapier & Make
+
+:::note Enterprise feature
+The integration REST hooks require an [Enterprise](plans.md) subscription and an API key.
+:::
+
+Zapier and Make connect through a REST-hook layer on top of the webhook infrastructure, authenticated with an API key (Bearer token).
+
+| Endpoint | Purpose |
+|---|---|
+| `GET /api/v1/me` | Connection / auth test (the "Connect" step). |
+| `POST /api/v1/hooks` | Subscribe — creates a hook, returns its `id`. |
+| `GET /api/v1/hooks` | List your hooks. |
+| `DELETE /api/v1/hooks/{hookId}` | Unsubscribe (idempotent, guild-scoped). |
+
+Subscribed hooks receive the same hydrated payloads as manual webhooks. Both platforms already work through their generic REST-hook / custom-API flows; a published Zapier app may follow.
+
+---
+
+## REST API
+
+:::note Enterprise feature
+The REST API requires an [Enterprise](plans.md) subscription.
+:::
+
+### API keys
+
+Create and manage keys on **Dashboard → your server → API** (manager-only; creating a key is Enterprise-gated). The secret is shown **once** on creation — store it then; only a hash is kept. Keys are prefixed `mskf_`.
+
+```
+Authorization: Bearer mskf_xxxxxxxxxxxxxxxxxxxx
+```
+
+Each key is scoped to its guild and rate-limited. Downgrading from Enterprise revokes API access automatically.
+
+### Endpoints
+
+| Endpoint | Returns |
+|---|---|
+| `GET /api/v1/me` | Auth check + your guild context. |
+| `GET /api/v1/forms/{formId}/submissions` | All submissions for a form (scoped to the key's guild), as JSON: `{ form, count, submissions }`. |
+| `POST` / `GET` / `DELETE /api/v1/hooks` | Manage REST hooks (see [above](#zapier--make)). |
+
+Example:
+
+```bash
+curl -H "Authorization: Bearer mskf_xxxxxxxxxxxx" \
+  https://forms.msk-scripts.de/api/v1/forms/<formId>/submissions
+```
+
+---
+
+:::info
+Next: [Plans & Limits](plans.md) — which features each tier includes.
+:::

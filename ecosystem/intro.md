@@ -14,6 +14,7 @@ The MSK Ecosystem is a growing family of self-hosted, privacy-friendly web tools
 - **[MSK Paste](msk-paste/index.md)** — A self-hosted pastebin alternative with syntax highlighting, password protection, and burn-after-read pastes.
 - **[MSK Shortener](msk-shortener/index.md)** — A self-hosted URL shortener with anonymous click statistics, QR codes, and link expiration.
 - **[MSKanban](mskanban/index.md)** — A self-hostable, zero-knowledge Kanban board with real-time CRDT sync, end-to-end encryption, and built-in analytics.
+- **[MSK Forms](msk-forms/index.md)** — A hosted form & application platform with a live status loop for applicants and a multi-tenant Discord bot any server can invite.
 
 More projects are planned — including MSK Banking, and more.
 
