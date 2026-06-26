@@ -8,26 +8,29 @@ const columns = [
   {
     title: 'Ecosystem',
     links: [
-      { label: 'MSKanban', to: '/ecosystem/mskanban/' },
+      { label: 'MSK Forms', to: '/ecosystem/msk-forms/' },
       { label: 'MSK Paste', to: '/ecosystem/msk-paste/' },
       { label: 'MSK Shortener', to: '/ecosystem/msk-shortener/' },
+      // { label: 'MSKanban', to: '/ecosystem/mskanban/' },
     ],
   },
   {
     title: 'Discord Bots',
     links: [
-      { label: 'Discord Ticketbot', to: '/discord/discord_ticketbot/getting-started' },
-      { label: 'Discord Multibot', to: '/discord/discord_multibot/getting-started' },
-      { label: 'Discord Giveawaybot', to: '/discord/discord_giveaway/getting-started' },
+      { label: 'Ticketbot', to: '/discord/discord_ticketbot/getting-started' },
+      { label: 'Multibot', to: '/discord/discord_multibot/getting-started' },
+      { label: 'Giveawaybot', to: '/discord/discord_giveaway/getting-started' },
     ],
   },
   {
     title: 'FiveM Resources',
     links: [
       { label: 'MSK Core', to: '/docs/msk_core/' },
+      { label: 'MSK Garage', to: '/docs/msk_garage/' },
       { label: 'MSK Handcuffs', to: '/docs/msk_handcuffs/' },
       { label: 'MSK VehicleKeys', to: '/docs/msk_vehiclekeys/' },
       { label: 'MSK EngineToggle', to: '/docs/msk_enginetoggle/' },
+      { label: 'MSK Fuel', to: '/docs/msk_fuel/' },
     ],
   },
 ];

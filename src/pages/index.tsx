@@ -76,12 +76,12 @@ const resources: Resource[] = [
     features: ['Installation', 'Configuration'],
   },
   {
-    title: 'Discord Multibot',
-    image: '/img/msk_multi_bot_banner.png',
+    title: 'Discord Giveawaybot',
+    image: '/img/discord_giveawaybot_banner.png',
     badges: ['Javascript'],
     description:
-      'A Dicord multibot, allowing you to create multiple bots for different purposes, such as a event bot, a command bot, and more.',
-    to: '/discord/discord_multibot/getting-started',
+      'A Dicord giveawaybot, allowing you to create giveaway events directly from Discord.',
+    to: '/discord/discord_giveaway/getting-started',
     features: ['Installation', 'Configuration'],
   },
   {
@@ -110,6 +110,15 @@ const resources: Resource[] = [
       'A vehicle key management resource, allowing you to manage vehicle keys with various options and features.',
     to: '/docs/msk_vehiclekeys/',
     features: ['Exports'],
+  },
+  {
+    title: 'MSK Garage',
+    image: '/img/msk_garage_banner.png',
+    badges: ['ESX', 'QBCore', 'Lua'],
+    description:
+      'A fully-featured garage management system, allowing you to manage vehicle storage and more.',
+    to: '/docs/msk_garage/',
+    features: ['Exports', 'Event Handler'], 
   },
 ];
 
