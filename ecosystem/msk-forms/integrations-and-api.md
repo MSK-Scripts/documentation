@@ -11,7 +11,7 @@ MSK Forms connects to the rest of your stack through outgoing webhooks, Zapier /
 
 ## Outgoing webhooks
 
-:::note Pro feature
+:::note[Pro feature]
 Webhooks require a [Pro](plans.md) subscription.
 :::
 
@@ -34,7 +34,7 @@ Verify a webhook by recomputing the HMAC over the raw request body with your sec
 
 ## Zapier & Make
 
-:::note Enterprise feature
+:::note[Enterprise feature]
 The integration REST hooks require an [Enterprise](plans.md) subscription and an API key.
 :::
 
@@ -53,7 +53,7 @@ Subscribed hooks receive the same hydrated payloads as manual webhooks. Both pla
 
 ## REST API
 
-:::note Enterprise feature
+:::note[Enterprise feature]
 The REST API requires an [Enterprise](plans.md) subscription.
 :::
 

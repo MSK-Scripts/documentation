@@ -29,7 +29,7 @@ No channels or roles are required up front.
 | `/forms setup` | Anyone | Returns a link to the dashboard. |
 | `/forms language <locale>` | Manage Server | Sets the language the bot speaks in this server (see [Bot language](#bot-language)). |
 
-:::note Command propagation
+:::note[Command propagation]
 After the bot updates its commands, global Discord command propagation can take up to ~1 hour to appear everywhere.
 :::
 

@@ -109,7 +109,7 @@ There are two ways to let someone review:
 
 Members appear automatically the first time they log in (as Viewer), or a manager can **add a member by Discord ID** ahead of time. Managers set roles and per-form grants on the **Team** page.
 
-:::info Member limits
+:::info[Member limits]
 Free **2** / Pro **15** / Enterprise **unlimited**. The count includes managers, global reviewers, and anyone with a per-form grant. See [Plans & Limits](plans.md).
 :::
 

@@ -31,7 +31,7 @@ The logo is served from a fixed `image/webp` route with `nosniff`.
 
 ## Custom CSS
 
-:::note Pro feature
+:::note[Pro feature]
 Custom CSS requires a [Pro](plans.md) subscription.
 :::
 
@@ -41,7 +41,7 @@ Managers can add **custom CSS** that applies to the public form and status pages
 
 ## Custom domains
 
-:::note Pro feature
+:::note[Pro feature]
 Custom domains require a [Pro](plans.md) subscription.
 :::
 

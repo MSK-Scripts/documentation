@@ -131,7 +131,7 @@ In the builder you write the formula in a textarea and click chips to insert ref
 
 ## A/B testing
 
-:::note Pro feature
+:::note[Pro feature]
 A/B testing requires a [Pro](plans.md) subscription.
 :::
 
@@ -146,7 +146,7 @@ Split-test a form's copy:
 
 ## Automations
 
-:::note Pro feature
+:::note[Pro feature]
 Automations require a [Pro](plans.md) subscription.
 :::
 
@@ -176,7 +176,7 @@ See [Discord Bot](discord-bot.md) for how these drive the review workflow.
 - Set the **status to Live** to start accepting submissions (subject to any [schedule](#scheduling)).
 - **Delete** removes a form and its submissions (cascade), including any uploaded files.
 
-:::tip Free plan limit
+:::tip[Free plan limit]
 The Free plan allows up to **3 forms** per server, and Pro features (CSS, automations, A/B, custom domain) are stripped or gated for Free guilds. See [Plans & Limits](plans.md).
 :::
 

@@ -7,7 +7,7 @@ sidebar_position: 8
 
 MSK Forms has three tiers — **Free**, **Pro**, and **Enterprise**. The authoritative, up-to-date pricing is always on the [pricing page](https://forms.msk-scripts.de/pricing).
 
-:::info Subscriptions are per Discord server
+:::info[Subscriptions are per Discord server]
 A subscription applies to **one guild**. Each server you run is upgraded independently — upgrading one doesn't upgrade the others.
 :::
 

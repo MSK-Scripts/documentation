@@ -27,7 +27,7 @@ That's all the setup the bot needs. It doesn't require any channels or roles up 
 2. You land on the **dashboard**, which lists every server where the bot is installed and you're a member.
 3. Click your server to open it.
 
-:::info Roles
+:::info[Roles]
 Your standing in a guild decides what you can do:
 
 - **Owner / Admin** — *managers*: build forms, configure the bot, branding, team, everything.
