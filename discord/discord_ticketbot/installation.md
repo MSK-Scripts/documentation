@@ -35,7 +35,16 @@ GUILD_ID="your_server_id"
 # Optional — MSK Transcript Service (get your key at www.msk-scripts.de/verify)
 MSK_API_KEY="your_msk_api_key"
 MSK_API_URL="https://www.msk-scripts.de"
+
+# Optional — Database (leave unset to use the bundled SQLite file)
+# MySQL/MariaDB:  mysql://user:pass@host:3306/ticketbot
+# PostgreSQL:     postgres://user:pass@host:5432/ticketbot
+# DATABASE_URL=""
 ```
+
+> 💾 **Database is optional.** Leave `DATABASE_URL` unset and the bot uses a local
+> SQLite file (`data/tickets.db`) — no setup needed. To use MySQL/MariaDB or
+> PostgreSQL instead, set `DATABASE_URL` (see [Database](/discord/discord_ticketbot/database)).
 
 ### 3. Set up the configuration
 
@@ -60,7 +69,8 @@ npm start
 ```
 
 On first start the bot will automatically:
-- Create the SQLite database at `data/tickets.db`
+- Create the database schema (SQLite at `data/tickets.db` by default, or in the
+  MySQL/PostgreSQL database from `DATABASE_URL` — see [Database](/discord/discord_ticketbot/database))
 - Register all slash commands on your server
 
 ### 5. Set up the panel

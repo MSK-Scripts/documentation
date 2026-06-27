@@ -71,7 +71,7 @@ Anonymous, server-wide statistics of the official instance are available at
 
 ---
 
-## 🖥️ Web Dashboard
+## 🖥 Web Dashboard
 
 Prefer a browser over slash commands? Server admins can manage everything at
 **[msk-scripts.de/giveaway/dashboard](https://www.msk-scripts.de/giveaway/dashboard)**:

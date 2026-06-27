@@ -6,7 +6,7 @@ sidebar_position: 1
 
 ![Discord Ticket Bot](/img/discord_ticketbot_banner.png)
 
-A modern, self-hosted Discord ticket bot built on **Discord.js v14** and **SQLite** — no external database, no telemetry, full feature set out of the box.
+A modern, self-hosted Discord ticket bot built on **Discord.js v14** — SQLite out of the box (no external database required), with optional **MySQL/MariaDB** and **PostgreSQL** support. No telemetry, full feature set out of the box.
 
 [`License: AGPL-3.0`](https://www.gnu.org/licenses/agpl-3.0) · [`Node.js 22+`](https://nodejs.org) · [`Discord.js v14`](https://discord.js.org) · [`Docs: docu.msk-scripts.de`](https://docu.msk-scripts.de/discord/discord_ticketbot/getting-started)
 
@@ -40,7 +40,7 @@ A modern, self-hosted Discord ticket bot built on **Discord.js v14** and **SQLit
 | 🔔 User Notifications | Optional DM notification for users when a staff member replies |
 | 🎮 Dynamic Bot Status | Automatically display the number of open tickets in the bot status |
 | 🌍 Multilingual | German and English included, easily extensible |
-| 🗄️ SQLite | No external database required — file is created automatically |
+| 🗄️ Flexible Database | SQLite out of the box (zero setup) — optional MySQL/MariaDB or PostgreSQL via `DATABASE_URL`, with a migration script |
 | 🔄 Auto-Update Check | Checks for new GitHub releases on startup and notifies with update instructions |
 
 ---
@@ -131,12 +131,18 @@ discord_ticketbot/
 ├── locales/
 │   ├── de.json                 # German
 │   └── en.json                 # English
+├── scripts/
+│   └── migrate-db.js           # npm run db:migrate — SQLite → MySQL/PostgreSQL
 ├── data/
-│   └── tickets.db              # SQLite database (auto-created)
+│   └── tickets.db              # SQLite database (auto-created; default backend)
 └── src/
     ├── client.js               # Extended Discord Client
     ├── config.js               # Config loader & validation
-    ├── database.js             # All DB operations (SQLite)
+    ├── database/               # Engine-agnostic DB layer (SQLite/MySQL/PostgreSQL)
+    │   ├── index.js            # Public async API + all queries
+    │   ├── url.js              # DATABASE_URL parsing → driver selection
+    │   ├── schema.js           # Per-dialect schema + migrations
+    │   └── drivers/            # sqlite.js / mysql.js / postgres.js
     ├── handlers/
     │   ├── commandHandler.js   # Loads & registers slash commands
     │   ├── eventHandler.js     # Loads Discord events
@@ -243,14 +249,18 @@ Every ticket channel contains a button row at the top:
 
 ## 🗄️ Database Schema
 
-The SQLite database is created automatically at `data/tickets.db`. Columns are added automatically via migration if they are missing.
+The database is created automatically. By default this is a local SQLite file
+(`data/tickets.db`); set `DATABASE_URL` to use MySQL/MariaDB or PostgreSQL instead
+(see [Database](/discord/discord_ticketbot/database)). The same schema and migrations apply to every
+backend — missing columns are added automatically on start.
 
-| Table         | Contents                                                                       |
-| ------------- | ------------------------------------------------------------------------------ |
-| `tickets`     | All tickets: status, type, priority, claim, lock, notify, reminder, transcript |
-| `blacklist`   | Blocked users with reason and timestamp                                        |
-| `staff_notes` | Private staff notes per ticket                                                 |
-| `ratings`     | Ratings (1–5 ⭐) with optional comment                                          |
+| Table            | Contents                                                                       |
+| ---------------- | ------------------------------------------------------------------------------ |
+| `tickets`        | All tickets: status, type, priority, claim, lock, notify, reminder, transcript |
+| `blacklist`      | Blocked users with reason and timestamp                                        |
+| `staff_notes`    | Private staff notes per ticket                                                 |
+| `ratings`        | Ratings (1–5 ⭐) with optional comment                                          |
+| `panel_messages` | Location of the `/setup` panel message (for auto-refresh on start)             |
 
 **Columns added in recent updates:**
 
