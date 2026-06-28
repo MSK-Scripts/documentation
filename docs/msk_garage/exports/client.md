@@ -20,13 +20,13 @@ event that calls `openGarage` / `openImpound`.
 
 Opens a custom garage UI for the player.
 
-**Parameters**
-**label** - `string` - The label of the garage
-**garageId** - `string` - The id of the garage (must match the server-registered id)
-**parkInCoords** - `vector3` - The park-in coords
-**parkOutCoords** - `table<vector4>` - The park-out coords
-**distance** - `float` - The park-in radius
-**warp** - `boolean` - Teleport into the vehicle
+**Parameters**  
+**label** - `string` - The label of the garage  
+**garageId** - `string` - The id of the garage (must match the server-registered id)  
+**parkInCoords** - `vector3` - The park-in coords  
+**parkOutCoords** - `table<vector4>` - The park-out coords  
+**distance** - `float` - The park-in radius  
+**warp** - `boolean` - Teleport into the vehicle  
 **type** - `table` - Vehicle categories
 
 ```lua
@@ -47,11 +47,11 @@ exports.msk_garage:openGarage({
 
 Opens a custom impound UI for the player.
 
-**Parameters**
-**label** - `string` - The label of the impound
-**parkOutCoords** - `table<vector4>` - The park-out coords
-**warp** - `boolean` - Teleport into the vehicle
-**type** - `table` - Vehicle categories
+**Parameters**  
+**label** - `string` - The label of the impound  
+**parkOutCoords** - `table<vector4>` - The park-out coords  
+**warp** - `boolean` - Teleport into the vehicle  
+**type** - `table` - Vehicle categories  
 **fee** - `number` - The impound fee
 
 ```lua
@@ -70,11 +70,11 @@ exports.msk_garage:openImpound({
 
 Get which garage a given vehicle is stored in.
 
-**Parameters**
+**Parameters**  
 **plate** - `string` - Plate of the vehicle
 
-**Returns**
-**garage** - `string` - The garage id
+**Returns**  
+**garage** - `string` - The garage id  
 **coords** - `vector3` - The coords of the garage
 
 ```lua

@@ -20,11 +20,11 @@ Registers a trusted custom garage definition for one player. Call this **before*
 the player opens the garage UI (via the client
 [`openGarage`](./client.md#opengarage) export).
 
-**Parameters**
-**playerSrc** - `number` - The player's server id
+**Parameters**  
+**playerSrc** - `number` - The player's server id  
 **def** - `table` - A garage definition (same shape as `Config.Garages` entries)
 
-**Returns**
+**Returns**  
 **ok** - `boolean` - `true` if the session was stored
 
 ```lua
@@ -49,11 +49,11 @@ client export is also accepted as a fallback, but prefer `park_out` here.
 
 Registers a trusted custom impound definition for one player.
 
-**Parameters**
-**playerSrc** - `number` - The player's server id
+**Parameters**  
+**playerSrc** - `number` - The player's server id  
 **def** - `table` - An impound definition (same shape as `Config.Impounds` entries)
 
-**Returns**
+**Returns**  
 **ok** - `boolean` - `true` if the session was stored
 
 ```lua
@@ -73,7 +73,7 @@ Clears any custom garage/impound session for a player (sessions also expire on
 their own after 60s and on disconnect, so this is only needed if you want to
 revoke access early).
 
-**Parameters**
+**Parameters**  
 **playerSrc** - `number` - The player's server id
 
 ```lua
