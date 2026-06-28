@@ -15,11 +15,14 @@ only enable what you actually run.
 makes spawned vehicles persistent — it saves any vehicle a player interacts with
 and **respawns it when a player gets close**.
 
-```lua title="config/settings.lua"
-Config.AdvancedParking = true
-```
+:::info[Auto-detected — no config flag (v5.0.0)]
+There is no `Config.AdvancedParking` setting anymore. The integration is enabled
+**automatically** whenever the `AdvancedParking` resource is running
+(`Config.UsesAdvancedParking()` in `config/static.lua`). Just `ensure` it before
+`msk_garage` and you're done.
+:::
 
-When enabled:
+When AdvancedParking is running:
 
 - **Park-in** removes the stored vehicle through AdvancedParking
   (`DeleteVehicleUsingData`) instead of a plain `DeleteEntity`, so it is taken
@@ -27,13 +30,6 @@ When enabled:
 - **Impound park-out** purges the old world copy from AdvancedParking's table
   (`keepInWorld = false`) before the fresh vehicle spawns. Without this step
   AdvancedParking would simply respawn the old car, leaving two vehicles.
-
-:::tip
-If you spot a vehicle "coming back" after it should have been removed, the cause
-is almost always an AdvancedParking integration that was disabled while the
-resource is still running. Keep `Config.AdvancedParking` in sync with whether
-`AdvancedParking` is actually started.
-:::
 
 ## VehicleDeformation
 
@@ -70,7 +66,9 @@ Config.VehicleKeys = {
 Config.parkoutWithKey = true     -- key holders may also retrieve from the impound
 ```
 
-Supported out of the box (bridges live in `server/keys/`):
+Supported out of the box (bridges live in `server/keys/`). The script is a
+**dropdown** in the [Admin Dashboard](../dashboard.md) (Settings tab), populated
+from `AdminPerms.VEHICLEKEY_SCRIPTS`:
 
 | `Config.VehicleKeys.script` | Resource |
 |---|---|
@@ -80,51 +78,77 @@ Supported out of the box (bridges live in `server/keys/`):
 
 :::info[Adding your own]
 Drop a new adapter file into `server/keys/` that returns the keys for a player,
-then set `Config.VehicleKeys.script` to its name. Only the three adapters above
-are officially supported.
+add its name to `AdminPerms.VEHICLEKEY_SCRIPTS` in `shared/admin_perms.lua` (so it
+shows up in the dropdown), then select it in the dashboard. Only the three
+adapters above are officially supported.
 :::
 
 ## Fuel
 
-Fuel is read/written through two adapter functions, so any fuel script works.
-The default uses the vehicle state bag (compatible with `ox_fuel` and similar):
+Fuel is read/written through adapter functions in **`config/static.lua`**, so any
+fuel script works. **msk_fuel is auto-detected**: when it runs, fuel is read and
+written as **exact liters** via its exports and the UI shows the real tank volume
+(e.g. `50 / 65 L`); otherwise the vehicle **state bag** is used (compatible with
+`ox_fuel` and similar) and the UI shows a percentage.
 
-```lua title="config/settings.lua"
+```lua title="config/static.lua"
+Config.UsesMskFuel = function()
+    return GetResourceState('msk_fuel') == 'started'
+end
+
 Config.SetFuel = function(vehicle, fuel)
+    if Config.UsesMskFuel() then
+        exports.msk_fuel:SetVehicleFuel(vehicle, fuel)
+        return
+    end
     Entity(vehicle).state.fuel = fuel
 end
 
 Config.GetFuel = function(vehicle)
+    if Config.UsesMskFuel() then
+        return exports.msk_fuel:GetVehicleFuel(vehicle)
+    end
     return Entity(vehicle).state.fuel
 end
 ```
 
-Replace the bodies with your fuel resource's exports if needed (e.g.
-`exports.LegacyFuel:SetFuel(vehicle, fuel)`).
+Replace the non-msk_fuel branches with your fuel resource's exports if needed
+(e.g. `exports.LegacyFuel:SetFuel(vehicle, fuel)`).
+
+:::note[Stored-vehicle max volume]
+For **stored** vehicles (the park-out / impound list, where no live entity
+exists) the `X / Y L` denominator comes from msk_fuel's per-model override, or
+falls back to [`Config.FuelTankDefaultVolume`](../config.md) (default `65.0 L`).
+:::
 
 ## Target & TextUI
 
 ```lua title="config/settings.lua"
 Config.TargetSystem = {
     enable = true,
-    script = 'ox_target', -- adapter in client/target.lua
+    script = 'ox_target', -- selectable in the dashboard; adapters in client/target.lua
 }
 
-Config.defaultTextUI = true          -- built-in msk_core HelpNotification
+Config.defaultTextUI = true -- true = msk_core TextUI, false = your Config.openTextUI/closeTextUI
+```
+
+```lua title="config/static.lua"
 Config.openTextUI = function(coloredText, uncoloredText)
-    exports['okokTextUI']:Open(uncoloredText, 'darkblue', 'left')
+    MSK.TextUI.Show('E', coloredText)
 end
 Config.closeTextUI = function()
-    exports['okokTextUI']:Close()
+    MSK.TextUI.Close()
 end
 ```
 
 - **`Config.TargetSystem`** — when enabled, interaction runs through the target
-  script (default `ox_target`). Add adapters for `qb-target`, `qtarget`, … in
-  `client/target.lua`.
-- **`Config.defaultTextUI`** — `true` uses the built-in `msk_core`
-  HelpNotification; `false` routes prompts through your own
-  `Config.openTextUI` / `Config.closeTextUI`.
+  script (default `ox_target`). The script is a **dropdown** in the
+  [Admin Dashboard](../dashboard.md), populated from `AdminPerms.TARGET_SCRIPTS`
+  (`shared/admin_perms.lua`). Add adapters for `qb-target`, `qtarget`, … in
+  `client/target.lua` and list them there.
+- **`Config.defaultTextUI`** — `true` uses the built-in `msk_core` TextUI;
+  `false` routes prompts through your own `Config.openTextUI` / `Config.closeTextUI`
+  in `config/static.lua`.
 
 ## Custom garages from other scripts
 

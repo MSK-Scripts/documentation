@@ -12,6 +12,14 @@ built on top of [msk_core](https://github.com/MSK-Scripts/msk_core). Park cars,
 boats and aircraft, recover lost vehicles from the impound, share job vehicles
 across a society — all with a modern, fully offline React UI.
 
+:::tip[v5.0.0 — In-Game Admin Dashboard]
+Garages, impounds and settings are now stored in the **database** and managed
+from an in-game **[admin dashboard](./dashboard.md)** (`/garageadmin`) — create,
+edit and delete locations, change every setting and manage a **group/permission
+system**, all applied **live without a restart**. Your config files are imported
+once and then act only as the default template.
+:::
+
 :::tip[v4.0.0 — Full Rewrite]
 The UI was rebuilt in **React + Vite + TypeScript** (no more jQuery / external
 CDNs — everything is bundled and works offline) and the backend was moved to a
@@ -24,6 +32,12 @@ and the impound fee is always charged on the server (and refunded on failure).
 
 ### ✨ Highlights
 
+- **In-Game Admin Dashboard** — create, edit and delete garages & impounds,
+  change every setting and manage permissions from `/garageadmin`, applied live
+  without a restart. See [Admin Dashboard](./dashboard.md).
+- **Group & permission system** — fine-grained rights
+  (view/create/edit/delete for garages & impounds, plus settings & permission
+  management) bound to your existing `server.cfg` ACE groups.
 - **Unlimited garages & impounds** — define as many locations as you want, each
   with its own ped, blip, 3D text, marker and park-out spot(s).
 - **Cars, boats & aircraft** — separate vehicle categories (`car`, `truck`,
@@ -71,9 +85,10 @@ and the impound fee is always charged on the server (and refunded on failure).
 - Bring your own **fuel** system (default: state-bag based, e.g. `ox_fuel`).
 - Built-in **TextUI** or plug in your own (e.g. `okokTextUI`), or use
   **`ox_target`**.
-- Optional **AdvancedParking** support (persistent vehicles) with impound
-  deletion handled through AdvancedParking so removed cars never respawn.
-- Custom license plates, configurable blips, and full **EN/DE** locales.
+- **Auto-detected AdvancedParking** support (persistent vehicles) — enabled
+  automatically when the resource runs, with impound deletion handled through
+  AdvancedParking so removed cars never respawn.
+- Custom license plates, configurable blips, and locales for **EN, DE, HU, FR, ES, PT, PL**.
 - Developer-friendly client & server **exports** and park-in / park-out
   **events** for easy integration.
 
@@ -93,7 +108,8 @@ provided for the scripts listed above. See
 ## Next steps
 
 - [Installation](./guides/installation.md) — drag & drop, `server.cfg`, database
-- [Configuration](./config.md) — the three config files explained
+- [Admin Dashboard](./dashboard.md) — manage garages, impounds, settings & permissions in-game
+- [Configuration](./config.md) — the config files (seed) explained
 - [Integrations](./guides/integrations.md) — AdvancedParking, deformation, keys, fuel, target
-- [Database](./database.md) — the `owned_vehicles` table & auto-migration
+- [Database](./database.md) — the `owned_vehicles` table, the dashboard tables & auto-migration
 - [Events](./events.md) & [Exports](./exports/client.md) — for developers

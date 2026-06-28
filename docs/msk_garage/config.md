@@ -1,27 +1,124 @@
 ---
 title: Config
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 # Config
 
-The configuration is **split across three files** inside the `config/` folder.
-All of them are escrow-open (`escrow_ignore`), so you can edit them freely:
+:::tip[Config is the seed — the database is authoritative (v5.0.0)]
+Since v5.0.0 garages, impounds and the managed settings are stored in the
+**database** and edited from the [Admin Dashboard](./dashboard.md). The config
+files below are imported **once** on the first start and afterwards only act as
+the **default template** for a fresh install. To change things on a running
+server, use `/garageadmin` — not these files.
+:::
 
-| File | Contains |
-|---|---|
-| `config/settings.lua` | General settings (`Config.*`) |
-| `config/garages.lua` | `Config.Garages` (uses a `garage()` template helper) |
-| `config/impounds.lua` | `Config.Impounds` (uses an `impound()` template helper) |
+The configuration lives in the `config/` folder. All files are escrow-open
+(`escrow_ignore`), so you can edit them freely:
 
-## `config/settings.lua`
+| File | Contains | Managed by |
+|---|---|---|
+| `config/settings.lua` | Dashboard-managed settings (`Config.*`) — **seed defaults** | DB / Dashboard |
+| `config/static.lua` | Code hooks, adapters & column mapping | **File only** (never touched by the DB) |
+| `config/garages.lua` | `Config.Garages` seed (uses a `garage()` template helper) | DB / Dashboard |
+| `config/impounds.lua` | `Config.Impounds` seed (uses an `impound()` template helper) | DB / Dashboard |
+
+:::info[settings.lua vs static.lua]
+The split is deliberate: **`settings.lua`** holds only values that the dashboard
+writes back to the database (so editing them on a seeded server has no effect —
+use the dashboard). **`static.lua`** holds the code-level hooks (notification,
+TextUI, fuel, lock and column mapping) that the dashboard never manages — edit
+those directly in the file.
+:::
+
+## `config/settings.lua` (dashboard-managed seed)
 
 ```lua
 Config = Config or {}
 
-Config.Locale = 'de' -- 'de', 'en'
+Config.Locale = 'de' -- de | en | hu | fr | es | pt | pl
 Config.Debug = true
 Config.VersionChecker = true
+
+-- Interaction
+Config.Hotkey = 38 -- E (see translation for the visible key)
+
+Config.TargetSystem = {
+    enable = true,
+    -- Selectable in the dashboard. Adapters live in client/target.lua.
+    script = 'ox_target',
+}
+
+Config.defaultTextUI = true
+
+Config.Parking = 'specific' -- 'all' | 'specific'
+
+-- Default garages per vehicle category (land / sea / air)
+Config.DefaultGarages = {
+    land = 'A',      -- car / truck / bike / bicycle / trailer / train
+    sea  = 'boat_A', -- boat / submarine
+    air  = 'heli_A', -- helicopter / aircraft / plane
+}
+Config.DefaultGarage = Config.DefaultGarages.land -- legacy, derived
+
+-- Vehicle Keys (second-key support so key holders can park out too)
+Config.VehicleKeys = {
+    enable = true,
+    -- Selectable in the dashboard. Adapters live in server/keys/.
+    script = 'msk_vehiclekeys',
+}
+
+-- Fallback tank volume (L) for the max-fuel denominator of stored vehicles
+Config.FuelTankDefaultVolume = 65.0
+
+-- Impound settings
+Config.enableImpound = true
+Config.parkoutWithKey = true
+Config.needEnoughMoney = true
+
+-- Own job vehicles via society identifier (shared across the job)
+Config.useSocietyName = false
+
+-- In-Game Admin Dashboard
+Config.adminCommand = 'garageadmin' -- command that opens the dashboard
+Config.dashboardGroups = { 'mod' }  -- groups (besides 'admin') allowed to open it; 'user' is always denied
+```
+
+### Settings reference
+
+| Key | Type | Description |
+|---|---|---|
+| `Config.Locale` | `string` | Active locale (`de`, `en`, `hu`, `fr`, `es`, `pt`, `pl`), see `locales/`. |
+| `Config.Debug` | `boolean` | Prints verbose debug logging via `MSK.Logging`. |
+| `Config.VersionChecker` | `boolean` | Checks for new releases on start. |
+| `Config.Hotkey` | `number` | Interaction key (default `38` = E). Players can rebind it in FiveM. |
+| `Config.TargetSystem` | `table` | Use a target script (`ox_target`) instead of hotkey + TextUI. Script is a dropdown in the dashboard. |
+| `Config.defaultTextUI` | `boolean` | `true` = msk_core HelpNotification, `false` = your TextUI (`config/static.lua`). |
+| `Config.Parking` | `string` | `'specific'` = park out only at the storing garage, `'all'` = anywhere. |
+| `Config.DefaultGarages` | `table` | Default garage id **per category** (`land` / `sea` / `air`). Used when reassigning vehicles from a deleted garage. |
+| `Config.DefaultGarage` | `string` | Legacy single default, derived from `DefaultGarages.land`. |
+| `Config.VehicleKeys` | `table` | Second-key support — script is a dropdown in the dashboard. See [Integrations](./guides/integrations.md#vehicle-keys). |
+| `Config.FuelTankDefaultVolume` | `number` | Max-volume denominator (L) for **stored** vehicles without a per-model override. See [Integrations → Fuel](./guides/integrations.md#fuel). |
+| `Config.enableImpound` | `boolean` | Register the impound locations from `config/impounds.lua`. |
+| `Config.parkoutWithKey` | `boolean` | Key holders may also retrieve from the impound. |
+| `Config.needEnoughMoney` | `boolean` | Require the player to afford the impound fee. |
+| `Config.useSocietyName` | `boolean` | Own job vehicles via `society_<job>` instead of per-player. |
+| `Config.adminCommand` | `string` | Command that opens the [Admin Dashboard](./dashboard.md). |
+| `Config.dashboardGroups` | `table` | ACE groups (besides `admin`) allowed to open the dashboard. `user` is always denied. |
+
+:::note[AdvancedParking is auto-detected]
+There is no `Config.AdvancedParking` flag anymore. The
+[AdvancedParking](./guides/integrations.md#advancedparking) integration is enabled
+automatically whenever the `AdvancedParking` resource is running.
+:::
+
+## `config/static.lua` (code hooks — not managed by the DB)
+
+These are the adapters and mappings the dashboard never touches. Edit them
+directly; changes take effect on resource restart.
+
+```lua
+Config = Config or {}
 
 -- Notification (client- AND serverside)
 Config.Notification = function(source, message, typ)
@@ -32,102 +129,60 @@ Config.Notification = function(source, message, typ)
     end
 end
 
--- Interaction
-Config.Hotkey = 38 -- E (see translation for the visible key)
+-- Ped "greet/farewell" voice line on enter/leave
+Config.npcVoice = { enable = true, inRange = 5.0, outRange = 5.0 }
 
--- "Speech bubble" the ped plays when you enter/leave its range
-Config.npcVoice = {
-    enable = true,
-    inRange = 5.0,
-    outRange = 5.0,
-}
-
-Config.TargetSystem = {
-    enable = true,
-    -- Supported: ox_target. Add your own in client/target.lua
-    script = 'ox_target',
-}
-
--- true  -> uses the built-in msk_core HelpNotification
--- false -> uses your Config.openTextUI / Config.closeTextUI below
-Config.defaultTextUI = true
-
+-- TextUI adapter (used when Config.defaultTextUI = false)
 Config.openTextUI = function(coloredText, uncoloredText)
-    exports['okokTextUI']:Open(uncoloredText, 'darkblue', 'left')
+    MSK.TextUI.Show('E', coloredText)
 end
-
 Config.closeTextUI = function()
-    exports['okokTextUI']:Close()
+    MSK.TextUI.Close()
 end
 
--- Database column mapping
-Config.MySQL = {
-    type = 'type',
-    job = 'job',
-    stored = 'stored',
-    civ = 'civ',
-}
+-- Database column mapping (owned_vehicles)
+Config.MySQL = { type = 'type', job = 'job', stored = 'stored', civ = 'civ' }
 
-Config.Parking = 'specific' -- 'all' | 'specific'
-Config.DefaultGarage = 'A'
+-- Resolves the default garage id for an owned_vehicles.type value
+function Config.GetDefaultGarage(vehicleType) ... end
 
--- Vehicle Keys (second-key support so key holders can park out too)
-Config.VehicleKeys = {
-    enable = true,
-    script = 'msk_vehiclekeys', -- msk_vehiclekeys | VehicleKeyChain | vehicles_keys
-}
-
-Config.AdvancedParking = true
-
--- Fuel adapter (clientside ONLY)
-Config.SetFuel = function(vehicle, fuel)
-    Entity(vehicle).state.fuel = fuel
+-- AdvancedParking auto-detect (no config flag)
+Config.UsesAdvancedParking = function()
+    return GetResourceState('AdvancedParking') == 'started'
 end
 
-Config.GetFuel = function(vehicle)
-    return Entity(vehicle).state.fuel
-end
+-- Fuel adapter (auto-uses msk_fuel when running, else the state bag)
+Config.UsesMskFuel = function() return GetResourceState('msk_fuel') == 'started' end
+Config.GetModelMaxFuel = function(model) ... end
+Config.SetFuel = function(vehicle, fuel) ... end
+Config.GetFuel = function(vehicle) ... end
 
--- Impound settings
-Config.enableImpound = true
-Config.parkoutWithKey = true
-Config.needEnoughMoney = true
-
--- Job vehicles via society identifier
--- If true, job vehicles are owned by the society (e.g. 'society_police')
--- instead of the player, so they can be shared across the whole job.
-Config.useSocietyName = false
+-- Lock adapter (uses the vehicle-keys script's lock export when present)
+Config.LockVehicle = function(vehicle, locked) ... end
 ```
-
-### Settings reference
 
 | Key | Type | Description |
 |---|---|---|
-| `Config.Locale` | `string` | Active locale (`'de'` / `'en'`), see `locales/`. |
-| `Config.Debug` | `boolean` | Prints verbose debug logging via `MSK.Logging`. |
-| `Config.VersionChecker` | `boolean` | Checks for new releases on start. |
 | `Config.Notification` | `function` | Notification adapter (works client **and** server). |
-| `Config.Hotkey` | `number` | Interaction key (default `38` = E). Players can rebind it in FiveM. |
 | `Config.npcVoice` | `table` | Ped "greet/farewell" voice line on enter/leave. |
-| `Config.TargetSystem` | `table` | Use a target script (`ox_target`) instead of hotkey + TextUI. |
-| `Config.defaultTextUI` | `boolean` | `true` = msk_core HelpNotification, `false` = your TextUI. |
-| `Config.openTextUI` / `closeTextUI` | `function` | Your TextUI adapter (example wires `okokTextUI`). |
-| `Config.MySQL` | `table` | Column name mapping for the `owned_vehicles` table — see [Database](./database.md). |
-| `Config.Parking` | `string` | `'specific'` = park out only at the storing garage, `'all'` = anywhere. |
-| `Config.DefaultGarage` | `string` | Garage id used when a vehicle has no specific garage. |
-| `Config.VehicleKeys` | `table` | Second-key support — see [Integrations](./guides/integrations.md#vehicle-keys). |
-| `Config.AdvancedParking` | `boolean` | Enable [AdvancedParking](./guides/integrations.md#advancedparking) integration. |
+| `Config.openTextUI` / `closeTextUI` | `function` | Your TextUI adapter (default wires `MSK.TextUI`). |
+| `Config.MySQL` | `table` | Column name mapping for `owned_vehicles` — see [Database](./database.md). |
+| `Config.GetDefaultGarage` | `function` | Resolves the default garage id for a vehicle type via `Config.DefaultGarages`. |
+| `Config.UsesAdvancedParking` | `function` | Auto-detects the AdvancedParking resource. |
+| `Config.UsesMskFuel` / `GetModelMaxFuel` | `function` | [Fuel](./guides/integrations.md#fuel) detection & max-volume helper. |
 | `Config.SetFuel` / `GetFuel` | `function` | [Fuel](./guides/integrations.md#fuel) adapter (clientside). |
-| `Config.enableImpound` | `boolean` | Register the impound locations from `config/impounds.lua`. |
-| `Config.parkoutWithKey` | `boolean` | Key holders may also retrieve from the impound. |
-| `Config.needEnoughMoney` | `boolean` | Require the player to afford the impound fee. |
-| `Config.useSocietyName` | `boolean` | Own job vehicles via `society_<job>` instead of per-player. |
+| `Config.LockVehicle` | `function` | Lock adapter (uses the keys script's lock export when present). |
 
 ## `config/garages.lua`
 
 Garages are not written out as full tables. A `garage()` helper builds the entry
 from shared defaults, so you only pass the parts that differ. Any field can still
 be overridden via the `opts` table (last argument).
+
+:::tip
+This file is the **seed** for a fresh install. On a running server, add/edit
+garages from the [Admin Dashboard](./dashboard.md) instead.
+:::
 
 ```lua
 -- garage(id, label, types, location, parkOut, blip, opts)
@@ -180,6 +235,12 @@ custom-garage export must provide — see [Server Exports](./exports/server.md))
 }
 ```
 
+:::note[Coordinates in the database]
+When stored in the DB (or edited in the dashboard), `vector4` locations are kept
+as plain `{ x, y, z, w }` tables — the rest of the script reads coordinates via
+`.x/.y/.z/.w`, so both forms work interchangeably.
+:::
+
 ### Jobs block
 
 | Field | Type | Description |
@@ -187,7 +248,25 @@ custom-garage export must provide — see [Server Exports](./exports/server.md))
 | `enable` | `boolean` | Restrict the garage to job(s). |
 | `identifier` | `string` | `'player'` (owned by the member) or `'society'` (shared). |
 | `ownJob` | `boolean` | Only show vehicles of the player's current job. |
-| `jobs` | `table` | List of `{ job = 'police', grade = 0 }` (grade = minimum). |
+| `jobs` | `table` | List of allowed jobs. Each entry is `{ job = 'police', grade = 0 }` (**minimum** grade) **or** `{ job = 'police', grades = { 0, 2, 4 } }` (only those **exact** ranks). |
+
+:::tip[Per-rank access (v5.0.0)]
+A job entry can grant access to **individual ranks** instead of "this grade and
+above". Use `grades = { ... }` (a list of allowed grade numbers) for exact-rank
+matching; omit it (or use `grade = N`) for the classic minimum-grade behaviour.
+Both forms work, so existing configs keep working unchanged.
+
+In the [Admin Dashboard](./dashboard.md) this is point-and-click: pick the job
+from a dropdown, then tick the exact ranks in the rank popup.
+:::
+
+```lua
+-- Minimum grade (grade 2 and above):
+jobs = { { job = 'police', grade = 2 } }
+
+-- Only these exact ranks (0, 2 and 4):
+jobs = { { job = 'police', grades = { 0, 2, 4 } } }
+```
 
 ## `config/impounds.lua`
 
