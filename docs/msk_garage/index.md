@@ -12,6 +12,13 @@ built on top of [msk_core](https://github.com/MSK-Scripts/msk_core). Park cars,
 boats and aircraft, recover lost vehicles from the impound, share job vehicles
 across a society — all with a modern, fully offline React UI.
 
+:::tip[v5.1.0 — Job-garage policies, theming & vehicle images]
+A new **[Job Garages tab](./dashboard.md#job-garages)** lets each job use public
+garages via a **whitelist/blacklist**, the UI is now fully **[recolourable
++ rebrandable](./dashboard.md#colors--branding)**, and you can show **[real
+per-model vehicle images](./dashboard.md#vehicle-images)**.
+:::
+
 :::tip[v5.0.0 — In-Game Admin Dashboard]
 Garages, impounds and settings are now stored in the **database** and managed
 from an in-game **[admin dashboard](./dashboard.md)** (`/garageadmin`) — create,
@@ -45,6 +52,9 @@ and the impound fee is always charged on the server (and refunded on failure).
   right place.
 - **Job & society garages** — restrict access by job and minimum grade; job
   vehicles can be owned per-player or shared across the whole society.
+- **Public-garage access per job** — let a job park its vehicles at public
+  garages too, controlled with a per-job **whitelist/blacklist** from the
+  [Job Garages tab](./dashboard.md#job-garages).
 - **Impound system** — recover lost vehicles (after a crash, death or server
   restart) for a configurable fee, with an in-UI **track waypoint** to locate
   the car.
@@ -64,6 +74,10 @@ and the impound fee is always charged on the server (and refunded on failure).
 - **100% offline** — all fonts and icons are bundled. No jQuery, no Google
   Fonts, no FontAwesome CDN, zero external requests at runtime.
 - Live search, fuel bars, vehicle-class icons and a fast, responsive layout.
+- **Customisable colours & brand tag** (v5.1.0) — recolour the whole UI from
+  Settings → Colors with a live preview. See [Colors & branding](./dashboard.md#colors--branding).
+- **Real vehicle images** (v5.1.0, optional) — drop per-model pictures into
+  `vehicle_images/` to replace the class icons. See [Vehicle images](./dashboard.md#vehicle-images).
 
 ### 🔒 Security-first backend
 

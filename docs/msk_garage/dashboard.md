@@ -12,6 +12,13 @@ They live in the **database** and are managed from an in-game **admin dashboard*
 **group/permission system**, all applied **live without a server restart**.
 :::
 
+:::tip[New in v5.1.0]
+The dashboard gained a **[Job Garages](#job-garages) tab** (per-job whitelist /
+blacklist of public garages), **[UI colour theming + an editable brand
+tag](#colors--branding)**, and support for **[per-model vehicle
+images](#vehicle-images)**.
+:::
+
 ## How it works
 
 On the **first start**, the script imports your existing `config/*` (garages,
@@ -111,6 +118,31 @@ List, create, edit and delete entries. The list can be filtered by **search**
 Changes are pushed to all players instantly — blips and interaction points are
 rebuilt without a restart.
 
+### Job Garages
+
+:::tip[New in v5.1.0]
+Requires the `settings.manage` right.
+:::
+
+By default a **job vehicle can only be parked at its own job garage**. This tab
+lets you grant a job access to **public (civilian) garages** as well — and control
+exactly which ones. For each job you choose a **mode** and pick the public garages:
+
+| Mode | Meaning |
+|---|---|
+| **Whitelist** | The job may use **only** the selected public garages. |
+| **Blacklist** | The job may use **all** public garages **except** the selected ones. |
+
+- A job with **no entry** has **no** public-garage access (the default).
+- A **whitelist with nothing selected** = no access; a **blacklist with nothing
+  selected** = all public garages.
+- **Select all / Deselect all** buttons and a job search make bulk edits quick.
+
+The policy is enforced **server-side** on the vehicle list, park-in, park-out and
+the park-in pre-check, so it can't be bypassed from the client. Only **public**
+garages (those without a job restriction) are selectable; job garages keep working
+as before.
+
 ### Settings
 
 Edit every dashboard-managed setting (locale, hotkey, parking mode, impound
@@ -121,6 +153,39 @@ in code:
 - **Vehicle key script** — see [Vehicle Keys](./guides/integrations.md#vehicle-keys)
 
 The **default garages** are set per category here (see below).
+
+#### Vehicle images
+
+:::tip[New in v5.1.0]
+:::
+
+Show a **real picture per vehicle** in the garage / impound UI instead of the
+generic vehicle-class icon.
+
+1. Drop image files into the resource folder **`vehicle_images/<spawnname>.<ext>`**
+   — named after the vehicle's spawn name in lowercase, e.g.
+   `vehicle_images/sultanrs.png`.
+2. In **Settings → Vehicle Images** enable the feature and pick the file
+   extension you used (**PNG / JPG / WEBP**).
+
+If a model has no image the UI **falls back to the class icon**, so a partial set
+is fine. Images are served locally over `nui://` (no internet required), and the
+folder lives **outside** `html/` so rebuilding the NUI never deletes them.
+
+#### Colors & branding
+
+:::tip[New in v5.1.0]
+:::
+
+Under **Settings → Colors** you can recolour the whole UI and rename the title
+badge:
+
+- **5 brand colours** — accent, background, panel, primary & secondary text — with
+  a **live preview** and a **"Reset to default"** button. The theme applies to the
+  **dashboard, garage and impound** UI; the remaining shades are derived
+  automatically.
+- **Brand tag** — the small badge next to the dashboard title (default `MSK`,
+  [`Config.BrandTag`](./config.md)). Leave it empty to hide the badge.
 
 ### Permissions
 

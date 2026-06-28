@@ -56,7 +56,11 @@ prints a loud warning on start if OneSync is off.
    target & vehicle-key scripts and (if needed) the dashboard command name.
 4. In **Garages / Impounds**, add or edit locations — use the **"Current
    position"** button to capture coordinates in-game.
-5. If you use AdvancedParking, vehicle keys, a custom fuel script or visual
+5. *(Optional, v5.1.0)* For **real vehicle images**, drop pictures into the
+   `vehicle_images/<spawnname>.<ext>` folder (e.g. `vehicle_images/sultanrs.png`),
+   then enable them under **Settings → Vehicle Images**. Missing images fall back
+   to the class icon. See [Vehicle images](../dashboard.md#vehicle-images).
+6. If you use AdvancedParking, vehicle keys, a custom fuel script or visual
    deformation, read the [Integrations](./integrations.md) guide.
 
 :::note[Prefer to edit files?]
@@ -69,7 +73,8 @@ are seeded into the database once. After that, use the dashboard.
 
 Replace the resource folder and restart. `config/` and `locales/` are
 escrow-open, so back up your changes before overwriting and re-apply them
-afterwards.
+afterwards. If you added **vehicle images**, back up your `vehicle_images/` folder
+too and copy it back after updating.
 
 :::info[Your garages survive updates]
 On an already-seeded server, garages, impounds and the managed settings live in

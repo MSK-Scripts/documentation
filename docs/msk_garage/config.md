@@ -82,6 +82,22 @@ Config.useSocietyName = false
 -- In-Game Admin Dashboard
 Config.adminCommand = 'garageadmin' -- command that opens the dashboard
 Config.dashboardGroups = { 'mod' }  -- groups (besides 'admin') allowed to open it; 'user' is always denied
+Config.BrandTag = 'MSK'             -- badge next to the dashboard title (empty = hidden)
+
+-- Per-model vehicle images (vehicle_images/<spawnname>.<ext>). Falls back to the
+-- vehicle-class icon when an image is missing.
+Config.VehicleImages = { enable = false, ext = 'png' } -- ext: 'png' | 'jpg' | 'webp'
+
+-- UI colours (hex) — applied live to dashboard, garage & impound. Derived shades
+-- are computed in the UI; only these 5 brand colours are configurable.
+Config.Theme = {
+    accent = '#00E676', bg = '#0a0b0d', panel = '#131317',
+    textPrimary = '#f0ede8', textSecondary = '#b0adb8',
+}
+
+-- Per-job public-garage access (managed from the Job Garages dashboard tab).
+-- job -> { mode = 'whitelist'|'blacklist', garages = { '<publicGarageId>', ... } }
+Config.JobGaragePolicy = {}
 ```
 
 ### Settings reference
@@ -105,6 +121,10 @@ Config.dashboardGroups = { 'mod' }  -- groups (besides 'admin') allowed to open 
 | `Config.useSocietyName` | `boolean` | Own job vehicles via `society_<job>` instead of per-player. |
 | `Config.adminCommand` | `string` | Command that opens the [Admin Dashboard](./dashboard.md). |
 | `Config.dashboardGroups` | `table` | ACE groups (besides `admin`) allowed to open the dashboard. `user` is always denied. |
+| `Config.BrandTag` | `string` | Badge shown next to the dashboard title (default `MSK`). Empty hides it. Editable in Settings → Colors. |
+| `Config.VehicleImages` | `table` | Per-model vehicle images: `{ enable, ext }` (`ext` = `png`/`jpg`/`webp`). Images go in `vehicle_images/<spawnname>.<ext>`; missing ones fall back to the class icon. See [Dashboard → Vehicle images](./dashboard.md#vehicle-images). |
+| `Config.Theme` | `table` | UI colours (`accent`, `bg`, `panel`, `textPrimary`, `textSecondary`) applied to dashboard/garage/impound. Editable in Settings → Colors. |
+| `Config.JobGaragePolicy` | `table` | Per-job public-garage access (whitelist/blacklist), managed from the [Job Garages tab](./dashboard.md#job-garages). Empty = jobs have no public-garage access. |
 
 :::note[AdvancedParking is auto-detected]
 There is no `Config.AdvancedParking` flag anymore. The
