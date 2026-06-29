@@ -26,8 +26,10 @@ A subscription applies to **one guild**. Each server you run is upgraded indepen
 | Review pipeline, custom statuses, Kanban | ✅ | ✅ | ✅ |
 | Discord bot, status DMs, activity log | ✅ | ✅ | ✅ |
 | Accent color + logo branding | ✅ | ✅ | ✅ |
+| Form categories + public hub | ✅ | ✅ | ✅ |
 | 7 languages, installable PWA | ✅ | ✅ | ✅ |
 | Exports | CSV | + XLSX / JSON / PDF | + XLSX / JSON / PDF |
+| Import / export forms (JSON) | — | ✅ | ✅ |
 | "Powered by MSK Forms" badge | shown | hidden | hidden |
 | Custom CSS | — | ✅ | ✅ |
 | Custom domain | — | ✅ | ✅ |

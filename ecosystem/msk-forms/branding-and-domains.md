@@ -39,6 +39,18 @@ Managers can add **custom CSS** that applies to the public form and status pages
 
 ---
 
+## Public form hub
+
+Every guild gets a **public hub** that lists all its live forms, grouped by [category](form-builder.md#categories) (uncategorized forms appear under *Other forms*). It's free — no custom domain required.
+
+- It's always reachable at `https://forms.msk-scripts.de/g/<your-server-id>`.
+- Set a **handle** on the **Domain** page (the *Public hub link* section, free for all managers) and the hub also gets a clean vanity path, e.g. `https://forms.msk-scripts.de/msk-forms`. Handles are 2–32 characters (lowercase letters, numbers, hyphens), unique across MSK Forms, and a few reserved names are blocked.
+- On a verified [custom domain](#custom-domains), the **root** of the domain is this same hub.
+
+Share the hub link so applicants can find every open form in one place.
+
+---
+
 ## Custom domains
 
 :::note[Pro feature]

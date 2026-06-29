@@ -71,6 +71,10 @@ Each choice option can carry a **points** value for [scoring](#quiz--scoring).
 
 Non-input blocks for structure — headings, descriptive text, dividers. They never count as answers and are never required.
 
+### Change a field's type
+
+Picked the wrong type, or want to turn a short-text question into a dropdown? Use the **type selector** at the top of any field card to switch it in place. The field keeps its label, help text, position, and conditional logic; type-specific settings that no longer apply are reset (a note warns you when that happens). Options and matrix rows are kept when the new type also uses them (e.g. single choice to dropdown). Existing answers are never touched.
+
 ---
 
 ## Multi-step pages
@@ -170,11 +174,34 @@ See [Discord Bot](discord-bot.md) for how these drive the review workflow.
 
 ---
 
+## Categories
+
+Group your forms into **categories** — e.g. *In-game jobs* vs *Staff applications*. Manage them under **Dashboard → your server → Categories** (managers only): add, rename, recolor, and reorder. Then pick a category for each form in the builder.
+
+Categories drive the grouping on your **public form hub** — applicants see your forms split into sections, with uncategorized forms under *Other forms*. See [Branding & Custom Domains → Public form hub](branding-and-domains.md#public-form-hub).
+
+---
+
+## Import & export (JSON)
+
+:::note[Pro feature]
+Importing and exporting a form definition requires a [Pro](plans.md) subscription.
+:::
+
+Move a form between servers, keep a backup, or reuse a template:
+
+- **Export** — download a form's definition (its structure and settings, not its submissions) as a JSON file from the Forms list.
+- **Import** — upload a JSON file as a **new form**, or **replace** an existing form's content from a file. Imported as new, the slug is reused (and de-duplicated if already taken); on replace, the form keeps its current public link. The form's category travels with the file by name and is recreated on the target server if missing.
+
+---
+
 ## Saving & going live
 
 - **Save** stores the form as a draft.
 - Set the **status to Live** to start accepting submissions (subject to any [schedule](#scheduling)).
 - **Delete** removes a form and its submissions (cascade), including any uploaded files.
+
+**Preview before you publish.** Every form has a **Preview** action (managers, opens in a new tab) that renders the exact public form — branding, multi-step flow, all field types — for any status, including drafts. Preview validates and lets you walk the pages like the real thing, but never submits.
 
 :::tip[Free plan limit]
 The Free plan allows up to **3 forms** per server, and Pro features (CSS, automations, A/B, custom domain) are stripped or gated for Free guilds. See [Plans & Limits](plans.md).
