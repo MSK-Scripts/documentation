@@ -56,7 +56,9 @@ The **accepted role** is granted on **every** acceptance path — the Discord bu
 
 ## Status DMs
 
-When a submission's status changes (or a reviewer sends a public message), the bot **DMs the applicant** with the new status and a link to their status page — provided the applicant logged in with Discord (anonymous applicants have no Discord to DM).
+When a submission's status changes (or a reviewer sends a public message), the bot **DMs the applicant** with the new status and a link to their status page — provided the applicant logged in with Discord (anonymous applicants have no Discord to DM). If your guild has a verified [custom domain](branding-and-domains.md#custom-domains), the status link points there, keeping applicants on your own domain.
+
+A status change that a reviewer marks [hidden](submissions-and-review.md#reviewing-a-submission) sends no DM.
 
 Under the hood this is an **outbox**: the web app records a notification in the same transaction as the status change; the bot polls every 15 seconds and delivers it, retrying transient failures and dropping ones where DMs are impossible (e.g. the user blocks DMs).
 

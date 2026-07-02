@@ -55,7 +55,7 @@ Managers can define their own statuses on the **Statuses** page — each with a 
 
 Open a submission from the **Submissions** tab. The detail page shows every answer (files appear as download links). The review panel lets a reviewer:
 
-- **Change the status** (built-in or custom).
+- **Change the status** (built-in or custom). Tick **Hide this change from the applicant** to keep it internal: the applicant gets no DM and the change never shows on their status page, but the status still updates for your team and is recorded in the activity log.
 - **Add an internal note** — visible only to the team, never to the applicant.
 - **Send a public message** — appears on the applicant's status page and (if they logged in with Discord) is DM'd to them.
 
