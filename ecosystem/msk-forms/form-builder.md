@@ -107,6 +107,24 @@ Each form can have an optional **open / close window**:
 
 Times are shown in each viewer's local timezone. Closed forms drop out of the public index automatically.
 
+### Countdown teaser
+
+Turn on **Countdown on the public hub** (in the scheduling section) to build hype for a form that opens later. While the form is scheduled:
+
+- Its card on the [public hub](branding-and-domains.md#public-form-hub) shows a **live countdown** to the opening time instead of a plain date.
+- The form page shows the same countdown and, the moment it opens, fires a **confetti** burst and reveals the form automatically.
+
+Off by default — a scheduled form otherwise just shows its opening time.
+
+---
+
+## One submission per person
+
+By default, each signed-in applicant can have only **one active submission** per form. While their submission is still open (not yet at a terminal status), reopening the form sends them straight to its [status page](submissions-and-review.md#the-status-loop-applicant-side) instead of a blank form, and the submit endpoint refuses a duplicate. Once a reviewer sets a **terminal** status (Accepted, Rejected, Withdrawn, or a custom terminal status) they can apply again.
+
+- It only applies to **signed-in** applicants — anonymous submissions can't be tied to a person.
+- Turn it off in the builder (the **One active submission per person** toggle) for forms that should accept repeated submissions, e.g. surveys or feedback.
+
 ---
 
 ## Quiz & scoring

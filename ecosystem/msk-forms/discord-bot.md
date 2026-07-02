@@ -60,7 +60,7 @@ When a submission's status changes (or a reviewer sends a public message), the b
 
 Under the hood this is an **outbox**: the web app records a notification in the same transaction as the status change; the bot polls every 15 seconds and delivers it, retrying transient failures and dropping ones where DMs are impossible (e.g. the user blocks DMs).
 
-DMs are sent in the **applicant's own Discord language** where known, falling back to the server's [bot language](#bot-language).
+DMs use the server's [bot language](#bot-language) when one is set, so the whole bot speaks one language. If the server hasn't set a bot language, DMs fall back to the **applicant's own Discord language**.
 
 ---
 
@@ -79,12 +79,12 @@ If no log channel is set, nothing is posted.
 
 ## Bot language
 
-A server can choose the language the **bot speaks on the server side** — slash-command replies, review embeds (New submission / Accept / Reject), and activity-log embeds. Set it with:
+A server can choose the language the **bot speaks for the whole server** — slash-command replies, review embeds (New submission / Accept / Reject), activity-log embeds, and applicant status DMs. Set it with:
 
 - `/forms language <locale>` in Discord, **or**
 - the **Bot** page dropdown in the dashboard.
 
-Supported: English, German, Hungarian, French, Spanish, Portuguese (BR), Polish. **Applicant DMs stay per-applicant** (their own Discord language), using the server language only as a fallback.
+Supported: English, German, Hungarian, French, Spanish, Portuguese (BR), Polish. When set, the bot language also applies to **applicant status DMs**, so applicants hear from you in your community's language. Leave it unset and DMs fall back to each applicant's own Discord language.
 
 ---
 

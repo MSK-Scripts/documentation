@@ -37,6 +37,15 @@ Custom CSS requires a [Pro](plans.md) subscription.
 
 Managers can add **custom CSS** that applies to the public form and status pages — style the `.msk-form` wrapper or override the theme's CSS variables. The CSS is sanitized on save **and** on render (defense in depth): anything that could break out of the style context is stripped, `@import` / `expression()` / `javascript:` are removed, and length is capped.
 
+### Preview & starter styles
+
+You don't need to know CSS to get started:
+
+- **Quick styles** — one-click buttons (rounded corners, accent background, larger text, colored heading) drop a ready-made rule into the editor that you can then tweak.
+- **Live preview** — a sample of your public form updates instantly as you edit, with your accent color and CSS applied, so you see the result before saving. Nothing is saved until you press **Save**.
+
+Every starter rule targets `.msk-form` or a CSS variable — the two stable hooks — so it behaves the same in the preview and on the live page.
+
 ---
 
 ## Public form hub

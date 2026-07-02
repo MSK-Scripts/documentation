@@ -45,7 +45,7 @@ Check that: (1) a guild or per-form **accepted role** is configured, (2) the app
 
 ### Can the bot speak my language?
 
-Yes — set it with `/forms language <locale>` or the **Bot** page dropdown (EN/DE/HU/FR/ES/PT/PL). That covers command replies, review embeds, and the activity log. Applicant DMs use the applicant's own Discord language, falling back to the server language.
+Yes — set it with `/forms language <locale>` or the **Bot** page dropdown (EN/DE/HU/FR/ES/PT/PL). That covers command replies, review embeds, the activity log, and applicant status DMs. Leave it unset and applicant DMs fall back to each applicant's own Discord language.
 
 ---
 

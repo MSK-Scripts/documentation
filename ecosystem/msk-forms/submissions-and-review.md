@@ -26,6 +26,8 @@ The submission ID is the capability — anyone with the link can view it; no log
 
 The page is **live** — when a reviewer changes the status, it updates within moments without a refresh, over a WebSocket. If realtime is unavailable it still works, just not instant.
 
+If the form limits applicants to [one active submission](form-builder.md#one-submission-per-person), reopening it while their submission is still open brings a signed-in applicant straight back to this page.
+
 ---
 
 ## The status pipeline
