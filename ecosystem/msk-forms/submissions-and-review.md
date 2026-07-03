@@ -75,6 +75,14 @@ In the **Submissions** table, select multiple rows (or select-all) and apply a s
 
 ---
 
+## Archiving
+
+Done with a submission but don't want to delete it? **Archive** it from the **Submissions** table (the action next to **Open**). Archived submissions drop out of the active list and the Board but are never deleted, files and all.
+
+They live on a dedicated **Archived** page, reachable from the link above the Submissions table (it shows the archived count). There you can **Open** or **Restore** each one back to the active list. Archiving and restoring are reviewer actions and don't notify the applicant or change the submission's status.
+
+---
+
 ## Exports
 
 Export a form's submissions from the **Forms** list:
