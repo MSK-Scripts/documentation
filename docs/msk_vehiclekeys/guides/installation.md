@@ -10,8 +10,8 @@ sidebar_position: 1
 1. Drag & drop the `msk_vehiclekeys` folder into your resources directory.
 2. Add `ensure msk_vehiclekeys` to your `server.cfg`.
 3. Make sure all [dependencies](../index.md#requirements) start **before** `msk_vehiclekeys`.
-4. Configure `config.lua`.
-5. Set your framework at `Config.Framework` (or leave it on `AUTO`).
+4. Configure `config/settings.lua` — or just manage everything live from the [in-game admin dashboard](../admin.md) after the first start.
+5. Set your framework at `Config.Framework` in `config/static.lua` (or leave it on `AUTO`).
 6. Set the hotkeys you want — players can rebind them in the FiveM keybind settings.
 7. Add the **items** (`keys`, `keyring`, `contract`) to your inventory.
 8. Enable or disable `uniqueItems` depending on your inventory.
@@ -31,9 +31,21 @@ the database **automatically and only once** on the first start. The old `vehicl
 file is no longer used afterwards and can be deleted.
 :::
 
+The [admin dashboard](../admin.md) adds three more tables that are created and seeded from
+your config **automatically and only once** on the first start:
+`msk_vehiclekeys_settings`, `msk_vehiclekeys_permissions` and `msk_vehiclekeys_locksmiths`.
+After that the **database is authoritative** and those values are managed from the dashboard.
+
+:::info[Updating from v2.x]
+`config.lua` was replaced by the `config/` folder (`config/settings.lua` + `config/static.lua`)
+and vehicle **models** in the whitelist/blacklist/admin/job lists are now spawn **names**
+(strings) instead of backtick hashes. Re-check your config after updating — see the
+[Config page](../config.md).
+:::
+
 ## Items
 
-Add these items to your inventory (names can be changed in `config.lua`):
+Add these items to your inventory (names can be changed in `config/settings.lua` or the [dashboard](../admin.md)):
 
 | Item | Config option | Purpose |
 |---|---|---|

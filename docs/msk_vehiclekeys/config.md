@@ -5,27 +5,42 @@ sidebar_position: 2
 
 # Config
 
-Everything is configured in `config.lua`. Below is the full file followed by an
-explanation of each section.
+Since **v3.0.0** the config is split into two files:
+
+- **`config/settings.lua`** — the dashboard-managed defaults. These values are imported into the
+  database **once** on the first start; afterwards the **database is authoritative** and everything
+  here is managed live from the [admin dashboard](admin.md). Editing this file only changes the
+  defaults for a **fresh** install (empty database).
+- **`config/static.lua`** — code hooks & adapters (framework detection, `Config.Notification`, the
+  TextUI adapter). The dashboard and the database **never** touch this file — edit it directly.
+
+Below is each section explained.
+
+:::tip
+Most options on this page can be changed live in the [admin dashboard](admin.md) — no file edit
+or restart required. A few options (item/command **registration**) still need a resource restart;
+the dashboard marks those.
+:::
 
 ## General
 
-```lua
+```lua title="config/settings.lua"
 Config.Locale = 'de'          -- Language key, see translation.lua ('de', 'en')
 Config.Debug = true           -- Enables debug prints
 Config.VersionChecker = true  -- Checks for a new version on start
-
--- Supported Frameworks: AUTO, ESX, QBCore
--- AUTO detects the framework you are using automatically.
-Config.Framework = 'AUTO'
 ```
 
-### Notification
+### Framework & Notification
 
-`Config.Notification` runs **both client- and serverside**. By default it forwards to
-`MSK.Notification`. Adjust it here if you want to use your own notification system.
+Framework detection and the notification hook live in **`config/static.lua`** (not
+dashboard-managed).
 
-```lua
+```lua title="config/static.lua"
+-- Supported Frameworks: AUTO, ESX, QBCore — AUTO detects it automatically.
+Config.Framework = 'AUTO'
+
+-- Runs BOTH client- and serverside. Forwards to MSK.Notification by default;
+-- adjust it to use your own notification system.
 Config.Notification = function(source, message, typ)
     if IsDuplicityVersion() then -- serverside
         MSK.Notification(source, 'Vehicle Keys', message, typ, 5000)
@@ -211,8 +226,19 @@ key = {
     -- Allows a player holding a key item to (un)lock the vehicle even without an internal key.
     -- Example: Player A steals Player B's key -> Player A can (un)lock the vehicle.
     toggleWithKey = true,
+
+    -- Strict item enforcement for the vehicle OWNER (only relevant when needItem = true).
+    -- false (default): the owner can (un)lock WITHOUT the key item in their inventory.
+    -- true:  the owner ALSO needs the key item — no free lock/unlock without the item.
+    ownerNeedsItem = false,
 },
 ```
+
+:::info[ownerNeedsItem (added in v3.0.0)]
+By default the vehicle **owner** can (un)lock their car even with an empty inventory. Set
+`ownerNeedsItem = true` (or toggle **Owner needs item** in the [dashboard](admin.md) →
+*Settings → Key item*) to require the owner to carry the key item as well.
+:::
 
 ### transfer
 
@@ -231,21 +257,22 @@ transfer = {
 animation = {
     dict = "anim@mp_player_intmenu@key_fob@",
     anim = "fob_click_fp",
-    prop = `lr_prop_carkey_fob`, -- Use backticks `` and NOT '' or ""
+    prop = 'lr_prop_carkey_fob', -- spawn NAME (string); hashed at runtime
 },
 ```
 
 ## TextUI
 
-Used when `Config.Locksmith.defaultTextUI = false`. Replace with your own TextUI resource.
+Lives in **`config/static.lua`** and is used when `Config.Locksmith.defaultTextUI = false`.
+Replace it with your own TextUI resource.
 
-```lua
+```lua title="config/static.lua"
 Config.openTextUI = function(coloredText, uncoloredText)
-    exports['okokTextUI']:Open(uncoloredText, 'darkblue', 'left')
+    MSK.TextUI.Show('E', coloredText)
 end
 
 Config.closeTextUI = function()
-    exports['okokTextUI']:Close()
+    MSK.TextUI.Hide()
 end
 ```
 
@@ -273,10 +300,11 @@ Config.Locksmith = {
         outRange = 5.0
     },
 
+    -- Seed locations only. pedmodel is a spawn NAME (string), hashed at runtime.
     locations = {
         ['locksmith'] = {
             label = 'Locksmith Service',
-            pedmodel = `s_m_m_autoshop_01`,
+            pedmodel = 's_m_m_autoshop_01',
             blip = {enable = true, label = 'Locksmith Service', id = 134, scale = 1.0, color = 0},
             coords = {
                 vector4(170.02, -1799.55, 29.32, 318.5),
@@ -287,21 +315,29 @@ Config.Locksmith = {
 }
 ```
 
+:::info[Locations are managed from the dashboard]
+The `locations` above are **seed defaults** — imported once into `msk_vehiclekeys_locksmiths`
+on the first start. Afterwards, add/edit/delete locksmith spots live from the
+[admin dashboard](admin.md) → *Locksmith* tab (peds & blips update without a restart).
+:::
+
 ## Whitelist & Blacklist
 
+Since **v3.0.0** models are spawn **names** (strings) — hashed at runtime for comparison.
 Plates can be either an **exact plate** or just a **substring** that should be contained in
-the plate — e.g. `"ESX"` also matches `"12ESX34"`.
+the plate — e.g. `"ESX"` also matches `"12ESX34"`. All four lists can also be edited live from
+the [admin dashboard](admin.md) → *Access Lists* tab.
 
 ```lua
 -- No key needed to (un)lock these models / plates
 Config.Whitelist = {
-    models = {`caddy`, `caddy2`, `caddy3`, `airtug`, `docktug`, `forklift`, `mower`, `tractor2`},
+    models = {'caddy', 'caddy2', 'caddy3', 'airtug', 'docktug', 'forklift', 'mower', 'tractor2'},
     plates = {"TEST"}
 }
 
 -- These models / plates can NEVER be (un)locked
 Config.Blacklist = {
-    models = {`bmx`, `cruiser`, `fixter`, `scorcher`, `tribike`, `tribike2`, `tribike3`},
+    models = {'bmx', 'cruiser', 'fixter', 'scorcher', 'tribike', 'tribike2', 'tribike3'},
     plates = {"TEST2"}
 }
 ```
@@ -326,23 +362,60 @@ down per **rank** using the `ranks` table — a rank entry overrides the job-wid
 ```lua
 Config.JobVehicles = {
     ['police'] = {
-        models = {`police`, `police2`, `police3`, `police4`, `policeb`, `polmav`},
+        models = {'police', 'police2', 'police3', 'police4', 'policeb', 'polmav'},
         plates = {"LSPD", "POL"},
         ranks = {
             ['officer'] = {
-                models = {`police`},
+                models = {'police'},
                 plates = {""}
             },
         }
     },
     ['ambulance'] = {
-        models = {`ambulance`},
+        models = {'ambulance'},
         plates = {"LSMD", "AMB"},
     },
 }
 ```
 
 :::tip
-- Use backticks `` `model` `` for vehicle models — **not** `''` or `""`.
+- Vehicle **models** are spawn **names** (strings) since v3.0.0 — e.g. `'police'`. Legacy numeric
+  (backtick) hashes still work.
 - Plates match by substring, so a short string like `"POL"` matches every plate containing it.
+- Ranks, models and plates for every job can also be managed from the [dashboard](admin.md) →
+  *Access Lists* tab.
 :::
+
+## Admin Dashboard
+
+The in-game admin dashboard (added in **v3.0.0**) is configured with these keys in
+`config/settings.lua`. See the full [Admin Dashboard](admin.md) page for the tabs, the
+permission system and the database tables.
+
+```lua
+-- Command that opens the dashboard (separate from Config.AdminCommand / adlock)
+Config.adminCommand = 'advehiclekeys'
+
+-- ACE groups (besides 'admin') allowed to open the dashboard. 'user' is always denied.
+Config.dashboardGroups = { 'mod' }
+
+-- Short badge shown next to the dashboard title (empty string hides it)
+Config.BrandTag = 'MSK'
+
+-- UI colours (hex). Managed live from the dashboard's Settings tab. Only these 5
+-- brand colours are configurable; derived shades are computed automatically.
+Config.Theme = {
+    accent = '#00E676',
+    bg = '#0a0b0d',
+    panel = '#131317',
+    textPrimary = '#f0ede8',
+    textSecondary = '#b0adb8',
+}
+```
+
+| Option | Description |
+|---|---|
+| `adminCommand` | Command that opens the dashboard (default `advehiclekeys`) |
+| `dashboardGroups` | Groups (besides `admin`) allowed to open the dashboard — `user` is always denied |
+| `BrandTag` | Small badge next to the dashboard title (empty = hidden) |
+| `Theme` | The 5 editable brand colours applied live to the NUI |

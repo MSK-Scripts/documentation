@@ -1,12 +1,13 @@
 ---
 title: Commands & Keybinds
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 # Commands & Keybinds
 
-All commands and their hotkeys are defined in `config.lua`
-(`Config.Commands`, `Config.Hotkeys` and `Config.AdminCommand`).
+All commands and their hotkeys are defined in `config/settings.lua`
+(`Config.Commands`, `Config.Hotkeys` and `Config.AdminCommand`) and can also be edited live
+from the [admin dashboard](admin.md).
 
 ## Player Commands
 

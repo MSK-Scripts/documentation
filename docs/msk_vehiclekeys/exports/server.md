@@ -135,13 +135,17 @@ local keys, vehicles = exports.msk_vehiclekeys:GetPlayerKeysAndVehicles({source 
 Adds missing permanent keys from the player's owned vehicles.
 
 **Parameters**  
-**playerId** - `number` - ServerId
+**playerId** - `number` - ServerId  
+**force** - `boolean` *(optional)* - `true` re-adds **all** missing key items to the player's inventory, regardless of the `Config.OnRefreshKeys` flags *(added in v3.0.0)*
 
 **Returns**  
 **result** - `table` - `{owned_keys, added_primary_keys, added_secondary_keys}`
 
 ```lua
 local result = exports.msk_vehiclekeys:RefreshPlayerKeys(playerId)
+
+-- FORCE: re-add every missing key item to the inventory
+local result = exports.msk_vehiclekeys:RefreshPlayerKeys(playerId, true)
 ```
 
 ---

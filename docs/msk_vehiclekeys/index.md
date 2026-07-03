@@ -20,6 +20,7 @@ start.
 
 ## Features
 
+- **In-game admin dashboard** *(new in v3.0.0)* — manage player keys, look up plates, run a locksmith, edit the access lists, change every setting and control dashboard access, all live from a React NUI with a group/permission system *(see [Admin Dashboard](admin.md))*
 - **(Un)lock vehicles** via command, hotkey or target *(ox_target)*
 - **Seat selection** — choose which seat to enter when using the target *(ox_target)*
 - **Keys menu** opened by command or hotkey
@@ -33,6 +34,7 @@ start.
 - **Whitelist / Blacklist** for models and plates
 - **Admin vehicles** — only configured admin groups can (un)lock them
 - **Admin command** to (un)lock any vehicle without a key
+- **Owner item enforcement** *(new)* — optionally require even the vehicle owner to carry the key item *(`ownerNeedsItem`)*
 - **NPC vehicle locking** with configurable carjacking probability
 - **Version checker** and a full **export API** (client & server)
 
@@ -63,7 +65,8 @@ are supported. Support for `qs-inventory` and `core_inventory` was removed in **
 ## Documentation Overview
 
 - **[Installation](guides/installation.md)** — install the resource and set up the items
-- **[Config](config.md)** — every option in `config.lua` explained
+- **[Config](config.md)** — every option in `config/settings.lua` & `config/static.lua` explained
+- **[Admin Dashboard](admin.md)** — the in-game dashboard, its tabs and the permission system
 - **[Commands & Keybinds](commands.md)** — player and admin commands and their hotkeys
 - **[Integrations](guides/integrations.md)** — wire `msk_vehiclekeys` into vehicle shops & garages
 - **[Client Exports](exports/client.md)** / **[Server Exports](exports/server.md)** — the full export API
