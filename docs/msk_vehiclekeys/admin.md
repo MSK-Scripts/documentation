@@ -30,8 +30,39 @@ Who may open the dashboard and what they can do is controlled by an ACE-based pe
 - Any other group must be listed in **`Config.dashboardGroups`** (or be `admin`) **and** have at
   least one right to open the dashboard.
 
-Group membership is resolved via a **FiveM ACE principal** (`group.<name>` in your `server.cfg`)
-**or** your framework group (e.g. ESX `getGroup()`), so it works with both setups.
+Group membership is resolved via a **FiveM ACE principal** (`group.<name>` in your `server.cfg`),
+your **framework group** (e.g. ESX `getGroup()`) **or** a **luxu_admin** staff group (see below),
+so it works with all of those setups.
+
+### luxu_admin support
+
+`luxu_admin` v2 keeps its staff groups internally, so a normal ACE check does not see them. When
+`luxu_admin` is running, the dashboard resolves a player's staff group through its
+`getPlayerStaffGroup` export and matches it against your dashboard groups **by name**. So a
+`luxu_admin` staff group called `admin` maps to `group.admin` (full access), and a group called
+`mod` works like any other dashboard group.
+
+Configure it in `config/static.lua`:
+
+```lua title="config/static.lua"
+Config.LuxuAdmin = {
+    enable = 'auto',          -- 'auto' (on when the resource is running), true, or false
+    resource = 'luxu_admin',  -- change if you renamed the resource
+    requireDuty = false,      -- true = the staff member must be ON DUTY to be recognized
+
+    -- Optional: map luxu_admin staff group names onto your dashboard groups.
+    -- Unmapped groups are matched by their own name.
+    groupMap = {
+        -- ['owner'] = 'admin',
+    },
+}
+```
+
+:::tip
+Make sure the `luxu_admin` staff group names match your **dashboard group names** (create them on
+the **Permissions** tab), or map them with `groupMap`. A group named `admin` always gets full
+access. This is auto-detected, so it stays off when `luxu_admin` is not running.
+:::
 
 ### Permission keys
 
