@@ -113,7 +113,7 @@ const resources: Resource[] = [
   },
   {
     title: 'MSK Garage',
-    image: '/img/msk_garage_banner.png',
+    image: '/img/msk_garage.png',
     badges: ['ESX', 'QBCore', 'Lua'],
     description:
       'A fully-featured garage management system, allowing you to manage vehicle storage and more.',
