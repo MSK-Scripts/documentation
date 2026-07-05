@@ -16,6 +16,23 @@ and engine-toggle scripts using the [export API](../exports/client.md).
 [MSK Garage](https://forum.cfx.re/t/esx-msk-garage-and-impound/5122014).
 :::
 
+:::warning[Client exports vs server exports]
+The **client** primary and secondary key exports (`AddKey`, `AddPrimaryKey`,
+`AddSecondaryKey`) are protected against exploiting: the player can only add or share such
+a key for a vehicle they **own** or **already hold a key for** (this includes whitelist and
+job vehicles). This is exactly what you want for a personal garage, where the player takes
+out their own car.
+
+**Temporary keys** (`AddTempKey`) are not restricted on the client. They are RAM-only and
+removed on the next (re)connect, so a test drive can hand out a temporary key client-side
+for any vehicle.
+
+To give a **persistent** (primary or secondary) key for a vehicle the player does **not**
+own yet, for example a shop purchase before the vehicle is saved, add the key from a
+**server** script with the [server export](../exports/server.md#addkey). The
+`dealerships_creator` server example below shows this pattern.
+:::
+
 ## EngineToggle Scripts
 
 To check whether a player may start the engine, use the `HasPlayerKeyOrIsVehicleOwner` export:

@@ -67,7 +67,7 @@ local isLocked = Entity(vehicle).state.isLocked -- alternative
 local lockStatus = exports.msk_vehiclekeys:GetVehicleLockStatus(vehicle)
 ```
 
-:::warning Internal exports
+:::warning[Internal exports]
 `SetVehicleLockState` and `SetVehicleLockStatus` exist but are for **internal use**.
 Do not call them unless you know exactly what you are doing — they can break the script.
 :::
@@ -202,6 +202,13 @@ local allowed = exports.msk_vehiclekeys:HasPlayerKeyOrIsVehicleOwner({source = p
 ---
 
 ## Adding Keys
+
+:::info[Not restricted]
+The server `AddKey` adds the key directly and does **not** run the ownership check that the
+[client path](../exports/client.md#addkey) uses. Use it from your server scripts to hand
+out keys for any vehicle, including job, rental or shop vehicles the player does not own in
+`owned_vehicles`.
+:::
 
 ### AddKey
 

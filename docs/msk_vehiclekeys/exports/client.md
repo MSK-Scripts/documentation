@@ -77,7 +77,7 @@ local lockStatus = exports.msk_vehiclekeys:GetVehicleLockStatus(vehicle)
 local lockStatus = Entity(vehicle).state.lockState -- alternative
 ```
 
-:::warning Internal exports
+:::warning[Internal exports]
 `SetVehicleLockState` and `SetVehicleLockStatus` also exist but are for **internal use**.
 Do **not** call them unless you know exactly what you are doing — they can break the script.
 :::
@@ -237,6 +237,23 @@ local allowed = exports.msk_vehiclekeys:HasPlayerKeyOrIsVehicleOwner(vehicle)
 
 ## Adding Keys
 
+:::warning[Security check on the client path]
+The client `AddKey` (and its wrappers) is sent to the server through an event, so
+**primary** and **secondary** keys run through a server-side check: the player can only add
+such a key for a vehicle they **own** (stored in `owned_vehicles`) or **already hold a key
+for** (this also covers whitelist and job vehicles). Giving a key to **another** player
+additionally requires that player to be nearby and is limited to `secondary` and
+`temporary` keys, you never hand out a primary key that way.
+
+**Temporary keys are exempt** from the ownership check. They are RAM-only and removed again
+on the next (re)connect, so the client can add a temporary key for **any** vehicle, for
+example a test drive.
+
+To give a player a **persistent** (primary or secondary) key for a vehicle they do **not**
+own, call the [server export](../exports/server.md#addkey) from a server script. The server
+export is not restricted.
+:::
+
 ### AddKey
 
 **Parameters**  
@@ -263,6 +280,12 @@ exports.msk_vehiclekeys:AddTempKey(vehicle)
 ---
 
 ## Removing Keys
+
+:::info[Security check on the client path]
+A player can always remove their **own** key. Removing a key from **another** player
+requires the caller to own the vehicle. Server scripts are not restricted, see the
+[server export](../exports/server.md#removekey).
+:::
 
 ### RemoveKey
 
