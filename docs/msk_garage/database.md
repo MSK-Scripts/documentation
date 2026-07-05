@@ -66,7 +66,10 @@ Config.MySQL = {
 ```
 :::
 
-## Vehicle type / category matching (`TYPE_SYNONYMS`) {#type-synonyms}
+## Vehicle type and category matching
+
+The synonym table (`TYPE_SYNONYMS` in `shared/classes.lua`) decides which stored
+vehicles show up in a garage or impound.
 
 A garage (or impound) is configured with one or more **categories** in its `type`
 array, for example `{ 'helicopter', 'aircraft' }`. At runtime the script compares

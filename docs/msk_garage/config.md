@@ -267,7 +267,7 @@ A garage's `type` array (`{ 'car', 'truck', 'bike' }`, `{ 'helicopter', 'aircraf
 and shops use different naming conventions (`heli` vs `helicopter`, `automobile`
 vs `car`). Each category is expanded to a list of accepted synonyms, so a garage
 fills regardless of the shop's convention. If a garage stays empty, see
-[Database → Vehicle type / category matching](./database.md#type-synonyms).
+[Database → Vehicle type and category matching](./database.md#vehicle-type-and-category-matching).
 :::
 
 ### Jobs block
