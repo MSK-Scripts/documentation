@@ -14,9 +14,8 @@ across a society — all with a modern, fully offline React UI.
 
 :::tip[v5.1.0 — Job-garage policies, theming & vehicle images]
 A new **[Job Garages tab](./dashboard.md#job-garages)** lets each job use public
-garages via a **whitelist/blacklist**, the UI is now fully **[recolourable
-+ rebrandable](./dashboard.md#colors--branding)**, and you can show **[real
-per-model vehicle images](./dashboard.md#vehicle-images)**.
+garages via a **whitelist/blacklist**, the UI is now fully **[recolourable + rebrandable](./dashboard.md#colors--branding)**, 
+and you can show **[real per-model vehicle images](./dashboard.md#vehicle-images)**.
 :::
 
 :::tip[v5.0.0 — In-Game Admin Dashboard]
