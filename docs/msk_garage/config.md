@@ -261,6 +261,15 @@ as plain `{ x, y, z, w }` tables — the rest of the script reads coordinates vi
 `.x/.y/.z/.w`, so both forms work interchangeably.
 :::
 
+:::tip[The `type` categories are synonym-tolerant]
+A garage's `type` array (`{ 'car', 'truck', 'bike' }`, `{ 'helicopter', 'aircraft' }`,
+…) is matched against the raw `owned_vehicles.type` value the vehicle shop wrote,
+and shops use different naming conventions (`heli` vs `helicopter`, `automobile`
+vs `car`). Each category is expanded to a list of accepted synonyms, so a garage
+fills regardless of the shop's convention. If a garage stays empty, see
+[Database → Vehicle type / category matching](./database.md#type-synonyms).
+:::
+
 ### Jobs block
 
 | Field | Type | Description |

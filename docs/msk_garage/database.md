@@ -66,6 +66,67 @@ Config.MySQL = {
 ```
 :::
 
+## Vehicle type / category matching (`TYPE_SYNONYMS`) {#type-synonyms}
+
+A garage (or impound) is configured with one or more **categories** in its `type`
+array, for example `{ 'helicopter', 'aircraft' }`. At runtime the script compares
+those categories against the raw **`owned_vehicles.type`** value that the vehicle
+**shop** wrote when the player bought the car. The problem: shops disagree on what
+they store there.
+
+- Some use **class-based** names: `car`, `truck`, `helicopter`, `aircraft`.
+- Others use the **`GetVehicleType()`** convention: `automobile`, `heli`, `plane`.
+
+A naive `type = 'helicopter'` query would then return nothing just because the
+shop stored `'heli'`, so a heli garage would stay empty. To avoid that, every
+category is expanded to a list of accepted synonyms before matching. This lives
+in `shared/classes.lua` (escrow-open, so you can edit it):
+
+```lua
+local TYPE_SYNONYMS = {
+    car        = { 'car', 'automobile' },
+    truck      = { 'truck', 'automobile' },
+    boat       = { 'boat' },
+    helicopter = { 'helicopter', 'heli' },
+    aircraft   = { 'aircraft', 'plane', 'airplane' },
+    bike       = { 'bike', 'motorcycle', 'motorbike' },
+    submarine  = { 'submarine', 'submarinecar' },
+    trailer    = { 'trailer' },
+    train      = { 'train' },
+}
+```
+
+Two helpers use this table:
+
+| Function | Returns | Used for |
+|---|---|---|
+| `Classes.TypeSynonyms(category)` | All DB `type` values that satisfy a single configured category. Falls back to `{ category }` for an unknown category. | Building the list query so a garage fills regardless of the shop's naming. |
+| `Classes.TypeMatches(categories, dbType)` | `true` if the stored `type` matches **any** synonym of **any** of the garage's categories (case-insensitive). | Park-in eligibility (can this vehicle be stored in this garage?). |
+
+So a garage configured with `{ 'helicopter', 'aircraft' }` accepts vehicles whose
+stored `type` is any of `helicopter`, `heli`, `aircraft`, `plane` or `airplane`.
+List queries additionally **dedupe by plate**, so overlapping synonyms (e.g. a
+garage that lists both `car` and `truck`, both of which include `automobile`)
+never produce duplicate entries.
+
+:::tip[If a garage stays empty]
+Check the actual value of the `type` column in `owned_vehicles` for one of the
+affected vehicles. If your shop uses a value that is not in the list above (for
+example a submarine stored as `'sub'`), add it to the matching category in
+`TYPE_SYNONYMS` and restart the resource:
+
+```lua
+submarine = { 'submarine', 'submarinecar', 'sub' }, -- added 'sub'
+```
+:::
+
+:::note[Keep the admin permissions in sync]
+`shared/admin_perms.lua` maps the same categories onto the land / sea / air
+default-garage buckets and notes that it must be kept **in sync with
+`TYPE_SYNONYMS`**. If you add a brand new category (not just a synonym), add it in
+both places.
+:::
+
 ## What "condition" is stored where
 
 - **Mechanical condition** (engine / body / tank health, dirt level, mods,
