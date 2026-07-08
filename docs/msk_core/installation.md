@@ -50,11 +50,11 @@ Modules are loaded lazily on first use. If you want a module to be compiled into
 ```lua
 shared_script '@msk_core/import.lua'
 
-msk_core 'callback'
-msk_core 'player'
+msk_core 'Callback'
+msk_core 'Player'
 ```
 
-The value is the module folder name (case-insensitive lookup). Unknown names produce a console warning.
+The value is the module folder name and is case-sensitive: it must match the folder in `modules/` exactly (for example `Callback`, `Player`, `Notify`), because the server file lookup is case-sensitive on Linux. Unknown names produce a console warning.
 
 ## Exports
 
