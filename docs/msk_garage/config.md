@@ -152,6 +152,16 @@ end
 -- Ped "greet/farewell" voice line on enter/leave
 Config.npcVoice = { enable = true, inRange = 5.0, outRange = 5.0 }
 
+-- luxu_admin dashboard access (staff groups are internal, not ACE principals)
+Config.LuxuAdmin = {
+    enable = 'auto',          -- 'auto' (on when luxu_admin is started) | true | false
+    resource = 'luxu_admin',  -- change if you renamed the resource
+    requireDuty = false,      -- true = staff member must be ON DUTY to be recognised
+    groupMap = {              -- optional: map luxu_admin groups onto dashboard groups
+        -- ['owner'] = 'admin',
+    },
+}
+
 -- TextUI adapter (used when Config.defaultTextUI = false)
 Config.openTextUI = function(coloredText, uncoloredText)
     MSK.TextUI.Show('E', coloredText)
@@ -185,6 +195,7 @@ Config.LockVehicle = function(vehicle, locked) ... end
 |---|---|---|
 | `Config.Notification` | `function` | Notification adapter (works client **and** server). |
 | `Config.npcVoice` | `table` | Ped "greet/farewell" voice line on enter/leave. |
+| `Config.LuxuAdmin` | `table` | luxu_admin v2 integration for [dashboard access](./dashboard.md#who-can-open-it). `enable` (`'auto'`/`true`/`false`), `resource`, `requireDuty`, `groupMap`. Its staff groups are resolved via the `getPlayerStaffGroup` export because they are not ACE principals. |
 | `Config.openTextUI` / `closeTextUI` | `function` | Your TextUI adapter (default wires `MSK.TextUI`). |
 | `Config.MySQL` | `table` | Column name mapping for `owned_vehicles` — see [Database](./database.md). |
 | `Config.GetDefaultGarage` | `function` | Resolves the default garage id for a vehicle type via `Config.DefaultGarages`. |

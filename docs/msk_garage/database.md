@@ -90,8 +90,8 @@ local TYPE_SYNONYMS = {
     car        = { 'car', 'automobile' },
     truck      = { 'truck', 'automobile' },
     boat       = { 'boat' },
-    helicopter = { 'helicopter', 'heli' },
-    aircraft   = { 'aircraft', 'plane', 'airplane' },
+    helicopter = { 'helicopter', 'heli', 'air' },
+    aircraft   = { 'aircraft', 'plane', 'airplane', 'air' },
     bike       = { 'bike', 'motorcycle', 'motorbike' },
     submarine  = { 'submarine', 'submarinecar' },
     trailer    = { 'trailer' },
@@ -107,7 +107,8 @@ Two helpers use this table:
 | `Classes.TypeMatches(categories, dbType)` | `true` if the stored `type` matches **any** synonym of **any** of the garage's categories (case-insensitive). | Park-in eligibility (can this vehicle be stored in this garage?). |
 
 So a garage configured with `{ 'helicopter', 'aircraft' }` accepts vehicles whose
-stored `type` is any of `helicopter`, `heli`, `aircraft`, `plane` or `airplane`.
+stored `type` is any of `helicopter`, `heli`, `aircraft`, `plane`, `airplane` or
+`air`.
 List queries additionally **dedupe by plate**, so overlapping synonyms (e.g. a
 garage that lists both `car` and `truck`, both of which include `automobile`)
 never produce duplicate entries.

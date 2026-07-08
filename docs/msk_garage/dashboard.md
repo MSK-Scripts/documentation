@@ -75,6 +75,20 @@ whether any online player is currently in that group); you can still save a grou
 that has no one online.
 :::
 
+:::note[Framework groups and luxu_admin are recognised too]
+Group membership is not limited to `server.cfg` ACE principals. A player counts as
+being in a group if **any** of these match: the FiveM ACE principal
+(`group.<name>`), the **framework group** (e.g. an ESX/QBCore group stored in the
+`users` table, even without a matching `add_principal`), or, when enabled, the
+player's **luxu_admin v2** staff group.
+
+luxu_admin keeps its staff groups internally (not as ACE principals), so it is
+resolved via its `getPlayerStaffGroup` export. Enable and tune it in
+`config/static.lua` through [`Config.LuxuAdmin`](./config.md) (`enable`,
+`resource`, `requireDuty`, and an optional `groupMap` to map luxu_admin group
+names onto your dashboard groups).
+:::
+
 ## Permissions
 
 There are **10 rights**. `group.admin` always has all of them.
