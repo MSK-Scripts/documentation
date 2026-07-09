@@ -29,5 +29,14 @@ jobs:
           fail-on-severity: moderate
           # Post a comment on the PR with a summary of findings
           comment-summary-in-pr: always
-          # Block copyleft licenses incompatible with this project
-          deny-licenses: GPL-2.0, GPL-3.0
+          # Only permit these permissive licenses (allowlist instead of the
+          # deprecated deny-licenses blocklist). This keeps copyleft licenses
+          # (GPL, LGPL, AGPL, MPL, ...) out, which are incompatible with this
+          # commercial project. The action only checks dependencies that a PR
+          # newly adds or changes, so if a legitimate new dependency uses a
+          # license not listed here, add it below or whitelist that single
+          # package via allow-dependencies-licenses.
+          allow-licenses: >-
+            MIT, ISC, Apache-2.0, BSD-2-Clause, BSD-3-Clause, 0BSD,
+            Unlicense, CC0-1.0, CC-BY-4.0, BlueOak-1.0.0, Python-2.0,
+            MIT-0, Zlib
