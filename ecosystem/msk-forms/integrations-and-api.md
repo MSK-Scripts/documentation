@@ -27,7 +27,13 @@ Register endpoints that receive a POST when something happens. Manage them on **
 - **Generic JSON** — the full submission as a JSON body, HMAC-SHA256 signed with a per-webhook secret (sent as `X-MSK-Signature: sha256=…`, alongside `X-MSK-Event`). Use this for your own integrations. Verify it by recomputing the HMAC over the raw request body with your secret and comparing it to the header.
 - **Discord webhook** — paste a Discord channel webhook URL (Server Settings → Integrations → Webhooks) and MSK Forms posts each event there as a formatted embed (applicant, status, score, answers). This works for **any** Discord server, including ones the bot is not in, so you can log submissions into an external channel. No signature is used (Discord does not verify one).
 
-**Delivery:** deliveries are queued (an outbox) and drained by the bot every 15 seconds, with retry + backoff up to 6 attempts before being marked failed. Generic-JSON payloads are **hydrated** at delivery time with the full submission: form metadata, status, score, applicant, and formatted answers.
+**Form scope:** each webhook can target **all forms** (default) or a **single form**. Scope it to one form to route that form's submissions to their own endpoint or Discord channel.
+
+**Delivery:** deliveries are queued (an outbox) and drained by the bot every 15 seconds, with retry + backoff up to 6 attempts before being marked failed. Generic-JSON payloads are **hydrated** at delivery time with the full submission: form metadata, status, score, applicant, and formatted answers. Each endpoint shows its **last delivery outcome** (delivered, failed with the error, or pending) on the Webhooks page, so a hook that isn't firing can be diagnosed.
+
+:::tip[Logging to Discord]
+When pasting a Discord channel webhook URL, set the format to **Discord webhook**. Leaving it on Generic JSON sends a signed body that Discord rejects, so nothing is logged.
+:::
 
 ---
 
