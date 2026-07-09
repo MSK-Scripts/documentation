@@ -15,20 +15,19 @@ MSK Forms connects to the rest of your stack through outgoing webhooks, Zapier /
 Webhooks require a [Pro](plans.md) subscription.
 :::
 
-Register HTTP endpoints that receive a POST when something happens. Manage them on **Dashboard → your server → Webhooks** (manager-only).
+Register endpoints that receive a POST when something happens. Manage them on **Dashboard → your server → Webhooks** (manager-only).
 
 **Events:**
 
 - `submission.created`
 - `submission.status_changed`
 
-**Delivery:**
+**Delivery format:** each endpoint is one of two formats.
 
-- Each request is **HMAC-SHA256 signed** with a per-webhook secret, sent as `X-MSK-Signature: sha256=…`, alongside `X-MSK-Event`.
-- Deliveries are queued (an outbox) and drained by the bot every 15 seconds, with retry + backoff up to 6 attempts before being marked failed.
-- The payload is **hydrated** at delivery time with the full submission: form metadata, status, score, applicant, and formatted answers.
+- **Generic JSON** — the full submission as a JSON body, HMAC-SHA256 signed with a per-webhook secret (sent as `X-MSK-Signature: sha256=…`, alongside `X-MSK-Event`). Use this for your own integrations. Verify it by recomputing the HMAC over the raw request body with your secret and comparing it to the header.
+- **Discord webhook** — paste a Discord channel webhook URL (Server Settings → Integrations → Webhooks) and MSK Forms posts each event there as a formatted embed (applicant, status, score, answers). This works for **any** Discord server, including ones the bot is not in, so you can log submissions into an external channel. No signature is used (Discord does not verify one).
 
-Verify a webhook by recomputing the HMAC over the raw request body with your secret and comparing it to the `X-MSK-Signature` header.
+**Delivery:** deliveries are queued (an outbox) and drained by the bot every 15 seconds, with retry + backoff up to 6 attempts before being marked failed. Generic-JSON payloads are **hydrated** at delivery time with the full submission: form metadata, status, score, applicant, and formatted answers.
 
 ---
 
