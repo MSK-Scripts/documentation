@@ -25,7 +25,7 @@ the dashboard marks those.
 ## General
 
 ```lua title="config/settings.lua"
-Config.Locale = 'de'          -- Language key, see translation.lua ('de', 'en')
+Config.Locale = 'de'          -- Language key, see translation.lua ('de', 'en', 'hu')
 Config.Debug = true           -- Enables debug prints
 Config.VersionChecker = true  -- Checks for a new version on start
 ```
