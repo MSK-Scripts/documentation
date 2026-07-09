@@ -112,12 +112,17 @@ Roles decide who can do what in a guild:
 | **Reviewer** | Review submissions across **all** forms. |
 | **Viewer** | The default for newly seen members — **no** data access until granted. |
 
-There are two ways to let someone review:
+Beyond the Viewer default, you can grant access in two ways:
 
-- **Globally** — give them the **Reviewer** role.
-- **Per form** — grant a Viewer access to specific forms only (the **Form access** checkboxes on the Team page).
+- **Globally:** give them the **Reviewer** role to review every form.
+- **Per form:** on the **Team** page, each form has a **Form access** picker for a Viewer with three levels:
+  - **No access** (default).
+  - **Review** lets them read and act on that one form's submissions.
+  - **Manage** lets them fully run that one form (edit it in the builder, delete it, export it, and review its submissions) without any guild-wide access. Use this to hand a single form to someone without making them an Admin.
 
-Members appear automatically the first time they log in (as Viewer), or a manager can **add a member by Discord ID** ahead of time. Managers set roles and per-form grants on the **Team** page.
+Managing the guild itself (creating new forms, bot/branding/domain settings, the team) stays with Owners and Admins.
+
+Members appear automatically the first time they log in (as Viewer), or a manager can **add a member by Discord ID** ahead of time. Managers set roles and per-form access on the **Team** page.
 
 :::info[Member limits]
 Free **2** / Pro **15** / Enterprise **unlimited**. The count includes managers, global reviewers, and anyone with a per-form grant. See [Plans & Limits](plans.md).

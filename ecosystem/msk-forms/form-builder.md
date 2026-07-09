@@ -34,7 +34,7 @@ Click **Add field** to open the field picker — an icon grid of every available
 | **Single choice** | Radio buttons, one answer. |
 | **Multiple choice / Multi-select** | Checkboxes, zero or more answers. |
 | **Dropdown** | A select menu — good for long option lists. |
-| **Yes / No** | A boolean toggle. |
+| **Yes / No** | A boolean toggle. Each answer (Yes and No) can carry a **points** value for [scoring](#quiz--scoring). |
 | **Consent** | A single checkbox (e.g. "I agree to the rules"). |
 | **Age check** | A single checkbox confirmation. |
 
@@ -129,7 +129,7 @@ By default, each signed-in applicant can have only **one active submission** per
 
 ## Quiz & scoring
 
-Give choice options a **points** value and MSK Forms scores each submission automatically:
+Give choice options a **points** value and MSK Forms scores each submission automatically. **Yes / No** fields join the same system: give the Yes and the No answer their own points in the field editor.
 
 - The score is the sum of points across the chosen options, computed **server-side** (the client preview is never trusted).
 - Forms where no option has points stay score-less — nothing changes for non-quiz forms.
