@@ -20,7 +20,7 @@ Make sure the following resources are installed and **start before** `msk_handcu
 | [oxmysql](https://github.com/overextended/oxmysql) | ✅ | Database access |
 | [msk_core](https://github.com/MSK-Scripts/msk_core) `3.0.0+` | ✅ | Framework bridge & utilities |
 | ESX **or** QBCore | ✅ | Auto-detected by msk_core |
-| ox_target **or** qb-target | optional | Target menu |
+| [ox_target](https://github.com/overextended/ox_target) **or** qb-target | optional | Target menu. **ox_target is recommended** |
 | pma-voice **or** saltychat | optional | Tape mute feature |
 
 ## 2. Start order
@@ -29,14 +29,21 @@ Make sure the following resources are installed and **start before** `msk_handcu
 ensure oxmysql
 ensure es_extended      # or qb-core
 ensure msk_core
-ensure ox_target        # optional (or qb-target)
+ensure ox_target        # optional, recommended (or qb-target)
 ensure msk_handcuffs
 ```
+
+:::tip[Target menu]
+New in v3: `msk_handcuffs` registers its own target options on every player. **ox_target
+is the recommended system** and is picked automatically when it is running
+(`Config.Target.system = 'auto'`). See [Config → `Config.Target`](./config.md#configtarget).
+:::
 
 ## 3. Database
 
 You do **not** need to import any `.sql` file. On first start `msk_handcuffs` creates its
-table automatically and — if a legacy `database.json` exists — migrates it once into MySQL.
+tables automatically, migrates a legacy `database.json` once into MySQL and imports
+`config/settings.lua` into the settings table.
 
 See **[Database & Migration](./database.md)** for details.
 
@@ -54,8 +61,22 @@ items (e.g. `ankletracker_key`, `headbag_key`, `tape_key`).
 
 ## 5. Configure
 
-Open [`config.lua`](./config.md), set your `Config.Locale`, jobs and items, and add your
-Discord webhook in `server/discord.lua` if you want logs.
+Open [`config/settings.lua`](./config.md) and set your `Config.Locale`, jobs and items
+**before the first start** — the file is imported into the database exactly once.
+Code hooks like the notification, the mute function and the props live in
+`config/static.lua` and can be changed at any time.
+
+## 6. Manage it in-game
+
+Everything else happens in the [admin dashboard](./dashboard.md):
+
+```text
+/handcuffadmin
+```
+
+Add your team's groups to `Config.dashboardGroups` (or later in the Permissions tab),
+paste your Discord webhook into the Settings tab, and adjust items and job restrictions
+without touching a file or restarting the server.
 
 :::tip
 Set `Config.Debug = false` on your live server (it is the default).

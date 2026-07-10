@@ -1,6 +1,6 @@
 ---
 title: Database & Migration
-sidebar_position: 4
+sidebar_position: 5
 description: msk_handcuffs v3 stores status in MySQL via oxmysql. The msk_handcuffs table schema and the automatic, idempotent migration from the legacy database.json.
 keywords:
   - msk_handcuffs database
@@ -15,9 +15,15 @@ Since v3.0.0 all status is stored in **MySQL via oxmysql** instead of the old
 `database.json` flat file. The in-memory state is the runtime source of truth and is
 mirrored to MySQL so it survives restarts and relogs.
 
-## Table schema
+Three tables are created automatically on first start, no manual `.sql` import needed:
 
-Created automatically on first start — no manual `.sql` import needed.
+| Table | Contents |
+|---|---|
+| `msk_handcuffs` | The per-player status (cuffed, ankletracker, …) |
+| `msk_handcuffs_settings` | The DB-managed settings, seeded once from `config/settings.lua` |
+| `msk_handcuffs_permissions` | The [dashboard](./dashboard.md) groups and their rights |
+
+## Status table
 
 ```sql
 CREATE TABLE IF NOT EXISTS `msk_handcuffs` (
@@ -39,6 +45,35 @@ CREATE TABLE IF NOT EXISTS `msk_handcuffs` (
 - **QBCore** → `citizenid`
 
 Rows are removed automatically once a player has no active status left, keeping the table clean.
+
+## Dashboard tables
+
+```sql
+CREATE TABLE IF NOT EXISTS `msk_handcuffs_settings` (
+    `skey` varchar(80) NOT NULL,
+    `svalue` longtext DEFAULT NULL,
+    PRIMARY KEY (`skey`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `msk_handcuffs_permissions` (
+    `group_name` varchar(80) NOT NULL,
+    `perms` longtext DEFAULT NULL,
+    PRIMARY KEY (`group_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+Each setting is one row, with the value stored as JSON. On the first start every key
+from `config/settings.lua` is written once and a `__seeded__` marker row is added, so
+the import never runs twice. From then on the **database is authoritative** and you
+edit the values in the [admin dashboard](./dashboard.md).
+
+The seed also creates two permission groups: `admin` with every right, and `mod` with
+`players.view` only.
+
+:::tip[Want to re-seed?]
+Delete the `__seeded__` row from `msk_handcuffs_settings` and restart the resource. The
+current file values are imported again.
+:::
 
 ## Automatic migration from `database.json`
 

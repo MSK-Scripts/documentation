@@ -1,6 +1,6 @@
 ---
 title: Commands
-sidebar_position: 6
+sidebar_position: 7
 description: Player and admin chat commands for msk_handcuffs - cuff, hardcuff, uncuff, ankletracker, headbag, tape and the admin variants.
 keywords:
   - msk_handcuffs commands
@@ -45,3 +45,14 @@ They bypass item and distance checks and can be run from the server console.
 | `/adtape <playerID>` | Toggle the tape for the given ID |
 
 Command names and toggles are configured under `Config.AdminCommands`.
+
+## Dashboard command
+
+| Command | Description |
+|---|---|
+| `/handcuffadmin` | Open the [in-game admin dashboard](./dashboard.md) |
+
+The name comes from `Config.adminCommand` and can be changed in the dashboard itself.
+Access is **not** handled by ACE-restricting the command: `group.admin` always gets in,
+`group.user` never does, and every other group needs to be in `Config.dashboardGroups`
+with at least one right. See [Admin Dashboard](./dashboard.md#who-can-open-it).

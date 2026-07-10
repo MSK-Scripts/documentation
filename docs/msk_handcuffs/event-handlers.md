@@ -1,6 +1,6 @@
 ---
 title: Event Handlers
-sidebar_position: 7
+sidebar_position: 8
 description: The msk_handcuffs:handler integration event, fired on every cuff, uncuff, ankletracker, headbag and tape action - server and client signatures.
 keywords:
   - msk_handcuffs handler

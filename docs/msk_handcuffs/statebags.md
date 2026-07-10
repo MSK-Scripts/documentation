@@ -1,6 +1,6 @@
 ---
 title: Statebags
-sidebar_position: 5
+sidebar_position: 6
 description: msk_handcuffs v3 replicates handcuff status through player statebags - the canonical, server-set source of truth readable by any resource on client and server.
 keywords:
   - msk_handcuffs statebags

@@ -1,6 +1,6 @@
 ---
 title: Migration from v2
-sidebar_position: 10
+sidebar_position: 11
 description: What changed between msk_handcuffs v2 and v3 - renamed and removed exports, events and callbacks, plus drop-in replacements for integrators.
 keywords:
   - msk_handcuffs migration
