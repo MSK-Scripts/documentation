@@ -31,6 +31,6 @@ shared_script '@msk_core/import.lua'
 | [Cron](./cron.md) | Schedule recurring jobs |
 | [Disconnect Logger](./disconnect-logger.md) | Log player disconnects |
 | [Version Checker](./version-checker.md) | `MSK.Check` version & dependency checks |
-| [UI](./ui/input.md) | Server-side Input, Numpad, Progressbar, TextUI |
+| [UI](./ui/input.md) | Server-side Input, Numpad, Progressbar, TextUI, Context Menu, Menu |
 
 See also the [Shared](../shared/index.md) functions (callbacks, math, string, table, timeout, vector) which work on both sides.

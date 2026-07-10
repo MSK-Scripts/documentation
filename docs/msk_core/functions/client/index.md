@@ -27,6 +27,6 @@ shared_script '@msk_core/import.lua'
 | [Scaleform](./scaleform.md) | Freemode messages, popups, breaking news |
 | [Ace Permission](./ace-permission.md) | Client-side ace checks |
 | [Commands](./commands.md) | `MSK.RegisterCommand` with ace support |
-| [UI](./ui/input.md) | Input, Numpad, Progressbar, TextUI |
+| [UI](./ui/input.md) | Input, Numpad, Progressbar, TextUI, Context Menu, Menu |
 
 See also the [Shared](../shared/index.md) functions (callbacks, math, string, table, timeout, vector) which work on both sides.

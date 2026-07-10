@@ -18,7 +18,7 @@ This documentation covers **msk_core `v3.0.0`**. With v3 the whole core was rebu
 - **Framework bridge** — write your script once and run it on ESX, QBCore, ox_core or STANDALONE. Detection is automatic (`Config.Framework = 'AUTO'`).
 - **Inventory bridge** — `ox_inventory`, `core_inventory`, `jaksam_inventory`, the ESX/Chezza default, or your own `custom` implementation.
 - **Lazy-loaded modules** — modules are compiled into your resource only when you first touch them, so there is no overhead for what you don't use.
-- **Modern NUI** — Notify, Input, Numpad, Progressbar and TextUI in the MSK design language (React, fully offline/bundled).
+- **Modern NUI** — Notify, Input, Numpad, Progressbar, TextUI, Context Menu and Menu in the MSK design language (React, fully offline/bundled).
 - **Everything twice** — every function is reachable both as `MSK.Function(...)` and as `exports.msk_core:Function(...)`.
 - **Utilities** — callbacks, cron jobs, ace permissions, commands, webhooks, math/string/table/vector helpers, version & dependency checking and more.
 
