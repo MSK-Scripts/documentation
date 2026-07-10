@@ -9,6 +9,12 @@ The server-side Context module opens a context menu for a target player identifi
 
 See the [client-side documentation](../../client/ui/context.md) for the full list of menu and option fields.
 
+:::note[Naming]
+The namespaced form `MSK.Context.*` is the recommended one. The flat names `MSK.ShowContext` and `MSK.HideContext` point at the exact same functions and stay supported.
+
+The exports are always flat: `exports.msk_core:ShowContext(...)`.
+:::
+
 :::warning[Callbacks do not cross the network]
 Everything you send from the server is serialized. Lua **functions do not survive** that, so `onSelect`, `onExit` and `onBack` are lost when you pass an inline menu from the server.
 
@@ -18,7 +24,7 @@ You have two clean options:
 2. **Use `event` / `serverEvent` + `args`** on the options instead of `onSelect`. Those are plain strings and travel fine.
 :::
 
-## MSK.ShowContext
+## MSK.Context.Show
 
 Opens a context menu for a specific player.
 
@@ -29,10 +35,10 @@ Opens a context menu for a specific player.
 ```lua
 -- Recommended: the menu (including its callbacks) is registered on the client,
 -- the server only opens it.
-MSK.ShowContext(playerId, 'vehicle_menu')
+MSK.Context.Show(playerId, 'vehicle_menu')
 
 -- Inline from the server. Note: no onSelect, use serverEvent instead.
-MSK.ShowContext(playerId, {
+MSK.Context.Show(playerId, {
     id = 'admin_actions',
     title = 'Admin Actions',
     options = {
@@ -41,11 +47,14 @@ MSK.ShowContext(playerId, {
     }
 })
 
+-- Backwards compatible alias:
+MSK.ShowContext(playerId, 'vehicle_menu')
+
 -- As an Export:
 exports.msk_core:ShowContext(playerId, 'vehicle_menu')
 ```
 
-## MSK.HideContext
+## MSK.Context.Hide
 
 Closes the context menu of a specific player.
 
@@ -53,6 +62,9 @@ Closes the context menu of a specific player.
 **playerId** - `number` - The target player's server id
 
 ```lua
+MSK.Context.Hide(playerId)
+
+-- Backwards compatible alias:
 MSK.HideContext(playerId)
 
 -- As an Export:

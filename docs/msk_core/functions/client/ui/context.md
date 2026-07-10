@@ -13,7 +13,13 @@ A context menu is registered once under an `id` and can then be opened as often 
 While a context menu is open the NUI takes mouse and keyboard focus (`SetNuiFocus(true, true)`), so the player **cannot move**. That is intended, the mouse is needed to click the options. If you need a menu the player can use while walking or driving, use the [Menu](./menu.md) module instead.
 :::
 
-## MSK.RegisterContext
+:::note[Naming]
+The namespaced form `MSK.Context.*` is the recommended one. The flat names `MSK.RegisterContext`, `MSK.ShowContext`, `MSK.UpdateContext`, `MSK.HideContext` and `MSK.GetOpenContext` point at the exact same functions and stay supported.
+
+The exports are always flat: `exports.msk_core:RegisterContext(...)`.
+:::
+
+## MSK.Context.Register
 
 Registers (or overwrites) a context menu under an id.
 
@@ -37,7 +43,7 @@ Registers (or overwrites) a context menu under an id.
 
 | Field | Type | Description |
 |---|---|---|
-| `id` | `string` | Stable id of the option. Required if you want to use [`MSK.UpdateContext`](#mskupdatecontext) on it |
+| `id` | `string` | Stable id of the option. Required if you want to use [`MSK.Context.Update`](#mskcontextupdate) on it |
 | `title` | `string` | Label. Supports FiveM color codes such as `~g~` |
 | `description` | `string` | Smaller text below the label |
 | `icon` | `string` | FontAwesome icon. Short name (`car`) or full class (`fas fa-car`) |
@@ -56,13 +62,14 @@ Registers (or overwrites) a context menu under an id.
 | `metadata` | `table` | `{ { label = 'Plate', value = 'MSK 123' } }` or a key/value table. Shown as a tooltip on hover |
 
 ```lua
-MSK.RegisterContext('vehicle_menu', {
+MSK.Context.Register('vehicle_menu', {
     title = 'Vehicle',
+    position = 'center',
     onExit = function() print('menu closed') end,
     options = {
         { id = 'info', title = 'Vehicle ~g~Info~s~', description = 'Open sub menu', icon = 'circle-info', menu = 'vehicle_info' },
         { id = 'repair', title = 'Repair', description = 'Restore condition', icon = 'wrench', progress = 45,
-          onSelect = function() MSK.Notification('Vehicle repaired') end },
+          onSelect = function() MSK.Notification('MSK', 'Vehicle repaired', 'success', 4000) end },
         { id = 'engine', title = 'Start engine', icon = 'key', event = 'myscript:engine', args = { plate = 'MSK 123' } },
         { id = 'locked', title = 'Locked', description = 'No access', icon = 'lock', disabled = true },
         { id = 'plate', title = 'Plate', icon = 'id-card', readOnly = true,
@@ -71,7 +78,7 @@ MSK.RegisterContext('vehicle_menu', {
 })
 
 -- Sub menu. `menu` points back to the parent, which renders the back arrow.
-MSK.RegisterContext('vehicle_info', {
+MSK.Context.Register('vehicle_info', {
     title = 'Vehicle Info',
     menu = 'vehicle_menu',
     options = {
@@ -79,11 +86,14 @@ MSK.RegisterContext('vehicle_info', {
     }
 })
 
+-- Backwards compatible alias:
+MSK.RegisterContext('vehicle_menu', data)
+
 -- As an Export:
 exports.msk_core:RegisterContext('vehicle_menu', data)
 ```
 
-## MSK.ShowContext
+## MSK.Context.Show
 
 Opens a context menu. Accepts either the `id` of a registered menu or an inline table, which is registered automatically.
 
@@ -91,22 +101,29 @@ Opens a context menu. Accepts either the `id` of a registered menu or an inline 
 **idOrData** - `string/table` - Id of a registered menu, or an inline menu definition
 
 ```lua
-MSK.ShowContext('vehicle_menu')
+MSK.Context.Show('vehicle_menu')
 
 -- Inline, without registering first:
-MSK.ShowContext({
+MSK.Context.Show({
     id = 'quick_menu',
     title = 'Quick Actions',
+    position = 'top-right',
     options = {
         { title = 'Hello', icon = 'hand', onSelect = function() print('hi') end },
     }
 })
 
+-- The module table itself is callable and forwards to Show:
+MSK.Context('vehicle_menu')
+
+-- Backwards compatible alias:
+MSK.ShowContext('vehicle_menu')
+
 -- As an Export:
 exports.msk_core:ShowContext('vehicle_menu')
 ```
 
-## MSK.UpdateContext
+## MSK.Context.Update
 
 Updates a **single option** of a registered menu. The option is addressed through its `id` and the given fields are **merged** into it, so you only pass what actually changes. If exactly this menu is currently open, the UI is refreshed live.
 
@@ -117,17 +134,20 @@ Updates a **single option** of a registered menu. The option is addressed throug
 
 ```lua
 -- Only progress and description change, everything else stays as registered
-MSK.UpdateContext('vehicle_menu', 'repair', {
+MSK.Context.Update('vehicle_menu', 'repair', {
     progress = 100,
     description = 'Fully repaired',
     disabled = true,
 })
 
+-- Backwards compatible alias:
+MSK.UpdateContext('vehicle_menu', 'repair', { progress = 100 })
+
 -- As an Export:
 exports.msk_core:UpdateContext('vehicle_menu', 'repair', { progress = 100 })
 ```
 
-## MSK.HideContext
+## MSK.Context.Hide
 
 Closes the currently open context menu.
 
@@ -135,13 +155,16 @@ Closes the currently open context menu.
 **fireExit** - `boolean` - (optional) `true` also runs the menu's `onExit` callback
 
 ```lua
+MSK.Context.Hide()
+
+-- Backwards compatible alias:
 MSK.HideContext()
 
 -- As an Export:
 exports.msk_core:HideContext()
 ```
 
-## MSK.GetOpenContext
+## MSK.Context.GetOpen
 
 Returns the id of the currently open context menu.
 
@@ -149,6 +172,9 @@ Returns the id of the currently open context menu.
 **id** - `string/nil` - Id of the open menu, or `nil` if none is open
 
 ```lua
+local id = MSK.Context.GetOpen()
+
+-- Backwards compatible alias:
 local id = MSK.GetOpenContext()
 
 -- As an Export:

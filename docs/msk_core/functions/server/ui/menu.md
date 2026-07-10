@@ -9,6 +9,12 @@ The server-side Menu module opens a keyboard navigated menu for a target player 
 
 See the [client-side documentation](../../client/ui/menu.md) for the full list of menu and item fields, and for the controls.
 
+:::note[Naming]
+The namespaced form `MSK.Menu.*` is the recommended one. The flat names `MSK.ShowMenu` and `MSK.HideMenu` point at the exact same functions and stay supported. `MSK.Menu.Close` is an alias of `MSK.Menu.Hide`.
+
+The exports are always flat: `exports.msk_core:ShowMenu(...)`.
+:::
+
 :::warning[Callbacks do not cross the network]
 Everything you send from the server is serialized. Lua **functions do not survive** that, so `onSelect`, `onSelected`, `onSideScroll`, `onCheck` and `onClose` are lost when you pass an inline menu from the server.
 
@@ -18,7 +24,7 @@ You have two clean options:
 2. **Use `event` / `serverEvent` + `args`** on the items instead of `onSelect`.
 :::
 
-## MSK.ShowMenu
+## MSK.Menu.Show
 
 Opens a menu for a specific player.
 
@@ -29,10 +35,10 @@ Opens a menu for a specific player.
 ```lua
 -- Recommended: the menu (including its callbacks) is registered on the client,
 -- the server only opens it.
-MSK.ShowMenu(playerId, 'tuning_menu')
+MSK.Menu.Show(playerId, 'tuning_menu')
 
 -- Inline from the server. Note: no callbacks, use serverEvent instead.
-MSK.ShowMenu(playerId, {
+MSK.Menu.Show(playerId, {
     id = 'quick_menu',
     title = 'Quick Actions',
     items = {
@@ -40,18 +46,24 @@ MSK.ShowMenu(playerId, {
     }
 })
 
+-- Backwards compatible alias:
+MSK.ShowMenu(playerId, 'tuning_menu')
+
 -- As an Export:
 exports.msk_core:ShowMenu(playerId, 'tuning_menu')
 ```
 
-## MSK.HideMenu
+## MSK.Menu.Hide
 
-Closes the menu of a specific player.
+Closes the menu of a specific player. `MSK.Menu.Close` is an alias of this function.
 
 **Parameters**  
 **playerId** - `number` - The target player's server id
 
 ```lua
+MSK.Menu.Hide(playerId)
+
+-- Backwards compatible alias:
 MSK.HideMenu(playerId)
 
 -- As an Export:
