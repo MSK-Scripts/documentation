@@ -201,9 +201,9 @@ menu = {
     showTransferVehicle = true, -- Show "Transfer Vehicle" in the menu
     refreshPlayerKeys = true,   -- Refresh keys when opening the keys menu
 
-    -- Supported Menus: nui (own UI), ox_context, ox_menu
+    -- Supported Menus: nui (own UI), msk_context, msk_menu, ox_context, ox_menu
     -- You can add your own menu in client/menu.lua
-    keysMenu = 'nui'
+    keysMenu = 'msk_menu'
 },
 ```
 
@@ -286,8 +286,8 @@ Config.Locksmith = {
     enable = true,         -- Set false to disable the locksmith peds/blips
     defaultTextUI = true,  -- false = use the Config.openTextUI function instead
 
-    -- Supported Menus: nui (own UI), ox_context, ox_menu
-    menu = 'nui',
+    -- Supported Menus: nui (own UI), msk_context, msk_menu, ox_context, ox_menu
+    menu = 'msk_context',
 
     targetSystem = {
         enable = true,     -- true = open via target (no HelpNotify / TextUI)
