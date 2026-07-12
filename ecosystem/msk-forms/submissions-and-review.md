@@ -122,7 +122,7 @@ Beyond the Viewer default, you can grant access in two ways:
 
 Managing the guild itself (creating new forms, bot/branding/domain settings, the team) stays with Owners and Admins.
 
-Members appear automatically the first time they log in (as Viewer), or a manager can **add a member by Discord ID** ahead of time. Managers set roles and per-form access on the **Team** page.
+Add team members deliberately: a manager **adds a member by Discord ID** on the **Team** page, then sets their role and per-form access. Logging in to submit a form does **not** add someone to the team, so the list stays limited to people you actually granted access to. The guild owner is added automatically when the bot joins.
 
 :::info[Member limits]
 Free **2** / Pro **15** / Enterprise **unlimited**. The count includes managers, global reviewers, and anyone with a per-form grant. See [Plans & Limits](plans.md).
