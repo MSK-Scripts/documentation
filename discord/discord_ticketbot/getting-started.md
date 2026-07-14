@@ -42,6 +42,7 @@ A modern, self-hosted Discord ticket bot built on **Discord.js v14** — SQLite 
 | 🌍 Multilingual | German and English included, easily extensible |
 | 🗄️ Flexible Database | SQLite out of the box (zero setup) — optional MySQL/MariaDB or PostgreSQL via `DATABASE_URL`, with a migration script |
 | 🔄 Auto-Update Check | Checks for new GitHub releases on startup and notifies with update instructions |
+| 🖥️ Web Dashboard | Optional self-hosted browser dashboard (off by default): tickets, statistics, a form/file config editor, bot control and per-role/user permissions. See [Web Dashboard](./dashboard). |
 
 ---
 
@@ -108,6 +109,14 @@ Premium and Premium+ customers can have their bot instance **fully hosted by MSK
 ### How to get hosted
 
 Contact MSK Scripts via [Discord](https://discord.gg/5hHSBRHvJE) to arrange a hosted plan. Once set up, the hosted management panel appears automatically in your dashboard after logging in.
+
+---
+
+## 🖥️ Self-Hosted Web Dashboard
+
+Running the bot yourself? The optional web dashboard lets you manage tickets, statistics, the configuration and the bot process from your browser, with a permission model for your team. It is disabled by default and safe out of the box.
+
+See the dedicated **[Web Dashboard](./dashboard)** page for setup, security and the full permission model.
 
 ---
 
