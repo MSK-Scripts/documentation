@@ -83,6 +83,10 @@ Run `/setup` on your Discord server (Administrator permission required). The bot
 
 The included `ticketbot.service` file lets the bot start automatically after a server reboot.
 
+:::note
+Using the optional **web dashboard**? Run `dashboard.js` as the entry point instead of the plain bot below — it supervises the bot and serves the dashboard in one process. Follow **[Dashboard Setup on Linux](/discord/discord_ticketbot/guides/dashboard-linux)** and do not run both services at once.
+:::
+
 ### 1. Copy the bot files to the server
 
 ```bash

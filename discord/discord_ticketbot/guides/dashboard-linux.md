@@ -105,6 +105,10 @@ sudo systemctl reload apache2
 Use `dashboard.js` (not `index.js`) as the entry point so it also supervises the
 bot. Create `/etc/systemd/system/ticketbot.service`:
 
+:::note
+This replaces the plain-bot service from [Installation](/discord/discord_ticketbot/installation) — `dashboard.js` runs the bot itself, so you never run both. If you already set up a `ticketbot.service` pointing at `index.js`, this simply overwrites it; stop it first with `sudo systemctl stop ticketbot`.
+:::
+
 ```ini
 [Unit]
 Description=Discord Ticket Bot (with dashboard)
