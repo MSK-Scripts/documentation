@@ -1,7 +1,7 @@
 ---
 title: Web Dashboard
 description: Optional self-hosted web dashboard for tickets, statistics, configuration and bot control
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 ## 🖥️ Web Dashboard

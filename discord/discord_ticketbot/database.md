@@ -1,7 +1,7 @@
 ---
 title: Database
 description: Database backends — SQLite (default), MySQL/MariaDB and PostgreSQL
-sidebar_position: 2.5
+sidebar_position: 3
 ---
 
 ## 🗄️ Database
