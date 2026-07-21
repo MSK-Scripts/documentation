@@ -147,7 +147,7 @@ Every change made through the dashboard is written to an audit log.
 
 ## Running it as a service
 
-:::note Reverse proxy and service manager are two separate layers
+:::note[Reverse proxy and service manager are two separate layers]
 A reverse proxy (Apache, Caddy or IIS) only terminates HTTPS and forwards to the
 dashboard; it does **not** run the Node process. A service manager (systemd, or
 NSSM / Task Scheduler on Windows) keeps the Node process (`node dashboard.js`)
