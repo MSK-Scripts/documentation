@@ -63,6 +63,18 @@ Every status change is one consistent operation, so it always triggers the appli
 
 ---
 
+## Automatic status messages
+
+Instead of typing the same thing every time, set an automatic message per status. When a submission enters that status, the message is sent to the applicant (shown on their status page and DM'd if they signed in with Discord).
+
+- **Guild-wide templates:** the **Messages** tab lists every status (built-in and custom) with a text box. For example, "Congratulations, you have been accepted!" on Accepted, or "Thanks for applying, unfortunately we can't move forward this time." on Rejected. Leave a box blank for no message.
+- **Per-form override:** a form can override the guild templates in its builder (the "Status messages (this form)" section). Blank falls back to the guild default.
+- **Override per change:** when you change a status in the review panel, its template is prefilled into an editable box. Send it as-is, tweak it for this applicant, or clear it to send nothing.
+
+An automatic message replaces the generic "status changed" DM, so the applicant gets one clear notification. It applies everywhere a status changes: the review panel, the Kanban board, bulk actions, the bot's Accept/Reject buttons, and score automations. Hidden status changes never send a message.
+
+---
+
 ## The Kanban board
 
 The **Board** tab is a Kanban view of submissions: columns are your statuses, cards are submissions. Drag — or use the **Move to** menu — to change a submission's status. Updates are optimistic and revert on error. It's reviewer-gated.
