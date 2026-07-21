@@ -190,11 +190,11 @@ Reopening restores the creator's channel access, moves the channel back to its t
 
 ### Transcript Design & Language
 
-The generated HTML transcript can be rendered in two styles and two languages:
+The generated HTML transcript can be rendered in two styles and any of the built-in languages:
 
 ```json
 "transcriptDesign": "modern",  // "modern" (default) or "classic"
-"transcriptLang": "en"         // "en" or "de" — falls back to English if omitted/unsupported
+"transcriptLang": "en"         // en, de, fr, es, pt, pl, hu — falls back to English if omitted/unsupported
 ```
 
 | Value      | Look                                                                 |
@@ -202,7 +202,7 @@ The generated HTML transcript can be rendered in two styles and two languages:
 | `"modern"` | Minimal, MSK-branded layout (default — also used if the key is absent). |
 | `"classic"`| The original Discord-style dark layout.                              |
 
-`transcriptLang` localizes all transcript labels (header fields, section title, footer, copy-button tooltip) and the date format. `"en"` and `"de"` are built in; any other value falls back to English.
+`transcriptLang` localizes all transcript labels (header fields, section title, footer, copy-button tooltip) and the date format. Seven languages are built in (`en`, `de`, `fr`, `es`, `pt`, `pl`, `hu`); any other value falls back to English. The bot's own messages use the separate `lang` key, which accepts the same set.
 
 Both styles are fully **self-contained / offline-safe** (no external requests):
 

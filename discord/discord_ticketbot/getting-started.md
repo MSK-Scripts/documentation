@@ -39,7 +39,7 @@ A modern, self-hosted Discord ticket bot built on **Discord.js v14** — SQLite 
 | 📢 Broadcast | Send a message to all open ticket channels at once |
 | 🔔 User Notifications | Optional DM notification for users when a staff member replies |
 | 🎮 Dynamic Bot Status | Automatically display the number of open tickets in the bot status |
-| 🌍 Multilingual | German and English included, easily extensible |
+| 🌍 Multilingual | 7 languages included (English, German, French, Spanish, Portuguese, Polish, Hungarian), easily extensible |
 | 🗄️ Flexible Database | SQLite out of the box (zero setup) — optional MySQL/MariaDB or PostgreSQL via `DATABASE_URL`, with a migration script |
 | 🔄 Auto-Update Check | Checks for new GitHub releases on startup and notifies with update instructions |
 | 🖥️ Web Dashboard | Optional self-hosted browser dashboard (off by default): tickets, statistics, a form/file config editor, bot control and per-role/user permissions. See [Web Dashboard](./dashboard). |
@@ -50,65 +50,28 @@ A modern, self-hosted Discord ticket bot built on **Discord.js v14** — SQLite 
 
 Instead of sending transcripts as file attachments via DM, the bot can upload them to **[www.msk-scripts.de](https://www.msk-scripts.de)** and generate a public link — accessible in any browser, no download required.
 
-### Subscription Tiers
+Three tiers are available: **Basic** (free), **Premium** (€3.99/mo) and **Premium+** (€6.99/mo). Paid tiers add larger transcripts and file attachments, longer storage, a custom domain and hosted bot management. Premium is subscribed via **Stripe** with a **14-day free trial**.
 
-| Feature | Basic (free) | Premium (€3.99/mo) | Premium+ (€6.99/mo) |
-|---|---|---|---|
-| Transcript as link | ✅ | ✅ | ✅ |
-| Max. transcript size | 10 MB | 100 MB | 250 MB |
-| File attachments in transcript | ❌ | ✅ | ✅ |
-| Max. attachment size per ticket | — | 150 MB | 500 MB |
-| Custom domain | ❌ | ✅ | ✅ |
-| Storage duration | 30 days | 60 days | 90 days |
-| Uploads per hour | 30 | 60 | 300 |
-| **Hosted bot management** | ❌ | ✅ | ✅ |
+To get started, grab your API key at **[www.msk-scripts.de/verify](https://www.msk-scripts.de/verify)** (sign in with Discord, pick your server) and add it to your `.env`:
 
-> Premium and Premium+ are subscribed directly in your dashboard via **Stripe** — with a **14-day free trial** for new customers, cancellable anytime.
-
-### Getting your API Key
-
-1. Visit **[www.msk-scripts.de/verify](https://www.msk-scripts.de/verify)**
-2. Sign in with your Discord account
-3. Select your server → your API key is generated instantly
-
-To upgrade to Premium/Premium+, open your **[dashboard](https://www.msk-scripts.de/dashboard)** and start the free trial — billing is handled by Stripe.
-
-Then add it to your `.env`:
 ```bash
 MSK_API_KEY='your_api_key_here'
 MSK_API_URL="https://www.msk-scripts.de"
 ```
 
-### Custom Domain (Premium & Premium+)
-
-Premium users can serve transcripts under their own domain (e.g. `tickets.yourserver.com`).
-
-1. Visit **[www.msk-scripts.de/dashboard](https://www.msk-scripts.de/dashboard)** after verifying
-2. Enter your domain and set a DNS **A-Record** pointing to the server IP shown
-3. Click **"Check DNS"** once propagation is complete — SSL is set up automatically
-
-> 📖 Full setup guide: [Service Setup](/discord/discord_ticketbot/service-setup/service-setup-en)
+> 📖 Full walkthrough (tier comparison, API key, custom domain, Stripe): **[Service Setup](/discord/discord_ticketbot/service-setup/service-setup-en)**
 
 ---
 
 ## 🖥️ Hosted Bot Management (Premium & Premium+)
 
-Premium and Premium+ customers can have their bot instance **fully hosted by MSK Scripts** and manage it directly from the dashboard at **[msk-scripts.de/dashboard](https://www.msk-scripts.de/dashboard)** — no SSH access or server knowledge required.
+Premium and Premium+ customers can have their bot instance **fully hosted by MSK Scripts** and manage it entirely from the dashboard at **[msk-scripts.de/dashboard](https://www.msk-scripts.de/dashboard)** — config editor, start/stop/restart/update and a live log console, no SSH access or server knowledge required.
 
 ![Dashboard — Hosted Bot Management](/img/discord_ticketbot_dashboard.png)
 
-### What's included
+Contact MSK Scripts via [Discord](https://discord.gg/5hHSBRHvJE) to arrange a hosted plan. Once set up, the management panel appears automatically in your dashboard after logging in.
 
-| Feature | Description |
-|---|---|
-| **Bot Configuration Editor** | Edit `config.jsonc`, `snippets.jsonc` and `.env` directly in the browser with syntax highlighting. Changes take effect after a restart. |
-| **Bot Control** | Start, stop and restart the bot with a single click. Buttons are greyed out automatically based on the current bot status. |
-| **One-click Update** | Downloads the latest bot version via `git pull` and installs new dependencies. A restart is required afterwards to load the new version. |
-| **Live Log Console** | Real-time stream of the bot's PM2 output directly in the browser — no terminal or SSH access needed. |
-
-### How to get hosted
-
-Contact MSK Scripts via [Discord](https://discord.gg/5hHSBRHvJE) to arrange a hosted plan. Once set up, the hosted management panel appears automatically in your dashboard after logging in.
+> 📖 Details: **[Service Setup → Hosted Bot Management](/discord/discord_ticketbot/service-setup/service-setup-en)**
 
 ---
 
@@ -137,9 +100,10 @@ discord_ticketbot/
 ├── docs/
 │   ├── setup-en.md             # MSK Transcript Service setup guide (English)
 │   └── setup-de.md             # MSK Transcript Service setup guide (German)
-├── locales/
+├── locales/                    # 7 languages + main.json (English template)
+│   ├── en.json                 # English
 │   ├── de.json                 # German
-│   └── en.json                 # English
+│   └── …                       # fr, es, pt, pl, hu
 ├── scripts/
 │   └── migrate-db.js           # npm run db:migrate — SQLite → MySQL/PostgreSQL
 ├── data/
@@ -193,7 +157,8 @@ discord_ticketbot/
     │   │   └── notifyToggle.js     # tb_notifyToggle
     │   ├── modals/
     │   │   ├── closeReason.js      # tb_modalClose
-    │   │   └── ticketQuestions.js  # tb_modalQuestions:type
+    │   │   ├── ticketQuestions.js  # tb_modalQuestions:type
+    │   │   └── rateComment.js      # tb_modalRate:N:id
     │   └── menus/
     │       ├── panelSelect.js      # tb_panelSelect
     │       ├── ticketType.js       # tb_selectType
@@ -283,9 +248,13 @@ backend — missing columns are added automatically on start.
 
 ## 🌍 Adding a New Language
 
-1. Copy `locales/de.json`, e.g. as `locales/fr.json`
-2. Translate all strings
-3. Set `"lang": "fr"` in `config/config.jsonc`
+Seven languages ship with the bot: English, German, French, Spanish, Portuguese, Polish and Hungarian (`locales/en.json`, `de.json`, `fr.json`, `es.json`, `pt.json`, `pl.json`, `hu.json`). To use one, set its code in `config/config.jsonc` (`"lang": "fr"`).
+
+To add another language:
+
+1. Copy `locales/en.json`, e.g. as `locales/it.json`
+2. Translate all strings (including the `transcript` block)
+3. Set `"lang": "it"` in `config/config.jsonc` (and optionally `"transcriptLang": "it"`)
 
 ---
 

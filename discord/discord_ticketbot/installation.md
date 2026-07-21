@@ -73,7 +73,7 @@ On first start the bot will automatically:
   MySQL/PostgreSQL database from `DATABASE_URL` — see [Database](/discord/discord_ticketbot/database))
 - Register all slash commands on your server
 
-### 5. Set up the panel
+### 6. Set up the panel
 
 Run `/setup` on your Discord server (Administrator permission required). The bot will send the ticket panel to the channel configured in `openTicketChannelId`.
 

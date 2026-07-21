@@ -79,13 +79,14 @@ Then open `http://127.0.0.1:3010` on your own computer.
 
 **Option B: reverse proxy with HTTPS (for real use)**
 
-Keep `DASHBOARD_HOST=127.0.0.1`. Your web server talks to the dashboard locally,
-so the port never has to be open to the internet. `npm run dashboard:setup`
-detects your operating system and prints a matching reverse-proxy config: an
-Apache vhost plus the `certbot` command on **Linux**, or an IIS `web.config` (URL
-Rewrite + ARR) and a **Caddy** alternative on **Windows**. The dashboard polls
-for logs (no long-lived streaming), so any standard reverse proxy works without
-special buffering settings.
+Keep `DASHBOARD_HOST=127.0.0.1` and put a reverse proxy with HTTPS in front, so
+the port never has to be open to the internet. `npm run dashboard:setup` detects
+your operating system and prints a matching config. The dashboard polls for logs
+(no long-lived streaming), so any standard reverse proxy works without special
+buffering settings. For the full step-by-step, follow the platform guide:
+
+- **[Dashboard Setup on Windows](/discord/discord_ticketbot/guides/dashboard-windows)** — IIS or Caddy
+- **[Dashboard Setup on Linux](/discord/discord_ticketbot/guides/dashboard-linux)** — Apache + certbot
 
 :::warning
 **Do not** simply set `DASHBOARD_HOST=0.0.0.0` and open the port. Without TLS
@@ -158,29 +159,16 @@ start a second instance.
 :::
 
 Use `dashboard.js` instead of `index.js` as the entry point. The service manager
-keeps the dashboard alive, and the dashboard keeps the bot alive.
+keeps the dashboard alive, and the dashboard keeps the bot alive. Follow the
+platform guide for the exact steps:
 
-**Linux (systemd):**
+- **[Dashboard Setup on Windows](/discord/discord_ticketbot/guides/dashboard-windows)** — Task Scheduler or NSSM
+- **[Dashboard Setup on Linux](/discord/discord_ticketbot/guides/dashboard-linux)** — systemd
 
-```ini
-[Service]
-ExecStart=/usr/bin/node /opt/discord_ticketbot/dashboard.js
-```
-
-**Windows:** register `dashboard.js` as a service, e.g. with
-[NSSM](https://nssm.cc):
-
-```
-nssm install TicketBot "C:\Program Files\nodejs\node.exe" dashboard.js
-nssm set TicketBot AppDirectory C:\path\to\discord_ticketbot
-```
-
-or create a Task Scheduler task set to "Run whether user is logged on or not"
-and triggered at system startup. The dashboard runs on Windows as-is: it starts
-the bot with `fork()` and shells out to `npm.cmd`/`git` for updates. One
-difference: "Stop"/"Restart" from the dashboard terminates the bot directly
-(Windows has no catchable `SIGTERM`), which is safe here since there is no
-critical unflushed state.
+On Windows the dashboard runs as-is (it starts the bot with `fork()` and shells
+out to `npm.cmd`/`git` for updates). One difference: "Stop"/"Restart" terminates
+the bot directly, because Windows has no catchable `SIGTERM` — safe here since
+there is no critical unflushed state.
 
 ## Troubleshooting
 
