@@ -137,7 +137,8 @@ discord_ticketbot/
     │   ├── stats.js            # /stats      – Statistics (server & user)
     │   ├── snippet.js          # /snippet    – Send canned responses
     │   ├── broadcast.js        # /broadcast  – Send to all open tickets
-    │   └── lock.js             # /lock       – Lock/unlock ticket
+    │   ├── lock.js             # /lock       – Lock/unlock ticket
+    │   └── autoclose.js        # /autoclose  – Pause/resume inactivity handling
     ├── events/
     │   ├── ready.js            # Bot start, status, auto-close & staff reminder loop
     │   ├── messageCreate.js    # Activity tracking + DM notifications
@@ -201,6 +202,8 @@ discord_ticketbot/
 | `/snippet list`        | Staff         | Show all available snippets                                         |
 | `/lock lock [reason]`  | Staff         | Lock ticket — user cannot send messages                             |
 | `/lock unlock`         | Staff         | Unlock ticket — restore user message access                         |
+| `/autoclose pause`     | Staff         | Pause the inactivity warning, auto-closing and staff reminder for this ticket |
+| `/autoclose resume`    | Staff         | Resume the normal inactivity rules for this ticket                 |
 | `/broadcast <message>` | Staff         | Send a message to all open ticket channels                          |
 
 ---

@@ -16,12 +16,17 @@ nothing about your bot changes.
 
 | Area | What you get |
 |---|---|
-| **My tickets** | Every member sees the tickets they opened and can reply to the open ones. Their reply is posted in the Discord channel under their own name. Closed tickets offer a transcript download and, on premium, an "Open transcript" link. |
+| **My tickets** | With the [end-user portal](#the-public-end-user-portal) enabled, every member sees the tickets they opened and can reply to the open ones. Their reply is posted in the Discord channel under their own name. Closed tickets offer a transcript download and, on premium, an "Open transcript" link. |
 | **Tickets** | Full list with filters, ticket detail with the live conversation, claim / close / reopen / move / lock / priority. |
 | **Statistics** | Totals, average rating, average handling time, and a team ranking by tickets closed. |
 | **Configuration** | Edit `config.jsonc`, `snippets.jsonc`, `.env` and the locale files in either a structured **form** view or a raw **file** view (with line numbers and syntax highlighting). Form edits preserve the `//` comments, and a side panel resolves Discord role/channel/category **names** so you never have to hunt for raw IDs. |
 | **Bot control** | Start, stop, restart and update the bot, plus a live console. |
 | **Permissions** | Decide which roles and users may use the dashboard, and what they may do. |
+| **Dashboard settings** | Owner-only. Set the [accent colour and favicon](#dashboard-settings) to brand the dashboard. |
+
+Every view has its own URL (`/tickets`, `/stats`, `/permissions`, an open ticket
+is `/tickets/123`), so a reload keeps you on the same page and links are
+shareable.
 
 ## Quick start
 
@@ -114,8 +119,9 @@ takes your word for what permissions you have.
 * **A user entry overrides that person's role entries completely.** This is the
   point of having both: it lets you take a single permission *away* from one
   person that their role grants them.
-* Someone with no entry at all still sees **their own tickets** and can reply to
-  them, nothing more.
+* Someone with no entry at all sees **only their own tickets** and can reply to
+  them, nothing more — and only when the [end-user portal](#the-public-end-user-portal)
+  is enabled. By default the dashboard is **staff-only**.
 
 | Permission | Allows |
 |---|---|
@@ -134,6 +140,40 @@ people is unrestricted.
 
 Every change made through the dashboard is written to an audit log.
 
+## The public end-user portal
+
+By default the dashboard is **staff-only**: only the server owner and members you
+have granted at least one permission can sign in. Enabling the dashboard for your
+team does **not** silently give every server member a login.
+
+Set `DASHBOARD_PUBLIC_PORTAL=true` (the setup wizard also offers this) to open the
+end-user portal. Any member can then sign in with Discord and gets a **"My
+tickets"** view showing **only their own tickets**, where they can follow the live
+conversation and reply to an open ticket (posted in Discord under their own name)
+and download the transcript of a closed one. A member with no permissions can never
+see other people's tickets, statistics, the config, or the bot controls, and every
+reply is re-checked server-side (ticket open, not locked, member not blacklisted,
+really their own ticket) before it reaches Discord.
+
+:::note
+A member who is turned away sees a clear "limited to staff" message. Either grant
+them a permission under **Permissions**, or enable `DASHBOARD_PUBLIC_PORTAL`.
+:::
+
+## Dashboard settings
+
+A **Dashboard settings** tab (owner-only, like the `.env` editor) lets you brand
+the panel for everyone who uses it:
+
+* **Accent colour** for buttons, highlights, the active menu item and focus rings.
+  It previews live while you pick and reverts to the built-in green with one click.
+* **Favicon** in the browser tab. Upload a PNG or ICO (up to 256 KB); the file
+  type is read from its content, not its name.
+
+Both are served publicly so the login page is themed too. They are stored in
+`data/dashboard-settings.json` (plus the favicon file) as dashboard-only state, so
+nothing about the bot or its database changes.
+
 ## Environment variables
 
 | Variable | Default | Meaning |
@@ -142,6 +182,7 @@ Every change made through the dashboard is written to an audit log.
 | `DASHBOARD_HOST` | `127.0.0.1` | Bind address. Leave it alone unless you know why. |
 | `DASHBOARD_PORT` | `3010` | Port |
 | `DASHBOARD_PUBLIC_URL` | `http://127.0.0.1:<port>` | The URL your browser uses. Must match the Discord redirect URI. |
+| `DASHBOARD_PUBLIC_PORTAL` | `false` | Staff-only when off. When on, any member may sign in to manage only their own tickets. |
 | `DASHBOARD_ALLOW_INSECURE` | `false` | Only if you terminate TLS somewhere the bot cannot see |
 | `SESSION_SECRET` | *generated* | Cookie signing key. Never share or reuse it. |
 | `CLIENT_SECRET` | *(none)* | Discord OAuth2 client secret |
