@@ -23,10 +23,36 @@ nothing about your bot changes.
 | **Bot control** | Start, stop, restart and update the bot, plus a live console. |
 | **Permissions** | Decide which roles and users may use the dashboard, and what they may do. |
 | **Dashboard settings** | Set the [accent colour and favicon](#dashboard-settings) to brand the dashboard. Gated by its own view / edit permissions (the owner always has both). |
+| **Language** | Each user picks [their own interface language](#language) from seven translations. |
 
 Every view has its own URL (`/tickets`, `/stats`, `/permissions`, an open ticket
 is `/tickets/123`), so a reload keeps you on the same page and links are
 shareable.
+
+## Language
+
+The dashboard is available in **English, German, French, Spanish, Portuguese,
+Polish and Hungarian**. The selector sits at the bottom of the sidebar, above
+"Sign out".
+
+Each person picks their own language: the choice is stored in their browser, so
+switching the panel to German changes nothing for anyone else, and it needs no
+permission. On a first visit the dashboard follows the browser's language and
+falls back to English. Dates and times follow the selected language too.
+
+:::note
+This is the **dashboard's** interface language. It is separate from `lang` in
+`config.jsonc`, which controls what the **bot** writes into Discord. One staff
+member reading the panel in Polish does not change what your ticket embeds say.
+:::
+
+Adding a language needs no code change: drop a `web/src/locales/<code>.json`
+(copy `en.json`, translate the values, set `$meta.name` to the language's own
+name) and rebuild the frontend. It appears in the selector on its own. Any key you
+leave out falls back to English rather than breaking the page.
+
+The structured `config.jsonc` form (its field labels and help texts) is still
+English only; the rest of the dashboard is translated.
 
 ## Quick start
 
