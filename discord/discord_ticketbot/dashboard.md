@@ -22,7 +22,7 @@ nothing about your bot changes.
 | **Configuration** | Edit `config.jsonc`, `snippets.jsonc`, `.env` and the locale files in either a structured **form** view or a raw **file** view (with line numbers and syntax highlighting). Form edits preserve the `//` comments, and a side panel resolves Discord role/channel/category **names** so you never have to hunt for raw IDs. |
 | **Bot control** | Start, stop, restart and update the bot, plus a live console. |
 | **Permissions** | Decide which roles and users may use the dashboard, and what they may do. |
-| **Dashboard settings** | Owner-only. Set the [accent colour and favicon](#dashboard-settings) to brand the dashboard. |
+| **Dashboard settings** | Set the [accent colour and favicon](#dashboard-settings) to brand the dashboard. Gated by its own view / edit permissions (the owner always has both). |
 
 Every view has its own URL (`/tickets`, `/stats`, `/permissions`, an open ticket
 is `/tickets/123`), so a reload keeps you on the same page and links are
@@ -130,6 +130,7 @@ takes your word for what permissions you have.
 | `tickets.reply` | Reply in a ticket as the bot |
 | `stats.view` | See statistics and team performance |
 | `config.view` / `config.edit` | Read / write the config files |
+| `settings.view` / `settings.edit` | View / change the dashboard's accent colour and favicon |
 | `bot.control` | Start, stop, restart, update the bot |
 | `blacklist.manage` | Manage the blacklist |
 | `access.manage` | Manage these permissions |
@@ -162,8 +163,12 @@ them a permission under **Permissions**, or enable `DASHBOARD_PUBLIC_PORTAL`.
 
 ## Dashboard settings
 
-A **Dashboard settings** tab (owner-only, like the `.env` editor) lets you brand
-the panel for everyone who uses it:
+A **Dashboard settings** tab lets you brand the panel for everyone who uses it.
+Unlike the `.env` editor it is not owner-only: it has its own `settings.view` and
+`settings.edit` permissions, so you can let trusted staff adjust the branding
+without handing them the bot's secrets. The owner always holds both. A member with
+only `settings.view` sees the current colour and favicon but every control is
+disabled. What you can set:
 
 * **Accent colour** for buttons, highlights, the active menu item and focus rings.
   It previews live while you pick and reverts to the built-in green with one click.
