@@ -42,7 +42,7 @@
     "fast-uri": "^3.1.4",
     "follow-redirects": "^1.16.0",
     "http-proxy-middleware": "^3.0.6",
-    "postcss": "^8.5.14",
+    "postcss": "^8.5.23",
     "qs": "^6.15.2",
     "serialize-javascript": "^7.0.5",
     "undici": "^7.28.0",
