@@ -31,6 +31,32 @@ When AdvancedParking is running:
   (`keepInWorld = false`) before the fresh vehicle spawns. Without this step
   AdvancedParking would simply respawn the old car, leaving two vehicles.
 
+### Impound lock
+
+:::tip[New in v5.3.0]
+:::
+
+By default msk_garage clears the AdvancedParking row itself and hands the vehicle
+out right away. If you'd rather have the car leave the map **first**, enable
+**Settings → Impounds → "Lock impound while AdvancedParking holds the vehicle"**
+([`Config.blockImpoundWhileAdvancedParked`](../config.md), off by default).
+
+With the lock on:
+
+- A plate that still has a row in AdvancedParking's `vehicles_parking` table
+  **cannot** be fetched from the impound. It only becomes available once that row
+  is gone (despawn, cleanup, or a manual delete).
+- Affected vehicles show up **greyed out** in the impound UI with a "still in the
+  world" label, and the park-out is refused **server-side before the fee is
+  charged** — nobody pays for a blocked vehicle.
+- Plates are matched space-insensitively, so a padded database plate and a trimmed
+  AdvancedParking plate still find each other.
+
+Table and column names come from `Config.AdvancedParkingTable` /
+`Config.AdvancedParkingPlateColumn` in `config/static.lua`. If the table does not
+exist, the lock disables itself after a single console warning instead of erroring
+on every request.
+
 ## VehicleDeformation
 
 Visual body damage (the actual **dents**, not just the health value) is not part

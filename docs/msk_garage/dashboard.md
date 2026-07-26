@@ -168,6 +168,18 @@ in code:
 
 The **default garages** are set per category here (see below).
 
+#### Impounds
+
+:::tip[New in v5.3.0]
+:::
+
+**"Lock impound while AdvancedParking holds the vehicle"** ties the impound to
+[AdvancedParking](./guides/integrations.md#impound-lock): with it enabled a vehicle
+can only be taken out of the impound once AdvancedParking no longer has a row for
+that plate. Blocked vehicles appear greyed out in the impound UI and the fee is not
+charged for them. The toggle is **off by default**, so the behaviour stays as
+before unless you switch it on.
+
 #### Vehicle images
 
 :::tip[New in v5.1.0]

@@ -76,6 +76,9 @@ Config.enableImpound = true
 Config.parkoutWithKey = true
 Config.needEnoughMoney = true
 
+-- Block the impound park-out while AdvancedParking still holds the vehicle
+Config.blockImpoundWhileAdvancedParked = false
+
 -- Own job vehicles via society identifier (shared across the job)
 Config.useSocietyName = false
 
@@ -118,6 +121,7 @@ Config.JobGaragePolicy = {}
 | `Config.enableImpound` | `boolean` | Register the impound locations from `config/impounds.lua`. |
 | `Config.parkoutWithKey` | `boolean` | Key holders may also retrieve from the impound. |
 | `Config.needEnoughMoney` | `boolean` | Require the player to afford the impound fee. |
+| `Config.blockImpoundWhileAdvancedParked` | `boolean` | **New in v5.3.0.** `true` = a vehicle can only be fetched from the impound once [AdvancedParking](./guides/integrations.md#advancedparking) no longer tracks that plate. Default `false` (previous behaviour). |
 | `Config.useSocietyName` | `boolean` | Own job vehicles via `society_<job>` instead of per-player. |
 | `Config.adminCommand` | `string` | Command that opens the [Admin Dashboard](./dashboard.md). |
 | `Config.dashboardGroups` | `table` | ACE groups (besides `admin`) allowed to open the dashboard. `user` is always denied. |
@@ -181,6 +185,11 @@ Config.UsesAdvancedParking = function()
     return GetResourceState('AdvancedParking') == 'started'
 end
 
+-- Table/column AdvancedParking keeps its world vehicles in. Only read when
+-- Config.blockImpoundWhileAdvancedParked is enabled.
+Config.AdvancedParkingTable = 'vehicles_parking'
+Config.AdvancedParkingPlateColumn = 'plate'
+
 -- Fuel adapter (auto-uses msk_fuel when running, else the state bag)
 Config.UsesMskFuel = function() return GetResourceState('msk_fuel') == 'started' end
 Config.GetModelMaxFuel = function(model) ... end
@@ -200,6 +209,7 @@ Config.LockVehicle = function(vehicle, locked) ... end
 | `Config.MySQL` | `table` | Column name mapping for `owned_vehicles` — see [Database](./database.md). |
 | `Config.GetDefaultGarage` | `function` | Resolves the default garage id for a vehicle type via `Config.DefaultGarages`. |
 | `Config.UsesAdvancedParking` | `function` | Auto-detects the AdvancedParking resource. |
+| `Config.AdvancedParkingTable` / `AdvancedParkingPlateColumn` | `string` | Table and plate column of AdvancedParking, only read by the [impound lock](./guides/integrations.md#advancedparking). A missing table disables the lock after one console warning. |
 | `Config.UsesMskFuel` / `GetModelMaxFuel` | `function` | [Fuel](./guides/integrations.md#fuel) detection & max-volume helper. |
 | `Config.SetFuel` / `GetFuel` | `function` | [Fuel](./guides/integrations.md#fuel) adapter (clientside). |
 | `Config.LockVehicle` | `function` | Lock adapter (uses the keys script's lock export when present). |
