@@ -9,6 +9,11 @@ sidebar_position: 2
 **optional** and auto-detected (the script checks `GetResourceState`), so you
 only enable what you actually run.
 
+:::note
+Key holders and faction vehicles have their own page: see
+[Job vehicles](./job-vehicles.md).
+:::
+
 ## AdvancedParking
 
 [AdvancedParking](https://forum.cfx.re/t/advancedparking-v4-11-1-persistent-vehicles-esx-qb-qbox-ox-standalone/2099582)

@@ -180,6 +180,21 @@ that plate. Blocked vehicles appear greyed out in the impound UI and the fee is 
 charged for them. The toggle is **off by default**, so the behaviour stays as
 before unless you switch it on.
 
+#### Faction vehicles & keys
+
+:::tip[New in v5.4.0]
+:::
+
+- **"Show the owner's name on the second-key badge"**
+  ([`Config.showKeyOwnerName`](./config.md), on by default) switches the badge on
+  key vehicles between "Key from &lt;owner name&gt;" and a neutral "Second key".
+- **"Delete faction vehicles on job change"**
+  ([`Config.deleteJobVehiclesOnJobChange`](./config.md), **off by default**)
+  permanently deletes a player's own job vehicles once they leave that job. Grade
+  changes and society vehicles are never affected. See
+  [Job vehicles](./guides/job-vehicles.md#deleting-vehicles-on-a-job-change)
+  before switching this on, it cannot be undone.
+
 #### Vehicle images
 
 :::tip[New in v5.1.0]

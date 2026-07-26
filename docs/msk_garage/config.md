@@ -82,6 +82,12 @@ Config.blockImpoundWhileAdvancedParked = false
 -- Own job vehicles via society identifier (shared across the job)
 Config.useSocietyName = false
 
+-- Delete a player's own job vehicles when they leave that job (irreversible)
+Config.deleteJobVehiclesOnJobChange = false
+
+-- Second-key badge: true = "Key from <owner>", false = neutral "Second key"
+Config.showKeyOwnerName = true
+
 -- In-Game Admin Dashboard
 Config.adminCommand = 'garageadmin' -- command that opens the dashboard
 Config.dashboardGroups = { 'mod' }  -- groups (besides 'admin') allowed to open it; 'user' is always denied
@@ -123,6 +129,8 @@ Config.JobGaragePolicy = {}
 | `Config.needEnoughMoney` | `boolean` | Require the player to afford the impound fee. |
 | `Config.blockImpoundWhileAdvancedParked` | `boolean` | **New in v5.3.0.** `true` = a vehicle can only be fetched from the impound once [AdvancedParking](./guides/integrations.md#advancedparking) no longer tracks that plate. Default `false` (previous behaviour). |
 | `Config.useSocietyName` | `boolean` | Own job vehicles via `society_<job>` instead of per-player. |
+| `Config.deleteJobVehiclesOnJobChange` | `boolean` | **New in v5.4.0.** `true` = when a player leaves a job, every vehicle they personally own on that job is permanently deleted. Grade changes and society vehicles are never affected. Default `false`. See [Job vehicles](./guides/job-vehicles.md). |
+| `Config.showKeyOwnerName` | `boolean` | **New in v5.4.0.** `true` (default) = second-key vehicles are badged "Key from &lt;owner name&gt;", `false` = neutral "Second key". Name resolution goes through `Utils.GetOwnerName` in `shared/utils.lua`. |
 | `Config.adminCommand` | `string` | Command that opens the [Admin Dashboard](./dashboard.md). |
 | `Config.dashboardGroups` | `table` | ACE groups (besides `admin`) allowed to open the dashboard. `user` is always denied. |
 | `Config.BrandTag` | `string` | Badge shown next to the dashboard title (default `MSK`). Empty hides it. Editable in Settings → Colors. |
