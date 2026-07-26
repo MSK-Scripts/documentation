@@ -9,6 +9,11 @@
 .cache-loader
 .claude/
 
+# Graphify
+graphify-out/*
+!graphify-out/graph.json
+!graphify-out/GRAPH_REPORT.md
+
 # Misc
 .DS_Store
 .env.local
