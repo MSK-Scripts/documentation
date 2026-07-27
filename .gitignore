@@ -8,6 +8,7 @@
 .docusaurus
 .cache-loader
 .claude/
+CLAUDE.md
 
 # Graphify
 graphify-out/*

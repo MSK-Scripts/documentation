@@ -38,29 +38,33 @@ When AdvancedParking is running:
 
 ### Impound lock
 
-:::tip[New in v5.3.0]
+:::tip[New in v5.3.0 — export-based since v5.4.1]
+Up to v5.4.0 the lock read AdvancedParking's `vehicles_parking` table directly. It
+now asks AdvancedParking through its own exports, and
+`Config.AdvancedParkingTable` / `Config.AdvancedParkingPlateColumn` are gone.
 :::
 
-By default msk_garage clears the AdvancedParking row itself and hands the vehicle
+By default msk_garage clears the vehicle out of AdvancedParking itself and hands it
 out right away. If you'd rather have the car leave the map **first**, enable
 **Settings → Impounds → "Lock impound while AdvancedParking holds the vehicle"**
 ([`Config.blockImpoundWhileAdvancedParked`](../config.md), off by default).
 
 With the lock on:
 
-- A plate that still has a row in AdvancedParking's `vehicles_parking` table
-  **cannot** be fetched from the impound. It only becomes available once that row
-  is gone (despawn, cleanup, or a manual delete).
+- A plate that AdvancedParking still has a position for **cannot** be fetched from
+  the impound. It only becomes available once the car is really gone (despawn,
+  cleanup, or a manual delete).
 - Affected vehicles show up **greyed out** in the impound UI with a "still in the
   world" label, and the park-out is refused **server-side before the fee is
   charged** — nobody pays for a blocked vehicle.
 - Plates are matched space-insensitively, so a padded database plate and a trimmed
   AdvancedParking plate still find each other.
 
-Table and column names come from `Config.AdvancedParkingTable` /
-`Config.AdvancedParkingPlateColumn` in `config/static.lua`. If the table does not
-exist, the lock disables itself after a single console warning instead of erroring
-on every request.
+The check runs through AdvancedParking's own serverside exports
+(`GetVehiclePosition` / `GetVehiclePositions`), the same ones the impound list uses
+for the tracking waypoint, so there is no table or column to configure. If your
+build does not expose them, the lock disables itself after a single console warning
+instead of erroring on every request.
 
 ## VehicleDeformation
 
