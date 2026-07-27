@@ -1,0 +1,19 @@
+# Graphify-spezifische Ausschlüsse
+#
+# Syntax wie .gitignore. Die Datei wird MIT der .gitignore gemerged und kann nur
+# zusätzlich ausschließen, nie etwas wieder einschließen.
+#
+# NICHT nötig: node_modules/, dist/, build/, out/, .docusaurus/ (build wird schon
+# von graphify selbst übersprungen).
+#
+# Nötig ist das hier, weil graphify auch Bilder als Corpus einliest.
+
+# Screenshots und Grafiken der Doku, ~9 MB. Der erklärende Text steht in den
+# Markdown-Dateien daneben und wird indiziert, die Bilder tragen nichts bei.
+static/**/*.png
+static/**/*.jpg
+static/**/*.jpeg
+static/**/*.gif
+static/**/*.webp
+
+# SVG bleibt drin: Logos und Diagramme sind Textdateien und billig.
