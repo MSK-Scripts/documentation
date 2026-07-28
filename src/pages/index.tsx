@@ -86,7 +86,7 @@ const resources: Resource[] = [
   },
   {
     title: 'MSK Core',
-    image: '/img/msk_core_banner.png',
+    image: '/img/msk_core-banner.png',
     badges: ['Standalone', 'Lua'],
     description:
       'Our core library for our resources, providing common utilities, and more.',
@@ -95,7 +95,7 @@ const resources: Resource[] = [
   },
   {
     title: 'MSK Handcuffs',
-    image: '/img/msk_handcuffs_banner.png',
+    image: '/img/msk_handcuffs-banner.png',
     badges: ['ESX', 'QBCore', 'Lua'],
     description:
       'A handcuff resource, allowing you to restrain players with various options and features.',
@@ -104,7 +104,7 @@ const resources: Resource[] = [
   },
   {
     title: 'MSK Vehiclekeys',
-    image: '/img/msk_vehiclekeys_banner.png',
+    image: '/img/msk_vehiclekeys-banner.png',
     badges: ['ESX', 'QBCore', 'Lua'],
     description:
       'A vehicle key management resource, allowing you to manage vehicle keys with various options and features.',
@@ -113,7 +113,7 @@ const resources: Resource[] = [
   },
   {
     title: 'MSK Garage',
-    image: '/img/msk_garage.png',
+    image: '/img/msk_garage-banner.png',
     badges: ['ESX', 'QBCore', 'Lua'],
     description:
       'A fully-featured garage management system, allowing you to manage vehicle storage and more.',

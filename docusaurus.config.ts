@@ -174,7 +174,7 @@ const config: Config = {
 
   themeConfig: {
     image: 'img/msk_scripts_banner.png',
-    heroImage: 'img/msk_documentation_banner.png',
+    heroImage: 'img/msk_scripts_banner.png',
     colorMode: {
       defaultMode: 'dark',
       disableSwitch: true,

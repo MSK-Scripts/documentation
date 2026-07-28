@@ -17,7 +17,7 @@ keywords:
 
 # MSK Handcuffs
 
-![MSK Handcuffs](/img/msk_handcuffs_banner.png)
+![MSK Handcuffs](/img/msk_handcuffs-banner.png)
 
 [**YouTube Preview**](https://www.youtube.com/watch?v=K1PrV9T7yZA) | [**CFX Post**](https://forum.cfx.re/t/esx-msk-handcuffs-realistic-handcuffs/4885324)
 

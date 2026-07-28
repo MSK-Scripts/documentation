@@ -3,7 +3,7 @@ title: MSK Core
 sidebar_position: 1
 ---
 
-![MSK Core](/img/msk_core_banner.png)
+![MSK Core](/img/msk_core-banner.png)
 
 # MSK Core
 
