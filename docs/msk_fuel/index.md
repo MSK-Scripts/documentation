@@ -3,9 +3,7 @@ title: MSK Fuel
 sidebar_position: 1
 ---
 
-# MSK Fuel
-
-Fuel System for Vehicles.
+![MSK Fuel](/img/msk_fuel-banner.png)
 
 This script uses the native [Fuel consumption](https://docs.fivem.net/docs/scripting-manual/using-new-game-features/fuel-consumption/).
 
