@@ -68,7 +68,7 @@ type Resource = {
 const resources: Resource[] = [
   {
     title: "Discord Ticketbot",
-    image: "/img/discord_ticketbot_banner.png",
+    image: "/img/msk-ticket-bot-banner.png",
     badges: ["Javascript"],
     description:
       "A Dicord ticketbot, allowing players to create support tickets directly from Discord.",
@@ -77,7 +77,7 @@ const resources: Resource[] = [
   },
   {
     title: "Discord Giveawaybot",
-    image: "/img/discord_giveawaybot_banner.png",
+    image: "/img/msk-giveaway-bot-banner.png",
     badges: ["Javascript"],
     description:
       "A Dicord giveawaybot, allowing you to create giveaway events directly from Discord.",
