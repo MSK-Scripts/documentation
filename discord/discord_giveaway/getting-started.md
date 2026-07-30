@@ -4,7 +4,7 @@ description: Getting Started
 sidebar_position: 1
 ---
 
-![Discord Ticket Bot](/img/msk-ticket-bot-banner.png)
+![Discord Ticket Bot](/img/msk-giveaway-bot-banner.png)
 
 A multilingual, per-guild configurable Discord giveaway bot built on **Discord.js v14**, persisted via **MariaDB** (Prisma). Restart-safe poll scheduler, entry via button, weighted winner draw with eligibility checks, and reroll. Developed and maintained by [MSK Scripts](https://www.msk-scripts.de).
 
