@@ -34,6 +34,25 @@ Group membership is resolved via a **FiveM ACE principal** (`group.<name>` in yo
 your **framework group** (e.g. ESX `getGroup()`) **or** a **luxu_admin** staff group (see below),
 so it works with all of those setups.
 
+### Setting up ACE groups
+
+Adding the player to the principal in your `server.cfg` is all you need:
+
+```cfg
+add_principal identifier.license:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx group.admin
+```
+
+You do **not** have to add `add_ace group.admin group.admin allow` yourself. FiveM keeps
+principals and ace objects apart, so the matching ace object is created by the script on start
+(since **v3.3.2**) for `admin`, for every group in `Config.dashboardGroups` and for every group in
+the permission matrix. Groups you add on the **Permissions** tab are covered right away, without a
+restart.
+
+:::tip[Someone cannot open the dashboard?]
+Set `Config.Debug = true`. The server then prints why the player was turned away and what each
+check answered (ace permission and framework group, per group).
+:::
+
 ### luxu_admin support
 
 `luxu_admin` v2 keeps its staff groups internally, so a normal ACE check does not see them. When

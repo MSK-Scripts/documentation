@@ -87,7 +87,8 @@ In `dealerships_creator/integrations/sv_integrations.lua`:
 ```lua
 AddEventHandler("dealerships_creator:giveVehicleToPlayerId", function(playerId, vehicleName, plate)
     Wait(2000)
-    exports.msk_vehiclekeys:AddPrimaryKey({source = playerId}, {plate = plate})
+    local model = MSK.GetModelFromPlate(plate)
+    exports.msk_vehiclekeys:AddPrimaryKey({source = playerId}, {plate = plate, model = model})
 end)
 ```
 
@@ -113,34 +114,4 @@ end)
 AddEventHandler("jobs_creator:temporary_garage:vehicleParked", function(vehicleModel, vehiclePlate)
     exports.msk_vehiclekeys:RemoveTempKey({plate = vehiclePlate, model = vehicleModel})
 end)
-```
-
-## qs-advancedgarages
-
-In `qs-advancedgarages/config/config.lua` at line ~186:
-
-```lua
-local mskvehiclekeys = GetResourceState('msk_vehiclekeys') == 'started'
-```
-
-At line ~208:
-
-```lua
-elseif mskvehiclekeys then
-    return 'msk_vehiclekeys'
-else
-```
-
-Create `qs-advancedgarages/client/custom/vehiclekeys/msk_vehiclekeys.lua`:
-
-```lua
-if Config.Vehiclekeys ~= 'msk_vehiclekeys' then return end
-
-function AddVehiclekeys(vehicle, plate, item)
-    exports.msk_vehiclekeys:AddPrimaryKey(vehicle)
-end
-
-function RemoveVehiclekeys(vehicle, plate)
-    exports.msk_vehiclekeys:RemovePrimaryKey(vehicle)
-end
 ```

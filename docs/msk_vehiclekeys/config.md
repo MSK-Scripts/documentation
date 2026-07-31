@@ -397,6 +397,8 @@ permission system and the database tables.
 Config.adminCommand = 'advehiclekeys'
 
 -- ACE groups (besides 'admin') allowed to open the dashboard. 'user' is always denied.
+-- A plain `add_principal identifier.license:xxx group.<name>` in your server.cfg is enough,
+-- the matching ace object is created by the script (see the Admin Dashboard page).
 Config.dashboardGroups = { 'mod' }
 
 -- Short badge shown next to the dashboard title (empty string hides it)
