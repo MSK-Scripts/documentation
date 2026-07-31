@@ -71,6 +71,79 @@ local vehicle = MSK.GetVehicleWithPlate('ABC123', MSK.Player.coords, 10.0)
 local vehicle = exports.msk_core:GetVehicleWithPlate(plate, coords, distance)
 ```
 
+## MSK.GetVehicleFromPlate
+
+Returns the vehicle with the given plate, without needing coordinates or a radius. Use `MSK.GetVehicleWithPlate` when the hit has to be within a certain distance of a point.
+
+The search runs on the server. The client asks over the callback API and gets the network id back, which it resolves locally. That way the answer covers every vehicle on the server and not just the ones streamed in nearby, and no client walks its own vehicle pool.
+
+The plate is trimmed and upper cased before it is compared, so `abc123` finds `ABC123  `. Inner spaces are kept, `AB C123` does not match `ABC123`.
+
+:::warning[Blocking]
+This is a callback round trip, so it has to be called from inside a thread (`CreateThread`, a command handler, an event handler), like every other callback based function.
+:::
+
+**Parameters**  
+**plate** - `string` - The number plate to look for
+
+**Returns**  
+**vehicle** - `number | boolean` - The local vehicle handle, or `false` when the vehicle is not streamed in for this client  
+**netId** - `number | nil` - The network id, present whenever the vehicle exists on the server at all
+
+```lua
+local vehicle, netId = MSK.GetVehicleFromPlate(plate)
+
+-- Example
+CreateThread(function()
+    local vehicle, netId = MSK.GetVehicleFromPlate('ABC123')
+
+    if vehicle then
+        print(('Vehicle handle: %s'):format(vehicle))
+    elseif netId then
+        -- The vehicle exists, but it is too far away to have a local handle
+        print(('Found as netId %s, but it is not streamed in here'):format(netId))
+    else
+        print('No vehicle with that plate')
+    end
+end)
+
+-- As an Export:
+local vehicle, netId = exports.msk_core:GetVehicleFromPlate(plate)
+```
+
+## MSK.GetModelFromPlate
+
+Returns the model that is stored for a plate in the framework's vehicle table. Because it reads the database instead of the world, it also answers while the vehicle is parked in a garage and does not exist as an entity at all.
+
+Supported on ESX (`vehicle` column in `owned_vehicles`) and QBCore (`vehicle` and `hash` columns in `player_vehicles`). Every other framework returns `nil`.
+
+:::warning[Blocking]
+This is a callback round trip, so it has to be called from inside a thread.
+:::
+
+**Parameters**  
+**plate** - `string` - The number plate to look for
+
+**Returns**  
+**model** - `number | nil` - The model hash as it is stored, or `nil` when nothing was found  
+**name** - `string | nil` - The spawn name, only when the framework stores one (QBCore)
+
+```lua
+local model, name = MSK.GetModelFromPlate(plate)
+
+-- Example
+CreateThread(function()
+    local model, name = MSK.GetModelFromPlate('ABC123')
+
+    if model then
+        print(('Model: %s (%s)'):format(model, name or MSK.GetVehicleLabelFromModel(model)))
+    end
+end)
+
+-- As an Export:
+local model, name = exports.msk_core:GetModelFromPlate(plate)
+```
+
 ## MSK.GetVehicleInDirection
 
 Performs a raycast in front of the player and returns the vehicle that was hit. Also available under the alias `MSK.GetVehicleInFront` (and the `GetVehicleInFront` export).
