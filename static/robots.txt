@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://docu.msk-scripts.de/sitemap.xml
