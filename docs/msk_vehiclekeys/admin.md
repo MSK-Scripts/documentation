@@ -30,9 +30,9 @@ Who may open the dashboard and what they can do is controlled by an ACE-based pe
 - Any other group must be listed in **`Config.dashboardGroups`** (or be `admin`) **and** have at
   least one right to open the dashboard.
 
-Group membership is resolved via a **FiveM ACE principal** (`group.<name>` in your `server.cfg`),
-your **framework group** (e.g. ESX `getGroup()`) **or** a **luxu_admin** staff group (see below),
-so it works with all of those setups.
+Group membership is resolved via a **FiveM ACE principal** (`group.<name>` or QBCore's
+`qbcore.<name>`), your **framework group** (ESX `getGroup()`, QBCore's own permission list) **or**
+a **luxu_admin** staff group (see below), so it works with all of those setups.
 
 ### Setting up ACE groups
 
@@ -43,14 +43,36 @@ add_principal identifier.license:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx group.
 ```
 
 You do **not** have to add `add_ace group.admin group.admin allow` yourself. FiveM keeps
-principals and ace objects apart, so the matching ace object is created by the script on start
-(since **v3.3.2**) for `admin`, for every group in `Config.dashboardGroups` and for every group in
-the permission matrix. Groups you add on the **Permissions** tab are covered right away, without a
-restart.
+principals and ace objects apart, so the matching ace object is created on start for `admin`, for
+every group in `Config.dashboardGroups` and for every group in the permission matrix. Groups you
+add on the **Permissions** tab are covered right away, without a restart.
+
+That registration runs through msk_core (**v3.3.0** or newer), because FiveM only lets a resource
+create aces when the `server.cfg` permits it. So make sure the msk_core ace lines are present, they
+are the ones the msk_core documentation has always listed and they cover every MSK script at once:
+
+```cfg
+add_ace resource.msk_core command.add_ace allow
+add_ace resource.msk_core command.remove_ace allow
+add_ace resource.msk_core command.add_principal allow
+add_ace resource.msk_core command.remove_principal allow
+```
+
+If they are missing the script says so on start, and group membership falls back to your framework
+group and luxu_admin.
+
+:::info[QBCore and Qbox]
+The frameworks name their group principals differently. ESX and Qbox use `group.<name>`, QBCore
+uses `qbcore.<name>` and its staff levels are `god`, `admin` and `mod`. Since **v3.3.3** both
+spellings are accepted, so a player set up with `/addpermission 1 mod` is recognised as group
+`mod` just like one set up with `add_principal ... group.mod`. Put the levels that should reach
+the dashboard into `Config.dashboardGroups`.
+:::
 
 :::tip[Someone cannot open the dashboard?]
 Set `Config.Debug = true`. The server then prints why the player was turned away and what each
-check answered (ace permission and framework group, per group).
+check answered, per group: the script's own ace, the plain `group.<name>` ace, the
+`qbcore.<name>` ace, the framework group and QBCore's permission list.
 :::
 
 ### luxu_admin support

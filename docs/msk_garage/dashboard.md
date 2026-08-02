@@ -59,8 +59,8 @@ code, so it always respects the rules below:
 
 :::info[Groups come from your server.cfg]
 FiveM cannot enumerate ACE groups, so groups are **added by name** in the
-dashboard and checked at runtime with `IsPlayerAceAllowed('group.<name>')`. The
-group must therefore exist as a principal in your `server.cfg`, e.g.:
+dashboard and checked at runtime. The group must therefore exist as a principal
+in your `server.cfg`, e.g.:
 
 ```cfg title="server.cfg"
 add_ace group.admin command allow
@@ -70,17 +70,41 @@ add_ace group.mod command allow
 add_principal identifier.license:yyyyyyyy group.mod
 ```
 
+You do **not** have to add `add_ace group.admin group.admin allow` yourself. FiveM
+keeps principals and ace objects apart, so the matching ace object is created on start
+(since **v5.4.2**) through msk_core (**v3.3.0** or newer). That means your `server.cfg`
+needs the msk_core ace lines, which the msk_core documentation has always listed and
+which cover every MSK script at once:
+
+```cfg
+add_ace resource.msk_core command.add_ace allow
+add_ace resource.msk_core command.remove_ace allow
+add_ace resource.msk_core command.add_principal allow
+add_ace resource.msk_core command.remove_principal allow
+```
+
+If they are missing the script says so on
+start, and group membership falls back to your framework group.
+
 The "Check" button next to a group is a best-effort validation (it reports
 whether any online player is currently in that group); you can still save a group
 that has no one online.
 :::
 
+:::info[QBCore and Qbox]
+The frameworks name their group principals differently. ESX and Qbox use
+`group.<name>`, QBCore uses `qbcore.<name>` and its staff levels are `god`,
+`admin` and `mod`. Since **v5.4.2** both spellings are accepted, so a player set
+up with `/addpermission 1 mod` is recognised as group `mod` just like one set up
+with `add_principal ... group.mod`.
+:::
+
 :::note[Framework groups and luxu_admin are recognised too]
 Group membership is not limited to `server.cfg` ACE principals. A player counts as
-being in a group if **any** of these match: the FiveM ACE principal
-(`group.<name>`), the **framework group** (e.g. an ESX/QBCore group stored in the
-`users` table, even without a matching `add_principal`), or, when enabled, the
-player's **luxu_admin v2** staff group.
+being in a group if **any** of these match: the FiveM ACE principal (`group.<name>`
+or QBCore's `qbcore.<name>`), the **framework group** (an ESX group stored in the
+`users` table, even without a matching `add_principal`, or QBCore's own permission
+list), or, when enabled, the player's **luxu_admin v2** staff group.
 
 luxu_admin keeps its staff groups internally (not as ACE principals), so it is
 resolved via its `getPlayerStaffGroup` export. Enable and tune it in
