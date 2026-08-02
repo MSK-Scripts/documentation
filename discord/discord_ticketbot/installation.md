@@ -32,7 +32,7 @@ TOKEN="your_bot_token"
 CLIENT_ID="your_application_id"
 GUILD_ID="your_server_id"
 
-# Optional — MSK Transcript Service (get your key at www.msk-scripts.de/verify)
+# Optional — MSK Transcript Service (get your key at www.msk-scripts.de/ticketbot/verify)
 MSK_API_KEY="your_msk_api_key"
 MSK_API_URL="https://www.msk-scripts.de"
 

@@ -20,7 +20,7 @@ Nein. Jeder API Key ist an genau einen Discord-Server gebunden.
 Für jeden Server muss der Verify-Prozess separat durchgeführt werden.
 
 ### Ich habe meinen API Key verloren — was nun?
-Besuche [www.msk-scripts.de/verify](https://www.msk-scripts.de/verify) erneut und durchlaufe den Prozess.  
+Besuche [www.msk-scripts.de/ticketbot/verify](https://www.msk-scripts.de/ticketbot/verify) erneut und durchlaufe den Prozess.  
 Ein neuer Key wird generiert und der alte wird sofort ungültig.  
 Vergiss nicht, den Key in der `.env` des Bots zu aktualisieren und ihn neu zu starten.
 
@@ -36,4 +36,4 @@ und erneuern sich automatisch vor Ablauf.
 Premium- und Premium+-Kunden können ihren Bot vollständig von MSK Scripts hosten lassen. Der Bot läuft auf dem MSK-Server und wird komplett über das Dashboard verwaltet — Konfigurationsdateien bearbeiten, Bot starten/stoppen/neustarten/aktualisieren und die Live-Log-Ausgabe in Echtzeit im Browser verfolgen. Kein SSH-Zugang oder Server-Wissen erforderlich. Melde dich über [Discord](https://discord.gg/5hHSBRHvJE) bei MSK Scripts, um ein gehostetes Paket zu vereinbaren.
 
 ### Ich bin Hosted-Kunde — wie rufe ich das Management-Panel auf?
-Melde dich unter [www.msk-scripts.de/dashboard](https://www.msk-scripts.de/dashboard) an. Das Bot-Management-Panel erscheint automatisch, sobald deine gehostete Instanz von MSK Scripts eingerichtet wurde. Falls es nicht sichtbar ist, stelle sicher, dass du mit dem richtigen Discord-Account eingeloggt bist, und wende dich per [Discord](https://discord.gg/5hHSBRHvJE) an den Support.
+Melde dich unter [www.msk-scripts.de/ticketbot/dashboard](https://www.msk-scripts.de/ticketbot/dashboard) an. Das Bot-Management-Panel erscheint automatisch, sobald deine gehostete Instanz von MSK Scripts eingerichtet wurde. Falls es nicht sichtbar ist, stelle sicher, dass du mit dem richtigen Discord-Account eingeloggt bist, und wende dich per [Discord](https://discord.gg/5hHSBRHvJE) an den Support.

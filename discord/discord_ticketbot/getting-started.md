@@ -52,7 +52,7 @@ Instead of sending transcripts as file attachments via DM, the bot can upload th
 
 Three tiers are available: **Basic** (free), **Premium** (€3.99/mo) and **Premium+** (€6.99/mo). Paid tiers add larger transcripts and file attachments, longer storage, a custom domain and hosted bot management. Premium is subscribed via **Stripe** with a **14-day free trial**.
 
-To get started, grab your API key at **[www.msk-scripts.de/verify](https://www.msk-scripts.de/verify)** (sign in with Discord, pick your server) and add it to your `.env`:
+To get started, grab your API key at **[www.msk-scripts.de/ticketbot/verify](https://www.msk-scripts.de/ticketbot/verify)** (sign in with Discord, pick your server) and add it to your `.env`:
 
 ```bash
 MSK_API_KEY='your_api_key_here'
@@ -65,7 +65,7 @@ MSK_API_URL="https://www.msk-scripts.de"
 
 ## 🖥️ Hosted Bot Management (Premium & Premium+)
 
-Premium and Premium+ customers can have their bot instance **fully hosted by MSK Scripts** and manage it entirely from the dashboard at **[msk-scripts.de/dashboard](https://www.msk-scripts.de/dashboard)** — config editor, start/stop/restart/update and a live log console, no SSH access or server knowledge required.
+Premium and Premium+ customers can have their bot instance **fully hosted by MSK Scripts** and manage it entirely from the dashboard at **[msk-scripts.de/ticketbot/dashboard](https://www.msk-scripts.de/ticketbot/dashboard)** — config editor, start/stop/restart/update and a live log console, no SSH access or server knowledge required.
 
 ![Dashboard — Hosted Bot Management](/img/discord_ticketbot_dashboard.png)
 

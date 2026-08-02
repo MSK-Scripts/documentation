@@ -34,7 +34,7 @@ Premium-Nutzer erhalten zusätzlich herunterladbare Dateianhänge im Transkript 
 | Dateianhänge im Transkript | ❌ | ✅ | ✅ |
 | Max. Anhangsgröße pro Ticket | — | 150 MB | 500 MB |
 | Eigene Domain | ❌ | ✅ | ✅ |
-| Speicherdauer | 30 Tage | 60 Tage | 90 Tage |
+| Speicherdauer | 30 Tage | 180 Tage | 365 Tage |
 | Uploads pro Stunde | 30 | 60 | 300 |
 | **Gehostetes Bot-Management** | ❌ | ✅ | ✅ |
 
@@ -113,7 +113,7 @@ Dieser Prozess muss **einmalig pro Server** von einem Server-Administrator durch
 
 ### 5.1 Website aufrufen
 
-Öffne **[www.msk-scripts.de/verify](https://www.msk-scripts.de/verify)** in deinem Browser.
+Öffne **[www.msk-scripts.de/ticketbot/verify](https://www.msk-scripts.de/ticketbot/verify)** in deinem Browser.
 
 ---
 
@@ -181,7 +181,7 @@ z.B. `https://tickets.deinserver.de/...` statt `https://www.msk-scripts.de/...`
 ### 7.1 Dashboard aufrufen
 
 Klicke nach der Verifizierung auf **„Zum Dashboard"**,  
-oder öffne direkt **[www.msk-scripts.de/dashboard](https://www.msk-scripts.de/dashboard)**.
+oder öffne direkt **[www.msk-scripts.de/ticketbot/dashboard](https://www.msk-scripts.de/ticketbot/dashboard)**.
 
 ---
 

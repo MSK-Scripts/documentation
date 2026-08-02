@@ -34,7 +34,7 @@ configure a **custom domain** so transcripts are served under their own URL.
 | File attachments in transcript | ❌ | ✅ | ✅ |
 | Max. attachment size per ticket | — | 150 MB | 500 MB |
 | Custom domain | ❌ | ✅ | ✅ |
-| Storage duration | 30 days | 60 days | 90 days |
+| Storage duration | 30 days | 180 days | 365 days |
 | Uploads per hour | 30 | 60 | 300 |
 | **Hosted bot management** | ❌ | ✅ | ✅ |
 
@@ -113,7 +113,7 @@ This process must be completed **once per server** by a server administrator.
 
 ### 5.1 Open the website
 
-Go to **[www.msk-scripts.de/verify](https://www.msk-scripts.de/verify)** in your browser.
+Go to **[www.msk-scripts.de/ticketbot/verify](https://www.msk-scripts.de/ticketbot/verify)** in your browser.
 
 ---
 
@@ -181,7 +181,7 @@ e.g. `https://tickets.yourserver.com/...` instead of `https://www.msk-scripts.de
 ### 7.1 Open the Dashboard
 
 After completing the verify process, click **"Go to Dashboard"**,  
-or visit **[www.msk-scripts.de/dashboard](https://www.msk-scripts.de/dashboard)** directly.
+or visit **[www.msk-scripts.de/ticketbot/dashboard](https://www.msk-scripts.de/ticketbot/dashboard)** directly.
 
 ---
 
