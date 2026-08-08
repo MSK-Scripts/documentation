@@ -7,7 +7,7 @@ sidebar_position: 16
 
 When enabled, the Disconnect Logger reacts to the `playerDropped` event and logs every player who leaves the server. It can write to the **server console**, send a **Discord webhook**, and draws a **3D text marker** at the world position where the player disconnected for every online client.
 
-This is a passive feature with **no public `MSK.*` functions** — it is controlled entirely through `Config.DisconnectLogger`.
+This is a passive feature with **no public `MSK.*` functions**, it is controlled entirely through `Config.DisconnectLogger`.
 
 ## Config
 

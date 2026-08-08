@@ -7,8 +7,8 @@ sidebar_position: 12
 
 Manage society / company bank accounts. These functions require a framework (**ESX** or **QBCore**) and the corresponding money resource:
 
-- **ESX** — uses `esx_addonaccount` (shared account `society_<name>`)
-- **QBCore** — uses `qb-banking` or `qb-management` (whichever is started)
+- **ESX**: uses `esx_addonaccount` (shared account `society_<name>`)
+- **QBCore**: uses `qb-banking` or `qb-management` (whichever is started)
 
 :::info
 All functions are **server-side** only. On **OXCore** and **STANDALONE** there is no society backend, so every function returns `0` / `false`.

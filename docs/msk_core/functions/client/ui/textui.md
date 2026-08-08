@@ -5,7 +5,7 @@ sidebar_position: 4
 
 # TextUI
 
-The TextUI module displays a small help text with a key hint in the NUI. There are two ways to show it: `Show` keeps it visible until `Hide` is called, while `ShowThread` automatically hides it shortly after it stops being called — making it ideal to call repeatedly inside a loop. The default color is taken from `Config.TextUIColor` (`#00e676`, MSK green).
+The TextUI module displays a small help text with a key hint in the NUI. There are two ways to show it: `Show` keeps it visible until `Hide` is called, while `ShowThread` automatically hides it shortly after it stops being called, making it ideal to call repeatedly inside a loop. The default color is taken from `Config.TextUIColor` (`#00e676`, MSK green).
 
 ## MSK.TextUI.Show
 

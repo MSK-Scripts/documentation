@@ -20,7 +20,7 @@ Registers a client command. If `restricted` is `true`, the command only runs whe
 **Returns**  
 **command** - `table` - The internal command entry that was registered.
 
-**Description — `properties`**
+**Description: `properties`**
 
 - **showSuggestion** - `boolean` - Show / hide the chat suggestion. Optional, default: `true`
 - **help** - `string` - Chat suggestion description
@@ -31,14 +31,14 @@ Registers a client command. If `restricted` is `true`, the command only runs whe
 A `hotkey` cannot be combined with `params`. If both are set, the hotkey is skipped and a warning is logged.
 :::
 
-**Description — `params`**
+**Description: `params`**
 
 - **name** - `string` - Name of the argument (becomes the key in `args`)
 - **type** - `string` - One of `number`, `string`, `playerId`, `player`, `any`
 - **help** - `string` - Chat suggestion of the argument
 - **optional** - `boolean` - Mark the argument optional (must be the last one). Optional, default: `false`
 
-**Description — `hotkey`**
+**Description: `hotkey`**
 
 - **key** - `string` - The default key
 - **text** - `string` - Description shown in the FiveM keybind settings

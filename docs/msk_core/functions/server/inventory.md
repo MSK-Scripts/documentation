@@ -7,12 +7,12 @@ sidebar_position: 3
 
 msk_core abstracts the inventory away behind a configurable bridge. The bridge is selected via `Config.Inventory` (default `'AUTO'`):
 
-- **AUTO** — auto-detects in order: `ox_inventory` > `core_inventory` > `jaksam_inventory` > `default`.
-- **ox_inventory** — fully maintained bridge (`AddItem`, `RemoveItem`, `HasItem`, `CanCarryItem`, `SetMaxWeight`, weapons, OXCore money accounts).
-- **jaksam_inventory** — fully maintained bridge.
-- **core_inventory** — secondary bridge (ported).
-- **default** — ESX default / Chezza inventory (no `FunctionOverride`, uses the framework's own item functions).
-- **custom** — your own implementation in `inventories/server/custom.lua`.
+- **AUTO**: auto-detects in order: `ox_inventory` > `core_inventory` > `jaksam_inventory` > `default`.
+- **ox_inventory**: fully maintained bridge (`AddItem`, `RemoveItem`, `HasItem`, `CanCarryItem`, `SetMaxWeight`, weapons, OXCore money accounts).
+- **jaksam_inventory**: fully maintained bridge.
+- **core_inventory**: secondary bridge (ported).
+- **default**: ESX default / Chezza inventory (no `FunctionOverride`, uses the framework's own item functions).
+- **custom**: your own implementation in `inventories/server/custom.lua`.
 
 Each bridge attaches inventory functions onto the framework player object (`Player.AddItem`, `Player.RemoveItem`, `Player.HasItem`, `Player.GetInventory`, `Player.CanCarryItem`, `Player.SetMaxWeight`, weapon helpers, …). The functions below are the convenience exports the core provides on top of that.
 
@@ -22,7 +22,7 @@ Each bridge attaches inventory functions onto the framework player object (`Play
 
 ## MSK.HasItem
 
-Checks whether a player has a given item using the active inventory bridge. A single item name or a list of item names may be passed — when a list is given the first matching item is returned.
+Checks whether a player has a given item using the active inventory bridge. A single item name or a list of item names may be passed. When a list is given the first matching item is returned.
 
 **Parameters**  
 **playerId** - `number` - The server id of the player  
@@ -51,8 +51,8 @@ Registers a usable item. The callback is passed through to the active framework'
 
 :::info
 The callback signature depends on the framework:
-- **ESX** — `function(source)`
-- **QBCore** — `function(source, item)`
+- **ESX**: `function(source)`
+- **QBCore**: `function(source, item)`
 :::
 
 **Parameters**  

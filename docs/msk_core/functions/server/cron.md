@@ -9,12 +9,12 @@ A lightweight cron / scheduler. Register a callback that fires once after an int
 
 There are two scheduling modes, chosen automatically by the keys you pass:
 
-- **Interval mode** (`w`, `d`, `h`, `m`) — fires once after the given offset from now, then re-schedules itself by the same offset.
-- **At mode** (`atD`, `atH`, `atM`) — fires at a fixed wall-clock time and repeats every day (or only on the given weekday).
+- **Interval mode** (`w`, `d`, `h`, `m`): fires once after the given offset from now, then re-schedules itself by the same offset.
+- **At mode** (`atD`, `atH`, `atM`): fires at a fixed wall-clock time and repeats every day (or only on the given weekday).
 
 ## MSK.Cron.Create
 
-Creates a cron job and returns nothing — keep the `uniqueId` passed to your callback if you want to delete it later.
+Creates a cron job and returns nothing. Keep the `uniqueId` passed to your callback if you want to delete it later.
 
 **Parameters**  
 **date** - `table` - The schedule definition (see fields below)  
@@ -67,7 +67,7 @@ exports.msk_core:CreateCron(date, data, cb)
 :::
 
 :::warning
-In **At mode** `atH` must not be greater than `23` and `atM` not greater than `59` — otherwise the job is rejected with a console error.
+In **At mode** `atH` must not be greater than `23` and `atM` not greater than `59`, otherwise the job is rejected with a console error.
 :::
 
 ## MSK.Cron.Delete

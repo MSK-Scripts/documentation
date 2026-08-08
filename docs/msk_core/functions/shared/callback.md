@@ -7,8 +7,8 @@ sidebar_position: 2
 
 msk_core ships with a lightweight, framework-agnostic callback system that works in both directions:
 
-- **Client → Server** – the client triggers a callback that is registered on the server and waits for its return value.
-- **Server → Client** – the server triggers a callback that is registered on a specific client and waits for its return value.
+- **Client → Server**: the client triggers a callback that is registered on the server and waits for its return value.
+- **Server → Client**: the server triggers a callback that is registered on a specific client and waits for its return value.
 
 The system is loaded eagerly into the core on both sides, so the underlying net-event handlers exist from the moment the resource starts. Consumers use the local view via `shared_script '@msk_core/import.lua'` and access it through the global `MSK` table, or through the matching exports.
 
@@ -68,8 +68,8 @@ exports.msk_core:RegisterServerCallback(eventName, cb)
 
 Triggers a registered callback and waits (blocking) for its return value. The signature differs per side.
 
-- **Client → Server:** `MSK.Trigger(eventName, ...)` — triggers the server callback `eventName` and returns its result.
-- **Server → Client:** `MSK.Trigger(eventName, playerId, ...)` — triggers the client callback `eventName` on `playerId` and returns its result.
+- **Client → Server:** `MSK.Trigger(eventName, ...)` triggers the server callback `eventName` and returns its result.
+- **Server → Client:** `MSK.Trigger(eventName, playerId, ...)` triggers the client callback `eventName` on `playerId` and returns its result.
 
 If no response arrives within 5 seconds, the request times out and rejects.
 
@@ -102,7 +102,7 @@ exports.msk_core:Trigger(eventName, ...)
 
 ## MSK.TriggerCallback
 
-**Client only.** Triggers a server callback using the **cb method**. This is functionally equivalent to `MSK.Trigger` for the consumer — it blocks and returns the result — but on the server the callback is invoked with a `cb` function it must call to return its result (see `MSK.Register`). Use this when the registered server callback resolves its value through `cb(...)` rather than `return`.
+**Client only.** Triggers a server callback using the **cb method**. This is functionally equivalent to `MSK.Trigger` for the consumer (it blocks and returns the result), but on the server the callback is invoked with a `cb` function it must call to return its result (see `MSK.Register`). Use this when the registered server callback resolves its value through `cb(...)` rather than `return`.
 
 **Parameters**  
 **eventName** - `string` - Name of the registered server callback.  

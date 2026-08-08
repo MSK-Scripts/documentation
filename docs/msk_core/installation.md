@@ -28,7 +28,7 @@ ensure msk_core
 ## Import
 
 :::tip
-The import is already integrated in all MSK Scripts resources — if you use one of our scripts you don't need to add anything.
+The import is already integrated in all MSK Scripts resources. If you use one of our scripts you don't need to add anything.
 :::
 
 Add the following line to the `fxmanifest.lua` of **your** resource to get the global `MSK` table:

@@ -21,7 +21,7 @@ If `restricted` is set in `properties`, the command is registered as restricted 
 **Returns**  
 **command** - `table` - The internal command entry that was registered.
 
-**Description — `properties`**
+**Description: `properties`**
 
 - **allowConsole** - `boolean` - Allow execution from the server console (`source == 0`). Optional, default: `true`
 - **showSuggestion** - `boolean` - Show / hide the chat suggestion. Optional, default: `true`
@@ -30,7 +30,7 @@ If `restricted` is set in `properties`, the command is registered as restricted 
 - **help** - `string` - Chat suggestion description
 - **params** - `table` - Typed argument definitions (see below)
 
-**Description — `params`**
+**Description: `params`**
 
 - **name** - `string` - Name of the argument (becomes the key in `args`)
 - **type** - `string` - One of `number`, `string`, `playerId`, `player`, `any`

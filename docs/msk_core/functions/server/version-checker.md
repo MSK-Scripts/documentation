@@ -7,7 +7,7 @@ sidebar_position: 17
 
 Check your resource against the latest GitHub release and validate dependency versions. Both functions are **server-side** only and are exposed under the `MSK.Check` namespace.
 
-`MSK.Check` is also callable directly — `MSK.Check(repo)` is shorthand for `MSK.Check.Version(repo)`.
+`MSK.Check` is also callable directly, `MSK.Check(repo)` is shorthand for `MSK.Check.Version(repo)`.
 
 ## Config
 

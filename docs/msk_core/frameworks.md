@@ -39,7 +39,7 @@ Your framework resource must start **before** `msk_core`. If ESX/QBCore is detec
 
 ### STANDALONE mode
 
-In STANDALONE no framework bridge is loaded. The generic utilities (math, string, table, vector, timeout, callbacks, cron, ace, commands, UI, webhooks, world/entity helpers, …) all work. Functions that inherently depend on a framework — player getters, jobs, society/offline bank money, inventory item checks — are **not** available. Each affected function notes this on its page.
+In STANDALONE no framework bridge is loaded. The generic utilities (math, string, table, vector, timeout, callbacks, cron, ace, commands, UI, webhooks, world/entity helpers, …) all work. Functions that inherently depend on a framework (player getters, jobs, society/offline bank money, inventory item checks) are **not** available. Each affected function notes this on its page.
 
 ## Inventory bridge
 

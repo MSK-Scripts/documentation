@@ -9,15 +9,15 @@ Read and modify the **bank balance of offline players** directly in the database
 
 The `identifier` parameter depends on the framework:
 
-- **ESX** — the player `identifier` (e.g. `license:xxxxxxxx`) → reads/writes `users.accounts`
-- **QBCore** — the player `citizenid` → reads/writes `players.money`
+- **ESX**: the player `identifier` (e.g. `license:xxxxxxxx`) → reads/writes `users.accounts`
+- **QBCore**: the player `citizenid` → reads/writes `players.money`
 
 :::info
 All functions are **server-side** only and run synchronous database queries (via oxmysql). On **OXCore** and **STANDALONE** there is no mapping, so every function returns `nil` / `false`.
 :::
 
 :::warning
-These functions write directly to the database. Use them only for offline players — for online players use the framework's own money functions so the client stays in sync.
+These functions write directly to the database. Use them only for offline players. For online players use the framework's own money functions so the client stays in sync.
 :::
 
 ## MSK.Offline.GetBank
@@ -64,7 +64,7 @@ local success = exports.msk_core:OfflineAddBank(identifier, amount)
 
 ## MSK.Offline.RemoveBank
 
-Remove money from an offline player's bank balance. The deduction is **atomic** — the SQL `WHERE` guard ensures it only succeeds if the player has sufficient funds.
+Remove money from an offline player's bank balance. The deduction is **atomic**, the SQL `WHERE` guard ensures it only succeeds if the player has sufficient funds.
 
 **Parameters**  
 **identifier** - `string` - The player identifier (ESX) or citizenid (QBCore)  

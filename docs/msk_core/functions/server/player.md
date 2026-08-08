@@ -12,14 +12,14 @@ On the server the core keeps a mirrored player table, `MSK.Player[source]`, that
 The mirrored table for a connected player, keyed by their server id. Computed keys (`coords`, `heading`, `state`) are resolved on access; all other keys are populated from the client's `msk_core:onPlayer` updates.
 
 **Properties**  
-**clientId** - `number` - Player Index on the client — equal to `PlayerId()`  
+**clientId** - `number` - Player Index on the client, equal to `PlayerId()`  
 **serverId** - `number` - Player Server Id  
 **playerId** - `number` - Alias of `serverId`  
-**ped** - `number` - Player Ped — equal to `GetPlayerPed(source)`  
+**ped** - `number` - Player Ped, equal to `GetPlayerPed(source)`  
 **playerPed** - `number` - Alias of `ped`  
-**coords** - `vector3` - Player Coords — equal to `GetEntityCoords(ped)`  
-**heading** - `float` - Player Heading — equal to `GetEntityHeading(ped)`  
-**state** - `table` - The player's state bag — equal to `Player(serverId).state`  
+**coords** - `vector3` - Player Coords, equal to `GetEntityCoords(ped)`  
+**heading** - `float` - Player Heading, equal to `GetEntityHeading(ped)`  
+**state** - `table` - The player's state bag, equal to `Player(serverId).state`  
 **vehicle** - `number` - The vehicle entity the player is in (resolved from the replicated network id)  
 **vehNetId** - `number` - The network id of the player's vehicle  
 **seat** - `number` - Seat index the player is in  
@@ -191,12 +191,12 @@ local job = exports.msk_core:GetPlayerJobByCitizenId(citizenid)
 
 Returns the framework's list of players, optionally filtered by a key/value pair. The behaviour and filter keys depend on the active framework:
 
-- **ESX** — returns `ESX.GetExtendedPlayers(key, value)`.
-- **QBCore** — without a `key` returns all QB players; with a `key` filters by `'job'`, `'gang'` or `'group'` (ACE-based).
-- **OXCore** — returns `Ox.GetPlayers({[key] = value})` (or all players when no key is given).
+- **ESX**: returns `ESX.GetExtendedPlayers(key, value)`.
+- **QBCore**: without a `key` returns all QB players; with a `key` filters by `'job'`, `'gang'` or `'group'` (ACE-based).
+- **OXCore**: returns `Ox.GetPlayers({[key] = value})` (or all players when no key is given).
 
 **Parameters**  
-**key** - `string` - The filter key (optional) — e.g. `'job'`, `'gang'`, `'group'`  
+**key** - `string` - The filter key (optional), e.g. `'job'`, `'gang'`, `'group'`  
 **value** - `any` - The value to filter by (optional)
 
 **Returns**  

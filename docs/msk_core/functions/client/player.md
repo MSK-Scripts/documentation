@@ -12,14 +12,14 @@ The client `MSK.Player` table is a live mirror of the local player. In the `msk_
 The mirrored player table for the local player. Properties are resolved lazily: computed keys like `coords`, `heading` and `state` are evaluated on access, while the thread-updated keys (`ped`, `vehicle`, `seat`, `weapon`, `isDead`, …) reflect the last refresh.
 
 **Properties**  
-**clientId** - `number` - Player Index — equal to `PlayerId()`  
-**serverId** - `number` - Player Server Id — equal to `GetPlayerServerId(PlayerId())`  
+**clientId** - `number` - Player Index, equal to `PlayerId()`  
+**serverId** - `number` - Player Server Id, equal to `GetPlayerServerId(PlayerId())`  
 **playerId** - `number` - Alias of `serverId`  
-**ped** - `number` - Player Ped — equal to `PlayerPedId()`  
+**ped** - `number` - Player Ped, equal to `PlayerPedId()`  
 **playerPed** - `number` - Alias of `ped`  
-**coords** - `vector3` - Player Coords — equal to `GetEntityCoords(ped)`  
-**heading** - `float` - Player Heading — equal to `GetEntityHeading(ped)`  
-**state** - `table` - The player's state bag — equal to `Player(serverId).state`  
+**coords** - `vector3` - Player Coords, equal to `GetEntityCoords(ped)`  
+**heading** - `float` - Player Heading, equal to `GetEntityHeading(ped)`  
+**state** - `table` - The player's state bag, equal to `Player(serverId).state`  
 **vehicle** - `number` \| `false` - The vehicle handle the player is in, or `false`  
 **seat** - `number` \| `false` - Seat index the player is in, or `false`  
 **weapon** - `number` \| `false` - Hash of the player's current weapon, or `false`  
@@ -50,7 +50,7 @@ Gets the value of a key from another player. This is a callback to the server wh
 
 **Parameters**  
 **playerId** - `number` - The server id of the target player  
-**key** - `string` - The key you want the value of (optional — omit to get the whole player table)
+**key** - `string` - The key you want the value of (optional, omit to get the whole player table)
 
 **Returns**  
 **value** - `any` - The value of the key, or the full player table if no key was passed (`false` if the player does not exist)

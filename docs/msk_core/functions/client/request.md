@@ -7,7 +7,7 @@ sidebar_position: 8
 
 Helpers to request (stream in) game assets and wait until they are loaded, plus a raycast helper. The functions live under the `MSK.Request` namespace and each has a matching `exports.msk_core` export.
 
-The `Request` table is also callable directly — `MSK.Request(...)` forwards to `MSK.Request.Streaming(...)`.
+The `Request` table is also callable directly, `MSK.Request(...)` forwards to `MSK.Request.Streaming(...)`.
 
 ## MSK.Request.Streaming
 

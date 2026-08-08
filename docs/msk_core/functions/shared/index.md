@@ -93,9 +93,9 @@ local MSK = exports.msk_core:getCoreObject()
 
 The remaining shared utilities are split into the following sub-pages:
 
-- [Math](./math) — random numbers, rounding, thousands separators
-- [String](./string) — random strings, prefix checks, trimming, splitting
-- [Table](./table) — contains, dump, size, index/find, reverse, clone, sort
-- [Timeout](./timeout) — set/clear timeouts and await
-- [Vector](./vector) — coordinate/vector conversion helpers
-- [Callback](./callback) — server/client callbacks
+- [Math](./math): random numbers, rounding, thousands separators
+- [String](./string): random strings, prefix checks, trimming, splitting
+- [Table](./table): contains, dump, size, index/find, reverse, clone, sort
+- [Timeout](./timeout): set/clear timeouts and await
+- [Vector](./vector): coordinate/vector conversion helpers
+- [Callback](./callback): server/client callbacks

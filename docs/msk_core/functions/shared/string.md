@@ -80,7 +80,7 @@ local trimmed = exports.msk_core:Trim(str, bool)
 - `MSK.Trim(str)` removes **all** whitespace (equivalent to `MSK.String.Trim(str, true)`).
 - `MSK.Trim(str, true)` removes only leading/trailing whitespace (equivalent to `MSK.String.Trim(str)`).
 
-The export `exports.msk_core:Trim` is the non-legacy `String.Trim`, so it matches `MSK.String.Trim` — not `MSK.Trim`.
+The export `exports.msk_core:Trim` is the non-legacy `String.Trim`, so it matches `MSK.String.Trim`, not `MSK.Trim`.
 :::
 
 ## MSK.String.Split

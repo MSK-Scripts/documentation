@@ -9,10 +9,10 @@ Client-side notification and HUD text helpers. The notification functions route 
 
 The backend for each function is selected in `config.lua`:
 
-- `Config.Notification` (`msk` / `native` / `custom` / `okok` / `qb-core` / `bulletin`) — backend for `MSK.Notification`.
-- `Config.AdvancedNotification` (`native` / `custom` / `bulletin`) — backend for `MSK.AdvancedNotification`.
-- `Config.HelpNotification` (`msk` / `native` / `custom`) — backend for `MSK.HelpNotification`.
-- `Config.NotifyTypes` — defines the icon and color for each notify type when the `msk` backend is used.
+- `Config.Notification` (`msk` / `native` / `custom` / `okok` / `qb-core` / `bulletin`): backend for `MSK.Notification`.
+- `Config.AdvancedNotification` (`native` / `custom` / `bulletin`): backend for `MSK.AdvancedNotification`.
+- `Config.HelpNotification` (`msk` / `native` / `custom`): backend for `MSK.HelpNotification`.
+- `Config.NotifyTypes`: defines the icon and color for each notify type when the `msk` backend is used.
 
 When using the `msk` (or `native`) backend you can embed GTA color codes such as `~g~` (green), `~r~` (red) or `~b~` (blue) directly in your text.
 

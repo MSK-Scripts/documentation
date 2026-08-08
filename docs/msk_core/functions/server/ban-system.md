@@ -49,7 +49,7 @@ This will ban a player. The ban (identifiers, tokens, time, reason) is stored in
 **time** - `string` - The time until the player gets unbanned  
 **reason** - `string` - The reason why the player gets banned
 
-**Description — `time` format:**
+**Description, `time` format:**
 
 - `1M` = 1 Minute
 - `1H` = 1 Hour
