@@ -37,6 +37,7 @@ Once the bot has joined, a server manager runs [`/gcreate`](./commands) to open 
 | ✨ Reroll | Draw fresh winners for any ended giveaway, respecting the blacklist |
 | 🖥️ Web Dashboard | Create and fully manage giveaways and settings from the browser — Discord login, no commands required |
 | 🏆 Public Results Pages | Every finished giveaway gets a shareable results page with the winners and participant count |
+| 🎟️ Tebex Winner Coupons | Connect your own Tebex store and every winner gets their own single-use discount code by DM |
 | 🌐 Multilingual | English, German, French and Spanish — selectable per server |
 | 🎨 Per-Guild Branding | Custom embed colour, button emoji and style |
 | 📜 Audit Logging | Optional log channel records every giveaway event |
@@ -88,6 +89,16 @@ Behind the scenes the dashboard forwards each action to the running bot over a p
 
 When a giveaway ends, the bot publishes a clean, shareable results page at
 **`msk-scripts.de/giveaway/g/<token>`** — linked automatically in the results message and in the winner DMs. It shows the giveaway title and prize, the **winners** and the **number of participants**. For privacy, the full participant list is never published. The page is removed automatically if the bot is removed from your server.
+
+---
+
+## 🎟️ Tebex Winner Coupons
+
+Run a Tebex shop? Winners can automatically receive a **personal, single-use discount code** for **your own store**, not ours. The server owner connects the store once in the dashboard, then every giveaway can carry a discount percentage, an optional package restriction and an optional validity period.
+
+The code arrives by DM together with the prize and never appears in the public results message or on the results page. On a reroll, the replaced winner's code is revoked before the new one is issued.
+
+Because a Tebex plugin secret grants full access to a shop, connecting a store is restricted to the **server owner** and the key is stored encrypted. Full setup in the [configuration guide](./configuration).
 
 ---
 

@@ -129,3 +129,39 @@ By default, only members with the **Manage Server** permission can run the manag
 ### Eligibility requirements in the embed
 
 Whenever a giveaway has eligibility rules (required/blocked roles, minimum account age or membership), they are listed in a **Requirements** field on the giveaway embed, so members can see at a glance whether they qualify.
+
+---
+
+### Tebex Winner Coupons
+
+Every winner can automatically receive a **personal discount code** for **your own Tebex store** by DM. The bot is not tied to any particular shop: each server connects its own store.
+
+**Setting up the store (web dashboard → *Tebex store*)**
+
+This section is visible to the **server owner only**, not to administrators. A Tebex plugin secret is unscoped full access to your shop, so it is deliberately kept in one pair of hands.
+
+| Field | What it is |
+|---|---|
+| Plugin secret | From your Tebex creator panel. Checked against Tebex before it is saved, so a typo fails immediately instead of weeks later. |
+| Public token | The public Headless token of your store. Only used to list your packages in the dropdown. |
+| Store address | Where winners redeem the code. Appears as a link in the winner DM. |
+
+The secret is stored **encrypted** (AES-256-GCM) and the key lives outside the database. The dashboard shows only the last four characters and the date it was set; you can reveal the full value with an explicit click, or remove it at any time.
+
+**Configuring a coupon (per giveaway)**
+
+In the dashboard, when creating or editing a giveaway:
+
+- **Discount %**: 1 to 100. Leave empty for no coupon.
+- **Valid for (days)**: leave empty and the code never expires.
+- **Limited to packages**: pick one or more packages, or select none to discount the whole cart.
+
+Coupons are configured in the **web dashboard only**; the `/gcreate` modal is already at Discord's limit of five fields.
+
+**What the winners get**
+
+Each winner receives their **own** code, single-use, in their DM alongside the prize and the claim instructions. The code never appears in the public results message or on the public results page.
+
+On a **reroll**, the replaced winner's code is revoked in your store before the new winner gets theirs. Rerolling a single winner leaves the other winners' codes untouched.
+
+If the coupon cannot be created (Tebex unreachable, key revoked), the giveaway still ends normally and the winner simply gets the regular DM. The failure is recorded in the log channel and the bot's log.
