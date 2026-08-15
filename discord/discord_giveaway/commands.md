@@ -78,7 +78,7 @@ With *one prize per winner* the number of winners is no longer a separate settin
 The order matters twice: it is the order shown in the embed, and it is the order the winners are drawn in. If a single winner is replaced with `/greroll <id> <winner>`, the replacement inherits **that winner's** prize — the other winners keep theirs.
 
 :::info Looking for the Tebex coupon?
-Discord caps a modal at five fields, which `/gcreate` already uses. The winner coupon is therefore configured in the [web dashboard](./getting-started.md#-web-dashboard) instead, when you create or edit a giveaway. See [Tebex Winner Coupons](./configuration.md#tebex-winner-coupons). One coupon setting applies to the whole giveaway, it is not configured per prize.
+Discord caps a modal at five fields, which `/gcreate` already uses. The winner coupon is therefore configured in the [web dashboard](./getting-started.md#-web-dashboard) instead, when you create or edit a giveaway. See [Tebex Winner Coupons](./configuration.md#tebex-winner-coupons). In *one prize per winner* mode the dashboard also lets you pick the discounted packages **per prize**, so the winner of a script gets their discount on that script. The discount percentage and the validity period always apply to the whole giveaway.
 :::
 
 :::tip Editing prizes later
