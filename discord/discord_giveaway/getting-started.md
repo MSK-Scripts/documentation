@@ -10,6 +10,11 @@ A multilingual, per-guild configurable Discord giveaway bot built on **Discord.j
 
 [`License: AGPL-3.0`](https://www.gnu.org/licenses/agpl-3.0) · [`Node.js 22+`](https://nodejs.org) · [`Discord.js v14`](https://discord.js.org) · [`Docs: docu.msk-scripts.de`](https://docu.msk-scripts.de/discord/discord_giveaway/getting-started)
 
+Prefer the overview first? The
+[free Discord giveaway bot](https://www.msk-scripts.de/giveaway) page on msk-scripts.de
+covers the features, the command list and the Tebex winner coupons.
+Auf Deutsch: [Discord Giveaway Bot, kostenlos und neustartsicher](https://www.msk-scripts.de/de/giveaway).
+
 ---
 
 ## ➕ Add to Your Server
@@ -20,7 +25,7 @@ The easiest way to use the bot is to invite the **official public instance** —
 
 You can also retrieve this link at any time inside Discord with the `/ginvite` command.
 
-Once the bot has joined, a server manager runs [`/gcreate`](./commands) to open a giveaway. Members join with a single button click, and the bot draws the winners automatically when the timer ends.
+Once the bot has joined, a server manager runs [`/gcreate`](./commands.md) to open a giveaway. Members join with a single button click, and the bot draws the winners automatically when the timer ends.
 
 ---
 
@@ -81,9 +86,9 @@ Prefer a browser over slash commands? Server admins can manage everything at
 2. Pick a server.
 3. Create, edit, extend, pause/resume, end, cancel and reroll giveaways — and change every per-server setting.
 
-The dashboard also holds the two things that have no slash command: the [winner coupon](./configuration#tebex-winner-coupons) settings of a giveaway, and the **Tebex store** tab, which is visible to the server owner only.
+The dashboard also holds the two things that have no slash command: the [winner coupon](./configuration.md#tebex-winner-coupons) settings of a giveaway, and the **Tebex store** tab, which is visible to the server owner only.
 
-Behind the scenes the dashboard forwards each action to the running bot over a private, server-internal channel, so the Discord message, button, winner DMs and audit log stay perfectly in sync — exactly as if you had used the slash commands. Everything you do on the dashboard is still recorded in your [log channel](./configuration).
+Behind the scenes the dashboard forwards each action to the running bot over a private, server-internal channel, so the Discord message, button, winner DMs and audit log stay perfectly in sync — exactly as if you had used the slash commands. Everything you do on the dashboard is still recorded in your [log channel](./configuration.md).
 
 ---
 
@@ -100,7 +105,7 @@ Run a Tebex shop? Winners can automatically receive a **personal, single-use dis
 
 The code arrives by DM together with the prize and never appears in the public results message or on the results page. On a reroll, the replaced winner's code is revoked before the new one is issued.
 
-Because a Tebex plugin secret grants full access to a shop, connecting a store is restricted to the **server owner** and the key is stored encrypted. Full setup in the [configuration guide](./configuration).
+Because a Tebex plugin secret grants full access to a shop, connecting a store is restricted to the **server owner** and the key is stored encrypted. Full setup in the [configuration guide](./configuration.md).
 
 ---
 

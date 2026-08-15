@@ -10,6 +10,11 @@ A modern, self-hosted Discord ticket bot built on **Discord.js v14** — SQLite 
 
 [`License: AGPL-3.0`](https://www.gnu.org/licenses/agpl-3.0) · [`Node.js 22+`](https://nodejs.org) · [`Discord.js v14`](https://discord.js.org) · [`Docs: docu.msk-scripts.de`](https://docu.msk-scripts.de/discord/discord_ticketbot/getting-started)
 
+Prefer the overview first? The
+[self-hosted Discord ticket bot](https://www.msk-scripts.de/ticketbot) page on msk-scripts.de
+walks through the features, the transcript tiers and the verification flow.
+Auf Deutsch: [Discord Ticket Bot zum Selbsthosten](https://www.msk-scripts.de/de/ticketbot).
+
 ---
 
 ## ✨ Features
@@ -42,7 +47,7 @@ A modern, self-hosted Discord ticket bot built on **Discord.js v14** — SQLite 
 | 🌍 Multilingual | 7 languages included (English, German, French, Spanish, Portuguese, Polish, Hungarian), easily extensible |
 | 🗄️ Flexible Database | SQLite out of the box (zero setup) — optional MySQL/MariaDB or PostgreSQL via `DATABASE_URL`, with a migration script |
 | 🔄 Auto-Update Check | Checks for new GitHub releases on startup and notifies with update instructions |
-| 🖥️ Web Dashboard | Optional self-hosted browser dashboard (off by default): tickets, statistics, a form/file config editor, bot control and per-role/user permissions. See [Web Dashboard](./dashboard). |
+| 🖥️ Web Dashboard | Optional self-hosted browser dashboard (off by default): tickets, statistics, a form/file config editor, bot control and per-role/user permissions. See [Web Dashboard](./dashboard.md). |
 
 ---
 
@@ -65,7 +70,7 @@ MSK_API_URL="https://www.msk-scripts.de"
 
 ## 🖥️ Hosted Bot Management (Premium & Premium+)
 
-Premium and Premium+ customers can have their bot instance **fully hosted by MSK Scripts** and manage it entirely from the dashboard at **[msk-scripts.de/ticketbot/dashboard](https://www.msk-scripts.de/ticketbot/dashboard)** — config editor, start/stop/restart/update and a live log console, no SSH access or server knowledge required.
+Premium and Premium+ customers can have their bot instance **fully hosted by MSK Scripts** and manage it entirely from the dashboard at **[msk-scripts.de/ticketbot/dashboard](https://www.msk-scripts.de/ticketbot/dashboard)**: start/stop/restart/update, a live log console and one-click access to the bot's own web dashboard, no SSH access or server knowledge required.
 
 ![Dashboard — Hosted Bot Management](/img/discord_ticketbot_dashboard.png)
 
@@ -79,7 +84,7 @@ Contact MSK Scripts via [Discord](https://discord.gg/5hHSBRHvJE) to arrange a ho
 
 Running the bot yourself? The optional web dashboard lets you manage tickets, statistics, the configuration and the bot process from your browser, with a permission model for your team. It is disabled by default and safe out of the box.
 
-See the dedicated **[Web Dashboard](./dashboard)** page for setup, security and the full permission model.
+See the dedicated **[Web Dashboard](./dashboard.md)** page for setup, security and the full permission model.
 
 ---
 
