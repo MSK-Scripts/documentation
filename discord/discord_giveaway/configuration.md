@@ -121,7 +121,7 @@ By default, only members with the **Manage Server** permission can run the manag
 
 ### Winner DMs & Reminders
 
-- **Winner DMs** — when a giveaway ends (or a winner is rerolled), each winner automatically receives a direct message with the prize, the configured **claim instructions** (`set claim <text>`) and a link to the giveaway. If a winner has DMs disabled, it is silently skipped.
+- **Winner DMs** — when a giveaway ends (or a winner is rerolled), each winner automatically receives a direct message with the prize, the configured **claim instructions** (`set claim <text>`) and a link to the giveaway. If the giveaway hands out [one prize per winner](./commands.md#multiple-prizes), the DM names only that winner's own prize. If a winner has DMs disabled, it is silently skipped.
 - **"Ending soon" reminder** — `set reminder <minutes>` makes the bot post a reminder in the giveaway channel that many minutes before the end (pinging the notify role if configured). `0` disables it. The reminder also re-schedules itself when you extend a giveaway with `/gextend`.
 
 ---

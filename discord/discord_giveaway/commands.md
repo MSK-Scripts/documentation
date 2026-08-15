@@ -20,8 +20,8 @@ Every manager command below can also be performed from the [**Web Dashboard**](.
 
 | Command | Description |
 |---|---|
-| `/gcreate` | Opens a modal to create a giveaway in the **current channel** |
-| `/gedit <id> [title] [description] [winners] [prize]` | Edit a running giveaway |
+| `/gcreate [mode]` | Opens a modal to create a giveaway in the **current channel**. `mode` chooses how multiple prizes are handed out |
+| `/gedit <id> [title] [description] [winners] [prizes] [mode]` | Edit a running giveaway |
 | `/gextend <id> <duration>` | Extend the end time of a running giveaway |
 | `/gend <id>` | Ends a giveaway immediately and draws the winners |
 | `/greroll <id> [winner]` | Draws new winners for an **ended** giveaway. With `winner`, replaces only that single winner |
@@ -61,11 +61,28 @@ Every manager command below can also be performed from the [**Web Dashboard**](.
 | **Title** | Short text | up to 256 characters |
 | **Description** | Paragraph | up to 2000 characters |
 | **Duration** | Short text | format like `1d2h30m`, `45m`, `90s` — **min 10s, max 1 year** |
-| **Winners** | Number | 1–100 |
-| **Prize** *(optional)* | Short text | up to 256 characters — shown in the embed and the winner DM |
+| **Winners** | Number | 1–100 (hidden when `mode` is *one prize per winner*, see below) |
+| **Prizes** *(optional)* | Paragraph | **one prize per line**, up to 20 prizes, 256 characters each |
+
+### Multiple prizes
+
+Put one prize per line in the **Prizes** field. The `mode` option on `/gcreate` decides who gets what:
+
+| `mode` | Behaviour |
+|---|---|
+| *Everyone gets all prizes* (default) | Every winner receives the full list. Two winners and two prizes means both get both. |
+| *One prize per winner* | Winner 1 gets prize 1, winner 2 gets prize 2, and so on. |
+
+With *one prize per winner* the number of winners is no longer a separate setting: it is the length of the prize list. The modal therefore drops the **Winners** field and asks for the prizes instead, and `/gedit` refuses a `winners` value that does not match the list.
+
+The order matters twice: it is the order shown in the embed, and it is the order the winners are drawn in. If a single winner is replaced with `/greroll <id> <winner>`, the replacement inherits **that winner's** prize — the other winners keep theirs.
 
 :::info Looking for the Tebex coupon?
-Discord caps a modal at five fields, which `/gcreate` already uses. The winner coupon is therefore configured in the [web dashboard](./getting-started.md#-web-dashboard) instead, when you create or edit a giveaway. See [Tebex Winner Coupons](./configuration.md#tebex-winner-coupons).
+Discord caps a modal at five fields, which `/gcreate` already uses. The winner coupon is therefore configured in the [web dashboard](./getting-started.md#-web-dashboard) instead, when you create or edit a giveaway. See [Tebex Winner Coupons](./configuration.md#tebex-winner-coupons). One coupon setting applies to the whole giveaway, it is not configured per prize.
+:::
+
+:::tip Editing prizes later
+`/gedit <id> prizes:"Nitro | Steam key" mode:"One prize per winner"` — slash options cannot contain line breaks, so separate the prizes with `|` there. In the [web dashboard](./getting-started.md#-web-dashboard) it is a normal multi-line field.
 :::
 
 ### Duration format

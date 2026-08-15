@@ -35,6 +35,7 @@ Once the bot has joined, a server manager runs [`/gcreate`](./commands.md) to op
 |---|---|
 | 🎉 Button Entry | Members join with a single click — customisable emoji, label and button style |
 | 🔁 Restart-Safe | A poll-based scheduler means no giveaway is lost or orphaned, even after a reboot |
+| 🎁 Multiple Prizes | List several prizes per giveaway — either everyone gets all of them, or [each winner gets their own](./commands.md#multiple-prizes) |
 | 👥 Weighted Bonus Entries | Grant specific roles extra entries (up to 100) for a fairer or reward-driven draw |
 | 🛡️ Eligibility Rules | Whitelist / blacklist roles — server-wide or scoped to a single giveaway — plus minimum account age and server membership |
 | ⏸️ Pause & Resume | Freeze the timer mid-giveaway and resume seamlessly where you left off |
@@ -95,7 +96,7 @@ Behind the scenes the dashboard forwards each action to the running bot over a p
 ## 🏆 Public Results Pages
 
 When a giveaway ends, the bot publishes a clean, shareable results page at
-**`msk-scripts.de/giveaway/g/<token>`** — linked automatically in the results message and in the winner DMs. It shows the giveaway title and prize, the **winners** and the **number of participants**. For privacy, the full participant list is never published. The page is removed automatically if the bot is removed from your server.
+**`msk-scripts.de/giveaway/g/<token>`** — linked automatically in the results message and in the winner DMs. It shows the giveaway title and prize, the **winners** and the **number of participants**. If the giveaway handed out [one prize per winner](./commands.md#multiple-prizes), each winner is listed with the prize they won. For privacy, the full participant list is never published. The page is removed automatically if the bot is removed from your server.
 
 ---
 
