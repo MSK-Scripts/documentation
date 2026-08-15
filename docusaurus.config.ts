@@ -14,6 +14,16 @@ const config: Config = {
   url: 'https://docu.msk-scripts.de',
   baseUrl: '/',
 
+  // Apache answers /path with a 301 to /path/, but Docusaurus emitted the
+  // canonical link WITHOUT the trailing slash. The canonical therefore pointed
+  // at a URL that redirects away from the page carrying it, and Google indexed
+  // both spellings: the Search Console lists
+  // /discord/discord_ticketbot/getting-started/ with 107 impressions and
+  // /discord/discord_ticketbot/getting-started with another 42, so one page's
+  // ranking signals sit on two URLs. This makes every generated link, sitemap
+  // entry and canonical match what the server actually serves.
+  trailingSlash: true,
+
   organizationName: 'MSK Scripts',
   projectName: 'documentation',
 

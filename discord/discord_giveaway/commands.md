@@ -9,11 +9,11 @@ sidebar_position: 2
 All commands are Discord **slash commands**. They split into two groups by who may use them:
 
 - **Everyone** — informational commands any member can run
-- **Manager** — `Manage Server` permission **or** the configured [`manager` role](./configuration#manager-role)
+- **Manager** — `Manage Server` permission **or** the configured [`manager` role](./configuration.md#manager-role)
 - **Manage Server** — server settings, gated behind the native *Manage Server* permission
 
 :::tip[Prefer a browser?]
-Every manager command below can also be performed from the [**Web Dashboard**](./getting-started#-web-dashboard) at [msk-scripts.de/giveaway/dashboard](https://www.msk-scripts.de/giveaway/dashboard) — log in with Discord and manage your giveaways visually.
+Every manager command below can also be performed from the [**Web Dashboard**](./getting-started.md#-web-dashboard) at [msk-scripts.de/giveaway/dashboard](https://www.msk-scripts.de/giveaway/dashboard) — log in with Discord and manage your giveaways visually.
 :::
 
 ### Manager Commands
@@ -45,8 +45,8 @@ Every manager command below can also be performed from the [**Web Dashboard**](.
 | Command | Description |
 |---|---|
 | `/gsettings show` | Displays the current per-server configuration |
-| `/gsettings set …` | Sets or adds a setting — see [Configuration](./configuration) |
-| `/gsettings remove …` | Removes or clears a setting — see [Configuration](./configuration) |
+| `/gsettings set …` | Sets or adds a setting — see [Configuration](./configuration.md) |
+| `/gsettings remove …` | Removes or clears a setting — see [Configuration](./configuration.md) |
 
 > **The giveaway ID** (`<id>`) is the short public code shown in the footer of every giveaway embed (e.g. `A1B2C3`). Use `/glist` or `/ginfo` to look it up.
 
@@ -65,7 +65,7 @@ Every manager command below can also be performed from the [**Web Dashboard**](.
 | **Prize** *(optional)* | Short text | up to 256 characters — shown in the embed and the winner DM |
 
 :::info Looking for the Tebex coupon?
-Discord caps a modal at five fields, which `/gcreate` already uses. The winner coupon is therefore configured in the [web dashboard](./getting-started#-web-dashboard) instead, when you create or edit a giveaway. See [Tebex Winner Coupons](./configuration#tebex-winner-coupons).
+Discord caps a modal at five fields, which `/gcreate` already uses. The winner coupon is therefore configured in the [web dashboard](./getting-started.md#-web-dashboard) instead, when you create or edit a giveaway. See [Tebex Winner Coupons](./configuration.md#tebex-winner-coupons).
 :::
 
 ### Duration format
@@ -90,7 +90,7 @@ The minimum is **10 seconds** (so the 10-second scheduler tick can fire) and the
 - **Pause** (`/gpause`) freezes the countdown — the remaining time is preserved and the button is disabled. **Resume** (`/gresume`) continues exactly where it left off.
 - **End** (`/gend`) finishes a giveaway early and immediately draws the winners.
 - **Cancel** (`/gcancel`) closes a giveaway with **no** winner draw.
-- **Reroll** (`/greroll`) picks new winners for an already-ended giveaway. Blacklisted roles are excluded from the new draw. If the giveaway hands out [Tebex coupons](./configuration#tebex-winner-coupons), the replaced winner's code is revoked in your store before the new winner receives theirs. Rerolling a single winner leaves the other winners' codes untouched.
+- **Reroll** (`/greroll`) picks new winners for an already-ended giveaway. Blacklisted roles are excluded from the new draw. If the giveaway hands out [Tebex coupons](./configuration.md#tebex-winner-coupons), the replaced winner's code is revoked in your store before the new winner receives theirs. Rerolling a single winner leaves the other winners' codes untouched.
 
 ---
 

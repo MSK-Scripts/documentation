@@ -5,7 +5,7 @@ sidebar_position: 3
 
 # Progressbar
 
-The server-side Progress module triggers a progress bar on a target player identified by their server id. The first parameter is always the player's server id. These functions are thin wrappers that fire a client event on the target player; they do **not** return a value to the server. The `data` parameter may be a duration in milliseconds or a full data table (see the [client Progressbar documentation](../../client/ui/progressbar) for all table fields).
+The server-side Progress module triggers a progress bar on a target player identified by their server id. The first parameter is always the player's server id. These functions are thin wrappers that fire a client event on the target player; they do **not** return a value to the server. The `data` parameter may be a duration in milliseconds or a full data table (see the [client Progressbar documentation](../../client/ui/progressbar.md) for all table fields).
 
 ## MSK.Progress.Start
 
