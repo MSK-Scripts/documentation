@@ -81,6 +81,8 @@ Prefer a browser over slash commands? Server admins can manage everything at
 2. Pick a server.
 3. Create, edit, extend, pause/resume, end, cancel and reroll giveaways — and change every per-server setting.
 
+The dashboard also holds the two things that have no slash command: the [winner coupon](./configuration#tebex-winner-coupons) settings of a giveaway, and the **Tebex store** tab, which is visible to the server owner only.
+
 Behind the scenes the dashboard forwards each action to the running bot over a private, server-internal channel, so the Discord message, button, winner DMs and audit log stay perfectly in sync — exactly as if you had used the slash commands. Everything you do on the dashboard is still recorded in your [log channel](./configuration).
 
 ---
