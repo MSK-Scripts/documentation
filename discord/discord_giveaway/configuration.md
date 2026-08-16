@@ -181,7 +181,9 @@ Running a giveaway together with another creator? Their coupon codes cannot be g
 - **Code per winner** — with [one prize per winner](./commands.md#multiple-prizes), a separate code per prize. Empty falls back to the code above.
 - **Note for the DM** — free text sent with the code, typically where to redeem it.
 
-This needs **no Tebex store of your own**: it works on a server that has never connected one. A fixed code takes precedence over a generated one for that winner, so nobody ends up with two discounts.
+This needs **no Tebex store of your own**: it works on a server that has never connected one.
+
+A fixed code and a generated coupon are **independent of each other**. Set up both and the winner receives both codes in the same DM, one for your shop and one for the partner's. That is usually the point of a joint giveaway. If you only want the partner's code, leave the discount above empty.
 
 What the bot cannot do with a foreign code, by definition:
 
