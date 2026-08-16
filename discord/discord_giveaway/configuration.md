@@ -65,6 +65,8 @@ All of these settings can also be edited from the [**Web Dashboard**](./getting-
 
 Blacklist/whitelist eligibility uses the **union** of the server-wide and per-giveaway roles. Per-giveaway **bonus** entries are **added on top** of any server-wide bonus for the same role.
 
+The same three settings are available in the **web dashboard** without an ID: the create form and the edit form of a running giveaway both carry an *Entry conditions for this giveaway* block.
+
 ```text
 /gsettings set blacklist role:@Muted                          → blocked on every giveaway
 /gsettings set whitelist role:@VIP giveaway_id:A1B2C3         → only giveaway A1B2C3 requires @VIP
@@ -104,6 +106,8 @@ All rules are checked both when a member presses the entry button **and** again 
 
 Add an optional `giveaway_id` to scope a bonus to **one giveaway only** — it is **added on top** of any server-wide bonus for that role.
 
+Bonus roles are also editable in the **web dashboard**: server-wide in the *Settings* tab, per giveaway in the create form and when editing a running giveaway. Whatever is configured is shown to everyone in the giveaway message, see [Bonus entries in the embed](#bonus-entries-in-the-embed).
+
 ---
 
 ### Manager Role
@@ -129,6 +133,16 @@ By default, only members with the **Manage Server** permission can run the manag
 ### Eligibility requirements in the embed
 
 Whenever a giveaway has eligibility rules (required/blocked roles, minimum account age or membership), they are listed in a **Requirements** field on the giveaway embed, so members can see at a glance whether they qualify.
+
+Changing any of these settings later updates the message of every running giveaway. Settings that appear in no embed (log channel, manager role, reminder, claim text) leave the messages untouched.
+
+---
+
+### Bonus entries in the embed
+
+Configured bonus roles get their **own field** on the giveaway embed, listing each role with its extra entries and a line explaining what that means. Server-wide and per-giveaway bonuses are added up first, so the field shows the weight that actually applies in the draw.
+
+It is deliberately kept out of the *Requirements* field: a bonus blocks nobody, it only improves the odds, and listed among the requirements it would read like another hurdle. With no bonus roles configured, the field does not appear at all.
 
 ---
 
