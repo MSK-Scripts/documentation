@@ -39,7 +39,7 @@ Once the bot has joined, a server manager runs [`/gcreate`](./commands.md) to op
 | 👥 Weighted Bonus Entries | Grant specific roles extra entries (up to 100) for a fairer or reward-driven draw |
 | 🛡️ Eligibility Rules | Whitelist / blacklist roles — server-wide or scoped to a single giveaway — plus minimum account age and server membership |
 | ⏸️ Pause & Resume | Freeze the timer mid-giveaway and resume seamlessly where you left off |
-| 🗂️ Templates | Save and reuse giveaway configurations for recurring events |
+| 🗂️ Templates | Save a whole giveaway including its prize list and reuse it, by command or in the dashboard |
 | ✨ Reroll | Draw fresh winners for any ended giveaway, respecting the blacklist |
 | 🖥️ Web Dashboard | Create and fully manage giveaways and settings from the browser — Discord login, no commands required |
 | 🏆 Public Results Pages | Every finished giveaway gets a shareable results page with the winners and participant count |
@@ -86,6 +86,7 @@ Prefer a browser over slash commands? Server admins can manage everything at
 1. Log in with **Discord** (you'll only see servers where you have *Manage Server* **and** the bot is present).
 2. Pick a server.
 3. Create, edit, extend, pause/resume, end, cancel and reroll giveaways — and change every per-server setting.
+4. Manage [templates](./commands.md#templates-in-the-dashboard) in their own tab, and start from one when creating a giveaway: pick it above the form and every field is filled in.
 
 The dashboard also holds the two things that have no slash command: the [winner coupon](./configuration.md#tebex-winner-coupons) settings of a giveaway, and the **Tebex store** tab, which is visible to the server owner only.
 

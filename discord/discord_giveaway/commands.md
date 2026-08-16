@@ -113,11 +113,24 @@ The minimum is **10 seconds** (so the 10-second scheduler tick can fire) and the
 
 ## 🗂️ Templates — `/gtemplate`
 
-Templates store a reusable giveaway configuration (title, description, duration, number of winners), which is ideal for recurring events.
+A template is a prepared giveaway without a channel and without an end date: title, description, duration, number of winners and the [prize list](#multiple-prizes) with its distribution mode. Ideal for anything you run every week.
 
 | Subcommand | Description |
 |---|---|
-| `/gtemplate save <name>` | Saves the current giveaway settings under a name |
+| `/gtemplate save <name> <title> <description> <duration> [winners] [prizes] [mode]` | Saves a template under a name, overwriting one of the same name |
 | `/gtemplate list` | Lists all saved templates for the server |
-| `/gtemplate use <name>` | Creates a new giveaway from a saved template |
-| `/gtemplate delete <name>` | Removes a saved template |
+| `/gtemplate use <name>` | Creates a giveaway from a template, in the current channel |
+| `/gtemplate delete <name>` | Removes a template |
+
+`prizes` takes several prizes separated by `|`, for example `Script A | Script B`. Slash command options cannot contain line breaks, which is why it is not one per line as it is in the create modal. With `mode` set to "one prize per winner" the number of winners follows the prize list and the `winners` option is rejected if it says something else.
+
+A server can hold up to 50 templates.
+
+### Templates in the dashboard
+
+The [web dashboard](./getting-started.md#-web-dashboard) has a **Templates** tab that does the same thing with a form: create, edit, delete. When creating a giveaway there, a **Use template** selector sits above the form. Picking one fills in every field, and all of them stay editable, so a template is a starting point rather than a fixed form.
+
+Two things a template deliberately does not carry:
+
+- **The channel and the end date.** Those are decided when the giveaway is created, which is what makes one template usable for every run.
+- **The coupon configuration.** Tebex packages are stored as IDs of one specific store. A template kept for months would quietly carry IDs of packages that no longer exist, and the giveaway created from it would hand out a discount on nothing.
