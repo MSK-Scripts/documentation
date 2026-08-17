@@ -53,6 +53,7 @@ All of these settings can also be edited from the [**Web Dashboard**](./getting-
 | `manager <role>` | role | Clear the manager role |
 | `notify <role>` | role | Clear the notify role |
 | `claim` | — | Clear the winner-DM claim instructions |
+| `conditions <giveaway_id>` | giveaway ID | Drop a giveaway's own conditions so the server settings apply to it again |
 
 ---
 
@@ -61,17 +62,20 @@ All of these settings can also be edited from the [**Web Dashboard**](./getting-
 `blacklist`, `whitelist` and `bonus` (both `set` and `remove`) accept an **optional `giveaway_id`**:
 
 - **Without** `giveaway_id` → applies to the **server-wide** setting (all giveaways).
-- **With** `giveaway_id` → applies **only to that one giveaway**, *in addition* to the server-wide values.
+- **With** `giveaway_id` → applies **only to that one giveaway**, and what a giveaway carries **replaces** the server-wide setting for it.
 
-Blacklist/whitelist eligibility uses the **union** of the server-wide and per-giveaway roles. Per-giveaway **bonus** entries are **added on top** of any server-wide bonus for the same role.
+Each of the three stands on its own: a giveaway can bring its own blacklist and still follow the server-wide bonus entries. A giveaway that carries nothing of its own follows the server settings, including later changes to them.
 
-The same three settings are available in the **web dashboard** without an ID: the create form and the edit form of a running giveaway both carry an *Entry conditions for this giveaway* block.
+Changing a single role on a giveaway that has nothing of its own **copies the server-wide list first** and then applies the change, so `set blacklist role:@Muted giveaway_id:…` adds a role instead of switching all the others off. To go the other way — one giveaway *without* a server-wide rule — take the role out with `remove`, or clear the list in the dashboard. `remove conditions giveaway_id:<ID>` puts the giveaway back to following the server settings entirely.
+
+The same three settings are available in the **web dashboard** without an ID: the create form and the edit form of a running giveaway both carry an *Entry conditions for this giveaway* block, prefilled with the server settings, so what the form shows is what will apply.
 
 ```text
 /gsettings set blacklist role:@Muted                          → blocked on every giveaway
 /gsettings set whitelist role:@VIP giveaway_id:A1B2C3         → only giveaway A1B2C3 requires @VIP
-/gsettings set bonus role:@Booster amount:3 giveaway_id:A1B2C3 → +3 entries, only for A1B2C3
-/gsettings remove bonus role:@Booster giveaway_id:A1B2C3
+/gsettings set bonus role:@Booster amount:3 giveaway_id:A1B2C3 → @Booster gets +3 in A1B2C3, whatever the server setting says
+/gsettings remove blacklist role:@Muted giveaway_id:A1B2C3    → @Muted may enter this one giveaway
+/gsettings remove conditions giveaway_id:A1B2C3               → back to the server settings
 ```
 
 ---
@@ -91,7 +95,7 @@ The same three settings are available in the **web dashboard** without an ID: th
 
 Several options combine to decide who may enter a giveaway:
 
-- **Blacklist** — members holding a blacklisted role can never enter (server-wide and/or per-giveaway roles).
+- **Blacklist** — members holding a blacklisted role cannot enter. The giveaway's own list applies if it has one, otherwise the server-wide list.
 - **Whitelist** — if one or more whitelist roles are configured, a member must hold **at least one** of them. With no whitelist set, everyone may enter (subject to the other rules).
 - **Minimum account age** (`minaccount`) — rejects accounts younger than *N* days. `0` disables the check.
 - **Minimum server membership** (`minmember`) — rejects members who joined less than *N* days ago. `0` disables the check.
@@ -104,7 +108,7 @@ All rules are checked both when a member presses the entry button **and** again 
 
 `set bonus <role> <amount>` grants members of a role **additional entries** (1–100), increasing their chance of winning. This stacks for members who hold several bonus roles. Use `remove bonus <role>` to take it away again.
 
-Add an optional `giveaway_id` to scope a bonus to **one giveaway only** — it is **added on top** of any server-wide bonus for that role.
+Add an optional `giveaway_id` to scope a bonus to **one giveaway only** — the bonus entries of that giveaway then apply **instead of** the server-wide ones.
 
 Bonus roles are also editable in the **web dashboard**: server-wide in the *Settings* tab, per giveaway in the create form and when editing a running giveaway. Whatever is configured is shown to everyone in the giveaway message, see [Bonus entries in the embed](#bonus-entries-in-the-embed).
 
@@ -140,7 +144,7 @@ Changing any of these settings later updates the message of every running giveaw
 
 ### Bonus entries in the embed
 
-Configured bonus roles get their **own field** on the giveaway embed, listing each role with its extra entries and a line explaining what that means. Server-wide and per-giveaway bonuses are added up first, so the field shows the weight that actually applies in the draw.
+Configured bonus roles get their **own field** on the giveaway embed, listing each role with its extra entries and a line explaining what that means. The field shows what actually applies to this giveaway: its own bonus entries if it has any, otherwise the server-wide ones.
 
 It is deliberately kept out of the *Requirements* field: a bonus blocks nobody, it only improves the odds, and listed among the requirements it would read like another hurdle. With no bonus roles configured, the field does not appear at all.
 

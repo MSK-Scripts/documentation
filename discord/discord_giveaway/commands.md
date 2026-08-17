@@ -28,7 +28,7 @@ Every manager command below can also be performed from the [**Web Dashboard**](.
 | `/gcancel <id>` | Cancels an active giveaway **without** drawing a winner |
 | `/gpause <id>` | Pauses a giveaway and freezes its timer |
 | `/gresume <id>` | Resumes a paused giveaway |
-| `/gtemplate save \| list \| delete \| use` | Manage reusable giveaway templates |
+| `/gtemplate save \| from \| list \| delete \| use` | Manage reusable giveaway templates |
 
 ### Everyone
 
@@ -113,11 +113,12 @@ The minimum is **10 seconds** (so the 10-second scheduler tick can fire) and the
 
 ## 🗂️ Templates — `/gtemplate`
 
-A template is a prepared giveaway without a channel and without an end date: title, description, duration, number of winners and the [prize list](#multiple-prizes) with its distribution mode. Ideal for anything you run every week.
+A template is a prepared giveaway without a channel and without an end date: title, description, duration, number of winners, the [prize list](#multiple-prizes) with its distribution mode and, if you want, its own [entry conditions](./configuration.md#per-giveaway-blacklist--whitelist--bonus). Ideal for anything you run every week.
 
 | Subcommand | Description |
 |---|---|
 | `/gtemplate save <name> <title> <description> <duration> [winners] [prizes] [mode]` | Saves a template under a name, overwriting one of the same name |
+| `/gtemplate from <giveaway_id> [name]` | Saves an existing giveaway as a template |
 | `/gtemplate list` | Lists all saved templates for the server |
 | `/gtemplate use <name>` | Creates a giveaway from a template, in the current channel |
 | `/gtemplate delete <name>` | Removes a template |
@@ -126,9 +127,20 @@ A template is a prepared giveaway without a channel and without an end date: tit
 
 A server can hold up to 50 templates.
 
+### Saving a giveaway as a template
+
+`/gtemplate from` builds the template out of a giveaway you already ran, which beats typing all of it a second time. In the dashboard, every giveaway card has a **Save as template** button that does the same.
+
+- Taken over: title, description, prizes, distribution mode, number of winners and the entry conditions.
+- The **duration** is the span between creation and planned end (a giveaway stores a point in time, a template a duration).
+- Without a `name` the template is named after the giveaway's title, and an existing name is overwritten rather than refused.
+- Works for running giveaways too, not just ended ones.
+
 ### Templates in the dashboard
 
 The [web dashboard](./getting-started.md#-web-dashboard) has a **Templates** tab that does the same thing with a form: create, edit, delete. When creating a giveaway there, a **Use template** selector sits above the form. Picking one fills in every field, and all of them stay editable, so a template is a starting point rather than a fixed form.
+
+Entry conditions sit behind an **Own entry conditions** switch that is off by default. Off means a giveaway made from the template uses the server settings, later changes to them included — which is usually what you want from a template you keep for months.
 
 Two things a template deliberately does not carry:
 
