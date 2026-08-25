@@ -28,7 +28,7 @@ All of these settings can also be edited from the [**Web Dashboard**](./getting-
 
 | Option | Value | Default | Description |
 |---|---|---|---|
-| `lang <value>` | `en` · `de` · `fr` · `es` | `en` | UI language of the bot for this server |
+| `lang <value>` | `en` · `de` · `fr` · `es` · `hu` · `pl` · `pt` | `en` | UI language of the bot for this server |
 | `color <value>` | `#RRGGBB` | `#00e676` | Embed accent colour |
 | `emoji <value>` | any emoji | 🎉 | Emoji on the entry button |
 | `button <value>` | `PRIMARY` · `SECONDARY` · `SUCCESS` · `DANGER` | `PRIMARY` | Entry button style |

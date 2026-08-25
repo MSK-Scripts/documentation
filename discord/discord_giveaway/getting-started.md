@@ -44,7 +44,7 @@ Once the bot has joined, a server manager runs [`/gcreate`](./commands.md) to op
 | 🖥️ Web Dashboard | Create and fully manage giveaways and settings from the browser — Discord login, no commands required |
 | 🏆 Public Results Pages | Every finished giveaway gets a shareable results page with the winners and participant count |
 | 🎟️ Tebex Winner Coupons | Connect your own Tebex store and every winner gets their own single-use discount code by DM |
-| 🌐 Multilingual | English, German, French and Spanish — selectable per server |
+| 🌐 Multilingual | English, German, French, Spanish, Hungarian, Polish and Portuguese — selectable per server |
 | 🎨 Per-Guild Branding | Custom embed colour, button emoji and style |
 | 📜 Audit Logging | Optional log channel records every giveaway event |
 | 🧑‍⚖️ Manager Role | Delegate giveaway control without handing out *Manage Server* |
