@@ -63,7 +63,7 @@ returns `429`.
 The inventory behind [cdn.msk-scripts.de](https://cdn.msk-scripts.de): vehicle,
 ped, weapon and item renders, trimmed, padded and served in three sizes.
 
-:::tip You may not need the API at all
+:::tip[You may not need the API at all]
 Image URLs are flat and predictable. If you already know the category and the
 spawn name, build the address directly and skip the lookup:
 
@@ -147,7 +147,7 @@ curl "https://www.msk-scripts.de/api/images/vehicles/zentorno"
 `name` is case-insensitive. A miss returns `404` with `{ "error": "not found" }`,
 and that response carries the CORS header as well, so a browser can read it.
 
-:::note About `version`
+:::note[About `version`]
 Files are cached for a year as `immutable`. When an image is replaced, `version`
 increases and the URLs gain a `?v=` suffix. Store the URLs the API gives you
 rather than building them yourself if you want replacements to reach your users.
