@@ -5,7 +5,7 @@ sidebar_position: 9
 
 # Privacy & Security
 
-MSK Forms is a hosted application — submissions are stored so reviewers can read them and applicants can track their status. Unlike [MSKanban](../mskanban/index.md), it is **not** zero-knowledge: by design, a form's answers are readable by the guild's reviewers (and the operator who runs the infrastructure). This page is honest about what that means and how the data is protected.
+MSK Forms is a hosted application — submissions are stored so reviewers can read them and applicants can track their status. This page is honest about what that means and how the data is protected.
 
 ---
 

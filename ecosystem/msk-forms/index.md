@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # MSK Forms
 
-**Application & form management with a real status loop** — part of the MSK ecosystem alongside [MSK Paste](../msk-paste/index.md), [MSK Shortener](../msk-shortener/index.md) and [MSKanban](../mskanban/index.md).
+**Application & form management with a real status loop** — part of the MSK ecosystem alongside [MSK Paste](../msk-paste/index.md) and [MSK Shortener](../msk-shortener/index.md).
 
 - **Hosted at:** [forms.msk-scripts.de](https://forms.msk-scripts.de)
 - **Source code:** [github.com/MSK-Scripts/msk-forms](https://github.com/MSK-Scripts/msk-forms) (public, proprietary license)
