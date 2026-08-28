@@ -1,6 +1,6 @@
 ---
 title: Public API
-sidebar_position: 4
+sidebar_position: 2
 description: The public JSON endpoints on msk-scripts.de, including the image catalog behind cdn.msk-scripts.de.
 ---
 
