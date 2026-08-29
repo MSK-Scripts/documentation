@@ -18,7 +18,7 @@ local database = exports.msk_radio:getDatabase()
 
 **Parameters**  
 **channel** - `number` - The Channel ID  
-**playerId** - `number` - Player ID — Only for tokovoip
+**playerId** - `number` - Player ID, only for tokovoip
 
 **Returns**  
 **channelMembers** - `table` - All Players in this channel

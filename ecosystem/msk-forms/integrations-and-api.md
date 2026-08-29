@@ -24,8 +24,8 @@ Register endpoints that receive a POST when something happens. Manage them on **
 
 **Delivery format:** each endpoint is one of two formats.
 
-- **Generic JSON** — the full submission as a JSON body, HMAC-SHA256 signed with a per-webhook secret (sent as `X-MSK-Signature: sha256=…`, alongside `X-MSK-Event`). Use this for your own integrations. Verify it by recomputing the HMAC over the raw request body with your secret and comparing it to the header.
-- **Discord webhook** — paste a Discord channel webhook URL (Server Settings → Integrations → Webhooks) and MSK Forms posts each event there as a formatted embed (applicant, status, score, answers). This works for **any** Discord server, including ones the bot is not in, so you can log submissions into an external channel. No signature is used (Discord does not verify one).
+- **Generic JSON:** the full submission as a JSON body, HMAC-SHA256 signed with a per-webhook secret (sent as `X-MSK-Signature: sha256=…`, alongside `X-MSK-Event`). Use this for your own integrations. Verify it by recomputing the HMAC over the raw request body with your secret and comparing it to the header.
+- **Discord webhook:** paste a Discord channel webhook URL (Server Settings → Integrations → Webhooks) and MSK Forms posts each event there as a formatted embed (applicant, status, score, answers). This works for **any** Discord server, including ones the bot is not in, so you can log submissions into an external channel. No signature is used (Discord does not verify one).
 
 **Form scope:** each webhook can target **all forms** (default) or a **single form**. Scope it to one form to route that form's submissions to their own endpoint or Discord channel.
 
@@ -48,7 +48,7 @@ Zapier and Make connect through a REST-hook layer on top of the webhook infrastr
 | Endpoint | Purpose |
 |---|---|
 | `GET /api/v1/me` | Connection / auth test (the "Connect" step). |
-| `POST /api/v1/hooks` | Subscribe — creates a hook, returns its `id`. |
+| `POST /api/v1/hooks` | Subscribe, creates a hook, returns its `id`. |
 | `GET /api/v1/hooks` | List your hooks. |
 | `DELETE /api/v1/hooks/{hookId}` | Unsubscribe (idempotent, guild-scoped). |
 
@@ -64,7 +64,7 @@ The REST API requires an [Enterprise](plans.md) subscription.
 
 ### API keys
 
-Create and manage keys on **Dashboard → your server → API** (manager-only; creating a key is Enterprise-gated). The secret is shown **once** on creation — store it then; only a hash is kept. Keys are prefixed `mskf_`.
+Create and manage keys on **Dashboard → your server → API** (manager-only; creating a key is Enterprise-gated). The secret is shown **once** on creation, store it then; only a hash is kept. Keys are prefixed `mskf_`.
 
 ```
 Authorization: Bearer mskf_xxxxxxxxxxxxxxxxxxxx
@@ -90,5 +90,5 @@ curl -H "Authorization: Bearer mskf_xxxxxxxxxxxx" \
 ---
 
 :::info
-Next: [Plans & Limits](plans.md) — which features each tier includes.
+Next: [Plans & Limits](plans.md), which features each tier includes.
 :::

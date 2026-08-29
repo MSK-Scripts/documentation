@@ -13,7 +13,7 @@ Optionally, Premium users can serve transcripts under their own custom domain.
 ## 1. What is the Transcript Service?
 
 When a ticket is closed, the bot generates a complete HTML transcript of all messages.  
-Without a configured API key, the transcript is sent as a file attachment via DM — as before.
+Without a configured API key, the transcript is sent as a file attachment via DM, as before.
 
 With the MSK Transcript Service, the transcript is uploaded to **www.msk-scripts.de** instead  
 and a public link is returned. Users can open the transcript directly in their browser.
@@ -45,7 +45,7 @@ configure a **custom domain** so transcripts are served under their own URL.
 ## 3. Step 1 – Set up Stripe (subscriptions)
 
 > **Purpose:** Premium and Premium+ are billed via Stripe. This step is only needed  
-> if you self-host the website — on the official **msk-scripts.de** it is already configured.
+> if you self-host the website. On the official **msk-scripts.de** it is already configured.
 
 ### Instructions
 
@@ -55,7 +55,7 @@ configure a **custom domain** so transcripts are served under their own URL.
    - `Ticketbot Premium+` → €6.99 / month
    - `Ticketbot Business` → €9.99 / month
 
-   Copy each **Price ID** (`price_…`). Do **not** configure a trial on the price — the
+   Copy each **Price ID** (`price_…`). Do **not** configure a trial on the price:
    14-day trial is applied automatically in code for new customers.
 2. **Developers → API keys** → copy your **Secret key** (`sk_…`).
 3. **Settings → Billing → Customer portal** → enable it (allow cancellation + plan changes).
@@ -103,7 +103,7 @@ DISCORD_VERIFY_CLIENT_SECRET=your_client_secret_here
 ```
 
 > ⚠️ This is a **separate** application from the Discord bot itself.  
-> Do not use the bot token here — only Client ID and Secret.
+> Do not use the bot token here, only Client ID and Secret.
 
 ---
 
@@ -120,11 +120,11 @@ Go to **[www.msk-scripts.de/ticketbot/verify](https://www.msk-scripts.de/ticketb
 ### 5.2 Connect Discord
 
 Click **"Sign in with Discord"**.  
-You will be redirected to Discord — click **"Authorize"**.
+You will be redirected to Discord, click **"Authorize"**.
 
 The app requests two permissions:
-- **`identify`** — to recognize your Discord account
-- **`guilds`** — to display the list of your servers
+- **`identify`:** to recognize your Discord account
+- **`guilds`:** to display the list of your servers
 
 ---
 
@@ -141,7 +141,7 @@ Select the server you want the API key for and click **"Generate API Key"**.
 ### 5.4 Save your API Key
 
 After generation, your personal API key is displayed.  
-**Copy it immediately** — it will not be shown again.
+**Copy it immediately:** it will not be shown again.
 
 ```bash
 MSK_API_KEY=a1b2c3d4e5f6...
@@ -232,9 +232,9 @@ The VirtualHost will be removed from the server and transcripts revert to the de
 > This step is **only available for Premium and Premium+** subscribers who have arranged a hosted bot plan with MSK Scripts.  
 > Basic users can skip this step.
 
-Hosted Premium+ customers can manage their bot entirely through the dashboard — no SSH access or server knowledge required.
+Hosted Premium+ customers can manage their bot entirely through the dashboard, no SSH access or server knowledge required.
 
-![Dashboard — Hosted Bot Management](/img/discord_ticketbot_dashboard.png)
+![Dashboard, Hosted Bot Management](/img/discord_ticketbot_dashboard.png)
 
 ### What's available
 

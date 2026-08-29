@@ -37,15 +37,15 @@ All three bots run in parallel. If one crashes, it automatically restarts after 
 | `/add_flachwitz` | Adds a new joke to the collection | ✅ Team |
 
 **Persistent role-toggle buttons** (survive bot restarts):
-- `✅ Verification` — assigns the Member role
-- `🎁 Giveaway Notify` — toggles the Giveaway notification role
-- `⏰ Garage / Handcuffs / Storage / Vehicle Keys` — toggles script update notification roles
+- `✅ Verification`: assigns the Member role
+- `🎁 Giveaway Notify`: toggles the Giveaway notification role
+- `⏰ Garage / Handcuffs / Storage / Vehicle Keys`: toggles script update notification roles
 
 ---
 
 ### Events Bot
 
-**Guild logging** — All events are posted as colored embeds to the configured log channel:
+**Guild logging:** All events are posted as colored embeds to the configured log channel:
 
 | Category | Events logged |
 |---|---|
@@ -59,8 +59,8 @@ All three bots run in parallel. If one crashes, it automatically restarts after 
 | Invites | Created (with max uses & expiry), Deleted |
 
 **Additional behavior:**
-- **Auto-reply** — Automatically responds when non-team members mention "Musiker15"
-- **Feedback embed** — Messages posted in the feedback channel are auto-converted to branded embeds; the original message is deleted
+- **Auto-reply:** Automatically responds when non-team members mention "Musiker15"
+- **Feedback embed:** Messages posted in the feedback channel are auto-converted to branded embeds; the original message is deleted
 
 **Context menus** (right-click on messages):
 
@@ -82,17 +82,17 @@ Use `/points` to check your current score and progress toward rewards.
 
 | Command | Description |
 |---|---|
-| `/8ball` | Magic 8-Ball — asks a yes/no question |
-| `/dice` | Roll a die — d4 to d100, 1–10 dice |
-| `/flipcoin` | Flip a coin — Heads or Tails |
+| `/8ball` | Magic 8-Ball, asks a yes/no question |
+| `/dice` | Roll a die, d4 to d100, 1–10 dice |
+| `/flipcoin` | Flip a coin, heads or tails |
 | `/rps` | Rock Paper Scissors vs. the bot |
 | `/slots` | Slot machine with animated spin and 7 symbol tiers |
 | `/trivia` | Multiple-choice trivia (OpenTrivia DB + local fallback) |
 | `/hangman` | Classic Hangman with letter-modal input |
-| `/wordle` | Wordle — guess the 5-letter word in 6 tries |
-| `/tictactoe` | TicTacToe — Easy / Medium / Minimax Hard AI |
-| `/connect4` | Connect Four — bot AI with win/block/center logic |
-| `/blackjack` | Blackjack — Hit, Stand, Double Down vs. the dealer |
+| `/wordle` | Wordle, guess the 5-letter word in 6 tries |
+| `/tictactoe` | TicTacToe, easy / medium / Minimax Hard AI |
+| `/connect4` | Connect Four, bot AI with win/block/center logic |
+| `/blackjack` | Blackjack, hit, stand, Double Down vs. the dealer |
 | `/points` | Shows your current point balance with a progress bar |
 
 > `/8ball` is excluded from the points system.
@@ -107,7 +107,7 @@ Use `/points` to check your current score and progress toward rewards.
 | 10,000 | 💎 Diamond Player |
 
 > Point values and rewards can be adjusted in `bots/minigames/points_config.json`.
-> Add Discord role IDs there to enable automatic role assignment — restart the bot after changes.
+> Add Discord role IDs there to enable automatic role assignment, restart the bot after changes.
 
 ---
 
@@ -157,4 +157,4 @@ discord_multibot_js/
 
 ## 📝 License
 
-AGPL-3.0 — Source code must remain open and be published under the same license when distributed or hosted.
+AGPL-3.0: source code must remain open and be published under the same license when distributed or hosted.

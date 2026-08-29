@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # MSK Paste
 
-**A self-hosted, privacy-friendly pastebin alternative** — part of the MSK ecosystem alongside [MSK Shortener](https://s.msk-scripts.de).
+**A self-hosted, privacy-friendly pastebin alternative:** part of the MSK ecosystem alongside [MSK Shortener](https://s.msk-scripts.de).
 
 - **Live instance:** [paste.msk-scripts.de](https://paste.msk-scripts.de)
 - **Source code:** [github.com/MSK-Scripts/msk-paste](https://github.com/MSK-Scripts/msk-paste)
@@ -15,7 +15,7 @@ sidebar_position: 1
 
 ## What is MSK Paste?
 
-MSK Paste is a drop-in alternative to Pastebin or Hastebin for personal and team use. It is built for sharing code snippets, logs, and configuration files — without analytics, tracking cookies, or user accounts.
+MSK Paste is a drop-in alternative to Pastebin or Hastebin for personal and team use. It is built for sharing code snippets, logs, and configuration files, without analytics, tracking cookies, or user accounts.
 
 The hosted instance at [paste.msk-scripts.de](https://paste.msk-scripts.de) is free to use. If you want full control over your data, you can also self-host it on your own server (see [Installation](installation.md)).
 
@@ -26,10 +26,10 @@ The hosted instance at [paste.msk-scripts.de](https://paste.msk-scripts.de) is f
 - **Syntax highlighting** for 30+ languages via [Shiki](https://shiki.style/) (VS Code grammars, rendered server-side)
 - **Password protection** with bcrypt (cost 12)
 - **Expiration dates** from 10 minutes up to 1 year
-- **Burn after read** — paste is automatically deleted after the first view
+- **Burn after read:** paste is automatically deleted after the first view
 - **Custom paste IDs** (4–32 chars, `[a-zA-Z0-9_-]`)
 - **Raw view** (`/raw/:id`) and **download** (`/dl/:id`) with proper file extension
-- **Delete tokens** — remove pastes without an account
+- **Delete tokens:** remove pastes without an account
 - **REST API** for CLI tools and automation
 - **Bilingual UI** (German / English) with cookie-based language switching
 - **Public statistics page** with anonymous aggregate data
@@ -72,11 +72,11 @@ If you need an additional language, please [open an issue](https://github.com/MS
 
 ## Where to go next
 
-- [Installation](installation.md) — Self-host MSK Paste on your own Debian/Ubuntu server
-- [Usage](usage.md) — Walkthrough of creating, viewing, and managing pastes
-- [REST API](api.md) — Programmatic access for scripts and CLI tools
-- [Privacy & Security](privacy.md) — How your data is (and isn't) stored
-- [FAQ](faq.md) — Common questions and troubleshooting
+- [Installation](installation.md): self-host MSK Paste on your own Debian/Ubuntu server
+- [Usage](usage.md): walkthrough of creating, viewing, and managing pastes
+- [REST API](api.md): programmatic access for scripts and CLI tools
+- [Privacy & Security](privacy.md): how your data is (and isn't) stored
+- [FAQ](faq.md): common questions and troubleshooting
 
 ---
 

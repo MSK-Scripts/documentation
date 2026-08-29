@@ -15,9 +15,9 @@ keywords:
 Fired every time an action happens. Use it to integrate with your own scripts (logging,
 MDT, jail, …).
 
-- **Server:** a regular event — `AddEventHandler('msk_handcuffs:handler', ...)`.
+- **Server:** a regular event, `AddEventHandler('msk_handcuffs:handler', ...)`.
   Clients cannot trigger it.
-- **Client:** a net event — `RegisterNetEvent('msk_handcuffs:handler', ...)`, sent to the
+- **Client:** a net event, `RegisterNetEvent('msk_handcuffs:handler', ...)`, sent to the
   affected target.
 
 **Signature**

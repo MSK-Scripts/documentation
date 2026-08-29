@@ -7,17 +7,17 @@ sidebar_position: 2
 
 Since **v3.0.0** the config is split into two files:
 
-- **`config/settings.lua`** — the dashboard-managed defaults. These values are imported into the
+- **`config/settings.lua`:** the dashboard-managed defaults. These values are imported into the
   database **once** on the first start; afterwards the **database is authoritative** and everything
   here is managed live from the [admin dashboard](admin.md). Editing this file only changes the
   defaults for a **fresh** install (empty database).
-- **`config/static.lua`** — code hooks & adapters (framework detection, `Config.Notification`, the
-  TextUI adapter). The dashboard and the database **never** touch this file — edit it directly.
+- **`config/static.lua`:** code hooks & adapters (framework detection, `Config.Notification`, the
+  TextUI adapter). The dashboard and the database **never** touch this file, edit it directly.
 
 Below is each section explained.
 
 :::tip
-Most options on this page can be changed live in the [admin dashboard](admin.md) — no file edit
+Most options on this page can be changed live in the [admin dashboard](admin.md), no file edit
 or restart required. A few options (item/command **registration**) still need a resource restart;
 the dashboard marks those.
 :::
@@ -110,7 +110,7 @@ Config.AdminCommand = {
 ## OnRefreshKeys
 
 Controls whether the **key item** is given to the player when keys are refreshed. The keys
-themselves are always refreshed internally — these options only decide if the *physical
+themselves are always refreshed internally. These options only decide if the *physical
 item* is handed out.
 
 ```lua
@@ -150,7 +150,7 @@ Config.GivePrimaryKey = {
 
 :::warning
 If `transferOwnership = true`, the primary key is **always** removed from the giver.
-Pick **one** strategy — either `giveSecondaryKey`, or a combination of the lower three.
+Pick **one** strategy: either `giveSecondaryKey`, or a combination of the lower three.
 :::
 
 ## Keyring System
@@ -189,7 +189,7 @@ Config.Settings = {
 | `exchangeLocksPrice` | Price charged when exchanging the vehicle locks |
 | `transferVehicle` | Allow transferring a vehicle (and ownership) to another player |
 | `lockVehiclesFromNPCs.enable` | Lock NPC-spawned vehicles |
-| `lockVehiclesFromNPCs.probability` | Probability (%) an NPC vehicle is unlocked — `0` = always locked |
+| `lockVehiclesFromNPCs.probability` | Probability (%) an NPC vehicle is unlocked, `0` = always locked |
 
 ### menu
 
@@ -316,16 +316,16 @@ Config.Locksmith = {
 ```
 
 :::info[Locations are managed from the dashboard]
-The `locations` above are **seed defaults** — imported once into `msk_vehiclekeys_locksmiths`
+The `locations` above are **seed defaults**, imported once into `msk_vehiclekeys_locksmiths`
 on the first start. Afterwards, add/edit/delete locksmith spots live from the
 [admin dashboard](admin.md) → *Locksmith* tab (peds & blips update without a restart).
 :::
 
 ## Whitelist & Blacklist
 
-Since **v3.0.0** models are spawn **names** (strings) — hashed at runtime for comparison.
+Since **v3.0.0** models are spawn **names** (strings), hashed at runtime for comparison.
 Plates can be either an **exact plate** or just a **substring** that should be contained in
-the plate — e.g. `"ESX"` also matches `"12ESX34"`. All four lists can also be edited live from
+the plate, e.g. `"ESX"` also matches `"12ESX34"`. All four lists can also be edited live from
 the [admin dashboard](admin.md) → *Access Lists* tab.
 
 ```lua
@@ -356,7 +356,7 @@ Config.AdminVehicles = {
 ## Job Vehicles
 
 Players with a specific job can (un)lock matching vehicles. You can optionally narrow it
-down per **rank** using the `ranks` table — a rank entry overrides the job-wide
+down per **rank** using the `ranks` table, a rank entry overrides the job-wide
 `models` / `plates` for that rank.
 
 ```lua
@@ -379,7 +379,7 @@ Config.JobVehicles = {
 ```
 
 :::tip
-- Vehicle **models** are spawn **names** (strings) since v3.0.0 — e.g. `'police'`. Legacy numeric
+- Vehicle **models** are spawn **names** (strings) since v3.0.0, e.g. `'police'`. Legacy numeric
   (backtick) hashes still work.
 - Plates match by substring, so a short string like `"POL"` matches every plate containing it.
 - Ranks, models and plates for every job can also be managed from the [dashboard](admin.md) →
@@ -420,6 +420,6 @@ Config.Theme = {
 | Option | Description |
 |---|---|
 | `adminCommand` | Command that opens the dashboard (default `advehiclekeys`) |
-| `dashboardGroups` | Groups (besides `admin`) allowed to open the dashboard — `user` is always denied |
+| `dashboardGroups` | Groups (besides `admin`) allowed to open the dashboard, `user` is always denied |
 | `BrandTag` | Small badge next to the dashboard title (empty = hidden) |
 | `Theme` | The 5 editable brand colours applied live to the NUI |

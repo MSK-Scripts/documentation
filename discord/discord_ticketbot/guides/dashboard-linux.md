@@ -106,7 +106,7 @@ Use `dashboard.js` (not `index.js`) as the entry point so it also supervises the
 bot. Create `/etc/systemd/system/ticketbot.service`:
 
 :::note
-This replaces the plain-bot service from [Installation](/discord/discord_ticketbot/installation) — `dashboard.js` runs the bot itself, so you never run both. If you already set up a `ticketbot.service` pointing at `index.js`, this simply overwrites it; stop it first with `sudo systemctl stop ticketbot`.
+This replaces the plain-bot service from [Installation](/discord/discord_ticketbot/installation): `dashboard.js` runs the bot itself, so you never run both. If you already set up a `ticketbot.service` pointing at `index.js`, this simply overwrites it; stop it first with `sudo systemctl stop ticketbot`.
 :::
 
 ```ini
@@ -136,7 +136,7 @@ sudo journalctl -u ticketbot -f --output=cat
 
 :::tip
 For a first test, just run `npm run dashboard` in a terminal to confirm
-everything works, then stop it and start the service. Do not run both at once —
+everything works, then stop it and start the service. Do not run both at once:
 they would fight over the port.
 :::
 
@@ -147,6 +147,6 @@ you are automatically admin. Grant everyone else access under **Permissions**.
 
 ## Troubleshooting
 
-- **Login redirects back with an error** — the redirect URI in the Discord portal must match `DASHBOARD_PUBLIC_URL` + `/auth/callback` **exactly**, including `https`.
-- **502 / 503 from Apache** — the bot process is not running. Check `systemctl status ticketbot` and that it listens on the configured port.
-- **The dashboard refuses to start, saying the configuration is not safe** — you bound it to a public interface without HTTPS. Keep `DASHBOARD_HOST=127.0.0.1` and reach it through Apache.
+- **Login redirects back with an error:** the redirect URI in the Discord portal must match `DASHBOARD_PUBLIC_URL` + `/auth/callback` **exactly**, including `https`.
+- **502 / 503 from Apache:** the bot process is not running. Check `systemctl status ticketbot` and that it listens on the configured port.
+- **The dashboard refuses to start, saying the configuration is not safe:** you bound it to a public interface without HTTPS. Keep `DASHBOARD_HOST=127.0.0.1` and reach it through Apache.

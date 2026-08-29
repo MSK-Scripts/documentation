@@ -1,13 +1,13 @@
 ---
 title: Database
-description: Database backends — SQLite (default), MySQL/MariaDB and PostgreSQL
+description: 'Database backends: SQLite (default), MySQL/MariaDB and PostgreSQL'
 sidebar_position: 4
 ---
 
 ## 🗄️ Database
 
 The bot stores everything in a database that is created automatically on first
-start. By default this is a local **SQLite** file — no setup required. You can
+start. By default this is a local **SQLite** file, no setup required. You can
 optionally point the bot at an external **MySQL/MariaDB** or **PostgreSQL**
 database instead.
 
@@ -35,12 +35,12 @@ DATABASE_URL="sqlite:./data/tickets.db"
 
 | Backend | `DATABASE_URL` | Notes |
 |---|---|---|
-| **SQLite** (default) | *unset* or `sqlite:./path.db` | Zero setup — a file is created automatically. Best for single-server self-hosting. |
+| **SQLite** (default) | *unset* or `sqlite:./path.db` | Zero setup, a file is created automatically. Best for single-server self-hosting. |
 | **MySQL / MariaDB** | `mysql://…` or `mariadb://…` | Default port `3306`. |
 | **PostgreSQL** | `postgres://…` or `postgresql://…` | Default port `5432`. |
 
 > 💾 **No driver install needed.** The MySQL (`mysql2`) and PostgreSQL (`pg`)
-> drivers ship with the bot — a normal `npm install` covers all three backends.
+> drivers ship with the bot, a normal `npm install` covers all three backends.
 
 > 🔐 **Credentials belong in `.env`, never in `config.jsonc`.** The config file is
 > editable through the hosted dashboard and must not contain database passwords.
@@ -61,7 +61,7 @@ DATABASE_URL="postgres://user:password@db.example.com:5432/ticketbot?ssl=true"
 ## Migrating an existing SQLite database
 
 If you already ran the bot on SQLite and want to switch to MySQL or PostgreSQL,
-copy your existing data with the bundled migration script — your ticket history,
+copy your existing data with the bundled migration script, your ticket history,
 ratings and statistics are preserved.
 
 ```bash
@@ -91,7 +91,7 @@ the id sequences so newly created tickets don't collide.
   is the same regardless of the backend.
 - Missing columns are added automatically on start (inline migrations), so updating
   the bot never requires manual database steps.
-- Switching backends does **not** move your data automatically — use
+- Switching backends does **not** move your data automatically, use
   `npm run db:migrate` for that.
 
 > ℹ️ **Existing SQLite users don't need to change anything.** Without

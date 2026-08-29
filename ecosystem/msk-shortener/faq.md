@@ -21,7 +21,7 @@ No. Links are immutable. To change the destination, delete the old link (with th
 
 ### How long can a link live?
 
-As long as you want. The `expiresAt` field is optional — a link without an expiration stays active until you delete it. If you set one, it must be a valid ISO 8601 timestamp in the future.
+As long as you want. The `expiresAt` field is optional, a link without an expiration stays active until you delete it. If you set one, it must be a valid ISO 8601 timestamp in the future.
 
 ### Can I recover a deleted or expired link?
 
@@ -29,7 +29,7 @@ No. Deletion (manual or expiration) is permanent. Associated click statistics ar
 
 ### Can I see who clicked my links?
 
-No, and that's the point. Statistics show aggregated browser, OS, device and referrer counts — never any individual visitor's identity. IPs are hashed with a secret, full user agents are never stored.
+No, and that's the point. Statistics show aggregated browser, OS, device and referrer counts, never any individual visitor's identity. IPs are hashed with a secret, full user agents are never stored.
 
 ### Will short links break if the destination changes?
 
@@ -63,11 +63,11 @@ curl -X DELETE https://s.msk-scripts.de/api/links/msk \
 
 ### Why does the API reject my URL with "Interne / private Adressen sind nicht erlaubt"?
 
-You tried to shorten a URL pointing at a private IP range or localhost. This is **SSRF protection** — see [Privacy & Security](privacy.md#ssrf-protection). The shortener is only meant for public destinations.
+You tried to shorten a URL pointing at a private IP range or localhost. This is **SSRF protection**, see [Privacy & Security](privacy.md#ssrf-protection). The shortener is only meant for public destinations.
 
 ### Can I get a list of all links I've created?
 
-No. There is no per-user history — the database doesn't know which links belong to "you". Save the delete tokens client-side if you want a personal history.
+No. There is no per-user history, the database doesn't know which links belong to "you". Save the delete tokens client-side if you want a personal history.
 
 ---
 
@@ -129,7 +129,7 @@ openssl rand -hex 32
 Paste it into `.env`, then restart the service.
 
 :::warning
-If you change `IP_HASH_SECRET` after the fact, all existing rate-limit hashes and click hashes become "different visitors" — but you don't lose any data, just continuity in the rate-limit window.
+If you change `IP_HASH_SECRET` after the fact, all existing rate-limit hashes and click hashes become "different visitors", but you don't lose any data, just continuity in the rate-limit window.
 :::
 
 ### Let's Encrypt rate limit hit
@@ -144,7 +144,7 @@ Once you're sure the setup works, run it without `--staging` to get the real cer
 
 ### Migrations failed in the middle
 
-The migration runner is idempotent — files that successfully ran are recorded in the `_migrations` table. Fix the failing SQL file, then run `npm run migrate` again. Already-applied migrations are skipped.
+The migration runner is idempotent, files that successfully ran are recorded in the `_migrations` table. Fix the failing SQL file, then run `npm run migrate` again. Already-applied migrations are skipped.
 
 ### How do I back up before an update?
 
@@ -158,7 +158,7 @@ Creates a SQL dump in `/opt/msk-shortener/backups/` with a date-stamped filename
 
 ### Can I run MSK Shortener and MSK Paste on the same server?
 
-Yes — that's the typical setup. They use different ports (`3011` and `3012`), separate databases, and separate Apache vhosts. The install scripts are designed to coexist.
+Yes, that's the typical setup. They use different ports (`3011` and `3012`), separate databases, and separate Apache vhosts. The install scripts are designed to coexist.
 
 ---
 

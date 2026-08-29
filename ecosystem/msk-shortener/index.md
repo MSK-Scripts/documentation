@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # MSK Shortener
 
-**A self-hosted URL shortener with click statistics, QR codes, and password protection** — the first web project in the MSK ecosystem.
+**A self-hosted URL shortener with click statistics, QR codes, and password protection:** the first web project in the MSK ecosystem.
 
 - **Live instance:** [s.msk-scripts.de](https://s.msk-scripts.de)
 - **Source code:** [github.com/MSK-Scripts/msk-shortener](https://github.com/MSK-Scripts/msk-shortener)
@@ -15,25 +15,25 @@ sidebar_position: 1
 
 ## What is MSK Shortener?
 
-MSK Shortener turns long URLs into short, shareable links — like Bitly or TinyURL, but **without the tracking**. It is built for personal use, team workflows, and small communities that want their own short-link domain.
+MSK Shortener turns long URLs into short, shareable links, like Bitly or TinyURL, but **without the tracking**. It is built for personal use, team workflows, and small communities that want their own short-link domain.
 
-The hosted instance at [s.msk-scripts.de](https://s.msk-scripts.de) is free to use. If you want your own short domain (e.g. `s.example.com`), you can self-host it on your own server — see [Installation](installation.md).
+The hosted instance at [s.msk-scripts.de](https://s.msk-scripts.de) is free to use. If you want your own short domain (e.g. `s.example.com`), you can self-host it on your own server, see [Installation](installation.md).
 
 ---
 
 ## Features
 
 - **Auto-generated short codes** (default 7 characters) using nanoid
-- **Custom short codes** — pick your own (3–20 chars, `[a-zA-Z0-9_-]`)
-- **Click statistics** — anonymous timeline, browser/OS/device aggregations, top referrers
-- **QR codes** — download as PNG or SVG with MSK branding
+- **Custom short codes:** pick your own (3–20 chars, `[a-zA-Z0-9_-]`)
+- **Click statistics:** anonymous timeline, browser/OS/device aggregations, top referrers
+- **QR codes:** download as PNG or SVG with MSK branding
 - **Password protection** with bcrypt (cost 12) and brute-force throttling
-- **Expiration dates** — let links auto-expire at any future ISO timestamp
-- **Delete tokens** — remove links without an account
+- **Expiration dates:** let links auto-expire at any future ISO timestamp
+- **Delete tokens:** remove links without an account
 - **REST API** for every UI feature
 - **Bilingual UI** (German / English) with cookie-based language switching
 - **Global statistics page** with anonymous aggregate data
-- **SSRF protection** — private IP ranges (RFC 1918, loopback, link-local) are rejected as targets
+- **SSRF protection:** private IP ranges (RFC 1918, loopback, link-local) are rejected as targets
 - **No tracking cookies, no GeoIP, no third-party analytics**
 
 ---
@@ -60,7 +60,7 @@ The hosted instance at [s.msk-scripts.de](https://s.msk-scripts.de) is free to u
 
 ## How click tracking works
 
-Unlike MSK Paste (which only counts views), MSK Shortener stores anonymized **per-click** rows for richer statistics — but no piece of data identifies the visitor:
+Unlike MSK Paste (which only counts views), MSK Shortener stores anonymized **per-click** rows for richer statistics, but no piece of data identifies the visitor:
 
 | Stored | Not stored |
 |---|---|
@@ -71,17 +71,17 @@ Unlike MSK Paste (which only counts views), MSK Shortener stores anonymized **pe
 | Referrer host | Query strings |
 | HMAC-SHA-256(IP) | Account / session info |
 
-IPs are hashed with a server-side secret (`IP_HASH_SECRET`) using HMAC-SHA-256 — they cannot be reversed without the secret.
+IPs are hashed with a server-side secret (`IP_HASH_SECRET`) using HMAC-SHA-256, they cannot be reversed without the secret.
 
 ---
 
 ## Where to go next
 
-- [Installation](installation.md) — Self-host MSK Shortener on your own Debian/Ubuntu server
-- [Usage](usage.md) — Walkthrough of creating, managing, and tracking links
-- [REST API](api.md) — Programmatic access for scripts and CLI tools
-- [Privacy & Security](privacy.md) — How your data is (and isn't) stored
-- [FAQ](faq.md) — Common questions and troubleshooting
+- [Installation](installation.md): self-host MSK Shortener on your own Debian/Ubuntu server
+- [Usage](usage.md): walkthrough of creating, managing, and tracking links
+- [REST API](api.md): programmatic access for scripts and CLI tools
+- [Privacy & Security](privacy.md): how your data is (and isn't) stored
+- [FAQ](faq.md): common questions and troubleshooting
 
 ---
 

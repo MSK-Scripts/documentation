@@ -29,7 +29,7 @@ From 10 minutes up to 1 year. The default is 1 week. Once a paste expires, it is
 
 ### Are pastes encrypted?
 
-The `content` column is **not** encrypted at rest — passwords gate viewing but the operator could read the database. If you need real end-to-end secrecy, encrypt the content client-side (e.g. with `age` or `gpg`) before pasting.
+The `content` column is **not** encrypted at rest, passwords gate viewing but the operator could read the database. If you need real end-to-end secrecy, encrypt the content client-side (e.g. with `age` or `gpg`) before pasting.
 
 ### Can I recover a deleted or expired paste?
 
@@ -37,7 +37,7 @@ No. Deletion (manual, expiration, or burn-after-read) is permanent. There is no 
 
 ### Can I search public pastes?
 
-No. Every paste is unlisted — knowing the ID is the only way to find a paste. There is no public directory, no search, and no listing endpoint.
+No. Every paste is unlisted, knowing the ID is the only way to find a paste. There is no public directory, no search, and no listing endpoint.
 
 ---
 
@@ -57,7 +57,7 @@ Send `DELETE /api/pastes/:id?token=<deleteToken>`. The token was returned in the
 
 ### Can I get a list of all pastes I've created?
 
-No. There is no per-user history — the database doesn't know which pastes belong to "you". Save the delete tokens client-side if you want a personal history.
+No. There is no per-user history, the database doesn't know which pastes belong to "you". Save the delete tokens client-side if you want a personal history.
 
 ---
 
@@ -130,7 +130,7 @@ Once you're sure the setup works, run it without `--staging` to get the real cer
 
 ### Migrations failed in the middle
 
-The migration runner is idempotent — files that successfully ran are recorded in the `_migrations` table. Fix the failing SQL file, then run `npm run migrate` again. Already-applied migrations are skipped.
+The migration runner is idempotent, files that successfully ran are recorded in the `_migrations` table. Fix the failing SQL file, then run `npm run migrate` again. Already-applied migrations are skipped.
 
 ### How do I back up before an update?
 
@@ -160,7 +160,7 @@ Open an [issue](https://github.com/MSK-Scripts/msk-paste/issues) with the langua
 
 ### Can I customise the theme?
 
-Yes — fork the repo and change `tailwind.config.ts` and `app/globals.css`. The MSK design tokens are concentrated in those two files.
+Yes, fork the repo and change `tailwind.config.ts` and `app/globals.css`. The MSK design tokens are concentrated in those two files.
 
 ### Is there a CLI tool?
 

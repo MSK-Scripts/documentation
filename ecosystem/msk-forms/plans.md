@@ -5,10 +5,10 @@ sidebar_position: 8
 
 # Plans & Limits
 
-MSK Forms has three tiers — **Free**, **Pro**, and **Enterprise**. The authoritative, up-to-date pricing is always on the [pricing page](https://forms.msk-scripts.de/pricing).
+MSK Forms has three tiers: **Free**, **Pro**, and **Enterprise**. The authoritative, up-to-date pricing is always on the [pricing page](https://forms.msk-scripts.de/pricing).
 
 :::info[Subscriptions are per Discord server]
-A subscription applies to **one guild**. Each server you run is upgraded independently — upgrading one doesn't upgrade the others.
+A subscription applies to **one guild**. Each server you run is upgraded independently, upgrading one doesn't upgrade the others.
 :::
 
 ---
@@ -40,16 +40,16 @@ A subscription applies to **one guild**. Each server you run is upgraded indepen
 | REST API + API keys | — | — | ✅ |
 | Zapier / Make integration | — | — | ✅ |
 
-> Prices shown for reference — see the [pricing page](https://forms.msk-scripts.de/pricing) for the current values.
+> Prices shown for reference, see the [pricing page](https://forms.msk-scripts.de/pricing) for the current values.
 
 ---
 
 ## How limits are enforced
 
-- **Forms** — the Free plan blocks creating a 4th form. Pro and Enterprise are unlimited.
-- **Submissions** — counted per calendar month, per server. Over the limit, the public form returns a "limit reached" response until the next month.
-- **Members** — counts managers, global reviewers, and anyone with a per-form grant. You're only blocked when **adding** beyond the limit; nobody is removed on a downgrade.
-- **Pro-only features** for a Free guild are either **gated** (you see an upgrade prompt) or **stripped** on save (e.g. custom CSS, automations) — accent color and logo always stay free.
+- **Forms:** the Free plan blocks creating a 4th form. Pro and Enterprise are unlimited.
+- **Submissions:** counted per calendar month, per server. Over the limit, the public form returns a "limit reached" response until the next month.
+- **Members:** counts managers, global reviewers, and anyone with a per-form grant. You're only blocked when **adding** beyond the limit; nobody is removed on a downgrade.
+- **Pro-only features** for a Free guild are either **gated** (you see an upgrade prompt) or **stripped** on save (e.g. custom CSS, automations), accent color and logo always stay free.
 
 ---
 
@@ -57,14 +57,14 @@ A subscription applies to **one guild**. Each server you run is upgraded indepen
 
 Upgrade from the gated tabs (Domain, Webhooks, or when you hit the form limit) or the Forms page header. Billing runs through **Stripe**:
 
-- **Free → Pro** or **Free → Enterprise** — Stripe Checkout.
-- **Pro → Enterprise** — an upgrade button on the Forms page.
-- **Manage billing** — paying guilds get a **Manage subscription** button (Stripe billing portal) to update payment details or cancel.
+- **Free → Pro** or **Free → Enterprise**: Stripe Checkout.
+- **Pro → Enterprise:** an upgrade button on the Forms page.
+- **Manage billing:** paying guilds get a **Manage subscription** button (Stripe billing portal) to update payment details or cancel.
 
 A downgrade revokes the tier's features (e.g. Enterprise API access) but never deletes your data.
 
 ---
 
 :::info
-Next: [Privacy & Security](privacy.md) — what data is stored and how it's protected.
+Next: [Privacy & Security](privacy.md), what data is stored and how it's protected.
 :::

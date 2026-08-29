@@ -84,7 +84,7 @@ never exposed directly. The wizard also prints the reverse-proxy snippets below.
 ### Option B: Caddy (simplest, automatic HTTPS)
 
 If port 443 is free, Caddy is the least effort. If you already run Caddy for
-something else, **do not start a second instance** (that collides on port 443) —
+something else, **do not start a second instance** (that collides on port 443):
 just add one more site block to your existing `Caddyfile`:
 
 ```
@@ -123,7 +123,7 @@ nssm start TicketBot
 
 :::tip
 For a first test, just run `npm run dashboard` in a terminal to confirm
-everything works, then stop it and set up the service. Do not run both at once —
+everything works, then stop it and set up the service. Do not run both at once:
 they would fight over the port.
 :::
 
@@ -138,6 +138,6 @@ you are automatically admin. Grant everyone else access under **Permissions**.
 
 ## Troubleshooting
 
-- **Login redirects back with an error** — the redirect URI in the Discord portal must match `DASHBOARD_PUBLIC_URL` + `/auth/callback` **exactly**, including `https`.
-- **502 / 503 from the proxy** — the bot process is not running. Check the service (Task Scheduler / NSSM) is started and listening on the configured port.
-- **The dashboard refuses to start, saying the configuration is not safe** — you bound it to a public interface without HTTPS. Keep `DASHBOARD_HOST=127.0.0.1` and reach it through the reverse proxy.
+- **Login redirects back with an error:** the redirect URI in the Discord portal must match `DASHBOARD_PUBLIC_URL` + `/auth/callback` **exactly**, including `https`.
+- **502 / 503 from the proxy:** the bot process is not running. Check the service (Task Scheduler / NSSM) is started and listening on the configured port.
+- **The dashboard refuses to start, saying the configuration is not safe:** you bound it to a public interface without HTTPS. Keep `DASHBOARD_HOST=127.0.0.1` and reach it through the reverse proxy.

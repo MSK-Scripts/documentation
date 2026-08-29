@@ -6,18 +6,18 @@ sidebar_position: 3
 
 ## 🛠️ Configuration
 
-Every server configures the bot **independently** — there are no config files to edit. All settings are managed in Discord with `/gsettings`, gated behind the native **Manage Server** permission.
+Every server configures the bot **independently**. There are no config files to edit. All settings are managed in Discord with `/gsettings`, gated behind the native **Manage Server** permission.
 
-- `/gsettings show` — display the current configuration
-- `/gsettings set <option> …` — set or add a value
-- `/gsettings remove <option> …` — remove or clear a value
+- `/gsettings show`: display the current configuration
+- `/gsettings set <option> …`: set or add a value
+- `/gsettings remove <option> …`: remove or clear a value
 
 Settings take effect immediately and apply to all future giveaways on that server.
 
-> **set vs. remove:** `set` adds a role to a list (blacklist/whitelist) or sets a single value (manager/notify/bonus); `remove` takes it back out. The `log` channel is the exception — `set log` toggles it (running it again with the same channel clears it).
+> **set vs. remove:** `set` adds a role to a list (blacklist/whitelist) or sets a single value (manager/notify/bonus); `remove` takes it back out. The `log` channel is the exception: `set log` toggles it (running it again with the same channel clears it).
 
 :::tip[Configure in the browser]
-All of these settings can also be edited from the [**Web Dashboard**](./getting-started.md#-web-dashboard) (Discord login) — handy for picking roles and channels from a list instead of typing IDs.
+All of these settings can also be edited from the [**Web Dashboard**](./getting-started.md#-web-dashboard) (Discord login), handy for picking roles and channels from a list instead of typing IDs.
 :::
 
 ---
@@ -66,7 +66,7 @@ All of these settings can also be edited from the [**Web Dashboard**](./getting-
 
 Each of the three stands on its own: a giveaway can bring its own blacklist and still follow the server-wide bonus entries. A giveaway that carries nothing of its own follows the server settings, including later changes to them.
 
-Changing a single role on a giveaway that has nothing of its own **copies the server-wide list first** and then applies the change, so `set blacklist role:@Muted giveaway_id:…` adds a role instead of switching all the others off. To go the other way — one giveaway *without* a server-wide rule — take the role out with `remove`, or clear the list in the dashboard. `remove conditions giveaway_id:<ID>` puts the giveaway back to following the server settings entirely.
+Changing a single role on a giveaway that has nothing of its own **copies the server-wide list first** and then applies the change, so `set blacklist role:@Muted giveaway_id:…` adds a role instead of switching all the others off. To go the other way, one giveaway *without* a server-wide rule, take the role out with `remove`, or clear the list in the dashboard. `remove conditions giveaway_id:<ID>` puts the giveaway back to following the server settings entirely.
 
 The same three settings are available in the **web dashboard** without an ID: the create form and the edit form of a running giveaway both carry an *Entry conditions for this giveaway* block, prefilled with the server settings, so what the form shows is what will apply.
 
@@ -95,10 +95,10 @@ The same three settings are available in the **web dashboard** without an ID: th
 
 Several options combine to decide who may enter a giveaway:
 
-- **Blacklist** — members holding a blacklisted role cannot enter. The giveaway's own list applies if it has one, otherwise the server-wide list.
-- **Whitelist** — if one or more whitelist roles are configured, a member must hold **at least one** of them. With no whitelist set, everyone may enter (subject to the other rules).
-- **Minimum account age** (`minaccount`) — rejects accounts younger than *N* days. `0` disables the check.
-- **Minimum server membership** (`minmember`) — rejects members who joined less than *N* days ago. `0` disables the check.
+- **Blacklist:** members holding a blacklisted role cannot enter. The giveaway's own list applies if it has one, otherwise the server-wide list.
+- **Whitelist:** if one or more whitelist roles are configured, a member must hold **at least one** of them. With no whitelist set, everyone may enter (subject to the other rules).
+- **Minimum account age** (`minaccount`): rejects accounts younger than *N* days. `0` disables the check.
+- **Minimum server membership** (`minmember`): rejects members who joined less than *N* days ago. `0` disables the check.
 
 All rules are checked both when a member presses the entry button **and** again when winners are drawn.
 
@@ -108,7 +108,7 @@ All rules are checked both when a member presses the entry button **and** again 
 
 `set bonus <role> <amount>` grants members of a role **additional entries** (1–100), increasing their chance of winning. This stacks for members who hold several bonus roles. Use `remove bonus <role>` to take it away again.
 
-Add an optional `giveaway_id` to scope a bonus to **one giveaway only** — the bonus entries of that giveaway then apply **instead of** the server-wide ones.
+Add an optional `giveaway_id` to scope a bonus to **one giveaway only**. The bonus entries of that giveaway then apply **instead of** the server-wide ones.
 
 Bonus roles are also editable in the **web dashboard**: server-wide in the *Settings* tab, per giveaway in the create form and when editing a running giveaway. Whatever is configured is shown to everyone in the giveaway message, see [Bonus entries in the embed](#bonus-entries-in-the-embed).
 
@@ -122,15 +122,15 @@ By default, only members with the **Manage Server** permission can run the manag
 
 ### Notify Role & Logging
 
-- **Notify role** — pinged once when a new giveaway is created. The bot restricts its pings to this role only (no `@everyone`). The role must be mentionable by the bot. Clear it with `remove notify <role>`.
-- **Log channel** — when set, the bot posts an audit entry for every giveaway event (created, ended, rerolled, cancelled, …) to this channel.
+- **Notify role:** pinged once when a new giveaway is created. The bot restricts its pings to this role only (no `@everyone`). The role must be mentionable by the bot. Clear it with `remove notify <role>`.
+- **Log channel:** when set, the bot posts an audit entry for every giveaway event (created, ended, rerolled, cancelled, …) to this channel.
 
 ---
 
 ### Winner DMs & Reminders
 
-- **Winner DMs** — when a giveaway ends (or a winner is rerolled), each winner automatically receives a direct message with the prize, the configured **claim instructions** (`set claim <text>`) and a link to the giveaway. If the giveaway hands out [one prize per winner](./commands.md#multiple-prizes), the DM names only that winner's own prize. If a winner has DMs disabled, it is silently skipped.
-- **"Ending soon" reminder** — `set reminder <minutes>` makes the bot post a reminder in the giveaway channel that many minutes before the end (pinging the notify role if configured). `0` disables it. The reminder also re-schedules itself when you extend a giveaway with `/gextend`.
+- **Winner DMs:** when a giveaway ends (or a winner is rerolled), each winner automatically receives a direct message with the prize, the configured **claim instructions** (`set claim <text>`) and a link to the giveaway. If the giveaway hands out [one prize per winner](./commands.md#multiple-prizes), the DM names only that winner's own prize. If a winner has DMs disabled, it is silently skipped.
+- **"Ending soon" reminder:** `set reminder <minutes>` makes the bot post a reminder in the giveaway channel that many minutes before the end (pinging the notify role if configured). `0` disables it. The reminder also re-schedules itself when you extend a giveaway with `/gextend`.
 
 ---
 
@@ -195,9 +195,9 @@ Two things follow from the selector being tied to the prize slot:
 
 Running a giveaway together with another creator? Their coupon codes cannot be generated by the bot, it has no access to their store. Enter them instead, under **Fixed codes (other shop)**:
 
-- **Code for all winners** — one code every winner receives.
-- **Code per winner** — with [one prize per winner](./commands.md#multiple-prizes), a separate code per prize. Empty falls back to the code above.
-- **Note for the DM** — free text sent with the code, typically where to redeem it.
+- **Code for all winners:** one code every winner receives.
+- **Code per winner:** with [one prize per winner](./commands.md#multiple-prizes), a separate code per prize. Empty falls back to the code above.
+- **Note for the DM:** free text sent with the code, typically where to redeem it.
 
 This needs **no Tebex store of your own**: it works on a server that has never connected one.
 

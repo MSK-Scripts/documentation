@@ -47,7 +47,7 @@ DB_NAME=es_extended
 
 ### Disable a Bot
 
-Leave the token empty in `.env` — the bot will be automatically skipped on startup:
+Leave the token empty in `.env`. The bot will be automatically skipped on startup:
 
 ```env
 # Example: disable the Minigames Bot

@@ -52,12 +52,12 @@ The cleanest integration is via the **[exports](./exports/client.md)** (`dragPla
 | Server exports `cuffAdmin`, `hardcuffAdmin`, `uncuffAdmin`, `ankleTrackAdmin`, `headbagAdmin`, `tapeAdmin` | Admin actions are server-authoritative; use the [admin commands](./commands.md) |
 | Client exports `cuffPlayerAdmin`, `hardcuffPlayerAdmin`, `uncuffPlayerAdmin`, `ankleTrackerAdmin` | same as above |
 | Client exports/events `Cuff`, `Hardcuff`, `Uncuff` (self) | These were the unvalidated self-uncuff exploit path |
-| Server exports `getDatabase`, `getPlayerFromDatabase` | No flat file anymore — read [statebags](./statebags.md) or the status exports |
+| Server exports `getDatabase`, `getPlayerFromDatabase` | No flat file anymore, read [statebags](./statebags.md) or the status exports |
 | Client export `getObjectState` | Props are managed internally |
 | Aliases `gethasAnkletracker`, `gethasHeadbag` | Use `getHasAnkletracker` / `getHasHeadbag` |
 | Server callbacks `MSK.Register('msk_handcuffs:getIsHandcuffed' / … / 'canUncuff')` | Status is now readable directly via [statebags](./statebags.md) |
 
-## Status reads — old vs new
+## Status reads, old vs new
 
 ```lua
 -- v2 (callback)

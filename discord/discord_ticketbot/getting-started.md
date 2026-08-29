@@ -6,7 +6,7 @@ sidebar_position: 1
 
 ![Discord Ticket Bot](/img/discord_ticketbot_banner.png)
 
-A modern, self-hosted Discord ticket bot built on **Discord.js v14** — SQLite out of the box (no external database required), with optional **MySQL/MariaDB** and **PostgreSQL** support. No telemetry, full feature set out of the box.
+A modern, self-hosted Discord ticket bot built on **Discord.js v14**: SQLite out of the box (no external database required), with optional **MySQL/MariaDB** and **PostgreSQL** support. No telemetry, full feature set out of the box.
 
 [`License: AGPL-3.0`](https://www.gnu.org/licenses/agpl-3.0) · [`Node.js 24+`](https://nodejs.org) · [`Discord.js v14`](https://discord.js.org) · [`Docs: docu.msk-scripts.de`](https://docu.msk-scripts.de/discord/discord_ticketbot/getting-started)
 
@@ -29,8 +29,8 @@ Auf Deutsch: [Ticket Bots im Vergleich](https://www.msk-scripts.de/de/ticketbot/
 |---|---|
 | 🎫 Ticket Types | Up to 25 configurable types with individual emoji, color, category & questions |
 | 📋 Questionnaires | Modal forms (up to 5 questions) shown when opening a ticket |
-| 🙋 Claim System | Staff can claim/unclaim — button toggles, embed & topic update automatically |
-| 🔴 Priorities | Low / Medium / High / Urgent — predefined per ticket type or set via `/priority`, shown in channel topic & embed |
+| 🙋 Claim System | Staff can claim/unclaim, button toggles, embed & topic update automatically |
+| 🔴 Priorities | Low / Medium / High / Urgent, predefined per ticket type or set via `/priority`, shown in channel topic & embed |
 | 📝 Staff Notes | Private notes via `/note add` / `/note list` |
 | 🔀 Move Ticket | Move to a different type/category via `/move` or button (staff only) |
 | 🛡️ Type-specific Staff Roles | Each ticket type can define its own staff roles |
@@ -39,19 +39,19 @@ Auf Deutsch: [Ticket Bots im Vergleich](https://www.msk-scripts.de/de/ticketbot/
 | ⭐ Rating System | 1–5 star feedback after closing, automatically posted to a configured channel |
 | ⏰ Staff Reminder | Automatic ping inside the ticket if no staff responds within X hours |
 | ⏰ Auto-Close | Automatically close inactive tickets with a configurable warning period |
-| ♻️ Reopen Tickets | Reopen a closed ticket via the `♻️` button or `/reopen` — configurable, restores access & moves it back |
+| ♻️ Reopen Tickets | Reopen a closed ticket via the `♻️` button or `/reopen`, configurable, restores access & moves it back |
 | 🔗 Transcript Links | Transcripts stored online and accessible via a public link |
-| 📄 HTML Transcript | Self-contained HTML transcript in a **modern or classic** style — avatars & custom emojis embedded as Base64, mentions and Created/Claimed/Closed-by shown as names, no CDN required |
+| 📄 HTML Transcript | Self-contained HTML transcript in a **modern or classic** style, avatars & custom emojis embedded as Base64, mentions and Created/Claimed/Closed-by shown as names, no CDN required |
 | 🌐 Custom Domain | Premium users can serve transcripts under their own domain |
 | 📊 Statistics | Server-wide stats and detailed per-user stats via `/stats` |
 | 🚫 Blacklist | `/blacklist add/remove/list` to block users from opening tickets |
-| 💬 Canned Responses | Pre-defined snippets sent with one command — configured in `snippets.jsonc` |
+| 💬 Canned Responses | Pre-defined snippets sent with one command, configured in `snippets.jsonc` |
 | 🔒 Ticket Lock | Lock/unlock a ticket to prevent the user from sending messages |
 | 📢 Broadcast | Send a message to all open ticket channels at once |
 | 🔔 User Notifications | Optional DM notification for users when a staff member replies |
 | 🎮 Dynamic Bot Status | Automatically display the number of open tickets in the bot status |
 | 🌍 Multilingual | 7 languages included (English, German, French, Spanish, Portuguese, Polish, Hungarian), easily extensible |
-| 🗄️ Flexible Database | SQLite out of the box (zero setup) — optional MySQL/MariaDB or PostgreSQL via `DATABASE_URL`, with a migration script |
+| 🗄️ Flexible Database | SQLite out of the box (zero setup), optional MySQL/MariaDB or PostgreSQL via `DATABASE_URL`, with a migration script |
 | 🔄 Auto-Update Check | Checks for new GitHub releases on startup and notifies with update instructions |
 | 🖥️ Web Dashboard | Optional self-hosted browser dashboard (off by default): tickets, statistics, a form/file config editor, bot control and per-role/user permissions. See [Web Dashboard](./dashboard.md). |
 
@@ -59,7 +59,7 @@ Auf Deutsch: [Ticket Bots im Vergleich](https://www.msk-scripts.de/de/ticketbot/
 
 ## 🔗 MSK Transcript Service
 
-Instead of sending transcripts as file attachments via DM, the bot can upload them to **[www.msk-scripts.de](https://www.msk-scripts.de)** and generate a public link — accessible in any browser, no download required.
+Instead of sending transcripts as file attachments via DM, the bot can upload them to **[www.msk-scripts.de](https://www.msk-scripts.de)** and generate a public link, accessible in any browser, no download required.
 
 Four tiers are available: **Basic** (free), **Premium** (€3.99/mo), **Premium+** (€6.99/mo) and **Business** (€9.99/mo). Paid tiers add larger transcripts and file attachments, longer storage, a custom domain, the right to remove the MSK notice and hosted bot management. They are subscribed via **Stripe** with a **14-day free trial** that takes no credit card.
 
@@ -78,7 +78,7 @@ MSK_API_URL="https://www.msk-scripts.de"
 
 Premium and Premium+ customers can have their bot instance **fully hosted by MSK Scripts** and manage it entirely from the dashboard at **[msk-scripts.de/ticketbot/dashboard](https://www.msk-scripts.de/ticketbot/dashboard)**: start/stop/restart/update, a live log console and one-click access to the bot's own web dashboard, no SSH access or server knowledge required.
 
-![Dashboard — Hosted Bot Management](/img/discord_ticketbot_dashboard.png)
+![Dashboard, Hosted Bot Management](/img/discord_ticketbot_dashboard.png)
 
 Contact MSK Scripts via [Discord](https://discord.gg/5hHSBRHvJE) to arrange a hosted plan. Once set up, the management panel appears automatically in your dashboard after logging in.
 
@@ -193,9 +193,9 @@ discord_ticketbot/
 | ------------------- | ------------- | --------------------------------------------------------------------- |
 | `/setup`            | Administrator | Send the ticket panel                                                 |
 | `/close [reason]`   | Configurable  | Close the current ticket                                              |
-| `/reopen`           | Configurable  | Reopen a closed ticket — restores access & moves it back              |
-| `/claim`            | Staff         | Claim a ticket — updates topic & embed, button toggles to Unclaim     |
-| `/unclaim`          | Staff         | Release a claimed ticket — updates topic & embed, button toggles back |
+| `/reopen`           | Configurable  | Reopen a closed ticket, restores access & moves it back              |
+| `/claim`            | Staff         | Claim a ticket, updates topic & embed, button toggles to Unclaim     |
+| `/unclaim`          | Staff         | Release a claimed ticket, updates topic & embed, button toggles back |
 | `/move`             | Staff         | Move ticket to a different type/category                              |
 | `/add <user>`       | Staff         | Add a user to the ticket                                              |
 | `/remove <user>`    | Staff         | Remove a user from the ticket                                         |
@@ -211,8 +211,8 @@ discord_ticketbot/
 | `/blacklist list`      | Manage Guild  | Show the blacklist                                                  |
 | `/snippet send <name>` | Staff         | Send a canned response into the ticket                              |
 | `/snippet list`        | Staff         | Show all available snippets                                         |
-| `/lock lock [reason]`  | Staff         | Lock ticket — user cannot send messages                             |
-| `/lock unlock`         | Staff         | Unlock ticket — restore user message access                         |
+| `/lock lock [reason]`  | Staff         | Lock ticket, user cannot send messages                             |
+| `/lock unlock`         | Staff         | Unlock ticket, restore user message access                         |
 | `/autoclose pause`     | Staff         | Pause the inactivity warning, auto-closing and staff reminder for this ticket |
 | `/autoclose resume`    | Staff         | Resume the normal inactivity rules for this ticket                 |
 | `/broadcast <message>` | Staff         | Send a message to all open ticket channels                          |
@@ -226,11 +226,11 @@ Every ticket channel contains a button row at the top:
 | Button          | Visible when                         | Description                                                          |
 | --------------- | ------------------------------------ | -------------------------------------------------------------------- |
 | 🔒 Close Ticket  | Always (configurable)                | Disables all buttons, generates transcript, closes & renames channel |
-| 🙋 Claim         | `claimButton: true`, not yet claimed | Staff claims — topic & embed update, button becomes Unclaim          |
-| 🙌 Unclaim       | `claimButton: true`, already claimed | Staff releases — topic & embed update, button becomes Claim          |
+| 🙋 Claim         | `claimButton: true`, not yet claimed | Staff claims, topic & embed update, button becomes Unclaim          |
+| 🙌 Unclaim       | `claimButton: true`, already claimed | Staff releases, topic & embed update, button becomes Claim          |
 | 🔀 Move          | More than 1 ticket type configured   | Staff opens type selection (staff only)                              |
 | 🗑️ Delete Ticket | After closing                        | Deletes the channel after confirmation                               |
-| ♻️ Reopen        | After closing (`reopenOption.enabled`) | Reopens the ticket — restores access & moves it back to its category |
+| ♻️ Reopen        | After closing (`reopenOption.enabled`) | Reopens the ticket, restores access & moves it back to its category |
 | 🔕 Notify me     | `userNotifications.enabled: true`    | User opts in to DM notifications when a staff member replies         |
 
 ---
@@ -240,7 +240,7 @@ Every ticket channel contains a button row at the top:
 The database is created automatically. By default this is a local SQLite file
 (`data/tickets.db`); set `DATABASE_URL` to use MySQL/MariaDB or PostgreSQL instead
 (see [Database](/discord/discord_ticketbot/database)). The same schema and migrations apply to every
-backend — missing columns are added automatically on start.
+backend, missing columns are added automatically on start.
 
 | Table            | Contents                                                                       |
 | ---------------- | ------------------------------------------------------------------------------ |
@@ -274,6 +274,6 @@ To add another language:
 
 ## 📝 License
 
-AGPL-3.0 — Source code must remain open and be published under the same license when distributed or hosted.
+AGPL-3.0: source code must remain open and be published under the same license when distributed or hosted.
 
 Forks and modifications that remove or bypass the MSK Transcript Service integration are not permitted.

@@ -18,7 +18,7 @@ Since v1.2.0 the configuration is split across several files:
 
 **DB-managed** means: the file is a seed. It is imported once on the first start,
 and from then on the database is the source of truth. Change those values in the
-[admin dashboard](./dashboard.md), not in the file — see [Database](./database.md).
+[admin dashboard](./dashboard.md), not in the file, see [Database](./database.md).
 :::
 
 ## Config: General

@@ -79,7 +79,7 @@ local lockStatus = Entity(vehicle).state.lockState -- alternative
 
 :::warning[Internal exports]
 `SetVehicleLockState` and `SetVehicleLockStatus` also exist but are for **internal use**.
-Do **not** call them unless you know exactly what you are doing — they can break the script.
+Do **not** call them unless you know exactly what you are doing. They can break the script.
 :::
 
 ---

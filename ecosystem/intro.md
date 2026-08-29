@@ -5,17 +5,17 @@ slug: /
 
 # Welcome to the MSK Ecosystem
 
-The MSK Ecosystem is a growing family of self-hosted, privacy-friendly web tools — built with the same design language, the same code quality standards, and the same respect for your data.
+The MSK Ecosystem is a growing family of self-hosted, privacy-friendly web tools, built with the same design language, the same code quality standards, and the same respect for your data.
 
 ---
 
 ## What's inside
 
-- **[MSK Paste](msk-paste/index.md)** — A self-hosted pastebin alternative with syntax highlighting, password protection, and burn-after-read pastes.
-- **[MSK Shortener](msk-shortener/index.md)** — A self-hosted URL shortener with anonymous click statistics, QR codes, and link expiration.
-- **[MSK Forms](msk-forms/index.md)** — A hosted form & application platform with a live status loop for applicants and a multi-tenant Discord bot any server can invite.
+- **[MSK Paste](msk-paste/index.md):** A self-hosted pastebin alternative with syntax highlighting, password protection, and burn-after-read pastes.
+- **[MSK Shortener](msk-shortener/index.md):** A self-hosted URL shortener with anonymous click statistics, QR codes, and link expiration.
+- **[MSK Forms](msk-forms/index.md):** A hosted form & application platform with a live status loop for applicants and a multi-tenant Discord bot any server can invite.
 
-More projects are planned — including MSK Banking, and more.
+More projects are planned, including MSK Banking, and more.
 
 ---
 
@@ -24,7 +24,7 @@ More projects are planned — including MSK Banking, and more.
 Every project in the ecosystem follows the same rules:
 
 - **No accounts, no sessions, no tracking.** Tools are useful without forcing identity.
-- **No third-party trackers.** No Google Analytics, no Plausible, no Fathom — nothing.
+- **No third-party trackers.** No Google Analytics, no Plausible, no Fathom, nothing.
 - **No plain-text IPs.** IP addresses are hashed with a per-installation HMAC secret.
 - **No GeoIP.** Location data is never collected.
 - **Hard-deletes, not soft-deletes.** When content is removed (manual, expiration, burn-after-read), it's actually gone.

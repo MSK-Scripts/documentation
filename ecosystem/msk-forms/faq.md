@@ -5,7 +5,7 @@ sidebar_position: 10
 
 # FAQ
 
-Common questions about MSK Forms — usage, the bot, plans, and data.
+Common questions about MSK Forms: usage, the bot, plans, and data.
 
 ---
 
@@ -17,11 +17,11 @@ No. MSK Forms is a hosted service at [forms.msk-scripts.de](https://forms.msk-sc
 
 ### Do applicants need a Discord account?
 
-Only if the form requires login. Public forms can be filled by **anyone with the link** — no account. Logged-in applicants get the extras: status DMs from the bot and an automatic role on acceptance.
+Only if the form requires login. Public forms can be filled by **anyone with the link**, no account. Logged-in applicants get the extras: status DMs from the bot and an automatic role on acceptance.
 
 ### How do applicants see their status?
 
-Every submission gets a private link (`/s/<id>`). The applicant opens it and sees their status update **live** — no login, no refresh. If they logged in with Discord, the bot also DMs them on each change.
+Every submission gets a private link (`/s/<id>`). The applicant opens it and sees their status update **live**, no login, no refresh. If they logged in with Discord, the bot also DMs them on each change.
 
 ### I invited the bot but my server isn't in the dashboard.
 
@@ -37,7 +37,7 @@ After the bot registers or changes its commands, **global** Discord command prop
 
 ### Why does the bot post under a generic name / no server avatar?
 
-It's a single shared bot, so it can't have a per-server profile. Set a **post name** on the dashboard **Bot** page — it then posts via a webhook under your chosen name and your guild logo. See [Discord Bot → Posting appearance](discord-bot.md#posting-appearance).
+It's a single shared bot, so it can't have a per-server profile. Set a **post name** on the dashboard **Bot** page. It then posts via a webhook under your chosen name and your guild logo. See [Discord Bot → Posting appearance](discord-bot.md#posting-appearance).
 
 ### Accepting a submission didn't grant the role.
 
@@ -45,7 +45,7 @@ Check that: (1) a guild or per-form **accepted role** is configured, (2) the app
 
 ### Can the bot speak my language?
 
-Yes — set it with `/forms language <locale>` or the **Bot** page dropdown (EN/DE/HU/FR/ES/PT/PL). That covers command replies, review embeds, the activity log, and applicant status DMs. Leave it unset and applicant DMs fall back to each applicant's own Discord language.
+Yes, set it with `/forms language <locale>` or the **Bot** page dropdown (EN/DE/HU/FR/ES/PT/PL). That covers command replies, review embeds, the activity log, and applicant status DMs. Leave it unset and applicant DMs fall back to each applicant's own Discord language.
 
 ---
 
@@ -53,19 +53,19 @@ Yes — set it with `/forms language <locale>` or the **Bot** page dropdown (EN/
 
 ### What field types are there?
 
-25+ — text, email, URL, number, phone, choices (single/multi/dropdown), yes-no, consent, dates/times, ratings (stars/NPS/emoji/slider), file & image upload, signature, matrix, and calculated fields, plus layout blocks. Full list: [Form Builder](form-builder.md#fields).
+25+: text, email, URL, number, phone, choices (single/multi/dropdown), yes-no, consent, dates/times, ratings (stars/NPS/emoji/slider), file & image upload, signature, matrix, and calculated fields, plus layout blocks. Full list: [Form Builder](form-builder.md#fields).
 
 ### Can a form branch based on answers?
 
-Yes — [conditional logic](form-builder.md#conditional-logic) can show, hide, require, or jump to a page based on answers. Combine it with [multi-step pages](form-builder.md#multi-step-pages) for branching flows.
+Yes, [conditional logic](form-builder.md#conditional-logic) can show, hide, require, or jump to a page based on answers. Combine it with [multi-step pages](form-builder.md#multi-step-pages) for branching flows.
 
 ### Can I make it a quiz?
 
-Yes. Give choice options **points** and MSK Forms scores submissions server-side. You can then auto-decide with an [automation](form-builder.md#automations) — e.g. *"Score ≥ 80 → Accepted"*. See [Quiz & scoring](form-builder.md#quiz--scoring).
+Yes. Give choice options **points** and MSK Forms scores submissions server-side. You can then auto-decide with an [automation](form-builder.md#automations), e.g. *"Score ≥ 80 → Accepted"*. See [Quiz & scoring](form-builder.md#quiz--scoring).
 
 ### Can I schedule a form to open/close?
 
-Yes — set an [open/close window](form-builder.md#scheduling). Before it opens it shows "Opens \<time\>"; in the last 24 h before closing it shows an "Ending soon" banner.
+Yes, set an [open/close window](form-builder.md#scheduling). Before it opens it shows "Opens \<time\>"; in the last 24 h before closing it shows an "Ending soon" banner.
 
 ---
 
@@ -73,7 +73,7 @@ Yes — set an [open/close window](form-builder.md#scheduling). Before it opens 
 
 ### How does pricing work?
 
-Three tiers — Free, Pro, Enterprise — **per Discord server**. Each server is upgraded independently. See [Plans & Limits](plans.md) and the [pricing page](https://forms.msk-scripts.de/pricing).
+Three tiers: Free, Pro, Enterprise, **per Discord server**. Each server is upgraded independently. See [Plans & Limits](plans.md) and the [pricing page](https://forms.msk-scripts.de/pricing).
 
 ### What are the Free limits?
 
@@ -89,11 +89,11 @@ An applicant can **delete** their own submission from the status page (it remove
 
 ### Can I export submissions?
 
-Yes — CSV on all plans; XLSX, JSON, and PDF on Pro+. Exports are reviewer-only. See [Exports](submissions-and-review.md#exports).
+Yes, CSV on all plans; XLSX, JSON, and PDF on Pro+. Exports are reviewer-only. See [Exports](submissions-and-review.md#exports).
 
 ### Can I use my own domain?
 
-Yes, on Pro — add a CNAME + TXT record and verify; TLS is automatic. You can also bring your own Discord login app and Turnstile captcha for that domain. See [Branding & Custom Domains](branding-and-domains.md#custom-domains).
+Yes, on Pro: add a CNAME + TXT record and verify; TLS is automatic. You can also bring your own Discord login app and Turnstile captcha for that domain. See [Branding & Custom Domains](branding-and-domains.md#custom-domains).
 
 ---
 

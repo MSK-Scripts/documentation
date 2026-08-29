@@ -14,7 +14,7 @@ sidebar_position: 1
 - Animation while talking
 - Set the Volume
 - Streamer Mode _(current channel and password will be blurred)_
-- Speaker _(nearby players can hear the radio — Saltychat only)_
+- Speaker _(nearby players can hear the radio, Saltychat only)_
 - Show Members in the current channel
 - Player disconnects from radio if item was removed from inventory
 - Encrypted Channels for specific jobs

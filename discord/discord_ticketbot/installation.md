@@ -9,7 +9,7 @@ sidebar_position: 2
 ### Requirements
 
 - **Node.js** v24 or newer (or skip it entirely and use [Docker](./docker.md))
-- A Discord bot token — [discord.com/developers/applications](https://discord.com/developers/applications)
+- A Discord bot token: [discord.com/developers/applications](https://discord.com/developers/applications)
 
 ### 1. Install dependencies
 
@@ -43,7 +43,7 @@ MSK_API_URL="https://www.msk-scripts.de"
 ```
 
 > 💾 **Database is optional.** Leave `DATABASE_URL` unset and the bot uses a local
-> SQLite file (`data/tickets.db`) — no setup needed. To use MySQL/MariaDB or
+> SQLite file (`data/tickets.db`), no setup needed. To use MySQL/MariaDB or
 > PostgreSQL instead, set `DATABASE_URL` (see [Database](/discord/discord_ticketbot/database)).
 
 ### 3. Set up the configuration
@@ -52,7 +52,7 @@ MSK_API_URL="https://www.msk-scripts.de"
 cp config/config.example.jsonc config/config.jsonc
 ```
 
-Edit `config/config.jsonc` as needed — all fields are commented.
+Edit `config/config.jsonc` as needed, all fields are commented.
 
 ### 4. (Optional) Set up canned responses
 
@@ -70,7 +70,7 @@ npm start
 
 On first start the bot will automatically:
 - Create the database schema (SQLite at `data/tickets.db` by default, or in the
-  MySQL/PostgreSQL database from `DATABASE_URL` — see [Database](/discord/discord_ticketbot/database))
+  MySQL/PostgreSQL database from `DATABASE_URL`, see [Database](/discord/discord_ticketbot/database))
 - Register all slash commands on your server
 
 ### 6. Set up the panel
@@ -84,7 +84,7 @@ Run `/setup` on your Discord server (Administrator permission required). The bot
 The included `ticketbot.service` file lets the bot start automatically after a server reboot.
 
 :::note
-Using the optional **web dashboard**? Run `dashboard.js` as the entry point instead of the plain bot below — it supervises the bot and serves the dashboard in one process. Follow **[Dashboard Setup on Linux](/discord/discord_ticketbot/guides/dashboard-linux)** and do not run both services at once.
+Using the optional **web dashboard**? Run `dashboard.js` as the entry point instead of the plain bot below. It supervises the bot and serves the dashboard in one process. Follow **[Dashboard Setup on Linux](/discord/discord_ticketbot/guides/dashboard-linux)** and do not run both services at once.
 :::
 
 ### 1. Copy the bot files to the server

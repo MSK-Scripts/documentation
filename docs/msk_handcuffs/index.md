@@ -27,13 +27,13 @@ keywords:
 - Hardcuff a player _(player can't move)_
 - Drag and undrag / escort a player
 - Put a player in/out of a vehicle
-- **AnkleTracker** — a specific job can track a player's position (live blips)
-- **Headbag** — the player gets a blackscreen and a bag on their head
-- **Tape** — the player gets tape on their mouth and can't talk
+- **AnkleTracker:** a specific job can track a player's position (live blips)
+- **Headbag:** the player gets a blackscreen and a bag on their head
+- **Tape:** the player gets tape on their mouth and can't talk
 
 ---
 
-- Trigger actions via **items**, **commands**, **exports** or the **target menu** — new in v3, for [ox_target](https://github.com/overextended/ox_target) (**recommended**) and [qb-target](https://github.com/qbcore-framework/qb-target)
+- Trigger actions via **items**, **commands**, **exports** or the **target menu**, new in v3, for [ox_target](https://github.com/overextended/ox_target) (**recommended**) and [qb-target](https://github.com/qbcore-framework/qb-target)
 - Server-side **timer** for automatic uncuff
 - **Admin commands** and an **in-game admin dashboard**
 - **Discord logs**
@@ -44,11 +44,11 @@ keywords:
 | Area | v2.x | v3.0.0 |
 |---|---|---|
 | **Framework** | ESX only | **ESX & QBCore** (auto-detected via msk_core) |
-| **Configuration** | `config.lua`, restart required | **[In-game admin dashboard](./dashboard.md)** — settings live in the database and apply instantly |
+| **Configuration** | `config.lua`, restart required | **[In-game admin dashboard](./dashboard.md)**, settings live in the database and apply instantly |
 | **Persistence** | flat `database.json` | **oxmysql** (`msk_handcuffs` table) with **automatic one-time migration** from `database.json` |
-| **Trust model** | client-driven | **server-authoritative** — the server validates distance, item possession and job for every action |
+| **Trust model** | client-driven | **server-authoritative**, the server validates distance, item possession and job for every action |
 | **Status** | events + callbacks | **replicated statebags** (single source of truth, readable by any resource) |
-| **Targeting** | none (`Config.Target` only bound the undrag key) | **ox_target** (recommended) **& qb-target** — auto-detected, translated and state-aware labels |
+| **Targeting** | none (`Config.Target` only bound the undrag key) | **ox_target** (recommended) **& qb-target**, auto-detected, translated and state-aware labels |
 | **Auto-uncuff timer / death** | client-side (exploitable) | **server-driven** |
 
 The dashboard opens with `/handcuffadmin` and gives you live player actions, the item
@@ -66,8 +66,8 @@ See **[Migration from v2](./migration.md)** for renamed/removed exports & events
 
 ## Optional Requirements
 
-- [ox_target](https://github.com/overextended/ox_target) (**recommended**) or [qb-target](https://github.com/qbcore-framework/qb-target) — for the target menu. Without one of them, only items, commands and exports are available.
-- [pma-voice](https://github.com/AvarianKnight/pma-voice) or [saltychat](https://github.com/v10networkscom/saltychat-fivem) — for the Tape mute feature
+- [ox_target](https://github.com/overextended/ox_target) (**recommended**) or [qb-target](https://github.com/qbcore-framework/qb-target): for the target menu. Without one of them, only items, commands and exports are available.
+- [pma-voice](https://github.com/AvarianKnight/pma-voice) or [saltychat](https://github.com/v10networkscom/saltychat-fivem): for the Tape mute feature
 
 ## Pages
 

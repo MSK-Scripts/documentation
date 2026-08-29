@@ -11,7 +11,7 @@ sidebar_position: 1
 **iban** - `string` - The IBAN of a Player
 
 **Returns**  
-**account** - `table <iban, money, account>` — `account` can be `'main'`, `'1'` or `'society'`
+**account** - `table <iban, money, account>`: `account` can be `'main'`, `'1'` or `'society'`
 
 ```lua
 TriggerEvent('msk_banking:getSharedAccount', iban, function(account)

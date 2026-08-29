@@ -97,7 +97,7 @@ exports.msk_radio:setRadioChannel(1)
 ## removeRadioChannel
 
 **Parameters**  
-**channel** - `number` - The Channel ID — Optional, required for tokovoip
+**channel** - `number` - The Channel ID, optional, required for tokovoip
 
 ```lua
 exports.msk_radio:removeRadioChannel()

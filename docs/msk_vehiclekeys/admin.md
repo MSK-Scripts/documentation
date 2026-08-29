@@ -7,7 +7,7 @@ sidebar_position: 3
 
 Since **v3.0.0** `msk_vehiclekeys` ships with a full **in-game admin dashboard** (React NUI).
 It lets you manage player keys, look up plates, run a locksmith, edit the access lists, change
-every setting and control who may use the dashboard — all without touching a config file or
+every setting and control who may use the dashboard, all without touching a config file or
 restarting the resource.
 
 ## Opening the dashboard
@@ -18,7 +18,7 @@ Run the command (default **`/advehiclekeys`**, configurable via `Config.adminCom
 /advehiclekeys
 ```
 
-The command itself is **not** ACE-restricted — access is decided entirely by the permission
+The command itself is **not** ACE-restricted. Access is decided entirely by the permission
 system below. Press **ESC** (or the header **Close** button) to close it.
 
 ## Access & permissions
@@ -126,7 +126,7 @@ groups are seeded: `admin` (all rights) and `mod` (`keys.view` + `vehicles.view`
 | **Players & Keys** | List online players or look one up by identifier. See their primary/secondary/temporary keys and owned vehicles. Add or remove keys, give/take the key item, and run **Refresh** or **Refresh FORCE** (see below). |
 | **Vehicles** | Look up a plate to see the owner and every key holder. Remove all keys, **reset locks** (revoke everything except the owner's primary key) or change the plate. |
 | **Locksmith** | Create, edit and delete locksmith locations (label, ped model, blip and coordinates) with a "use current position" button. Peds & blips update live. |
-| **Access Lists** | Manage the whitelist, blacklist, admin vehicles and job vehicles — models (by name) and plates, including per-rank job entries. |
+| **Access Lists** | Manage the whitelist, blacklist, admin vehicles and job vehicles: models (by name) and plates, including per-rank job entries. |
 | **Settings** | Every DB-managed setting, plus the live theme editor. |
 | **Permissions** | Group/permission matrix and the list of groups allowed to open the dashboard. |
 
@@ -134,9 +134,9 @@ groups are seeded: `admin` (all rights) and `mod` (`keys.view` + `vehicles.view`
 
 On the **Players & Keys** tab (online players only):
 
-- **Refresh** — runs the normal refresh (respects `Config.OnRefreshKeys`): adds missing internal
+- **Refresh:** runs the normal refresh (respects `Config.OnRefreshKeys`): adds missing internal
   keys and only hands out items if the config flags allow it.
-- **Refresh FORCE** — re-adds **all** missing key items to the player's inventory, regardless of
+- **Refresh FORCE:** re-adds **all** missing key items to the player's inventory, regardless of
   the `Config.OnRefreshKeys` flags.
 
 ## Database
@@ -152,11 +152,11 @@ from your config **once**; afterwards the database is authoritative:
 
 Changes made in the dashboard are saved to the database and **broadcast live** to all connected
 players (settings, access-list matching and locksmith peds/blips update without a restart). A few
-options that register **items** or **commands** still need a resource restart — the dashboard
+options that register **items** or **commands** still need a resource restart. The dashboard
 marks those with a hint.
 
 :::tip
 If a setting ever looks incomplete after updating from an older version, open the **Settings**
-tab once and press **Save** — this writes a complete, up-to-date settings record back to the
+tab once and press **Save**. This writes a complete, up-to-date settings record back to the
 database.
 :::

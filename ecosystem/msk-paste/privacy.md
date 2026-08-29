@@ -5,7 +5,7 @@ sidebar_position: 5
 
 # Privacy & Security
 
-MSK Paste is built privacy-first. This page explains exactly what is — and isn't — stored when you create or view a paste.
+MSK Paste is built privacy-first. This page explains exactly what is, and isn't, stored when you create or view a paste.
 
 ---
 
@@ -19,14 +19,14 @@ For every paste created, the database row contains:
 | `title` | Optional title (only if you provided one) |
 | `content` | The paste text |
 | `language` | The chosen language for syntax highlighting |
-| `password_hash` | bcrypt hash (cost 12) — only if a password was set |
+| `password_hash` | bcrypt hash (cost 12), only if a password was set |
 | `expires_at` | Timestamp after which the paste is unreachable and deleted |
 | `burn_after_read` | Boolean flag |
 | `view_count` | Anonymous counter, never linked to viewers |
 | `delete_token` | Random 64-char token, shown only to the creator |
 | `size_bytes` | Size of `content` in bytes |
 | `created_at` | Creation timestamp |
-| `created_ip_hash` | **HMAC-SHA-256** of the creator's IP — used only for rate limiting |
+| `created_ip_hash` | **HMAC-SHA-256** of the creator's IP, used only for rate limiting |
 
 That's it. There is no `views` table, no user table, no session table, no IP-address column in plain text.
 
@@ -36,7 +36,7 @@ That's it. There is no `views` table, no user table, no session table, no IP-add
 
 - **No plain-text IP addresses.** IPs are hashed with HMAC-SHA-256 using a server-side secret (`IP_HASH_SECRET`). Without the secret, the hashes cannot be reversed.
 - **No GeoIP / country lookups.** The application never queries any geolocation service.
-- **No analytics.** No Google Analytics, no Plausible, no Fathom, no Matomo — nothing.
+- **No analytics.** No Google Analytics, no Plausible, no Fathom, no Matomo, nothing.
 - **No tracking cookies.** The only cookie set by MSK Paste is `MSK_PASTE_LOCALE`, which stores your language preference (`de` or `en`).
 - **No third-party scripts.** All assets are served from the same origin. Shiki and fonts are bundled at build time.
 - **No referer logging at the app level.** Apache may write standard access logs (configurable by the host).
@@ -52,7 +52,7 @@ Rate limiting needs to identify "the same client" without storing identifiable i
 2. Compute `HMAC-SHA-256(ip, IP_HASH_SECRET)`.
 3. Store the hash in an **in-memory** sliding window of recent requests.
 
-Because the secret is generated per-installation (`openssl rand -hex 32`), even an attacker with full database access cannot reverse hashes back to IP addresses — there is no rainbow table they can compute without the secret.
+Because the secret is generated per-installation (`openssl rand -hex 32`), even an attacker with full database access cannot reverse hashes back to IP addresses, there is no rainbow table they can compute without the secret.
 
 The in-memory bucket resets on every restart, so even the rate-limit state is short-lived.
 
@@ -60,7 +60,7 @@ The in-memory bucket resets on every restart, so even the rate-limit state is sh
 
 ## Password protection
 
-Passwords are hashed with **bcrypt at cost 12** before storage. The plain-text password is never persisted. Verification compares the supplied password against the hash — wrong attempts do **not** count toward the view counter and do **not** trigger burn-after-read.
+Passwords are hashed with **bcrypt at cost 12** before storage. The plain-text password is never persisted. Verification compares the supplied password against the hash, wrong attempts do **not** count toward the view counter and do **not** trigger burn-after-read.
 
 :::info
 The paste **content itself is not encrypted at rest**. The password gates access, but a database administrator could technically read the content directly. For truly sensitive secrets, treat MSK Paste as untrusted and encrypt the payload yourself (e.g. with `age` or `gpg`) before pasting.
@@ -72,7 +72,7 @@ The paste **content itself is not encrypted at rest**. The password gates access
 
 When you enable burn-after-read, the first successful view triggers an **atomic SQL `DELETE`** in the same round-trip as the read. This means:
 
-- Two concurrent viewers cannot both see the content — only one wins the race; the other gets the "burned" view.
+- Two concurrent viewers cannot both see the content, only one wins the race; the other gets the "burned" view.
 - After deletion, the row is gone. No soft-delete, no recovery.
 - Even the operator (you, if self-hosting) cannot retrieve the content after consumption.
 
@@ -90,7 +90,7 @@ If you want immediate deletion at expiry instead of nightly cleanup, simply run 
 
 ## Database backups
 
-The included `backup.sh` script creates a daily SQL dump (default: 03:00) with **14-day retention**. Backups contain everything in the database, including hashed IPs and password hashes — but not plain text IPs or passwords.
+The included `backup.sh` script creates a daily SQL dump (default: 03:00) with **14-day retention**. Backups contain everything in the database, including hashed IPs and password hashes, but not plain text IPs or passwords.
 
 You are responsible for storing backups securely. Consider:
 
@@ -124,7 +124,7 @@ Found a security issue? Please report it via:
 - **GitHub Security Advisories:** [Submit privately](https://github.com/MSK-Scripts/msk-paste/security/advisories/new)
 - **Email:** `info@msk-scripts.de`
 
-Please **do not** open public GitHub issues for security problems — give us a chance to fix and disclose responsibly.
+Please **do not** open public GitHub issues for security problems, give us a chance to fix and disclose responsibly.
 
 ---
 

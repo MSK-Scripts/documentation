@@ -80,7 +80,7 @@ side.
 
 Selling gives back a configurable share of the purchase price
 (`Config.SellRefundRatio`, default 60 percent) **plus whatever sits on the
-company account** — that is the owner's money and would otherwise vanish with the
+company account**. That is the owner's money and would otherwise vanish with the
 station. Selling is owner-only, whatever a rank says: a manager may run the
 station, but not sell the business out from under its owner.
 
@@ -116,7 +116,7 @@ owner-only**, so a manager cannot promote themselves or a friend past what the
 owner intended.
 
 Salaries are paid every `Config.Payroll.intervalMinutes` out of the company
-account, to everyone **online** — paying absent staff would bleed a station dry
+account, to everyone **online**. Paying absent staff would bleed a station dry
 for players who are not there. A station that cannot cover its payroll skips it
 and tells the owner once, instead of going into debt.
 
@@ -152,7 +152,7 @@ trailer aborts the run with a partial refund, and a run nobody finishes times ou
 after `Config.Delivery.timeoutMinutes`.
 
 An **employee** driving a run earns their rank's delivery bonus on top of their
-salary. An owner driving their own truck does not — that would just be moving
+salary. An owner driving their own truck does not. That would just be moving
 their own money around.
 
 ### Public jobs
@@ -163,7 +163,7 @@ paid per delivered liter out of the system. This is a trucker-style job that als
 keeps unowned stations supplied without an admin filling them by hand.
 
 Unowned stations can additionally refill themselves automatically. They have no
-account to charge, so that refill is free — it exists to keep the map supplied,
+account to charge, so that refill is free. It exists to keep the map supplied,
 not to make anyone money.
 
 ## Pump maintenance
@@ -171,7 +171,7 @@ not to make anyone money.
 Pumps wear out. Each sale has a `Config.Maintenance.wearChance` (default 3
 percent) chance of costing the pump some condition.
 
-- Below `slowThreshold` (default 50) the pump **fuels slower** — that costs the
+- Below `slowThreshold` (default 50) the pump **fuels slower**. That costs the
   customer time, not money.
 - Below `failThreshold` (default 15) it **stops working** until it is repaired
   out of the company account.

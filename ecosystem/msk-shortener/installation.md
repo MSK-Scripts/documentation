@@ -5,7 +5,7 @@ sidebar_position: 2
 
 # Self-Hosting MSK Shortener
 
-This guide walks you through installing MSK Shortener on your own Debian or Ubuntu server. If you just want a short link, head to [s.msk-scripts.de](https://s.msk-scripts.de) — no setup required.
+This guide walks you through installing MSK Shortener on your own Debian or Ubuntu server. If you just want a short link, head to [s.msk-scripts.de](https://s.msk-scripts.de), no setup required.
 
 ---
 
@@ -154,7 +154,7 @@ SHORTCODE_MAX_CUSTOM=20
 ```
 
 :::warning
-The `IP_HASH_SECRET` must be at least 32 hex characters. Generate it with `openssl rand -hex 32`. **Never commit it to git** — without it, your click statistics lose their anonymization property.
+The `IP_HASH_SECRET` must be at least 32 hex characters. Generate it with `openssl rand -hex 32`. **Never commit it to git**, without it, your click statistics lose their anonymization property.
 :::
 
 ---

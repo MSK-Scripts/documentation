@@ -24,7 +24,7 @@ Since v3.0.0 the config is split into **two files**:
 :::warning[The database wins]
 On the first start, every key from `config/settings.lua` is imported into the
 `msk_handcuffs_settings` table **once**. After that the database is the source of
-truth. Editing the file later has **no effect** — change the value in the
+truth. Editing the file later has **no effect**. Change the value in the
 [dashboard](./dashboard.md) instead.
 
 `config/static.lua` is never touched by the dashboard and is always read from the file.
@@ -43,7 +43,7 @@ truth. Editing the file later has **no effect** — change the value in the
 | `Config.DiscordLog` | boolean | Enable Discord webhook logs |
 | `Config.DiscordWebhook` | string | The webhook URL (editable in the dashboard) |
 | `Config.botColor` / `botName` / `botAvatar` | string | Appearance of the Discord log embeds |
-| `Config.Target` | table | Target integration — `system` is `'auto'`, `'ox_target'` or `'qb-target'` |
+| `Config.Target` | table | Target integration, `system` is `'auto'`, `'ox_target'` or `'qb-target'` |
 | `Config.cuffItems` / `hardcuffItems` / `uncuffItems` | table | Item names that trigger the respective action |
 | `Config.ItemSettings` | table | Maps a cuff item to the uncuff item(s) allowed to open it |
 | `Config.GiveCuffItemBack` | table | Whether the cuff item is returned on uncuff |
@@ -262,7 +262,7 @@ The client also does a `2.0`m pre-check for responsiveness; the server uses
 ### `Config.RestrictItems`
 When `enable = true`, the **server** ignores any item the client claims and only accepts
 an item the player is actually allowed to use. The **defaultItems always apply**,
-regardless of the job — a job entry only adds its own items and options on top.
+regardless of the job. A job entry only adds its own items and options on top.
 
 ### `Config.ItemSettings`
 Uncuffing only works with the item that matches how the person was cuffed. Cable ties
@@ -272,13 +272,13 @@ carry the right one, the notification names the item's **in-game label**.
 ### `Config.HeadBag` / `Config.Tape`
 `needItemToRemove = false` (the default) means anyone can take the bag or the tape off
 again without an item. Set it to `true` to require the `removeItem`. `consumeRemoveItem`
-decides whether that item is used up — it is `false` by default, so keys stay reusable.
+decides whether that item is used up. It is `false` by default, so keys stay reusable.
 The ankletracker has the same `consumeRemoveItem` toggle.
 
 ### `Config.Target`
 
 :::tip[New in v3.0.0]
-v2 had no target options at all — `Config.Target` only registered the undrag hotkey.
+v2 had no target options at all. `Config.Target` only registered the undrag hotkey.
 v3 ships a full target integration. **[ox_target](https://github.com/overextended/ox_target)
 is the recommended system**; [qb-target](https://github.com/qbcore-framework/qb-target)
 is supported as well.
@@ -293,7 +293,7 @@ is supported as well.
 
 `'auto'` picks **ox_target** when it is running and falls back to **qb-target**. Set the
 value explicitly to force one. If neither resource is started, an error is logged and the
-target menu stays empty — items, commands and exports keep working.
+target menu stays empty. Items, commands and exports keep working.
 
 These options are registered on the player:
 
@@ -315,5 +315,5 @@ language in the [dashboard](./dashboard.md) re-registers everything live, no res
 
 ### `Config.Target.undragHotkey`
 The default key to release a person you are escorting. It is registered as a normal
-FiveM keybind, so players can rebind it in the game settings — the on-screen hint then
+FiveM keybind, so players can rebind it in the game settings. The on-screen hint then
 shows **their** key, not the config default.

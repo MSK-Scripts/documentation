@@ -5,7 +5,7 @@ slug: /
 
 # Welcome to MSK Scripts Guides
 
-Here you'll find step-by-step instructions, tips and best practices for MSK Scripts resources — from initial setup to advanced customisation.
+Here you'll find step-by-step instructions, tips and best practices for MSK Scripts resources, from initial setup to advanced customisation.
 
 ---
 
@@ -13,9 +13,9 @@ Here you'll find step-by-step instructions, tips and best practices for MSK Scri
 
 Guides go deeper than the pure API reference. Instead of individual events and exports, they show you how to accomplish common tasks from start to finish:
 
-- **Setup & Configuration** — Get resources running and tailor them to your server
-- **Integration** — Connect MSK Scripts scripts with other resources
-- **Customisation** — Icons, sounds, backgrounds and more
+- **Setup & Configuration:** Get resources running and tailor them to your server
+- **Integration:** Connect MSK Scripts scripts with other resources
+- **Customisation:** Icons, sounds, backgrounds and more
 
 ---
 

@@ -17,14 +17,14 @@ Every submission gets a **private status page**:
 https://forms.msk-scripts.de/s/<submission-id>
 ```
 
-The submission ID is the capability — anyone with the link can view it; no login required. On that page the applicant sees:
+The submission ID is the capability, anyone with the link can view it; no login required. On that page the applicant sees:
 
 - Their current **status** (e.g. Submitted → In review → Accepted).
 - An **activity timeline** of status changes and any public messages reviewers sent.
 - Their own answers.
 - A **"Your data"** self-service section (see [GDPR self-service](#applicant-self-service-gdpr)).
 
-The page is **live** — when a reviewer changes the status, it updates within moments without a refresh, over a WebSocket. If realtime is unavailable it still works, just not instant.
+The page is **live**, when a reviewer changes the status, it updates within moments without a refresh, over a WebSocket. If realtime is unavailable it still works, just not instant.
 
 If the form limits applicants to [one active submission](form-builder.md#one-submission-per-person), reopening it while their submission is still open brings a signed-in applicant straight back to this page.
 
@@ -47,7 +47,7 @@ Built-in status labels are shown in the applicant's and reviewer's language.
 
 ### Custom statuses
 
-Managers can define their own statuses on the **Statuses** page — each with a key, label, color, a "terminal" flag, and whether it's visible to the applicant. They slot into the pipeline alongside the built-ins.
+Managers can define their own statuses on the **Statuses** page, each with a key, label, color, a "terminal" flag, and whether it's visible to the applicant. They slot into the pipeline alongside the built-ins.
 
 ---
 
@@ -56,10 +56,10 @@ Managers can define their own statuses on the **Statuses** page — each with a 
 Open a submission from the **Submissions** tab. The detail page shows every answer (files appear as download links). The review panel lets a reviewer:
 
 - **Change the status** (built-in or custom). Tick **Hide this change from the applicant** to keep it internal: the applicant gets no DM and the change never shows on their status page, but the status still updates for your team and is recorded in the activity log.
-- **Add an internal note** — visible only to the team, never to the applicant.
-- **Send a public message** — appears on the applicant's status page and (if they logged in with Discord) is DM'd to them.
+- **Add an internal note:** visible only to the team, never to the applicant.
+- **Send a public message:** appears on the applicant's status page and (if they logged in with Discord) is DM'd to them.
 
-Every status change is one consistent operation, so it always triggers the applicant DM, any webhooks, automations, and the live update — no matter where it came from (web, Kanban, bulk, or a Discord button).
+Every status change is one consistent operation, so it always triggers the applicant DM, any webhooks, automations, and the live update, no matter where it came from (web, Kanban, bulk, or a Discord button).
 
 ---
 
@@ -77,7 +77,7 @@ An automatic message replaces the generic "status changed" DM, so the applicant 
 
 ## The Kanban board
 
-The **Board** tab is a Kanban view of submissions: columns are your statuses, cards are submissions. Drag — or use the **Move to** menu — to change a submission's status. Updates are optimistic and revert on error. It's reviewer-gated.
+The **Board** tab is a Kanban view of submissions: columns are your statuses, cards are submissions. Drag, or use the **Move to** menu, to change a submission's status. Updates are optimistic and revert on error. It's reviewer-gated.
 
 ---
 
@@ -120,9 +120,9 @@ Roles decide who can do what in a guild:
 
 | Role | Can do |
 |---|---|
-| **Owner / Admin** (managers) | Everything — build forms, configure bot/branding, manage the team, review. |
+| **Owner / Admin** (managers) | Everything: build forms, configure bot/branding, manage the team, review. |
 | **Reviewer** | Review submissions across **all** forms. |
-| **Viewer** | The default for newly seen members — **no** data access until granted. |
+| **Viewer** | The default for newly seen members, **no** data access until granted. |
 
 Beyond the Viewer default, you can grant access in two ways:
 
@@ -144,7 +144,7 @@ Free **2** / Pro **15** / Enterprise **unlimited**. The count includes managers,
 
 ## Applicant self-service (GDPR)
 
-From their status page, an applicant can — using only the link, no login:
+From their status page, an applicant can, using only the link, no login:
 
 - **Withdraw** the submission (sets it to *Withdrawn*).
 - **Export** their data as JSON.
@@ -155,5 +155,5 @@ This satisfies the GDPR rights to access (Art. 15), portability (Art. 20), and e
 ---
 
 :::info
-Next: [Discord Bot](discord-bot.md) — bring the review workflow into Discord.
+Next: [Discord Bot](discord-bot.md), bringing the review workflow into Discord.
 :::

@@ -15,7 +15,7 @@ keywords:
 
 :::tip[New in v3.0.0]
 The settings are no longer edited by hand in `config.lua`. They live in the
-**database** and are managed from an in-game **admin dashboard** — cuff and uncuff
+**database** and are managed from an in-game **admin dashboard**: cuff and uncuff
 players, configure your items, edit the job restriction matrix, change every
 setting and manage a **group/permission system**, all applied **live without a
 server restart**.
@@ -24,7 +24,7 @@ server restart**.
 ## How it works
 
 On the **first start** the script imports `config/settings.lua` **once** into the
-database. From then on the **database is authoritative** — the config file only
+database. From then on the **database is authoritative**. The config file only
 acts as the default template for a fresh install.
 
 ```text
@@ -135,7 +135,7 @@ There are **10 rights**. `group.admin` always has all of them.
 | `permissions.manage` | Manage groups, rights and command access |
 
 Every action is **validated server-side** against the caller's effective rights (the
-union of all their groups). The UI only hides what a user can't do — the server is
+union of all their groups). The UI only hides what a user can't do. The server is
 the source of truth, so the buttons can't be bypassed.
 
 On a fresh install the seed creates two groups: `admin` with every right, and `mod`
@@ -155,11 +155,11 @@ they skip the item and distance checks.
 Configure which items trigger which action:
 
 - `cuffItems`, `hardcuffItems` and `uncuffItems`
-- `ItemSettings` — which uncuff item opens which cuff item. Uncuffing only works
+- `ItemSettings`: which uncuff item opens which cuff item. Uncuffing only works
   with the matching item, so cable ties open with scissors and handcuffs with the
   cuff keys.
-- `GiveCuffItemBack` — whether the cuff item is returned on uncuff
-- `consumeUncuffItem` — whether the uncuff item is taken out of the inventory
+- `GiveCuffItemBack`: whether the cuff item is returned on uncuff
+- `consumeUncuffItem`: whether the uncuff item is taken out of the inventory
   (default off, so keys stay reusable)
 
 :::tip[No restart needed]
@@ -188,9 +188,9 @@ the admin commands, the dashboard command name and the theme.
 
 #### Headbag & Tape toggles
 
-- **Need item to remove** — off by default, so anyone can take the bag or the tape
+- **Need item to remove:** off by default, so anyone can take the bag or the tape
   off again. Turn it on to require the remove item.
-- **Consume remove item** — off by default, so the key is not used up. The
+- **Consume remove item:** off by default, so the key is not used up. The
   ankletracker has the same toggle.
 
 #### Colors & branding
@@ -204,7 +204,7 @@ Leave it empty to hide the badge.
 
 - Add/remove groups and toggle their rights in a matrix (`group.admin` is shown
   locked with all rights on, `group.user` can never be added).
-- Manage the **Command access** list — which groups may open the dashboard.
+- Manage the **Command access** list, which groups may open the dashboard.
 
 ## Language
 

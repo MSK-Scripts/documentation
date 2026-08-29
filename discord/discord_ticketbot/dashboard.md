@@ -116,8 +116,8 @@ your operating system and prints a matching config. The dashboard polls for logs
 (no long-lived streaming), so any standard reverse proxy works without special
 buffering settings. For the full step-by-step, follow the platform guide:
 
-- **[Dashboard Setup on Windows](/discord/discord_ticketbot/guides/dashboard-windows)** — IIS or Caddy
-- **[Dashboard Setup on Linux](/discord/discord_ticketbot/guides/dashboard-linux)** — Apache + certbot
+- **[Dashboard Setup on Windows](/discord/discord_ticketbot/guides/dashboard-windows):** IIS or Caddy
+- **[Dashboard Setup on Linux](/discord/discord_ticketbot/guides/dashboard-linux):** Apache + certbot
 
 :::warning
 **Do not** simply set `DASHBOARD_HOST=0.0.0.0` and open the port. Without TLS
@@ -146,7 +146,7 @@ takes your word for what permissions you have.
   point of having both: it lets you take a single permission *away* from one
   person that their role grants them.
 * Someone with no entry at all sees **only their own tickets** and can reply to
-  them, nothing more — and only when the [end-user portal](#the-public-end-user-portal)
+  them, nothing more, and only when the [end-user portal](#the-public-end-user-portal)
   is enabled. By default the dashboard is **staff-only**.
 
 | Permission | Allows |
@@ -226,7 +226,7 @@ dashboard; it does **not** run the Node process. A service manager (systemd, or
 NSSM / Task Scheduler on Windows) keeps the Node process (`node dashboard.js`)
 alive; it does **not** handle HTTPS. For public use you need both. One Caddy/IIS
 instance can also front several apps at once (one site block per hostname), so it
-never conflicts with a proxy you already run — just add another block, do not
+never conflicts with a proxy you already run. Just add another block, do not
 start a second instance.
 :::
 
@@ -234,12 +234,12 @@ Use `dashboard.js` instead of `index.js` as the entry point. The service manager
 keeps the dashboard alive, and the dashboard keeps the bot alive. Follow the
 platform guide for the exact steps:
 
-- **[Dashboard Setup on Windows](/discord/discord_ticketbot/guides/dashboard-windows)** — Task Scheduler or NSSM
-- **[Dashboard Setup on Linux](/discord/discord_ticketbot/guides/dashboard-linux)** — systemd
+- **[Dashboard Setup on Windows](/discord/discord_ticketbot/guides/dashboard-windows):** Task Scheduler or NSSM
+- **[Dashboard Setup on Linux](/discord/discord_ticketbot/guides/dashboard-linux):** systemd
 
 On Windows the dashboard runs as-is (it starts the bot with `fork()` and shells
 out to `npm.cmd`/`git` for updates). One difference: "Stop"/"Restart" terminates
-the bot directly, because Windows has no catchable `SIGTERM` — safe here since
+the bot directly, because Windows has no catchable `SIGTERM`, safe here since
 there is no critical unflushed state.
 
 ## Troubleshooting

@@ -5,7 +5,7 @@ sidebar_position: 4
 
 # REST API
 
-MSK Shortener exposes a full JSON REST API. Every feature in the web UI is available programmatically — useful for CLI tools, scripts, CI pipelines, and Discord-bot integrations.
+MSK Shortener exposes a full JSON REST API. Every feature in the web UI is available programmatically, useful for CLI tools, scripts, CI pipelines, and Discord-bot integrations.
 
 **Base URL:** `https://s.msk-scripts.de/api` (or your self-hosted domain).
 
@@ -38,15 +38,15 @@ All errors share the same shape:
 
 | Status | Meaning |
 |---|---|
-| `400` | Validation failed — see `details` |
+| `400` | Validation failed, see `details` |
 | `401` | Wrong password / missing delete token |
 | `404` | Link does not exist or token is invalid |
 | `409` | Custom short code is already in use |
-| `429` | Rate limit exceeded — see `Retry-After` header |
+| `429` | Rate limit exceeded, see `Retry-After` header |
 
 ---
 
-## `POST /api/links` — create a link
+## `POST /api/links`: create a link
 
 ### Request
 
@@ -109,7 +109,7 @@ curl -X POST https://s.msk-scripts.de/api/links \
 
 ---
 
-## `GET /api/links/:code` — look up a link
+## `GET /api/links/:code`: look up a link
 
 ### Behaviour
 
@@ -139,7 +139,7 @@ curl https://s.msk-scripts.de/api/links/msk
 
 ---
 
-## `POST /api/verify` — unlock a password-protected link
+## `POST /api/verify`: unlock a password-protected link
 
 Use this endpoint to retrieve the destination URL of a password-protected link. On success, it also increments the click counter and stores an anonymized click row.
 
@@ -177,7 +177,7 @@ curl -X POST https://s.msk-scripts.de/api/verify \
 
 ---
 
-## `DELETE /api/links/:code` — delete a link
+## `DELETE /api/links/:code`: delete a link
 
 Requires the delete token as a Bearer header. Cascading delete: all click rows for the link are also removed.
 
@@ -207,9 +207,9 @@ curl -X DELETE https://s.msk-scripts.de/api/links/msk \
 
 ---
 
-## `GET /api/links/:code/stats` — per-link statistics
+## `GET /api/links/:code/stats`: per-link statistics
 
-Returns full statistics for a single short link — the same data shown on the public stats page.
+Returns full statistics for a single short link, the same data shown on the public stats page.
 
 ### Query parameters
 
@@ -244,7 +244,7 @@ curl 'https://s.msk-scripts.de/api/links/msk/stats?days=7'
 
 ---
 
-## `GET /api/links/:code/qr` — QR code
+## `GET /api/links/:code/qr`: QR code
 
 Returns a QR code that encodes the short URL.
 
@@ -269,7 +269,7 @@ curl -o msk.svg 'https://s.msk-scripts.de/api/links/msk/qr?format=svg'
 
 ---
 
-## `GET /api/stats` — global statistics
+## `GET /api/stats`: global statistics
 
 Returns anonymous aggregate numbers shown on the [/stats](https://s.msk-scripts.de/stats) page. Cached for 5 minutes.
 

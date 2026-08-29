@@ -20,7 +20,7 @@ All status getters accept a `player` table identifying the player:
 
 ## getIsPlayerHandcuffed
 
-**Returns** `boolean | string` — `false`, the `cuffItem` string, or `'isAdminCuffed'`.
+**Returns** `boolean | string`: `false`, the `cuffItem` string, or `'isAdminCuffed'`.
 
 ```lua
 local state = exports.msk_handcuffs:getIsPlayerHandcuffed({source = playerId})

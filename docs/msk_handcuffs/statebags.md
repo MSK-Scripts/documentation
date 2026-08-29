@@ -14,7 +14,7 @@ keywords:
 
 In v3 the handcuff status is replicated through **player statebags**. The server is the
 only writer; clients and other resources only read them. This is the recommended way to
-check status — no export call or callback needed.
+check status, no export call or callback needed.
 
 ## Keys
 
@@ -26,7 +26,7 @@ check status — no export call or callback needed.
 | `hasAnkleTracker` | boolean | Player wears an ankletracker |
 | `hasHeadbag` | boolean | Player has a headbag (blackscreen) |
 | `hasTape` | boolean | Player is taped (muted) |
-| `cuffed` | boolean | Mirror of `isHandcuffed` — read by **ox_inventory** to block the inventory |
+| `cuffed` | boolean | Mirror of `isHandcuffed`, read by **ox_inventory** to block the inventory |
 
 ## Reading on the client
 

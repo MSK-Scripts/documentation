@@ -90,7 +90,7 @@ sudo systemctl disable multibot-js
 
 ## Security Notes
 
-- Never commit `.env` — it is listed in `.gitignore`
-- `/backup_database` uses `execFile` (no shell injection risk) — only use on trusted servers
+- Never commit `.env`, it is listed in `.gitignore`
+- `/backup_database` uses `execFile` (no shell injection risk), only use on trusted servers
 - The service user (`deploy`) should have no root privileges
 - Permission changes on roles are highlighted in **red** in the log channel

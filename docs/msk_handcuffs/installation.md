@@ -62,7 +62,7 @@ items (e.g. `ankletracker_key`, `headbag_key`, `tape_key`).
 ## 5. Configure
 
 Open [`config/settings.lua`](./config.md) and set your `Config.Locale`, jobs and items
-**before the first start** — the file is imported into the database exactly once.
+**before the first start:** the file is imported into the database exactly once.
 Code hooks like the notification, the mute function and the props live in
 `config/static.lua` and can be changed at any time.
 

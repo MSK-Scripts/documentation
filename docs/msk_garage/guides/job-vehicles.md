@@ -34,9 +34,9 @@ job garage. That sidesteps the whole leftover problem below.
 :::tip[New in v5.4.0]
 :::
 
-Wherever job vehicles and private vehicles end up in the same list — a public
+Wherever job vehicles and private vehicles end up in the same list, a public
 garage whose [job policy](../dashboard.md#job-garages) allows that job, for
-instance — the park-out list offers a **faction filter** next to the favourites
+instance, the park-out list offers a **faction filter** next to the favourites
 filter. Enabled, it shows only the job vehicles of that garage; disabled, the full
 list comes back. It always starts **off** when the garage is opened, and the button
 is hidden entirely when the list holds no job vehicles at all.
@@ -127,7 +127,7 @@ on the second-key badge"** ([`Config.showKeyOwnerName`](../config.md), **on by
 default**). Names are resolved by `Utils.GetOwnerName` in `shared/utils.lua`: the
 online player first, then the ESX `users` table, with a fallback for older
 single-`name`-column schemas. Results are cached for five minutes. Society owners
-never get a name — those aren't people.
+never get a name. Those aren't people.
 
 Running a different framework or a `users` table that doesn't match? Rewrite the
 body of that function, it is not escrow-protected.

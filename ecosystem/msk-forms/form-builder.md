@@ -13,7 +13,7 @@ Only **managers** (owner / admin) can create and edit forms. Reviewers can see t
 
 ## Fields
 
-Click **Add field** to open the field picker — an icon grid of every available type. Pick one and it's inserted; then set its label, description, placeholder, and whether it's **required**.
+Click **Add field** to open the field picker, an icon grid of every available type. Pick one and it's inserted; then set its label, description, placeholder, and whether it's **required**.
 
 ### Text & contact
 
@@ -33,7 +33,7 @@ Click **Add field** to open the field picker — an icon grid of every available
 |---|---|
 | **Single choice** | Radio buttons, one answer. |
 | **Multiple choice / Multi-select** | Checkboxes, zero or more answers. |
-| **Dropdown** | A select menu — good for long option lists. |
+| **Dropdown** | A select menu, good for long option lists. |
 | **Yes / No** | A boolean toggle. Each answer (Yes and No) can carry a **points** value for [scoring](#quiz--scoring). |
 | **Consent** | A single checkbox (e.g. "I agree to the rules"). |
 | **Age check** | A single checkbox confirmation. |
@@ -64,12 +64,12 @@ Each choice option can carry a **points** value for [scoring](#quiz--scoring).
 | **File upload** | Any file, with a size and MIME limit. Stored securely (see [Privacy](privacy.md#file-uploads)). |
 | **Image upload** | Same as file upload, restricted to images. |
 | **Signature** | A canvas the applicant draws on; saved as a PNG via the upload pipeline. |
-| **Matrix** | A grid — rows × columns, one choice per row. |
-| **Calculated** | A read-only field derived from other answers — see [Calculated fields](#calculated-fields). |
+| **Matrix** | A grid: rows × columns, one choice per row. |
+| **Calculated** | A read-only field derived from other answers, see [Calculated fields](#calculated-fields). |
 
 ### Layout blocks
 
-Non-input blocks for structure — headings, descriptive text, dividers. They never count as answers and are never required.
+Non-input blocks for structure: headings, descriptive text, dividers. They never count as answers and are never required.
 
 ### Change a field's type
 
@@ -94,7 +94,7 @@ Every field can carry rules that react to other answers. A rule has an **action*
 - **Actions:** show the field, hide it, make it required, or **jump to a page** (`skip to`).
 - **Operators:** equals, not equals, contains, greater than, less than, is empty, is not empty, … (8 in total).
 
-Hidden fields are never validated and never required — visibility, progress, and validation all follow the same resolved path. Combined with `skip to`, you can branch the flow: *"if you picked **Staff**, jump to page 3."*
+Hidden fields are never validated and never required, visibility, progress, and validation all follow the same resolved path. Combined with `skip to`, you can branch the flow: *"if you picked **Staff**, jump to page 3."*
 
 ---
 
@@ -102,8 +102,8 @@ Hidden fields are never validated and never required — visibility, progress, a
 
 Each form can have an optional **open / close window**:
 
-- **Opens at** — before this time the form shows "Opens \<time\>" and rejects submissions.
-- **Closes at** — after this time it's closed. Within the last 24 hours before closing it shows an **"Ending soon"** banner.
+- **Opens at:** before this time the form shows "Opens \<time\>" and rejects submissions.
+- **Closes at:** after this time it's closed. Within the last 24 hours before closing it shows an **"Ending soon"** banner.
 
 Times are shown in each viewer's local timezone. Closed forms drop out of the public index automatically.
 
@@ -114,7 +114,7 @@ Turn on **Countdown on the public hub** (in the scheduling section) to build hyp
 - Its card on the [public hub](branding-and-domains.md#public-form-hub) shows a **live countdown** to the opening time instead of a plain date.
 - The form page shows the same countdown and, the moment it opens, fires a **confetti** burst and reveals the form automatically.
 
-Off by default — a scheduled form otherwise just shows its opening time.
+Off by default, a scheduled form otherwise just shows its opening time.
 
 ---
 
@@ -122,7 +122,7 @@ Off by default — a scheduled form otherwise just shows its opening time.
 
 By default, each signed-in applicant can have only **one active submission** per form. While their submission is still open (not yet at a terminal status), reopening the form sends them straight to its [status page](submissions-and-review.md#the-status-loop-applicant-side) instead of a blank form, and the submit endpoint refuses a duplicate. Once a reviewer sets a **terminal** status (Accepted, Rejected, Withdrawn, or a custom terminal status) they can apply again.
 
-- It only applies to **signed-in** applicants — anonymous submissions can't be tied to a person.
+- It only applies to **signed-in** applicants, anonymous submissions can't be tied to a person.
 - Turn it off in the builder (the **One active submission per person** toggle) for forms that should accept repeated submissions, e.g. surveys or feedback.
 
 ---
@@ -132,9 +132,9 @@ By default, each signed-in applicant can have only **one active submission** per
 Give choice options a **points** value and MSK Forms scores each submission automatically. **Yes / No** fields join the same system: give the Yes and the No answer their own points in the field editor.
 
 - The score is the sum of points across the chosen options, computed **server-side** (the client preview is never trusted).
-- Forms where no option has points stay score-less — nothing changes for non-quiz forms.
+- Forms where no option has points stay score-less, nothing changes for non-quiz forms.
 - The score shows in the submissions table and on the submission detail page.
-- The score is also available to [automations](#automations) under the reserved field **Score** — e.g. *"if Score ≥ 80 → Accepted"* for auto-acceptance.
+- The score is also available to [automations](#automations) under the reserved field **Score**, e.g. *"if Score ≥ 80 → Accepted"* for auto-acceptance.
 
 ---
 
@@ -142,9 +142,9 @@ Give choice options a **points** value and MSK Forms scores each submission auto
 
 A **Calculated** field derives its value from other answers with a formula:
 
-- **Syntax:** `{fieldId}` placeholders plus `+ - * / ( )` and numbers — e.g. `{price} * {qty}`.
+- **Syntax:** `{fieldId}` placeholders plus `+ - * / ( )` and numbers, e.g. `{price} * {qty}`.
 - **Reference resolution:** Number/Rating → the value; Single choice → the option's score; Multi-select → the sum; booleans → 1 / 0; empty/unknown → 0.
-- The value is **computed server-side** and stored with the answers — the client preview is never authoritative.
+- The value is **computed server-side** and stored with the answers, the client preview is never authoritative.
 - It renders as a read-only live preview; it's never editable or required.
 
 In the builder you write the formula in a textarea and click chips to insert referenceable fields.
@@ -159,7 +159,7 @@ A/B testing requires a [Pro](plans.md) subscription.
 
 Split-test a form's copy:
 
-- Define **variants** in the builder — each with a name, a weight, and optionally an overriding title and/or description.
+- Define **variants** in the builder, each with a name, a weight, and optionally an overriding title and/or description.
 - The public page assigns a variant **stickily** (a cookie, otherwise weighted-random) and shows that variant's copy.
 - **Views** are tracked on mount; **conversions** are tracked when the form is submitted with that variant.
 - A **results page** (per form) shows Views / Submissions / Conversion-% and marks the leader once a variant has ≥ 10 views.
@@ -185,8 +185,8 @@ Because the action runs through the same status-change path as a manual review, 
 
 Some guild-wide settings can be overridden on a single form:
 
-- **Review channel** — post this form's new-submission embeds to a specific channel instead of the guild default.
-- **Accepted role(s)** — grant these role(s) on acceptance instead of (or in addition to) the guild default. Multiple roles are supported (comma-separated).
+- **Review channel:** post this form's new-submission embeds to a specific channel instead of the guild default.
+- **Accepted role(s):** grant these role(s) on acceptance instead of (or in addition to) the guild default. Multiple roles are supported (comma-separated).
 
 See [Discord Bot](discord-bot.md) for how these drive the review workflow.
 
@@ -194,9 +194,9 @@ See [Discord Bot](discord-bot.md) for how these drive the review workflow.
 
 ## Categories
 
-Group your forms into **categories** — e.g. *In-game jobs* vs *Staff applications*. Manage them under **Dashboard → your server → Categories** (managers only): add, rename, recolor, and reorder. Then pick a category for each form in the builder.
+Group your forms into **categories**, e.g. *In-game jobs* vs *Staff applications*. Manage them under **Dashboard → your server → Categories** (managers only): add, rename, recolor, and reorder. Then pick a category for each form in the builder.
 
-Categories drive the grouping on your **public form hub** — applicants see your forms split into sections, with uncategorized forms under *Other forms*. See [Branding & Custom Domains → Public form hub](branding-and-domains.md#public-form-hub).
+Categories drive the grouping on your **public form hub**, applicants see your forms split into sections, with uncategorized forms under *Other forms*. See [Branding & Custom Domains → Public form hub](branding-and-domains.md#public-form-hub).
 
 ---
 
@@ -208,8 +208,8 @@ Importing and exporting a form definition requires a [Pro](plans.md) subscriptio
 
 Move a form between servers, keep a backup, or reuse a template:
 
-- **Export** — download a form's definition (its structure and settings, not its submissions) as a JSON file from the Forms list.
-- **Import** — upload a JSON file as a **new form**, or **replace** an existing form's content from a file. Imported as new, the slug is reused (and de-duplicated if already taken); on replace, the form keeps its current public link. The form's category travels with the file by name and is recreated on the target server if missing.
+- **Export:** download a form's definition (its structure and settings, not its submissions) as a JSON file from the Forms list.
+- **Import:** upload a JSON file as a **new form**, or **replace** an existing form's content from a file. Imported as new, the slug is reused (and de-duplicated if already taken); on replace, the form keeps its current public link. The form's category travels with the file by name and is recreated on the target server if missing.
 
 ---
 
@@ -219,7 +219,7 @@ Move a form between servers, keep a backup, or reuse a template:
 - Set the **status to Live** to start accepting submissions (subject to any [schedule](#scheduling)).
 - **Delete** removes a form and its submissions (cascade), including any uploaded files.
 
-**Preview before you publish.** Every form has a **Preview** action (managers, opens in a new tab) that renders the exact public form — branding, multi-step flow, all field types — for any status, including drafts. Preview validates and lets you walk the pages like the real thing, but never submits.
+**Preview before you publish.** Every form has a **Preview** action (managers, opens in a new tab) that renders the exact public form, branding, multi-step flow, all field types, for any status, including drafts. Preview validates and lets you walk the pages like the real thing, but never submits.
 
 :::tip[Free plan limit]
 The Free plan allows up to **3 forms** per server, and Pro features (CSS, automations, A/B, custom domain) are stripped or gated for Free guilds. See [Plans & Limits](plans.md).
@@ -228,5 +228,5 @@ The Free plan allows up to **3 forms** per server, and Pro features (CSS, automa
 ---
 
 :::info
-Next: [Submissions & Review](submissions-and-review.md) — what happens after applicants hit submit.
+Next: [Submissions & Review](submissions-and-review.md), what happens after applicants hit submit.
 :::

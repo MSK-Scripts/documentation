@@ -34,7 +34,7 @@ local isHandcuffed = Player(targetServerId).state.isHandcuffed
 
 ## cuffPlayer
 
-**`cuffPlayer(item?, player?)`** — Cuff a player.
+**`cuffPlayer(item?, player?)`:** Cuff a player.
 If `item` is `nil`, the script resolves it from `Config.RestrictItems` (per job) when enabled.
 
 ```lua
@@ -46,7 +46,7 @@ exports.msk_handcuffs:cuffPlayer('cuffs', closestPlayer) -- specific player & it
 
 ## hardcuffPlayer
 
-**`hardcuffPlayer(item?, player?)`** — Hardcuff a player (must be cuffed first).
+**`hardcuffPlayer(item?, player?)`:** Hardcuff a player (must be cuffed first).
 
 ```lua
 exports.msk_handcuffs:hardcuffPlayer()
@@ -55,7 +55,7 @@ exports.msk_handcuffs:hardcuffPlayer('hardcuff', closestPlayer)
 
 ## uncuffPlayer
 
-**`uncuffPlayer(item?, player?)`** — Uncuff a player. The uncuff item must match the cuff
+**`uncuffPlayer(item?, player?)`:** Uncuff a player. The uncuff item must match the cuff
 item (`Config.ItemSettings`).
 
 ```lua
@@ -65,7 +65,7 @@ exports.msk_handcuffs:uncuffPlayer('cuff_keys', closestPlayer)
 
 ## ankleTrackerPlayer
 
-**`ankleTrackerPlayer(player?, remove?)`** — Toggle an ankletracker (target must be cuffed).
+**`ankleTrackerPlayer(player?, remove?)`:** Toggle an ankletracker (target must be cuffed).
 
 ```lua
 exports.msk_handcuffs:ankleTrackerPlayer()
@@ -74,7 +74,7 @@ exports.msk_handcuffs:ankleTrackerPlayer(closestPlayer)
 
 ## headbagPlayer
 
-**`headbagPlayer(player?, remove?)`** — Toggle a headbag.
+**`headbagPlayer(player?, remove?)`:** Toggle a headbag.
 
 ```lua
 exports.msk_handcuffs:headbagPlayer()
@@ -83,7 +83,7 @@ exports.msk_handcuffs:headbagPlayer(closestPlayer)
 
 ## tapePlayer
 
-**`tapePlayer(player?, remove?)`** — Toggle tape (mute).
+**`tapePlayer(player?, remove?)`:** Toggle tape (mute).
 
 ```lua
 exports.msk_handcuffs:tapePlayer()
@@ -92,7 +92,7 @@ exports.msk_handcuffs:tapePlayer(closestPlayer)
 
 ## dragPlayer / escortPlayer
 
-**`dragPlayer(player?)`** — Toggle dragging/escorting (target must be cuffed).
+**`dragPlayer(player?)`:** Toggle dragging/escorting (target must be cuffed).
 `escortPlayer` is an alias.
 
 ```lua

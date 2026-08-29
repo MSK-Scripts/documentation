@@ -5,7 +5,7 @@ sidebar_position: 4
 
 # REST API
 
-MSK Paste exposes a full JSON REST API. All features available in the web UI are also available programmatically — useful for CLI uploads, scripts, CI pipelines, and editor integrations.
+MSK Paste exposes a full JSON REST API. All features available in the web UI are also available programmatically, useful for CLI uploads, scripts, CI pipelines, and editor integrations.
 
 **Base URL:** `https://paste.msk-scripts.de/api` (or your self-hosted domain).
 
@@ -34,17 +34,17 @@ All errors share the same shape:
 
 | Status | Meaning |
 |---|---|
-| `400` | Validation failed — see `details` |
+| `400` | Validation failed, see `details` |
 | `401` | Wrong password (on `/verify`) |
 | `403` | Password required (on `/api/pastes/:id`) |
 | `404` | Paste does not exist, has expired, or was burned |
 | `409` | Custom ID is already in use |
 | `413` | Content exceeds 1 MB |
-| `429` | Rate limit exceeded — see `Retry-After` header |
+| `429` | Rate limit exceeded, see `Retry-After` header |
 
 ---
 
-## `POST /api/pastes` — create a paste
+## `POST /api/pastes`: create a paste
 
 ### Request
 
@@ -107,7 +107,7 @@ curl -X POST https://paste.msk-scripts.de/api/pastes \
 
 ---
 
-## `GET /api/pastes/:id` — fetch a paste
+## `GET /api/pastes/:id`: fetch a paste
 
 ### Behaviour
 
@@ -139,7 +139,7 @@ curl https://paste.msk-scripts.de/api/pastes/X7q9bA2k
 
 ---
 
-## `POST /api/pastes/:id/verify` — unlock a password-protected paste
+## `POST /api/pastes/:id/verify`: unlock a password-protected paste
 
 ### Request
 
@@ -166,7 +166,7 @@ curl -X POST https://paste.msk-scripts.de/api/pastes/X7q9bA2k/verify \
 
 ---
 
-## `DELETE /api/pastes/:id` — delete a paste
+## `DELETE /api/pastes/:id`: delete a paste
 
 Requires a valid delete token as a query parameter.
 
@@ -188,7 +188,7 @@ curl -X DELETE "https://paste.msk-scripts.de/api/pastes/X7q9bA2k?token=dk_a7c4f2
 
 ---
 
-## `GET /api/stats` — global statistics
+## `GET /api/stats`: global statistics
 
 Returns anonymous aggregate numbers shown on the [/stats](https://paste.msk-scripts.de/stats) page.
 

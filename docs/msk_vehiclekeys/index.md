@@ -10,7 +10,7 @@ sidebar_position: 1
 # MSK VehicleKeys
 
 A complete vehicle key system for **ESX** and **QBCore**. Lock and unlock vehicles
-with a command, a hotkey or a target — manage primary, secondary and temporary keys,
+with a command, a hotkey or a target: manage primary, secondary and temporary keys,
 hand keys to other players, exchange locks at a locksmith and even transfer ownership
 of a vehicle to another player.
 
@@ -20,21 +20,21 @@ start.
 
 ## Features
 
-- **In-game admin dashboard** *(new in v3.0.0)* — manage player keys, look up plates, run a locksmith, edit the access lists, change every setting and control dashboard access, all live from a React NUI with a group/permission system *(see [Admin Dashboard](admin.md))*
+- **In-game admin dashboard** *(new in v3.0.0)*: manage player keys, look up plates, run a locksmith, edit the access lists, change every setting and control dashboard access, all live from a React NUI with a group/permission system *(see [Admin Dashboard](admin.md))*
 - **(Un)lock vehicles** via command, hotkey or target *(ox_target)*
-- **Seat selection** — choose which seat to enter when using the target *(ox_target)*
+- **Seat selection:** choose which seat to enter when using the target *(ox_target)*
 - **Keys menu** opened by command or hotkey
-- **Three key types** — Primary, Secondary and Temporary keys
-- **Unique key items** — every vehicle has its own metadata-based key item
+- **Three key types:** Primary, Secondary and Temporary keys
+- **Unique key items:** every vehicle has its own metadata-based key item
 - **Give keys** to other players *(secondary key, primary key or full ownership transfer)*
-- **Transfer vehicle** — sell/hand a vehicle including ownership to another player
+- **Transfer vehicle:** sell/hand a vehicle including ownership to another player
 - **Exchange vehicle locks** at a locksmith *(removes every other player's key for that vehicle)*
-- **Keyring system** — store all keys in a second inventory *(ox_inventory & jaksam_inventory)*
-- **Job vehicles** — players with a specific job (and optionally rank) can (un)lock matching vehicles
+- **Keyring system:** store all keys in a second inventory *(ox_inventory & jaksam_inventory)*
+- **Job vehicles:** players with a specific job (and optionally rank) can (un)lock matching vehicles
 - **Whitelist / Blacklist** for models and plates
-- **Admin vehicles** — only configured admin groups can (un)lock them
+- **Admin vehicles:** only configured admin groups can (un)lock them
 - **Admin command** to (un)lock any vehicle without a key
-- **Owner item enforcement** *(new)* — optionally require even the vehicle owner to carry the key item *(`ownerNeedsItem`)*
+- **Owner item enforcement** *(new)*: optionally require even the vehicle owner to carry the key item *(`ownerNeedsItem`)*
 - **NPC vehicle locking** with configurable carjacking probability
 - **Version checker** and a full **export API** (client & server)
 
@@ -59,14 +59,14 @@ are supported. Support for `qs-inventory` and `core_inventory` was removed in **
 
 ## Optional Requirements
 
-- [ox_target](https://github.com/overextended/ox_target) — target-based (un)locking & seat selection
-- [msk_enginetoggle](https://forum.cfx.re/t/msk-enginetoggle-toggle-engine-on-off/4793840) — engine toggle integration
+- [ox_target](https://github.com/overextended/ox_target): target-based (un)locking & seat selection
+- [msk_enginetoggle](https://forum.cfx.re/t/msk-enginetoggle-toggle-engine-on-off/4793840): engine toggle integration
 
 ## Documentation Overview
 
-- **[Installation](guides/installation.md)** — install the resource and set up the items
-- **[Config](config.md)** — every option in `config/settings.lua` & `config/static.lua` explained
-- **[Admin Dashboard](admin.md)** — the in-game dashboard, its tabs and the permission system
-- **[Commands & Keybinds](commands.md)** — player and admin commands and their hotkeys
-- **[Integrations](guides/integrations.md)** — wire `msk_vehiclekeys` into vehicle shops & garages
-- **[Client Exports](exports/client.md)** / **[Server Exports](exports/server.md)** — the full export API
+- **[Installation](guides/installation.md):** install the resource and set up the items
+- **[Config](config.md):** every option in `config/settings.lua` & `config/static.lua` explained
+- **[Admin Dashboard](admin.md):** the in-game dashboard, its tabs and the permission system
+- **[Commands & Keybinds](commands.md):** player and admin commands and their hotkeys
+- **[Integrations](guides/integrations.md):** wire `msk_vehiclekeys` into vehicle shops & garages
+- **[Client Exports](exports/client.md)** / **[Server Exports](exports/server.md)**: the full export API

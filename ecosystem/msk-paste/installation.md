@@ -5,7 +5,7 @@ sidebar_position: 2
 
 # Self-Hosting MSK Paste
 
-This guide walks you through installing MSK Paste on your own Debian or Ubuntu server. If you just want to use the hosted instance, head to [paste.msk-scripts.de](https://paste.msk-scripts.de) — no setup required.
+This guide walks you through installing MSK Paste on your own Debian or Ubuntu server. If you just want to use the hosted instance, head to [paste.msk-scripts.de](https://paste.msk-scripts.de), no setup required.
 
 ---
 
@@ -28,7 +28,7 @@ MSK Paste runs in a single Node process on port `3012` and uses MariaDB for stor
 
 ## Automated installation (recommended)
 
-The repository ships with an interactive `install.sh` script that handles everything — Node.js setup, database creation, `.env` generation, Apache vhost, SSL certificate, and the systemd service.
+The repository ships with an interactive `install.sh` script that handles everything: Node.js setup, database creation, `.env` generation, Apache vhost, SSL certificate, and the systemd service.
 
 ```bash
 # 1. Clone the repository

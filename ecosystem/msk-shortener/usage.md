@@ -5,7 +5,7 @@ sidebar_position: 3
 
 # Using MSK Shortener
 
-This page walks you through the web interface — shortening URLs, viewing click statistics, downloading QR codes, and managing your links.
+This page walks you through the web interface: shortening URLs, viewing click statistics, downloading QR codes, and managing your links.
 
 ---
 
@@ -32,14 +32,14 @@ For security, MSK Shortener refuses URLs that point at:
 - `192.168.0.0/16` (private)
 - `169.254.0.0/16` (link-local)
 
-This is **SSRF protection** — preventing your shortener from being used to bounce traffic to internal services.
+This is **SSRF protection**, preventing your shortener from being used to bounce traffic to internal services.
 
 ### After creation
 
 You receive:
 
 - The **short URL** (e.g. `https://s.msk-scripts.de/msk`)
-- A **delete token** — save this if you want to be able to remove the link later
+- A **delete token**, save this if you want to be able to remove the link later
 
 :::warning
 The delete token is shown **only once**, immediately after creation. There is no account system to recover it. If you lose it, you'll have to wait for the link to expire.
@@ -72,11 +72,11 @@ Once a link reaches its `expires_at` timestamp, the redirect route shows an expi
 Every short link has its own statistics page at `s.example.com/:code/stats`. You can see:
 
 - **Total clicks** (all-time)
-- **Timeline chart** — clicks per day for the last 30 days (configurable up to 365)
-- **Browsers** — Chrome, Firefox, Safari, etc.
-- **Operating systems** — Linux, Windows, macOS, Android, iOS
-- **Device types** — desktop / mobile / tablet
-- **Top referrers** — which domains sent traffic to your link
+- **Timeline chart:** clicks per day for the last 30 days (configurable up to 365)
+- **Browsers:** Chrome, Firefox, Safari, etc.
+- **Operating systems:** Linux, Windows, macOS, Android, iOS
+- **Device types:** desktop / mobile / tablet
+- **Top referrers:** which domains sent traffic to your link
 
 There is **no visitor identity** in any of this. Each click row contains a hashed IP (which is never reversed), a referrer host, and a UA family string. That's all.
 
@@ -86,8 +86,8 @@ There is **no visitor identity** in any of this. Each click row contains a hashe
 
 Every short link can be downloaded as a QR code in two formats:
 
-- **PNG** — `s.example.com/api/links/:code/qr?format=png` (default, 512×512, MSK colors)
-- **SVG** — `s.example.com/api/links/:code/qr?format=svg` (scalable, vector)
+- **PNG:** `s.example.com/api/links/:code/qr?format=png` (default, 512×512, MSK colors)
+- **SVG:** `s.example.com/api/links/:code/qr?format=svg` (scalable, vector)
 
 The QR code encodes the **short URL** (not the long one), so you can reprint a label and still update the destination via the delete-and-recreate flow if needed.
 
@@ -116,7 +116,7 @@ The web UI also accepts the token via a delete page if you have the short code a
 
 ## Language switcher
 
-Click the language dropdown in the header to switch between **German** and **English**. The choice is saved as a cookie and applies to all future visits from the same browser. Short URLs do not include a locale prefix — `s.msk-scripts.de/msk` works identically in both languages.
+Click the language dropdown in the header to switch between **German** and **English**. The choice is saved as a cookie and applies to all future visits from the same browser. Short URLs do not include a locale prefix, `s.msk-scripts.de/msk` works identically in both languages.
 
 ---
 
@@ -148,5 +148,5 @@ There is **no per-link drill-down** here (those live on the per-link stats page)
 
 ## Next steps
 
-- [REST API](api.md) — Programmatic access for scripts and CLI tools
-- [Privacy & Security](privacy.md) — What MSK Shortener does (and doesn't) store
+- [REST API](api.md): programmatic access for scripts and CLI tools
+- [Privacy & Security](privacy.md): what MSK Shortener does (and doesn't) store

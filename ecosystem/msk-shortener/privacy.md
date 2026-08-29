@@ -5,7 +5,7 @@ sidebar_position: 5
 
 # Privacy & Security
 
-MSK Shortener is built privacy-first. This page explains exactly what is — and isn't — stored when you create a link or click one.
+MSK Shortener is built privacy-first. This page explains exactly what is, and isn't, stored when you create a link or click one.
 
 ---
 
@@ -17,12 +17,12 @@ For every short link created, the `links` row contains:
 |---|---|
 | `short_code` | The public short ID (e.g. `msk`) |
 | `original_url` | The destination URL |
-| `password_hash` | bcrypt hash (cost 12) — only if a password was set |
+| `password_hash` | bcrypt hash (cost 12), only if a password was set |
 | `expires_at` | Timestamp after which the link returns "expired" |
 | `delete_token` | Random 48-char token, shown only to the creator |
 | `click_count` | Anonymous counter, never linked to specific clicks |
 | `created_at` | Creation timestamp |
-| `created_ip_hash` | **HMAC-SHA-256** of the creator's IP — used only for rate limiting |
+| `created_ip_hash` | **HMAC-SHA-256** of the creator's IP, used only for rate limiting |
 
 ---
 
@@ -34,7 +34,7 @@ Each click on a short link adds an anonymized row to the `clicks` table:
 |---|---|
 | `link_id` | foreign key to the link |
 | `clicked_at` | timestamp |
-| `ip_hash` | `HMAC-SHA-256(IP, IP_HASH_SECRET)` — never reversed |
+| `ip_hash` | `HMAC-SHA-256(IP, IP_HASH_SECRET)`, never reversed |
 | `referrer` | host only, e.g. `github.com` (no path, no query) |
 | `browser` | family name from UA, e.g. `Chrome` |
 | `os` | family name from UA, e.g. `Linux` |
@@ -42,7 +42,7 @@ Each click on a short link adds an anonymized row to the `clicks` table:
 
 That's it. No full user agent, no full referrer URL, no plain-text IP, no cookies, no fingerprinting.
 
-Click rows are tied to a `link_id` via `ON DELETE CASCADE` — when a link is deleted, all its clicks vanish too.
+Click rows are tied to a `link_id` via `ON DELETE CASCADE`, when a link is deleted, all its clicks vanish too.
 
 ---
 
@@ -50,11 +50,11 @@ Click rows are tied to a `link_id` via `ON DELETE CASCADE` — when a link is de
 
 - **No plain-text IP addresses.** IPs are hashed with HMAC-SHA-256 using a server-side secret (`IP_HASH_SECRET`). Without the secret, the hashes cannot be reversed.
 - **No GeoIP / country lookups.** The application never queries any geolocation service.
-- **No analytics.** No Google Analytics, no Plausible, no Fathom, no Matomo — nothing.
+- **No analytics.** No Google Analytics, no Plausible, no Fathom, no Matomo, nothing.
 - **No tracking cookies.** The only cookie set by MSK Shortener is `MSK_SHORTENER_LOCALE`, which stores your language preference (`de` or `en`).
 - **No third-party scripts.** All assets are served from the same origin.
 - **No referer logging at the app level beyond the host.** The query string and full path are stripped before storage.
-- **No user accounts / sessions / tokens.** There is no `users` table, no `sessions` table, no JWT — nothing to leak.
+- **No user accounts / sessions / tokens.** There is no `users` table, no `sessions` table, no JWT, nothing to leak.
 
 ---
 
@@ -83,7 +83,7 @@ URLs that point at private or loopback addresses are rejected at creation time. 
 - `192.168.0.0/16` (RFC 1918)
 - `169.254.0.0/16` (link-local / cloud metadata)
 
-Only `http://` and `https://` schemes are accepted — no `file://`, `gopher://`, `ftp://`, etc.
+Only `http://` and `https://` schemes are accepted, no `file://`, `gopher://`, `ftp://`, etc.
 
 ---
 
@@ -93,7 +93,7 @@ Passwords are hashed with **bcrypt at cost 12** before storage. The plain-text p
 
 Verification has two safeguards:
 
-1. **Generic error messages.** The API returns the same `401` for wrong password and non-existent link — preventing enumeration of which short codes are protected.
+1. **Generic error messages.** The API returns the same `401` for wrong password and non-existent link, preventing enumeration of which short codes are protected.
 2. **Brute-force throttling.** Verify attempts are rate-limited to **10 per 5 minutes** per IP hash.
 
 ---
@@ -108,7 +108,7 @@ A nightly cron job (`scripts/cleanup.ts`) runs `DELETE FROM links WHERE expires_
 
 ## Database backups
 
-The included `backup.sh` script creates a daily SQL dump (default: 03:00) with **14-day retention**. Backups contain everything in the database, including hashed IPs and password hashes — but not plain text IPs or passwords.
+The included `backup.sh` script creates a daily SQL dump (default: 03:00) with **14-day retention**. Backups contain everything in the database, including hashed IPs and password hashes, but not plain text IPs or passwords.
 
 You are responsible for storing backups securely. Consider:
 
@@ -142,7 +142,7 @@ Found a security issue? Please report it via:
 - **GitHub Security Advisories:** [Submit privately](https://github.com/MSK-Scripts/msk-shortener/security/advisories/new)
 - **Email:** `info@msk-scripts.de`
 
-Please **do not** open public GitHub issues for security problems — give us a chance to fix and disclose responsibly.
+Please **do not** open public GitHub issues for security problems, give us a chance to fix and disclose responsibly.
 
 ---
 

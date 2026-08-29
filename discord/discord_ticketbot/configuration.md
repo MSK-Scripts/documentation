@@ -23,7 +23,7 @@ sidebar_position: 5
 
 | Mode            | Behaviour                                                                                                                                                                 |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `"BUTTON"`      | A green button is shown. Clicking it opens an ephemeral select menu — always fresh, no Discord caching issue.                                                             |
+| `"BUTTON"`      | A green button is shown. Clicking it opens an ephemeral select menu, always fresh, no Discord caching issue.                                                             |
 | `"SELECT_MENU"` | The select menu is shown directly in the panel. After every use it automatically resets, so users never need to restart Discord to open a second ticket of the same type. |
 
 ### Panel Logo & Banner
@@ -99,7 +99,7 @@ Supported formats: PNG, JPG, GIF, WEBP. Run `/setup` again after adding or chang
 
 ### Canned Responses (Snippets)
 
-Snippets are defined in a separate file — **not** in `config.jsonc`:
+Snippets are defined in a separate file, **not** in `config.jsonc`:
 
 ```bash
 cp config/snippets.example.jsonc config/snippets.jsonc
@@ -131,7 +131,7 @@ cp config/snippets.example.jsonc config/snippets.jsonc
 
 **Commands:** `/snippet send <name>` · `/snippet list`
 
-Snippets support autocomplete — start typing the name or description to filter.
+Snippets support autocomplete, start typing the name or description to filter.
 
 ### Staff Reminder
 
@@ -199,7 +199,7 @@ The generated HTML transcript can be rendered in two styles and any of the built
 
 | Value      | Look                                                                 |
 | ---------- | ------------------------------------------------------------------- |
-| `"modern"` | Minimal, MSK-branded layout (default — also used if the key is absent). |
+| `"modern"` | Minimal, MSK-branded layout (default, also used if the key is absent). |
 | `"classic"`| The original Discord-style dark layout.                              |
 
 `transcriptLang` localizes all transcript labels (header fields, section title, footer, copy-button tooltip) and the date format. Seven languages are built in (`en`, `de`, `fr`, `es`, `pt`, `pl`, `hu`); any other value falls back to English. The bot's own messages use the separate `lang` key, which accepts the same set.
@@ -208,7 +208,7 @@ Both styles are fully **self-contained / offline-safe** (no external requests):
 
 - Avatars **and custom emojis** are embedded as Base64 (custom emojis fall back to `:name:` text if the image can't be fetched at generation time).
 - User mentions and the header fields **Created by / Claimed by / Closed by** are shown as **display names** instead of raw user IDs (unresolvable IDs fall back to the ID).
-- The header also shows **Closed by** and the **close reason** — the reason only when one was provided.
+- The header also shows **Closed by** and the **close reason**, the reason only when one was provided.
 - Fenced code blocks show their language as a small label (e.g. `LUA`) and have a **copy button** that copies the block to the clipboard. No syntax colouring (kept dependency-free).
 
 ### Statistics

@@ -5,7 +5,7 @@ sidebar_position: 3
 
 # Using MSK Paste
 
-This page walks you through the web interface — creating, viewing, and managing pastes.
+This page walks you through the web interface: creating, viewing, and managing pastes.
 
 ---
 
@@ -21,7 +21,7 @@ Open [paste.msk-scripts.de](https://paste.msk-scripts.de) (or your self-hosted i
 | **Content** | required | The text to paste. Hard limit: **1 MB**. |
 | **Language** | optional | Pick from the dropdown to enable syntax highlighting. Defaults to plain text. |
 | **Expiration** | required | One of: 10 min, 1 hour, 1 day, 1 week, 1 month, 1 year. Default: **1 week**. |
-| **Password** | optional | Encrypts access. The paste itself is not encrypted at rest — the password gates viewing. |
+| **Password** | optional | Encrypts access. The paste itself is not encrypted at rest, the password gates viewing. |
 | **Burn after read** | optional | When enabled, the paste is **permanently deleted** after the first successful view. |
 | **Custom ID** | optional | 4–32 characters, only `a–z`, `A–Z`, `0–9`, `_`, `-`. Reserved IDs (`raw`, `api`, `stats`, …) are rejected. |
 
@@ -31,7 +31,7 @@ You receive:
 
 - The **paste URL** (e.g. `https://paste.msk-scripts.de/X7q9bA2k`)
 - The **raw URL** (`/raw/X7q9bA2k`)
-- A **delete token** — save this if you want to be able to remove the paste later
+- A **delete token**, save this if you want to be able to remove the paste later
 
 :::warning
 The delete token is shown **only once**, immediately after creation. There is no account system to recover it. If you lose it, you'll have to wait for the paste to expire.
@@ -45,14 +45,14 @@ Visit `/:id` to see the paste with syntax highlighting, line numbers, and a copy
 
 The viewer offers:
 
-- **Copy** — copies the raw content to your clipboard
-- **Raw** — opens `/raw/:id` (`text/plain`, useful for `curl`)
-- **Download** — opens `/dl/:id` and saves the paste as a file with the right extension (`.lua`, `.js`, `.py`, …)
-- **Delete** — only visible if you provide the delete token via URL parameter
+- **Copy:** copies the raw content to your clipboard
+- **Raw:** opens `/raw/:id` (`text/plain`, useful for `curl`)
+- **Download:** opens `/dl/:id` and saves the paste as a file with the right extension (`.lua`, `.js`, `.py`, …)
+- **Delete:** only visible if you provide the delete token via URL parameter
 
 ### Password-protected pastes
 
-Visiting a protected paste shows a password prompt at `/:id/password`. After entering the correct password, the content is displayed inline — there is no extra round-trip. Failed attempts are **not** counted in the view counter.
+Visiting a protected paste shows a password prompt at `/:id/password`. After entering the correct password, the content is displayed inline, there is no extra round-trip. Failed attempts are **not** counted in the view counter.
 
 ### Burn-after-read
 
@@ -92,7 +92,7 @@ These two routes are designed for automation and command-line tools.
 curl https://paste.msk-scripts.de/raw/X7q9bA2k
 ```
 
-Returns the content as `text/plain; charset=utf-8`. No HTML, no highlighting, no headers around it — perfect for piping into `bash`, `python`, or `jq`.
+Returns the content as `text/plain; charset=utf-8`. No HTML, no highlighting, no headers around it, perfect for piping into `bash`, `python`, or `jq`.
 
 ### Download
 
@@ -106,7 +106,7 @@ Sends `Content-Disposition: attachment; filename="..."`. The filename is derived
 
 ## Language switcher
 
-Click the language dropdown in the header to switch between **German** and **English**. The choice is saved as a cookie and applies to all future visits from the same browser. Paste URLs do not include a locale prefix — `paste.msk-scripts.de/X7q9bA2k` works identically in both languages.
+Click the language dropdown in the header to switch between **German** and **English**. The choice is saved as a cookie and applies to all future visits from the same browser. Paste URLs do not include a locale prefix, `paste.msk-scripts.de/X7q9bA2k` works identically in both languages.
 
 ---
 
@@ -136,5 +136,5 @@ There is **no per-paste view tracking**, no IP information, and no breakdown tha
 
 ## Next steps
 
-- [REST API](api.md) — Programmatic access for scripts and CLI tools
-- [Privacy & Security](privacy.md) — What MSK Paste does (and doesn't) store
+- [REST API](api.md): programmatic access for scripts and CLI tools
+- [Privacy & Security](privacy.md): what MSK Paste does (and doesn't) store

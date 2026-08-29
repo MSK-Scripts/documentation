@@ -5,7 +5,7 @@ sidebar_position: 5
 
 # Discord Bot
 
-The Discord bot is what sets MSK Forms apart. One shared bot serves every server (it's multi-tenant) — you just invite it. This page covers commands, the review workflow, status DMs, the activity log, and the bot's language.
+The Discord bot is what sets MSK Forms apart. One shared bot serves every server (it's multi-tenant), you just invite it. This page covers commands, the review workflow, status DMs, the activity log, and the bot's language.
 
 ---
 
@@ -46,17 +46,17 @@ Configure a **review channel** on the dashboard **Bot** page (Bot config: review
    - On **Accept**, grants the configured **accepted role(s)**.
    - Updates the embed to reflect the action.
 
-A form can override the guild's review channel and accepted role(s) — see [Form Builder → Per-form overrides](form-builder.md#per-form-overrides).
+A form can override the guild's review channel and accepted role(s), see [Form Builder → Per-form overrides](form-builder.md#per-form-overrides).
 
 ### Automatic role grants
 
-The **accepted role** is granted on **every** acceptance path — the Discord button, a web review, a bulk action, or an [automation](form-builder.md#automations) — as long as the applicant logged in with Discord. Roles are only added if missing, so there's never a double-grant.
+The **accepted role** is granted on **every** acceptance path: the Discord button, a web review, a bulk action, or an [automation](form-builder.md#automations), as long as the applicant logged in with Discord. Roles are only added if missing, so there's never a double-grant.
 
 ---
 
 ## Status DMs
 
-When a submission's status changes (or a reviewer sends a public message), the bot **DMs the applicant** with the new status and a link to their status page — provided the applicant logged in with Discord (anonymous applicants have no Discord to DM). If your guild has a verified [custom domain](branding-and-domains.md#custom-domains), the status link points there, keeping applicants on your own domain.
+When a submission's status changes (or a reviewer sends a public message), the bot **DMs the applicant** with the new status and a link to their status page, provided the applicant logged in with Discord (anonymous applicants have no Discord to DM). If your guild has a verified [custom domain](branding-and-domains.md#custom-domains), the status link points there, keeping applicants on your own domain.
 
 A status change that a reviewer marks [hidden](submissions-and-review.md#reviewing-a-submission) sends no DM.
 
@@ -68,12 +68,12 @@ DMs use the server's [bot language](#bot-language) when one is set, so the whole
 
 ## Activity log
 
-Point the bot at a **log channel** (Bot config → Log channel) and it posts an embed for **every recorded event** in the guild — a Discord-native audit log. Logged actions include:
+Point the bot at a **log channel** (Bot config → Log channel) and it posts an embed for **every recorded event** in the guild, a Discord-native audit log. Logged actions include:
 
-- Submission lifecycle — created, status changed, message sent, withdrawn, deleted
+- Submission lifecycle: created, status changed, message sent, withdrawn, deleted
 - Role granted on acceptance
-- Form admin — created, updated, deleted, posted
-- Team & config — member added / role changed / removed, bot config updated, branding updated, domain updated
+- Form admin: created, updated, deleted, posted
+- Team & config: member added / role changed / removed, bot config updated, branding updated, domain updated
 
 If no log channel is set, nothing is posted.
 
@@ -81,7 +81,7 @@ If no log channel is set, nothing is posted.
 
 ## Bot language
 
-A server can choose the language the **bot speaks for the whole server** — slash-command replies, review embeds (New submission / Accept / Reject), activity-log embeds, and applicant status DMs. Set it with:
+A server can choose the language the **bot speaks for the whole server**: slash-command replies, review embeds (New submission / Accept / Reject), activity-log embeds, and applicant status DMs. Set it with:
 
 - `/forms language <locale>` in Discord, **or**
 - the **Bot** page dropdown in the dashboard.
@@ -99,5 +99,5 @@ The embed color follows your [branding accent color](branding-and-domains.md#acc
 ---
 
 :::info
-Next: [Branding & Custom Domains](branding-and-domains.md) — make forms look like yours.
+Next: [Branding & Custom Domains](branding-and-domains.md), to make forms look like yours.
 :::

@@ -10,9 +10,9 @@ sidebar_position: 1
 1. Drag & drop the `msk_vehiclekeys` folder into your resources directory.
 2. Add `ensure msk_vehiclekeys` to your `server.cfg`.
 3. Make sure all [dependencies](../index.md#requirements) start **before** `msk_vehiclekeys`.
-4. Configure `config/settings.lua` — or just manage everything live from the [in-game admin dashboard](../admin.md) after the first start.
+4. Configure `config/settings.lua`, or just manage everything live from the [in-game admin dashboard](../admin.md) after the first start.
 5. Set your framework at `Config.Framework` in `config/static.lua` (or leave it on `AUTO`).
-6. Set the hotkeys you want — players can rebind them in the FiveM keybind settings.
+6. Set the hotkeys you want. Players can rebind them in the FiveM keybind settings.
 7. Add the **items** (`keys`, `keyring`, `contract`) to your inventory.
 8. Enable or disable `uniqueItems` depending on your inventory.
 
@@ -23,7 +23,7 @@ sidebar_position: 1
 ## Database
 
 Vehicle keys are stored in a MariaDB table (`msk_vehiclekeys_keys`). **The table is created
-automatically on first start — no manual SQL import is required.**
+automatically on first start, no manual SQL import is required.**
 
 :::info[Migration from older versions]
 If you are updating from a version that used `vehiclekeys.json`, the keys are imported into
@@ -39,7 +39,7 @@ After that the **database is authoritative** and those values are managed from t
 :::info[Updating from v2.x]
 `config.lua` was replaced by the `config/` folder (`config/settings.lua` + `config/static.lua`)
 and vehicle **models** in the whitelist/blacklist/admin/job lists are now spawn **names**
-(strings) instead of backtick hashes. Re-check your config after updating — see the
+(strings) instead of backtick hashes. Re-check your config after updating, see the
 [Config page](../config.md).
 :::
 

@@ -7,8 +7,8 @@ sidebar_position: 3
 
 :::tip[New in v5.0.0]
 Garages, impounds and settings are no longer edited by hand in the config files.
-They live in the **database** and are managed from an in-game **admin dashboard**
-— create, edit and delete garages & impounds, change every setting and manage a
+They live in the **database** and are managed from an in-game **admin dashboard**:
+create, edit and delete garages & impounds, change every setting and manage a
 **group/permission system**, all applied **live without a server restart**.
 :::
 
@@ -23,7 +23,7 @@ images](#vehicle-images)**.
 
 On the **first start**, the script imports your existing `config/*` (garages,
 impounds and the managed settings) **once** into new database tables. From then
-on the **database is authoritative** — the config files only act as the default
+on the **database is authoritative**. The config files only act as the default
 template for a fresh install.
 
 ```text
@@ -47,7 +47,7 @@ also via [`Config.adminCommand`](./config.md) for a fresh install.
 
 ## Who can open it
 
-Access is **not** tied to the command being ACE-restricted — it is decided in
+Access is **not** tied to the command being ACE-restricted. It is decided in
 code, so it always respects the rules below:
 
 - **`group.admin`** can always open it and always has **every** right. This role
@@ -131,7 +131,7 @@ There are **10 rights**. `group.admin` always has all of them.
 | `permissions.manage` | Manage groups, rights and command access |
 
 Every action is **validated server-side** against the caller's effective rights
-(the union of all their groups). The UI only hides what a user can't do — the
+(the union of all their groups). The UI only hides what a user can't do. The
 server is the source of truth, so the buttons can't be bypassed.
 
 ## Tabs
@@ -150,10 +150,10 @@ List, create, edit and delete entries. The list can be filtered by **search**
   then tick the **exact ranks** that may use the garage in the rank popup (see
   [Config → Jobs block](./config.md#jobs-block)).
 - **NPC vs. marker/3D-text**: when the **NPC (ped)** is enabled, the **Marker**
-  and **3D-Text** sections are greyed out and disabled — those are only shown
+  and **3D-Text** sections are greyed out and disabled. Those are only shown
   in-world when no ped is used.
 
-Changes are pushed to all players instantly — blips and interaction points are
+Changes are pushed to all players instantly. Blips and interaction points are
 rebuilt without a restart.
 
 ### Job Garages
@@ -163,7 +163,7 @@ Requires the `settings.manage` right.
 :::
 
 By default a **job vehicle can only be parked at its own job garage**. This tab
-lets you grant a job access to **public (civilian) garages** as well — and control
+lets you grant a job access to **public (civilian) garages** as well, and control
 exactly which ones. For each job you choose a **mode** and pick the public garages:
 
 | Mode | Meaning |
@@ -187,8 +187,8 @@ Edit every dashboard-managed setting (locale, hotkey, parking mode, impound
 options, …). Two fields are **dropdowns** populated from the adapters available
 in code:
 
-- **Target script** — see [`AdminPerms.TARGET_SCRIPTS`](./guides/integrations.md#target--textui)
-- **Vehicle key script** — see [Vehicle Keys](./guides/integrations.md#vehicle-keys)
+- **Target script:** see [`AdminPerms.TARGET_SCRIPTS`](./guides/integrations.md#target--textui)
+- **Vehicle key script:** see [Vehicle Keys](./guides/integrations.md#vehicle-keys)
 
 The **default garages** are set per category here (see below).
 
@@ -227,8 +227,8 @@ before unless you switch it on.
 Show a **real picture per vehicle** in the garage / impound UI instead of the
 generic vehicle-class icon.
 
-1. Drop image files into the resource folder **`vehicle_images/<spawnname>.<ext>`**
-   — named after the vehicle's spawn name in lowercase, e.g.
+1. Drop image files into the resource folder **`vehicle_images/<spawnname>.<ext>`**:
+   named after the vehicle's spawn name in lowercase, e.g.
    `vehicle_images/sultanrs.png`.
 2. In **Settings → Vehicle Images** enable the feature and pick the file
    extension you used (**PNG / JPG / WEBP**).
@@ -245,22 +245,22 @@ folder lives **outside** `html/` so rebuilding the NUI never deletes them.
 Under **Settings → Colors** you can recolour the whole UI and rename the title
 badge:
 
-- **5 brand colours** — accent, background, panel, primary & secondary text — with
+- **5 brand colours:** accent, background, panel, primary & secondary text, with
   a **live preview** and a **"Reset to default"** button. The theme applies to the
   **dashboard, garage and impound** UI; the remaining shades are derived
   automatically.
-- **Brand tag** — the small badge next to the dashboard title (default `MSK`,
+- **Brand tag:** the small badge next to the dashboard title (default `MSK`,
   [`Config.BrandTag`](./config.md)). Leave it empty to hide the badge.
 
 ### Permissions
 
 - Add/remove groups and toggle their rights in a matrix (`group.admin` is shown
   locked with all rights on).
-- Manage the **Command access** list — which groups may open the dashboard.
+- Manage the **Command access** list, which groups may open the dashboard.
 
 ## Default garages per category
 
-Default garages are configured **per vehicle category** — **land**, **sea** and
+Default garages are configured **per vehicle category**: **land**, **sea** and
 **air**:
 
 | Category | Vehicle types |

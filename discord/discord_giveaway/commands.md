@@ -8,12 +8,12 @@ sidebar_position: 2
 
 All commands are Discord **slash commands**. They split into two groups by who may use them:
 
-- **Everyone** — informational commands any member can run
-- **Manager** — `Manage Server` permission **or** the configured [`manager` role](./configuration.md#manager-role)
-- **Manage Server** — server settings, gated behind the native *Manage Server* permission
+- **Everyone:** informational commands any member can run
+- **Manager:** `Manage Server` permission **or** the configured [`manager` role](./configuration.md#manager-role)
+- **Manage Server:** server settings, gated behind the native *Manage Server* permission
 
 :::tip[Prefer a browser?]
-Every manager command below can also be performed from the [**Web Dashboard**](./getting-started.md#-web-dashboard) at [msk-scripts.de/giveaway/dashboard](https://www.msk-scripts.de/giveaway/dashboard) — log in with Discord and manage your giveaways visually.
+Every manager command below can also be performed from the [**Web Dashboard**](./getting-started.md#-web-dashboard) at [msk-scripts.de/giveaway/dashboard](https://www.msk-scripts.de/giveaway/dashboard). Log in with Discord and manage your giveaways visually.
 :::
 
 ### Manager Commands
@@ -45,14 +45,14 @@ Every manager command below can also be performed from the [**Web Dashboard**](.
 | Command | Description |
 |---|---|
 | `/gsettings show` | Displays the current per-server configuration |
-| `/gsettings set …` | Sets or adds a setting — see [Configuration](./configuration.md) |
-| `/gsettings remove …` | Removes or clears a setting — see [Configuration](./configuration.md) |
+| `/gsettings set …` | Sets or adds a setting, see [Configuration](./configuration.md) |
+| `/gsettings remove …` | Removes or clears a setting, see [Configuration](./configuration.md) |
 
 > **The giveaway ID** (`<id>`) is the short public code shown in the footer of every giveaway embed (e.g. `A1B2C3`). Use `/glist` or `/ginfo` to look it up.
 
 ---
 
-## 🎉 Creating a Giveaway — `/gcreate`
+## 🎉 Creating a Giveaway with `/gcreate`
 
 `/gcreate` opens a modal with five fields:
 
@@ -60,7 +60,7 @@ Every manager command below can also be performed from the [**Web Dashboard**](.
 |---|---|---|
 | **Title** | Short text | up to 256 characters |
 | **Description** | Paragraph | up to 2000 characters |
-| **Duration** | Short text | format like `1d2h30m`, `45m`, `90s` — **min 10s, max 1 year** |
+| **Duration** | Short text | format like `1d2h30m`, `45m`, `90s`, **min 10s, max 1 year** |
 | **Winners** | Number | 1–100 (hidden when `mode` is *one prize per winner*, see below) |
 | **Prizes** *(optional)* | Paragraph | **one prize per line**, up to 20 prizes, 256 characters each |
 
@@ -75,14 +75,14 @@ Put one prize per line in the **Prizes** field. The `mode` option on `/gcreate` 
 
 With *one prize per winner* the number of winners is no longer a separate setting: it is the length of the prize list. The modal therefore drops the **Winners** field and asks for the prizes instead, and `/gedit` refuses a `winners` value that does not match the list.
 
-The order matters twice: it is the order shown in the embed, and it is the order the winners are drawn in. If a single winner is replaced with `/greroll <id> <winner>`, the replacement inherits **that winner's** prize — the other winners keep theirs.
+The order matters twice: it is the order shown in the embed, and it is the order the winners are drawn in. If a single winner is replaced with `/greroll <id> <winner>`, the replacement inherits **that winner's** prize. The other winners keep theirs.
 
 :::info[Looking for the Tebex coupon?]
 Discord caps a modal at five fields, which `/gcreate` already uses. The winner coupon is therefore configured in the [web dashboard](./getting-started.md#-web-dashboard) instead, when you create or edit a giveaway. See [Tebex Winner Coupons](./configuration.md#tebex-winner-coupons). In *one prize per winner* mode the dashboard also lets you pick the discounted packages **per prize**, so the winner of a script gets their discount on that script. The discount percentage and the validity period always apply to the whole giveaway.
 :::
 
 :::tip[Editing prizes later]
-`/gedit <id> prizes:"Nitro | Steam key" mode:"One prize per winner"` — slash options cannot contain line breaks, so separate the prizes with `|` there. In the [web dashboard](./getting-started.md#-web-dashboard) it is a normal multi-line field.
+`/gedit <id> prizes:"Nitro | Steam key" mode:"One prize per winner"`: slash options cannot contain line breaks, so separate the prizes with `|` there. In the [web dashboard](./getting-started.md#-web-dashboard) it is a normal multi-line field.
 :::
 
 ### Duration format
@@ -104,14 +104,14 @@ The minimum is **10 seconds** (so the 10-second scheduler tick can fire) and the
 
 ## 🔁 Pause, Resume, End & Reroll
 
-- **Pause** (`/gpause`) freezes the countdown — the remaining time is preserved and the button is disabled. **Resume** (`/gresume`) continues exactly where it left off.
+- **Pause** (`/gpause`) freezes the countdown. The remaining time is preserved and the button is disabled. **Resume** (`/gresume`) continues exactly where it left off.
 - **End** (`/gend`) finishes a giveaway early and immediately draws the winners.
 - **Cancel** (`/gcancel`) closes a giveaway with **no** winner draw.
 - **Reroll** (`/greroll`) picks new winners for an already-ended giveaway. Blacklisted roles are excluded from the new draw. If the giveaway hands out [Tebex coupons](./configuration.md#tebex-winner-coupons), the replaced winner's code is revoked in your store before the new winner receives theirs. Rerolling a single winner leaves the other winners' codes untouched.
 
 ---
 
-## 🗂️ Templates — `/gtemplate`
+## 🗂️ Templates with `/gtemplate`
 
 A template is a prepared giveaway without a channel and without an end date: title, description, duration, number of winners, the [prize list](#multiple-prizes) with its distribution mode and, if you want, its own [entry conditions](./configuration.md#per-giveaway-blacklist--whitelist--bonus). Ideal for anything you run every week.
 
@@ -140,7 +140,7 @@ A server can hold up to 50 templates.
 
 The [web dashboard](./getting-started.md#-web-dashboard) has a **Templates** tab that does the same thing with a form: create, edit, delete. When creating a giveaway there, a **Use template** selector sits above the form. Picking one fills in every field, and all of them stay editable, so a template is a starting point rather than a fixed form.
 
-Entry conditions sit behind an **Own entry conditions** switch that is off by default. Off means a giveaway made from the template uses the server settings, later changes to them included — which is usually what you want from a template you keep for months.
+Entry conditions sit behind an **Own entry conditions** switch that is off by default. Off means a giveaway made from the template uses the server settings, later changes to them included, which is usually what you want from a template you keep for months.
 
 Two things a template deliberately does not carry:
 

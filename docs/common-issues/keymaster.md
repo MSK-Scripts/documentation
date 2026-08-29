@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Keymaster
 
-**Asset Escrow** — https://forum.cfx.re/t/introducing-asset-escrow-for-your-resources/
+**Asset Escrow:** https://forum.cfx.re/t/introducing-asset-escrow-for-your-resources/
 
 ## Error parsing script / Failed to load script
 
@@ -17,7 +17,7 @@ Try restarting your server and make sure your server license key is correct. If 
 
 ## Failed to verify protected resource
 
-Files were possibly corrupted during transfer. Ensure hidden files are copied — the `.fxap` file in a protected resource must be included. Some FTP programs skip these files.
+Files were possibly corrupted during transfer. Ensure hidden files are copied. The `.fxap` file in a protected resource must be included. Some FTP programs skip these files.
 
 ## Could not find dependency `msk_core` for resource \<resource\>
 
