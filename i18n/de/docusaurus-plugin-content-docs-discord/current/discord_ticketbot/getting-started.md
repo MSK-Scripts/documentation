@@ -65,7 +65,7 @@ Wenn du direkt loslegen willst, geht es auf der Seite [Discord Ticket Bot instal
 
 Statt Transkripte als Dateianhang per DM zu verschicken, kann der Bot sie zu **[www.msk-scripts.de](https://www.msk-scripts.de)** hochladen und daraus einen öffentlichen Link erzeugen. Der lässt sich in jedem Browser öffnen, ganz ohne Download.
 
-Es gibt vier Stufen: **Basic** (kostenlos), **Premium** (3,99 € im Monat), **Premium+** (6,99 € im Monat) und **Business** (9,99 € im Monat). Die bezahlten Stufen bringen größere Transkripte samt Dateianhängen, längere Speicherdauer, eine eigene Domain, das Recht den MSK-Hinweis zu entfernen und die Bot-Verwaltung im Hosting. Abgeschlossen wird über **Stripe**, mit **14 Tagen kostenlos** und ohne Kreditkarte.
+Es gibt vier Stufen: **Basic** (kostenlos), **Premium** (3,99 € im Monat), **Premium+** (6,99 € im Monat) und **Business** (9,99 € im Monat). Die bezahlten Stufen bringen größere Transkripte samt Dateianhängen, längere Speicherdauer, eigene Domains, das Recht den MSK-Hinweis zu entfernen und das Hosting des Bots auf unseren Servern. Abgeschlossen wird über **Stripe**, mit **14 Tagen kostenlos** und ohne Kreditkarte.
 
 Für den Start holst du dir deinen API-Key unter **[www.msk-scripts.de/ticketbot/verify](https://www.msk-scripts.de/ticketbot/verify)** (mit Discord anmelden, Server auswählen) und trägst ihn in die `.env` ein:
 
@@ -78,13 +78,13 @@ MSK_API_URL="https://www.msk-scripts.de"
 
 ---
 
-## 🖥️ Gehostete Bot-Verwaltung (Premium und Premium+)
+## 🖥️ Gehostete Bot-Verwaltung (Premium, Premium+ und Business)
 
-Wer Premium oder Premium+ nutzt, kann seine Bot-Instanz **komplett von MSK Scripts hosten lassen** und sie vollständig über das Dashboard unter **[msk-scripts.de/ticketbot/dashboard](https://www.msk-scripts.de/ticketbot/dashboard)** verwalten: starten, stoppen, neu starten, aktualisieren, dazu eine Live-Log-Konsole und ein Klick zum eigenen Web-Dashboard des Bots. SSH-Zugang oder Serverkenntnisse brauchst du dafür nicht.
+Du willst gar keinen eigenen Server betreiben? In jedem bezahlten Tarif kannst du den Bot **von MSK Scripts hosten lassen**, und du richtest das selbst im Dashboard unter **[msk-scripts.de/ticketbot/dashboard](https://www.msk-scripts.de/ticketbot/dashboard)** ein. Bot-Token, Client ID und Client Secret eintragen, ein Knopf, und wir installieren ihn, starten ihn und prüfen, ob er hochgekommen ist.
 
 ![Dashboard, gehostete Bot-Verwaltung](/img/discord_ticketbot_dashboard.png)
 
-Melde dich über [Discord](https://discord.gg/5hHSBRHvJE) bei MSK Scripts, um das Hosting zu vereinbaren. Sobald es eingerichtet ist, taucht die Verwaltung nach dem Login automatisch in deinem Dashboard auf.
+Dein Bot bekommt danach eine eigene Adresse, `tickets-<id>.msk-scripts.de` oder eine eigene Domain, mit eigenem Discord-Login. Genau das lässt dein ganzes Support-Team in das Dashboard des Bots, nicht nur dich.
 
 > 📖 Details: **[Service Setup, gehostete Bot-Verwaltung](./service-setup.md)**
 

@@ -61,7 +61,7 @@ Auf Deutsch: [Ticket Bots im Vergleich](https://www.msk-scripts.de/de/ticketbot/
 
 Instead of sending transcripts as file attachments via DM, the bot can upload them to **[www.msk-scripts.de](https://www.msk-scripts.de)** and generate a public link, accessible in any browser, no download required.
 
-Four tiers are available: **Basic** (free), **Premium** (€3.99/mo), **Premium+** (€6.99/mo) and **Business** (€9.99/mo). Paid tiers add larger transcripts and file attachments, longer storage, a custom domain, the right to remove the MSK notice and hosted bot management. They are subscribed via **Stripe** with a **14-day free trial** that takes no credit card.
+Four tiers are available: **Basic** (free), **Premium** (€3.99/mo), **Premium+** (€6.99/mo) and **Business** (€9.99/mo). Paid tiers add larger transcripts and file attachments, longer storage, custom domains, the right to remove the MSK notice, and hosting of the bot on our servers. They are subscribed via **Stripe** with a **14-day free trial** that takes no credit card.
 
 To get started, grab your API key at **[www.msk-scripts.de/ticketbot/verify](https://www.msk-scripts.de/ticketbot/verify)** (sign in with Discord, pick your server) and add it to your `.env`:
 
@@ -74,13 +74,13 @@ MSK_API_URL="https://www.msk-scripts.de"
 
 ---
 
-## 🖥️ Hosted Bot Management (Premium & Premium+)
+## 🖥️ Hosted Bot Management (Premium, Premium+ & Business)
 
-Premium and Premium+ customers can have their bot instance **fully hosted by MSK Scripts** and manage it entirely from the dashboard at **[msk-scripts.de/ticketbot/dashboard](https://www.msk-scripts.de/ticketbot/dashboard)**: start/stop/restart/update, a live log console and one-click access to the bot's own web dashboard, no SSH access or server knowledge required.
+Do not want to run a server at all? Every paid tier can have the bot **hosted by MSK Scripts**, and you set it up yourself in the dashboard at **[msk-scripts.de/ticketbot/dashboard](https://www.msk-scripts.de/ticketbot/dashboard)**. Enter your bot token, client ID and client secret, press one button, and we install it, start it and check that it came up.
 
 ![Dashboard, Hosted Bot Management](/img/discord_ticketbot_dashboard.png)
 
-Contact MSK Scripts via [Discord](https://discord.gg/5hHSBRHvJE) to arrange a hosted plan. Once set up, the management panel appears automatically in your dashboard after logging in.
+Your bot then gets its own address, `tickets-<id>.msk-scripts.de` or a domain of your own, with its own Discord login. That is what lets your whole support team into the bot's dashboard, not just you.
 
 > 📖 Details: **[Service Setup → Hosted Bot Management](./service-setup.md)**
 

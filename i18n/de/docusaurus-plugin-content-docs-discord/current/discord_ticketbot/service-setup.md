@@ -227,28 +227,48 @@ Der VirtualHost wird vom Server entfernt und Transkripte sind wieder über die S
 
 ---
 
-## 8. Schritt 6 – Gehostetes Bot-Management (Premium & Premium+)
+## 8. Schritt 6 – Gehostetes Bot-Management (Premium, Premium+ & Business)
 
-> Dieser Schritt ist **nur für Premium- und Premium+-Abonnenten** verfügbar, die ein gehostetes Bot-Paket mit MSK Scripts vereinbart haben.  
-> Basic-Nutzer können diesen Schritt überspringen.
+> Dieser Schritt ist **nur für bezahlte Abos** gedacht, die den Bot von uns betreiben lassen wollen.
+> Basic-Nutzer und alle, die ihn gern selbst betreiben, können ihn überspringen.
 
-Gehostete Premium+-Kunden können ihren Bot vollständig über das Dashboard verwalten, kein SSH-Zugang oder Server-Wissen erforderlich.
+Du richtest das Hosting selbst im Dashboard ein. Kein SSH-Zugang, kein Server-Wissen, und kein Ticket, das du vorher aufmachen musst.
 
 ![Dashboard, gehostetes Bot-Management](/img/discord_ticketbot_dashboard.png)
+
+### Einrichtung
+
+1. **[msk-scripts.de/ticketbot/dashboard](https://www.msk-scripts.de/ticketbot/dashboard)** öffnen und auf den Tab **Bot Hosting** wechseln.
+2. Drei Werte aus dem [Discord Developer Portal](https://discord.com/developers/applications) eintragen:
+
+   | Wert | Wo er steht |
+   |---|---|
+   | **Bot-Token** | Deine Anwendung → **Bot** → Token. Discord zeigt einen Token nur ein einziges Mal, nimm also **Reset Token**, falls du ihn noch nie angezeigt hast. |
+   | **Client ID** | Deine Anwendung → **OAuth2** → Client ID |
+   | **Client Secret** | Deine Anwendung → **OAuth2** → Client Secret |
+
+   Alles andere, von der Guild-ID über den API-Key bis zu Ports und Session-Secrets, füllen wir aus.
+3. Auf **Bot Hosting aktivieren** drücken. Wir installieren den Bot, starten ihn und prüfen, ob er wirklich hochgekommen ist. Die Installation dauert ein paar Minuten, du kannst die Seite währenddessen schließen.
+4. **Redirect-URL eintragen.** Das Dashboard zeigt dir eine Adresse wie `https://tickets-a3f9c1b408d2.msk-scripts.de/auth/callback`. Trag sie im Developer Portal unter **OAuth2 → Redirects** ein. Das kann nur du, und ohne sie funktioniert der Login in das Dashboard deines Bots nicht.
+
+Kommt der Bot nicht hoch, bekommst du sein eigenes Log zurück und kannst den Wert direkt korrigieren. Neu installiert wird dafür nichts, er wird nur neu gestartet.
 
 ### Was verfügbar ist
 
 | Feature | Beschreibung |
 |---|---|
-| **Bot-Konfigurations-Editor** | `config.jsonc`, `snippets.jsonc` und `.env` direkt im Browser bearbeiten. Änderungen werden nach einem Neustart aktiv. |
+| **Eine eigene Adresse** | Das Dashboard deines Bots läuft unter `tickets-<id>.msk-scripts.de` oder unter einer eigenen Domain, die du im Tab **Custom Domain** hinterlegst. Das TLS-Zertifikat ist in beiden Fällen dabei. |
+| **Ein Login für dein Team** | Dieses Dashboard hat einen eigenen Discord-Login. Dein Team meldet sich mit dem eigenen Konto an und sieht genau das, was seine Rechte erlauben. Genau das konnte die alte Lösung nicht: dort kam nur der Server-Besitzer hinein. |
 | **Bot-Steuerung** | Bot per Klick starten, stoppen und neu starten. |
 | **Update per Klick** | Lädt die neueste Version via `git pull` und installiert neue Abhängigkeiten. Danach ist ein Neustart erforderlich. |
 | **Live-Log-Konsole** | Echtzeit-Stream der Bot-Ausgabe direkt im Browser. |
+| **Zugangsdaten-Formular** | Token oder Client Secret ohne Terminal korrigieren. Das zählt genau dann, wenn der Bot unten ist, denn dann ist sein eigenes Dashboard das, was du nicht erreichst. |
 
-### Wie man gehostet wird
+### Wieder entfernen
 
-Melde dich über [Discord](https://discord.gg/5hHSBRHvJE) bei MSK Scripts, um ein gehostetes Paket zu vereinbaren.  
-Sobald eingerichtet, erscheint das Management-Panel automatisch in deinem Dashboard nach dem Einloggen.
+**Hosting entfernen** im selben Tab stoppt den Bot, nimmt seine Adresse vom Netz und archiviert die Installation. Das Archiv wird nach **14 Tagen** endgültig gelöscht.
+
+Innerhalb dieser 14 Tage fragt eine erneute Aktivierung, ob du die alte Installation zurückhaben willst. Ein Klick holt sie samt Tickets, Einstellungen und **derselben Adresse** zurück, du musst das Discord Developer Portal also kein zweites Mal anfassen.
 
 ---
 

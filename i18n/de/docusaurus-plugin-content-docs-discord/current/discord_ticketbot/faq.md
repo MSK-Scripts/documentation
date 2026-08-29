@@ -31,7 +31,10 @@ Ja. SSL-Zertifikate werden automatisch über **Let's Encrypt** (Certbot) ohne Ko
 und erneuern sich automatisch vor Ablauf.
 
 ### Was ist „Gehostetes Bot-Management"?
-Premium- und Premium+-Kunden können ihren Bot vollständig von MSK Scripts hosten lassen. Der Bot läuft auf dem MSK-Server und wird komplett über das Dashboard verwaltet: Konfigurationsdateien bearbeiten, Bot starten/stoppen/neustarten/aktualisieren und die Live-Log-Ausgabe in Echtzeit im Browser verfolgen. Kein SSH-Zugang oder Server-Wissen erforderlich. Melde dich über [Discord](https://discord.gg/5hHSBRHvJE) bei MSK Scripts, um ein gehostetes Paket zu vereinbaren.
+In jedem bezahlten Tarif kannst du deinen Bot von MSK Scripts hosten lassen. Der Bot läuft auf unserem Server, und du richtest das selbst im Tab **Bot Hosting** deines Dashboards ein: Bot-Token, Client ID und Client Secret eintragen, den Rest machen wir, inklusive der Prüfung, ob er wirklich hochgekommen ist. Du behältst die Bot-Steuerung (starten, stoppen, neu starten, aktualisieren), eine Live-Log-Konsole und ein Formular zum Korrigieren dieser Zugangsdaten. Kein SSH-Zugang, kein Server-Wissen, und keine Absprache vorab.
 
-### Ich bin Hosted-Kunde, wie rufe ich das Management-Panel auf?
-Melde dich unter [www.msk-scripts.de/ticketbot/dashboard](https://www.msk-scripts.de/ticketbot/dashboard) an. Das Bot-Management-Panel erscheint automatisch, sobald deine gehostete Instanz von MSK Scripts eingerichtet wurde. Falls es nicht sichtbar ist, stelle sicher, dass du mit dem richtigen Discord-Account eingeloggt bist, und wende dich per [Discord](https://discord.gg/5hHSBRHvJE) an den Support.
+### Wie kommt mein Team in das Dashboard des Bots?
+Jeder gehostete Bot wird unter einer eigenen Adresse veröffentlicht, `tickets-<id>.msk-scripts.de` oder einer eigenen Domain, und dort läuft der Discord-Login des Bots selbst. Gib die Adresse an dein Team weiter: es meldet sich mit dem eigenen Konto an und sieht genau das, was seine Rechte erlauben. Einen Schritt musst du selbst machen, weil nur du ihn machen kannst: die im Dashboard angezeigte Redirect-URL im Discord Developer Portal unter **OAuth2 → Redirects** eintragen. Ohne sie endet die Anmeldung auf einer Discord-Fehlerseite.
+
+### Kann ich das Hosting wieder abschalten?
+Ja, im selben Tab. Beim Entfernen wird der Bot gestoppt, seine Adresse vom Netz genommen und die Installation archiviert; das Archiv wird nach 14 Tagen endgültig gelöscht. Kommst du innerhalb dieser 14 Tage zurück, fragen wir, ob du die alte Installation zurückhaben willst. Ein Klick holt sie samt Tickets, Einstellungen und derselben Adresse zurück.

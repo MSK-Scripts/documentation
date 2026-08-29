@@ -227,28 +227,48 @@ The VirtualHost will be removed from the server and transcripts revert to the de
 
 ---
 
-## 8. Step 6 – Hosted Bot Management (Premium & Premium+)
+## 8. Step 6 – Hosted Bot Management (Premium, Premium+ & Business)
 
-> This step is **only available for Premium and Premium+** subscribers who have arranged a hosted bot plan with MSK Scripts.  
-> Basic users can skip this step.
+> This step is **only for paid subscribers** who want us to run the bot for them.
+> Basic users, and anyone happy running it themselves, can skip it.
 
-Hosted Premium+ customers can manage their bot entirely through the dashboard, no SSH access or server knowledge required.
+You set hosting up yourself in the dashboard. No SSH access, no server knowledge, and no ticket to open first.
 
 ![Dashboard, Hosted Bot Management](/img/discord_ticketbot_dashboard.png)
+
+### Setting it up
+
+1. Open **[msk-scripts.de/ticketbot/dashboard](https://www.msk-scripts.de/ticketbot/dashboard)** and go to the **Bot Hosting** tab.
+2. Enter three values from the [Discord developer portal](https://discord.com/developers/applications):
+
+   | Value | Where to find it |
+   |---|---|
+   | **Bot token** | Your application → **Bot** → Token. Discord shows a token only once, so use **Reset Token** if you never revealed it. |
+   | **Client ID** | Your application → **OAuth2** → Client ID |
+   | **Client secret** | Your application → **OAuth2** → Client Secret |
+
+   Everything else, from the guild id and API key to ports and session secrets, is filled in for you.
+3. Press **Activate bot hosting**. We install the bot, start it, and check that it actually came up. Installing takes a couple of minutes; you can close the page while it runs.
+4. **Register the redirect URL.** The dashboard shows you a URL like `https://tickets-a3f9c1b408d2.msk-scripts.de/auth/callback`. Add it in the developer portal under **OAuth2 → Redirects**. Only you can do this, and the login to your bot's dashboard does not work without it.
+
+If the bot does not come up, you get its own log back and can correct the value right there. The bot is not reinstalled for that, only restarted.
 
 ### What's available
 
 | Feature | Description |
 |---|---|
-| **Bot Configuration Editor** | Edit `config.jsonc`, `snippets.jsonc` and `.env` directly in the browser. Changes take effect after a restart. |
+| **Its own address** | Your bot's dashboard is published at `tickets-<id>.msk-scripts.de`, or under a domain of your own set in the **Custom Domain** tab. The TLS certificate is included either way. |
+| **A login for your team** | That dashboard runs its own Discord login, so your staff sign in with their own account and see exactly what their permissions allow. This is the part the old setup could not do: it only ever let the server owner in. |
 | **Bot Control** | Start, stop and restart the bot with a single click. |
-| **One-click Update** | Downloads the latest version via `git pull`, installs new dependencies. Restart required afterwards. |
+| **One-click Update** | Downloads the latest version via `git pull` and installs new dependencies. Restart required afterwards. |
 | **Live Log Console** | Real-time stream of the bot's PM2 output directly in the browser. |
+| **Credentials form** | Correct the token or client secret without a terminal. It matters precisely when the bot is down, because then its own dashboard is the thing you cannot reach. |
 
-### How to get hosted
+### Removing it again
 
-Contact MSK Scripts via [Discord](https://discord.gg/5hHSBRHvJE) to arrange a hosted plan.  
-Once set up, the management panel appears automatically in your dashboard after logging in.
+**Remove hosting** in the same tab stops the bot, takes its address offline and archives the installation. The archive is deleted for good after **14 days**.
+
+Within those 14 days, activating hosting again asks whether you want the old installation back. Choosing that returns it with its tickets, its settings and the **same address**, so you do not have to touch the Discord developer portal a second time.
 
 ---
 
