@@ -27,18 +27,19 @@ Premium-Nutzer erhalten zusätzlich herunterladbare Dateianhänge im Transkript 
 
 ## 2. Abo-Modelle im Überblick
 
-| Feature | Basic (kostenlos) | Premium (3,99 €/Monat) | Premium+ (6,99 €/Monat) |
-|---|---|---|---|
-| Transkript als Link | ✅ | ✅ | ✅ |
-| Max. Transkriptgröße | 10 MB | 100 MB | 250 MB |
-| Dateianhänge im Transkript | ❌ | ✅ | ✅ |
-| Max. Anhangsgröße pro Ticket | — | 150 MB | 500 MB |
-| Eigene Domain | ❌ | ✅ | ✅ |
-| Speicherdauer | 30 Tage | 180 Tage | 365 Tage |
-| Uploads pro Stunde | 30 | 60 | 300 |
-| **Gehostetes Bot-Management** | ❌ | ✅ | ✅ |
+| Feature | Basic (kostenlos) | Premium (3,99 €/Monat) | Premium+ (6,99 €/Monat) | Business (9,99 €/Monat) |
+|---|---|---|---|---|
+| Transkript als Link | ✅ | ✅ | ✅ | ✅ |
+| Max. Transkriptgröße | 10 MB | 50 MB | 100 MB | 200 MB |
+| Dateianhänge im Transkript | ❌ | ✅ | ✅ | ✅ |
+| Max. Anhangsgröße pro Ticket | — | 100 MB | 200 MB | 500 MB |
+| Eigene Domain | ❌ | ✅ | ✅ | ✅ |
+| Speicherdauer | 30 Tage | 180 Tage | 365 Tage | 10 Jahre |
+| Uploads pro Stunde | 30 | 60 | 300 | 300 |
+| MSK-Hinweis entfernen | ❌ | ✅ | ✅ | ✅ |
+| **Gehostetes Bot-Management** | ❌ | ✅ | ✅ | ✅ |
 
-> Premium und Premium+ werden im Dashboard über **Stripe** abonniert, mit **14 Tagen kostenloser Testphase**  
+> Die bezahlten Stufen werden im Dashboard über **Stripe** abonniert, mit **14 Tagen kostenloser Testphase**, ohne Kreditkarte,  
 > für Neukunden (jederzeit kündbar). Verwaltung/Kündigung jederzeit über das Stripe-Kundenportal.
 
 ---
@@ -54,6 +55,7 @@ Premium-Nutzer erhalten zusätzlich herunterladbare Dateianhänge im Transkript 
    **monatlichen wiederkehrenden Preis** anlegen:
    - `Ticketbot Premium` → 3,99 € / Monat
    - `Ticketbot Premium+` → 6,99 € / Monat
+   - `Ticketbot Business` → 9,99 € / Monat
 
    Kopiere jeweils die **Price-ID** (`price_…`). Am Preis **keine** Testphase einstellen — die
    14-Tage-Testphase wird im Code automatisch für Neukunden angewendet.

@@ -19,7 +19,7 @@ need both.
 
 ## Prerequisites
 
-- Node.js 22+ and Git installed.
+- Node.js 24+ and Git installed.
 - The bot already set up and running, with a valid `.env` (`TOKEN`, `CLIENT_ID`, `GUILD_ID`).
 - A subdomain for the dashboard, e.g. `tickets.example.com`, with a DNS **A record** pointing to this server.
 

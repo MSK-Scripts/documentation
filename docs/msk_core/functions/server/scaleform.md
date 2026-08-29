@@ -91,7 +91,7 @@ exports.msk_core:TrafficMovie(playerId, duration)
 
 ## MSK.Scaleform.ScaleformAnnounce
 
-:::warning Deprecated
+:::warning[Deprecated]
 `MSK.ScaleformAnnounce` is deprecated. Use `MSK.Scaleform.FreemodeMessage` (type `1`) or `MSK.Scaleform.PopupWarning` (type `2`) instead.
 :::
 

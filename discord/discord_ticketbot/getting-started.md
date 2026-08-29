@@ -8,12 +8,18 @@ sidebar_position: 1
 
 A modern, self-hosted Discord ticket bot built on **Discord.js v14** — SQLite out of the box (no external database required), with optional **MySQL/MariaDB** and **PostgreSQL** support. No telemetry, full feature set out of the box.
 
-[`License: AGPL-3.0`](https://www.gnu.org/licenses/agpl-3.0) · [`Node.js 22+`](https://nodejs.org) · [`Discord.js v14`](https://discord.js.org) · [`Docs: docu.msk-scripts.de`](https://docu.msk-scripts.de/discord/discord_ticketbot/getting-started)
+[`License: AGPL-3.0`](https://www.gnu.org/licenses/agpl-3.0) · [`Node.js 24+`](https://nodejs.org) · [`Discord.js v14`](https://discord.js.org) · [`Docs: docu.msk-scripts.de`](https://docu.msk-scripts.de/discord/discord_ticketbot/getting-started)
 
 Prefer the overview first? The
 [self-hosted Discord ticket bot](https://www.msk-scripts.de/ticketbot) page on msk-scripts.de
 walks through the features, the transcript tiers and the verification flow.
 Auf Deutsch: [Discord Ticket Bot zum Selbsthosten](https://www.msk-scripts.de/de/ticketbot).
+
+Still deciding between the options? The
+[comparison of self-hosted Discord ticket bots](https://www.msk-scripts.de/ticketbot/compare)
+puts this bot next to Discord Tickets, Sayrix Ticket-Bot and the hosted Ticket Tool,
+including the cases where another project is the better fit.
+Auf Deutsch: [Ticket Bots im Vergleich](https://www.msk-scripts.de/de/ticketbot/compare).
 
 ---
 
@@ -55,7 +61,7 @@ Auf Deutsch: [Discord Ticket Bot zum Selbsthosten](https://www.msk-scripts.de/de
 
 Instead of sending transcripts as file attachments via DM, the bot can upload them to **[www.msk-scripts.de](https://www.msk-scripts.de)** and generate a public link — accessible in any browser, no download required.
 
-Three tiers are available: **Basic** (free), **Premium** (€3.99/mo) and **Premium+** (€6.99/mo). Paid tiers add larger transcripts and file attachments, longer storage, a custom domain and hosted bot management. Premium is subscribed via **Stripe** with a **14-day free trial**.
+Four tiers are available: **Basic** (free), **Premium** (€3.99/mo), **Premium+** (€6.99/mo) and **Business** (€9.99/mo). Paid tiers add larger transcripts and file attachments, longer storage, a custom domain, the right to remove the MSK notice and hosted bot management. They are subscribed via **Stripe** with a **14-day free trial** that takes no credit card.
 
 To get started, grab your API key at **[www.msk-scripts.de/ticketbot/verify](https://www.msk-scripts.de/ticketbot/verify)** (sign in with Discord, pick your server) and add it to your `.env`:
 
