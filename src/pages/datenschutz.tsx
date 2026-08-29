@@ -5,6 +5,7 @@ import styles from './legal.module.css';
 const content = {
   de: {
     title: 'Datenschutzerklärung',
+    description: 'Datenschutzerklärung von MSK Scripts: welche Daten diese Doku-Seite verarbeitet, welche nicht, und welche Rechte du hast.',
     sections: (
       <>
         <h1>Datenschutzerklärung</h1>
@@ -271,6 +272,7 @@ const content = {
   },
   en: {
     title: 'Privacy Policy',
+    description: 'Privacy policy for MSK Scripts: what data this documentation site processes, what it does not, and your rights.',
     sections: (
       <>
         <h1>Privacy Policy</h1>
@@ -539,7 +541,7 @@ export default function Datenschutz() {
   const c = content[lang];
 
   return (
-    <Layout title={c.title}>
+    <Layout title={c.title} description={c.description}>
       <div className={styles.legalPage}>
         <div className={styles.legalContent}>{c.sections}</div>
       </div>

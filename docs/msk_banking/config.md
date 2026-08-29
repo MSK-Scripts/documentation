@@ -1,5 +1,6 @@
 ---
 title: Config
+description: 'Configuration reference for MSK Banking: every option in config.lua, from locale and debug to the Discord log.'
 sidebar_position: 3
 ---
 

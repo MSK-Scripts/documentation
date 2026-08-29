@@ -5,6 +5,7 @@ import styles from './legal.module.css';
 const content = {
   de: {
     title: 'Impressum',
+    description: 'Impressum von MSK Scripts nach § 5 DDG: Anbieter, Kontakt, Umsatzsteuer-ID und Verantwortlicher für den Inhalt.',
     sections: (
       <>
         <h1>Impressum</h1>
@@ -68,6 +69,7 @@ const content = {
   },
   en: {
     title: 'Legal Notice',
+    description: 'Legal notice for MSK Scripts under § 5 DDG: provider, contact, VAT ID and the person responsible for the content.',
     sections: (
       <>
         <h1>Legal Notice</h1>
@@ -143,7 +145,7 @@ export default function Impressum() {
   const c = content[lang];
 
   return (
-    <Layout title={c.title}>
+    <Layout title={c.title} description={c.description}>
       <div className={styles.legalPage}>
         <div className={styles.legalContent}>{c.sections}</div>
       </div>

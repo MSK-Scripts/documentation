@@ -1,5 +1,6 @@
 ---
 title: Config
+description: 'Configuration reference for MSK Radio: every option in config.lua, from framework selection to the Discord log.'
 sidebar_position: 2
 ---
 

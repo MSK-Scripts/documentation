@@ -44,14 +44,12 @@ const config: Config = {
 
   headTags: [
     // SEO Meta Tags
-    {
-      tagName: 'meta',
-      attributes: {
-        name: 'description',
-        content:
-          'Official Documentation for MSK Scripts — FiveM Ressources, Discord Bots, Ecosystem and Guides.',
-      },
-    },
+    //
+    // Hier steht bewusst KEINE description. headTags gilt fuer jede Seite, die
+    // statische Fassung stand also als englisches Duplikat auf 204 von 210
+    // Seiten, auf den deutschen zusaetzlich in der falschen Sprache. Docusaurus
+    // leitet die Beschreibung pro Seite aus Frontmatter oder erstem Absatz ab.
+    // Seiten, die mit einem Code-Block beginnen, brauchen sie im Frontmatter.
     {
       tagName: 'meta',
       attributes: {
@@ -164,6 +162,9 @@ const config: Config = {
           lastmod: 'date',
           changefreq: null,
           priority: null,
+          // Die Suchseite ist eine Ergebnisseite ohne eigenen Inhalt. Sie hat
+          // deshalb auch keine description und gehoert nicht in den Index.
+          ignorePatterns: ['**/search', '**/search/'],
         },
         theme: {
           customCss: './src/css/custom.css',
