@@ -404,5 +404,97 @@
   "notFound.browseDocs": {
     "message": "Zur Dokumentation",
     "description": "Label of the button leading to the docs on the 404 page"
+  },
+  "home.resource.ticketbot.description": {
+    "message": "Ein Discord Ticket Bot, mit dem Spieler direkt aus Discord heraus Support-Tickets aufmachen.",
+    "description": "Description of the Discord Ticketbot card on the homepage"
+  },
+  "home.resource.giveawaybot.description": {
+    "message": "Ein Discord Giveaway Bot, mit dem du Gewinnspiele direkt aus Discord heraus veranstaltest.",
+    "description": "Description of the Discord Giveawaybot card on the homepage"
+  },
+  "home.resource.core.description": {
+    "message": "Unsere Kernbibliothek für alle Ressourcen, mit gemeinsamen Hilfsfunktionen und mehr.",
+    "description": "Description of the MSK Core card on the homepage"
+  },
+  "home.resource.handcuffs.description": {
+    "message": "Eine Handschellen-Ressource, mit der du Spieler fesselst, mit zahlreichen Optionen und Funktionen.",
+    "description": "Description of the MSK Handcuffs card on the homepage"
+  },
+  "home.resource.vehiclekeys.description": {
+    "message": "Eine Ressource für Fahrzeugschlüssel, mit der du Schlüssel verwaltest, mit zahlreichen Optionen und Funktionen.",
+    "description": "Description of the MSK Vehiclekeys card on the homepage"
+  },
+  "home.resource.garage.description": {
+    "message": "Ein vollwertiges Garagensystem, mit dem du abgestellte Fahrzeuge verwaltest und mehr.",
+    "description": "Description of the MSK Garage card on the homepage"
+  },
+  "home.resource.enginetoggle.description": {
+    "message": "Eine Ressource zum Ein- und Ausschalten des Motors, einfach und sparsam im Umgang mit dem Motorzustand.",
+    "description": "Description of the MSK EngineToggle card on the homepage"
+  },
+  "home.resource.fuel.description": {
+    "message": "Eine Ressource für den Tankinhalt, mit der du den Füllstand von Fahrzeugen verwaltest, mit zahlreichen Optionen und Funktionen.",
+    "description": "Description of the MSK Fuel card on the homepage"
+  },
+  "home.feature.installation": {
+    "message": "Installation",
+    "description": "Tag on a homepage resource card"
+  },
+  "home.feature.configuration": {
+    "message": "Konfiguration",
+    "description": "Tag on a homepage resource card"
+  },
+  "home.feature.client": {
+    "message": "Client",
+    "description": "Tag on a homepage resource card"
+  },
+  "home.feature.shared": {
+    "message": "Shared",
+    "description": "Tag on a homepage resource card"
+  },
+  "home.feature.server": {
+    "message": "Server",
+    "description": "Tag on a homepage resource card"
+  },
+  "home.feature.events": {
+    "message": "Events",
+    "description": "Tag on a homepage resource card"
+  },
+  "home.feature.exports": {
+    "message": "Exports",
+    "description": "Tag on a homepage resource card"
+  },
+  "home.feature.eventHandler": {
+    "message": "Event Handler",
+    "description": "Tag on a homepage resource card"
+  },
+  "home.card.cta": {
+    "message": "Loslegen →",
+    "description": "Label of the button at the bottom of a homepage resource card"
+  },
+  "home.resources.title": {
+    "message": "Ressourcen",
+    "description": "Headline above the resource cards on the homepage"
+  },
+  "home.resources.subtitle": {
+    "message": "Wähle eine Ressource, um ihre Dokumentation zu lesen.",
+    "description": "Line below the headline above the resource cards on the homepage"
+  },
+  "home.help.title": {
+    "message": "Brauchst du Hilfe?",
+    "description": "Headline of the help banner at the bottom of the homepage"
+  },
+  "home.help.text": {
+    "message": "Komm in den Discord von MSK Scripts, für Support, Neuigkeiten und den Austausch mit der Community.",
+    "description": "Text of the help banner at the bottom of the homepage"
+  },
+  "home.help.discordButton": {
+    "message": "Discord beitreten",
+    "description": "Label of the Discord button in the homepage help banner"
+  },
+  "home.meta.description": {
+    "message": "Dokumentation für die Ressourcen von MSK Scripts.",
+    "description": "Meta description of the homepage"
   }
 }

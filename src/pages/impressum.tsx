@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import styles from './legal.module.css';
-
-const STORAGE_KEY = 'msk-docu-legal-lang';
 
 const content = {
   de: {
@@ -136,46 +134,17 @@ const content = {
 };
 
 export default function Impressum() {
-  const [lang, setLang] = useState<'de' | 'en'>('en');
-
-  useEffect(() => {
-    const stored =
-      typeof window !== 'undefined' ? window.localStorage.getItem(STORAGE_KEY) : null;
-    if (stored === 'de' || stored === 'en') {
-      setLang(stored);
-      return;
-    }
-    const browserLang =
-      typeof navigator !== 'undefined' ? navigator.language?.toLowerCase() ?? '' : '';
-    setLang(browserLang.startsWith('de') ? 'de' : 'en');
-  }, []);
-
-  const handleChange = (value: 'de' | 'en') => {
-    setLang(value);
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem(STORAGE_KEY, value);
-    }
-  };
-
+  // Die Seite folgt der Sprache der Website. Vorher hing sie an einem eigenen
+  // Umschalter samt localStorage, der die Locale von Docusaurus ignorierte:
+  // /de/ zeigte dann je nach Browser trotzdem Englisch, und die Sprachwahl in
+  // der Navbar hatte hier keine Wirkung.
+  const { i18n } = useDocusaurusContext();
+  const lang: 'de' | 'en' = i18n.currentLocale === 'de' ? 'de' : 'en';
   const c = content[lang];
 
   return (
     <Layout title={c.title}>
       <div className={styles.legalPage}>
-        <div className={styles.langSwitcher}>
-          <span className={styles.langLabel} aria-hidden="true">
-            🌐
-          </span>
-          <select
-            value={lang}
-            onChange={(e) => handleChange(e.target.value as 'de' | 'en')}
-            className={styles.langSelect}
-            aria-label="Sprache wählen / Choose language"
-          >
-            <option value="de">🇩🇪 Deutsch</option>
-            <option value="en">🇬🇧 English</option>
-          </select>
-        </div>
         <div className={styles.legalContent}>{c.sections}</div>
       </div>
     </Layout>
