@@ -1,0 +1,22 @@
+{
+  "version.label": {
+    "message": "Aktuell",
+    "description": "The label for version current"
+  },
+  "sidebar.discordSidebar.category.Discord Ticketbot": {
+    "message": "Discord Ticketbot",
+    "description": "The label for category 'Discord Ticketbot' in sidebar 'discordSidebar'"
+  },
+  "sidebar.discordSidebar.category.Guides": {
+    "message": "Anleitungen",
+    "description": "The label for category 'Guides' in sidebar 'discordSidebar'"
+  },
+  "sidebar.discordSidebar.category.Discord Multibot": {
+    "message": "Discord Multibot",
+    "description": "The label for category 'Discord Multibot' in sidebar 'discordSidebar'"
+  },
+  "sidebar.discordSidebar.category.Discord Giveaway Bot": {
+    "message": "Discord Giveaway Bot",
+    "description": "The label for category 'Discord Giveaway Bot' in sidebar 'discordSidebar'"
+  }
+}

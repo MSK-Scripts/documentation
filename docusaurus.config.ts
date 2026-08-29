@@ -29,9 +29,17 @@ const config: Config = {
 
   onBrokenLinks: 'throw',
 
+  // Zweisprachig seit 29.08.2026. Uebersetzt wird bewusst nur der
+  // Discord-Bereich: die deutsche Suche will Anleitungen, und dort ist die
+  // Konkurrenz am schwaechsten. Alles andere bleibt englisch und faellt unter
+  // /de/ auf den englischen Originaltext zurueck.
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'de'],
+    localeConfigs: {
+      en: { label: 'English' },
+      de: { label: 'Deutsch' },
+    },
   },
 
   headTags: [
@@ -81,34 +89,18 @@ const config: Config = {
         content: 'MSK Scripts Documentation',
       },
     },
-    {
-      tagName: 'meta',
-      attributes: {
-        property: 'og:locale',
-        content: 'en_US',
-      },
-    },
-    {
-      tagName: 'meta',
-      attributes: {
-        property: 'og:url',
-        content: 'https://docu.msk-scripts.de/',
-      },
-    },
+    // og:locale, og:url und rel=canonical stehen hier bewusst NICHT mehr.
+    // headTags gilt fuer jede Seite, die statischen Werte zeigten also auf
+    // jeder der gut 200 Unterseiten auf die Startseite. Zusammen mit dem
+    // korrekten, seiteneigenen Canonical von Docusaurus standen damit zwei
+    // widersprechende rel=canonical im head, und die wertet Google gar nicht
+    // aus. Docusaurus erzeugt alle drei Tags ohnehin pro Seite und pro Sprache.
     // Theme Color (MSK Grün)
     {
       tagName: 'meta',
       attributes: {
         name: 'theme-color',
         content: '#00E676',
-      },
-    },
-    // Canonical URL
-    {
-      tagName: 'link',
-      attributes: {
-        rel: 'canonical',
-        href: 'https://docu.msk-scripts.de/',
       },
     },
   ],
@@ -122,6 +114,8 @@ const config: Config = {
         routeBasePath: 'guides',
         sidebarPath: './sidebars-guides.ts',
         editUrl: 'https://github.com/MSK-Scripts/documentation/tree/main/',
+        // Ohne lastUpdatedAt schreibt das Sitemap-Plugin kein <lastmod>.
+        showLastUpdateTime: true,
       },
     ],
     [
@@ -132,6 +126,8 @@ const config: Config = {
         routeBasePath: 'discord',
         sidebarPath: './sidebars-discord.ts',
         editUrl: 'https://github.com/MSK-Scripts/documentation/tree/main/',
+        // Ohne lastUpdatedAt schreibt das Sitemap-Plugin kein <lastmod>.
+        showLastUpdateTime: true,
       },
     ],
     [
@@ -142,6 +138,8 @@ const config: Config = {
         routeBasePath: 'ecosystem',
         sidebarPath: './sidebars-ecosystem.ts',
         editUrl: 'https://github.com/MSK-Scripts/documentation/tree/main/',
+        // Ohne lastUpdatedAt schreibt das Sitemap-Plugin kein <lastmod>.
+        showLastUpdateTime: true,
       },
     ],
   ],
@@ -154,8 +152,19 @@ const config: Config = {
           sidebarPath: './sidebars.ts',
           editUrl:
             'https://github.com/MSK-Scripts/documentation/tree/main/',
+          // Ohne lastUpdatedAt schreibt das Sitemap-Plugin kein <lastmod>.
+          showLastUpdateTime: true,
         },
         blog: false,
+        // Die Defaults des Sitemap-Plugins schreiben auf jede der 208 URLs
+        // changefreq weekly und priority 0.5. Beides wertet Google nicht aus,
+        // und das eine Feld, das ausgewertet wird, fehlte komplett. Also
+        // umgekehrt: lastmod an, die beiden Placebo-Felder aus.
+        sitemap: {
+          lastmod: 'date',
+          changefreq: null,
+          priority: null,
+        },
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -171,7 +180,7 @@ const config: Config = {
       require.resolve('@easyops-cn/docusaurus-search-local'),
       {
         hashed: true,
-        language: ['en'],
+        language: ['en', 'de'],
         indexBlog: false,
         // Alle vier Docs-Instanzen indexieren (Default + guides/discord/ecosystem)
         docsRouteBasePath: ['docs', 'guides', 'discord', 'ecosystem'],
@@ -237,6 +246,10 @@ const config: Config = {
         {
           href: 'https://discord.gg/5hHSBRHvJE',
           label: 'Discord',
+          position: 'right',
+        },
+        {
+          type: 'localeDropdown',
           position: 'right',
         },
       ],

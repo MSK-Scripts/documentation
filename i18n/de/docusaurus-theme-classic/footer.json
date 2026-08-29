@@ -1,0 +1,54 @@
+{
+  "link.title.Docs": {
+    "message": "Doku",
+    "description": "The title of the footer links column with title=Docs in the footer"
+  },
+  "link.title.Community": {
+    "message": "Community",
+    "description": "The title of the footer links column with title=Community in the footer"
+  },
+  "link.title.Legal": {
+    "message": "Rechtliches",
+    "description": "The title of the footer links column with title=Legal in the footer"
+  },
+  "link.item.label.Dokumentation": {
+    "message": "Dokumentation",
+    "description": "The label of footer link with label=Dokumentation linking to /docs"
+  },
+  "link.item.label.Guides": {
+    "message": "Anleitungen",
+    "description": "The label of footer link with label=Guides linking to /guides"
+  },
+  "link.item.label.Ecosystem": {
+    "message": "Ecosystem",
+    "description": "The label of footer link with label=Ecosystem linking to /ecosystem"
+  },
+  "link.item.label.Discord Bots": {
+    "message": "Discord Bots",
+    "description": "The label of footer link with label=Discord Bots linking to /discord"
+  },
+  "link.item.label.Shop": {
+    "message": "Shop",
+    "description": "The label of footer link with label=Shop linking to https://www.msk-scripts.de"
+  },
+  "link.item.label.GitHub": {
+    "message": "GitHub",
+    "description": "The label of footer link with label=GitHub linking to https://github.com/MSK-Scripts"
+  },
+  "link.item.label.Discord": {
+    "message": "Discord",
+    "description": "The label of footer link with label=Discord linking to https://discord.gg/5hHSBRHvJE"
+  },
+  "link.item.label.Impressum": {
+    "message": "Impressum",
+    "description": "The label of footer link with label=Impressum linking to /impressum"
+  },
+  "link.item.label.Datenschutz": {
+    "message": "Datenschutz",
+    "description": "The label of footer link with label=Datenschutz linking to /datenschutz"
+  },
+  "copyright": {
+    "message": "Copyright © 2026 MSK Scripts. All rights reserved.",
+    "description": "The footer copyright"
+  }
+}

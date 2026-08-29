@@ -1,4 +1,5 @@
 {
   "label": "Events",
+  "key": "msk_banking.events",
   "position": 5
 }

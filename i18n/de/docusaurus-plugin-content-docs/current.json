@@ -1,0 +1,158 @@
+{
+  "version.label": {
+    "message": "Aktuell",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.Common Issues": {
+    "message": "Häufige Probleme",
+    "description": "The label for category 'Common Issues' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Miscellaneous": {
+    "message": "Verschiedenes",
+    "description": "The label for category 'Miscellaneous' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.MSK Core": {
+    "message": "MSK Core",
+    "description": "The label for category 'MSK Core' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Functions": {
+    "message": "Funktionen",
+    "description": "The label for category 'Functions' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Client": {
+    "message": "Client",
+    "description": "The label for category 'Client' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.msk_core.functions.client.ui": {
+    "message": "UI",
+    "description": "The label for category 'UI' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Shared": {
+    "message": "Shared",
+    "description": "The label for category 'Shared' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Server": {
+    "message": "Server",
+    "description": "The label for category 'Server' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.msk_core.functions.server.ui": {
+    "message": "UI",
+    "description": "The label for category 'UI' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.msk_core.changelog": {
+    "message": "Changelog",
+    "description": "The label for category 'Changelog' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.MSK Banking": {
+    "message": "MSK Banking",
+    "description": "The label for category 'MSK Banking' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Installation": {
+    "message": "Installation",
+    "description": "The label for category 'Installation' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.msk_banking.exports": {
+    "message": "Exports",
+    "description": "The label for category 'Exports' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.msk_banking.events": {
+    "message": "Events",
+    "description": "The label for category 'Events' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.MSK EngineToggle": {
+    "message": "MSK EngineToggle",
+    "description": "The label for category 'MSK EngineToggle' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.msk_enginetoggle.exports": {
+    "message": "Exports",
+    "description": "The label for category 'Exports' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Event Handler": {
+    "message": "Event Handler",
+    "description": "The label for category 'Event Handler' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.MSK Fuel": {
+    "message": "MSK Fuel",
+    "description": "The label for category 'MSK Fuel' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.msk_fuel.exports": {
+    "message": "Exports",
+    "description": "The label for category 'Exports' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.msk_fuel.changelog": {
+    "message": "Changelog",
+    "description": "The label for category 'Changelog' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.MSK Garage": {
+    "message": "MSK Garage",
+    "description": "The label for category 'MSK Garage' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.msk_garage.guides": {
+    "message": "Anleitungen",
+    "description": "The label for category 'Guides' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.msk_garage.exports": {
+    "message": "Exports",
+    "description": "The label for category 'Exports' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.msk_garage.changelog": {
+    "message": "Changelog",
+    "description": "The label for category 'Changelog' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.MSK Handcuffs": {
+    "message": "MSK Handcuffs",
+    "description": "The label for category 'MSK Handcuffs' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.msk_handcuffs.exports": {
+    "message": "Exports",
+    "description": "The label for category 'Exports' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.msk_handcuffs.events": {
+    "message": "Events",
+    "description": "The label for category 'Events' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.msk_handcuffs.guides": {
+    "message": "Anleitungen",
+    "description": "The label for category 'Guides' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.msk_handcuffs.changelog": {
+    "message": "Changelog",
+    "description": "The label for category 'Changelog' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.MSK Radio": {
+    "message": "MSK Radio",
+    "description": "The label for category 'MSK Radio' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.msk_radio.exports": {
+    "message": "Exports",
+    "description": "The label for category 'Exports' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.msk_radio.events": {
+    "message": "Events",
+    "description": "The label for category 'Events' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.MSK VehicleKeys": {
+    "message": "MSK VehicleKeys",
+    "description": "The label for category 'MSK VehicleKeys' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.msk_vehiclekeys.guides": {
+    "message": "Anleitungen",
+    "description": "The label for category 'Guides' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.msk_vehiclekeys.exports": {
+    "message": "Exports",
+    "description": "The label for category 'Exports' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.msk_vehiclekeys.changelog": {
+    "message": "Changelog",
+    "description": "The label for category 'Changelog' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.MSK Whitelist": {
+    "message": "MSK Whitelist",
+    "description": "The label for category 'MSK Whitelist' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.msk_whitelist.exports": {
+    "message": "Exports",
+    "description": "The label for category 'Exports' in sidebar 'tutorialSidebar'"
+  }
+}

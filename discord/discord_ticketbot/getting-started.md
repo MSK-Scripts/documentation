@@ -70,7 +70,7 @@ MSK_API_KEY='your_api_key_here'
 MSK_API_URL="https://www.msk-scripts.de"
 ```
 
-> 📖 Full walkthrough (tier comparison, API key, custom domain, Stripe): **[Service Setup](/discord/discord_ticketbot/service-setup/service-setup-en)**
+> 📖 Full walkthrough (tier comparison, API key, custom domain, Stripe): **[Service Setup](./service-setup.md)**
 
 ---
 
@@ -82,7 +82,7 @@ Premium and Premium+ customers can have their bot instance **fully hosted by MSK
 
 Contact MSK Scripts via [Discord](https://discord.gg/5hHSBRHvJE) to arrange a hosted plan. Once set up, the management panel appears automatically in your dashboard after logging in.
 
-> 📖 Details: **[Service Setup → Hosted Bot Management](/discord/discord_ticketbot/service-setup/service-setup-en)**
+> 📖 Details: **[Service Setup → Hosted Bot Management](./service-setup.md)**
 
 ---
 

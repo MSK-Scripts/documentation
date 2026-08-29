@@ -1,10 +1,8 @@
 ---
-title: Service Setup (English)
-description: Service Setup (English)
-sidebar_position: 4
+title: Service Setup
+description: Set up the MSK Transcript Service, compare the tiers, get your API key and connect a custom domain.
+sidebar_position: 7
 ---
-
-# MSK Ticket Bot – Service Setup (English)
 
 This guide explains how to set up the MSK Transcript Service for your self-hosted bot instance.  
 The service stores ticket transcripts online and makes them accessible via a public link.  

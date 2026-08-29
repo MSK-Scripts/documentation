@@ -1,0 +1,38 @@
+{
+  "title": {
+    "message": "MSK Scripts",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "MSK Scripts Logo",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.FiveM Ressources": {
+    "message": "FiveM Ressourcen",
+    "description": "Navbar item with label FiveM Ressources"
+  },
+  "item.label.Discord Bots": {
+    "message": "Discord Bots",
+    "description": "Navbar item with label Discord Bots"
+  },
+  "item.label.Ecosystem": {
+    "message": "Ecosystem",
+    "description": "Navbar item with label Ecosystem"
+  },
+  "item.label.Guides": {
+    "message": "Anleitungen",
+    "description": "Navbar item with label Guides"
+  },
+  "item.label.Shop": {
+    "message": "Shop",
+    "description": "Navbar item with label Shop"
+  },
+  "item.label.Github": {
+    "message": "Github",
+    "description": "Navbar item with label Github"
+  },
+  "item.label.Discord": {
+    "message": "Discord",
+    "description": "Navbar item with label Discord"
+  }
+}

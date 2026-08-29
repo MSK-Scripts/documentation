@@ -1,0 +1,18 @@
+{
+  "version.label": {
+    "message": "Aktuell",
+    "description": "The label for version current"
+  },
+  "sidebar.ecosystemSidebar.category.MSK Paste": {
+    "message": "MSK Paste",
+    "description": "The label for category 'MSK Paste' in sidebar 'ecosystemSidebar'"
+  },
+  "sidebar.ecosystemSidebar.category.MSK Shortener": {
+    "message": "MSK Shortener",
+    "description": "The label for category 'MSK Shortener' in sidebar 'ecosystemSidebar'"
+  },
+  "sidebar.ecosystemSidebar.category.MSK Forms": {
+    "message": "MSK Forms",
+    "description": "The label for category 'MSK Forms' in sidebar 'ecosystemSidebar'"
+  }
+}

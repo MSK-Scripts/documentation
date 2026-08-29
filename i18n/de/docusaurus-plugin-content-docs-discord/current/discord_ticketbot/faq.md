@@ -1,10 +1,8 @@
 ---
-title: FAQ - (Deutsch)
-description: FAQ - (Deutsch)
-sidebar_position: 2
+title: FAQ
+description: Häufige Fragen zum selbst gehosteten MSK Discord Ticket Bot, von der Datenbankwahl über Transkripte bis zum Hosting.
+sidebar_position: 9
 ---
-
-# Häufige Fragen
 
 ### Muss ich einen API Key haben?
 Nein. Ohne API Key funktioniert der Bot normal und sendet das Transkript als Datei per DM.  
