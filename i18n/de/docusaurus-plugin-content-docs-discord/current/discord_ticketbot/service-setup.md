@@ -45,7 +45,7 @@ Premium-Nutzer erhalten zusätzlich herunterladbare Dateianhänge im Transkript 
 ## 3. Schritt 1 – Stripe einrichten (Abos)
 
 > **Zweck:** Premium und Premium+ werden über Stripe abgerechnet. Dieser Schritt ist nur nötig,  
-> wenn du die Website selbst hostest — auf dem offiziellen **msk-scripts.de** ist alles bereits eingerichtet.
+> wenn du die Website selbst hostest. Auf dem offiziellen **msk-scripts.de** ist alles bereits eingerichtet.
 
 ### Anleitung
 
@@ -55,7 +55,7 @@ Premium-Nutzer erhalten zusätzlich herunterladbare Dateianhänge im Transkript 
    - `Ticketbot Premium+` → 6,99 € / Monat
    - `Ticketbot Business` → 9,99 € / Monat
 
-   Kopiere jeweils die **Price-ID** (`price_…`). Am Preis **keine** Testphase einstellen — die
+   Kopiere jeweils die **Price-ID** (`price_…`). Am Preis **keine** Testphase einstellen, die
    14-Tage-Testphase wird im Code automatisch für Neukunden angewendet.
 2. **Entwickler → API-Schlüssel** → **Geheimen Schlüssel** (`sk_…`) kopieren.
 3. **Einstellungen → Abrechnung → Kundenportal** → aktivieren (Kündigung + Tarifwechsel erlauben).
@@ -103,7 +103,7 @@ DISCORD_VERIFY_CLIENT_SECRET=dein_client_secret_hier
 ```
 
 > ⚠️ Dies ist eine **separate** App vom Discord-Bot selbst.  
-> Verwende hier nicht den Bot-Token — nur Client ID und Secret.
+> Verwende hier nicht den Bot-Token, nur Client ID und Secret.
 
 ---
 
@@ -120,11 +120,11 @@ Dieser Prozess muss **einmalig pro Server** von einem Server-Administrator durch
 ### 5.2 Discord verbinden
 
 Klicke auf **„Mit Discord anmelden"**.  
-Du wirst zu Discord weitergeleitet — klicke dort auf **„Autorisieren"**.
+Du wirst zu Discord weitergeleitet, klicke dort auf **„Autorisieren"**.
 
 Die App benötigt zwei Berechtigungen:
-- **`identify`** — damit dein Discord-Account erkannt werden kann
-- **`guilds`** — damit deine Server-Liste angezeigt werden kann
+- **`identify`**: damit dein Discord-Account erkannt werden kann
+- **`guilds`**: damit deine Server-Liste angezeigt werden kann
 
 ---
 
@@ -141,7 +141,7 @@ Wähle den Server aus, für den du den API Key haben möchtest, und klicke auf *
 ### 5.4 API Key speichern
 
 Nach der Generierung wird dein persönlicher API Key angezeigt.  
-**Kopiere ihn sofort** — er wird nicht erneut angezeigt.
+**Kopiere ihn sofort**, er wird nicht erneut angezeigt.
 
 ```bash
 MSK_API_KEY=a1b2c3d4e5f6...
@@ -232,9 +232,9 @@ Der VirtualHost wird vom Server entfernt und Transkripte sind wieder über die S
 > Dieser Schritt ist **nur für Premium- und Premium+-Abonnenten** verfügbar, die ein gehostetes Bot-Paket mit MSK Scripts vereinbart haben.  
 > Basic-Nutzer können diesen Schritt überspringen.
 
-Gehostete Premium+-Kunden können ihren Bot vollständig über das Dashboard verwalten — kein SSH-Zugang oder Server-Wissen erforderlich.
+Gehostete Premium+-Kunden können ihren Bot vollständig über das Dashboard verwalten, kein SSH-Zugang oder Server-Wissen erforderlich.
 
-![Dashboard — Gehostetes Bot-Management](/img/discord_ticketbot_dashboard.png)
+![Dashboard, gehostetes Bot-Management](/img/discord_ticketbot_dashboard.png)
 
 ### Was verfügbar ist
 

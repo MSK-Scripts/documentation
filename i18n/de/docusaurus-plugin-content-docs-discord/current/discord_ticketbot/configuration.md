@@ -204,7 +204,7 @@ Sprachen:
 
 ```json
 "transcriptDesign": "modern",  // "modern" (Standard) oder "classic"
-"transcriptLang": "de"         // en, de, fr, es, pt, pl, hu — fällt auf Englisch zurück, wenn leer oder unbekannt
+"transcriptLang": "de"         // en, de, fr, es, pt, pl, hu. Fällt auf Englisch zurück, wenn leer oder unbekannt
 ```
 
 | Wert       | Aussehen                                                                        |
