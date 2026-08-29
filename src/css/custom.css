@@ -4,8 +4,16 @@
  * work well for content-centric websites.
  */
 
+/* Maximale Inhaltsbreite fuer Seiten ohne Sidebar, also Landing Page und
+   Footer. Doku-Seiten fuellen die Breite ueber Sidebar und Inhaltsverzeichnis
+   und laufen bis rund 1763px. Ohne diese beiden blieben mit Infimas
+   Standardcontainer (1320px) bzw. den fruheren 1200px des Footers links und
+   rechts mehrere hundert Pixel leer. Eine Variable, damit die Breite nicht an
+   drei Stellen einzeln gepflegt werden muss. */
+
 /* You can override the default Infima variables here. */
 :root {
+  --msk-content-max: 1760px;
   --ifm-color-primary: #26700a;
   --ifm-color-primary-dark: #206208;
   --ifm-color-primary-darker: #1c5907;

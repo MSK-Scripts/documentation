@@ -78,32 +78,48 @@
   padding: 4rem 0 3rem;
 }
 
-.cardGrid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.75rem;
-  max-width: 1400px;
+/* Eigener Wrapper statt Infimas `.container`.
+   Der ist auf 1320px gedeckelt, was auf Doku-Seiten passt, weil dort Sidebar
+   und Inhaltsverzeichnis die Raender fuellen und der Inhalt bis rund 1763px
+   laeuft. Auf der Landing Page gibt es beides nicht, dort blieben links und
+   rechts je knapp 300px leer. 1760px trifft die Breite der Doku-Seiten.
+   Nebenbei war das der Grund, warum das `max-width: 1400px` des Rasters nie
+   gegriffen hat: der aeussere Container war schmaler. */
+.wrap {
+  width: 100%;
+  max-width: var(--msk-content-max);
   margin: 0 auto;
+  /* 2rem wie im Footer, damit die linke Kante der ersten Karte genau auf der
+     linken Kante der Footer-Spalten sitzt. */
+  padding: 0 2rem;
 }
 
-.cardGrid > * {
-  flex: 0 1 calc(33.333% - 1.75rem);
-  min-width: 320px;
-  max-width: 420px;
+/* Grid statt Flexbox. Die Spaltenzahl ist bewusst fest vorgegeben und nicht
+   ueber `auto-fill` aus einer Mindestbreite abgeleitet: mit minmax(320px, 1fr)
+   passen auf 1920px fuenf Spalten hinein, die Karten landen dann auf ihrer
+   Mindestbreite und von acht Karten bleibt eine Dreierreihe uebrig. Vier
+   Spalten teilen acht Karten sauber in zwei volle Reihen. */
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.75rem;
 }
 
-@media (max-width: 1200px) {
-  .cardGrid > * {
-    flex: 0 1 calc(50% - 1.75rem);
-    max-width: 480px;
+@media (max-width: 1500px) {
+  .cardGrid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media (max-width: 640px) {
-  .cardGrid > * {
-    flex: 1 1 100%;
-    max-width: 100%;
+@media (max-width: 1100px) {
+  .cardGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .cardGrid {
+    grid-template-columns: 1fr;
   }
 }
 

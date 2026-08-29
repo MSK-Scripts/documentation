@@ -250,7 +250,7 @@ function ResourceCard({ title, image, badges, description, to, features }: Resou
 function Resources() {
   return (
     <section className={styles.resources}>
-      <div className="container">
+      <div className={styles.wrap}>
         <Heading as="h2" className={styles.sectionTitle}>
           <Translate
             id="home.resources.title"
@@ -280,7 +280,7 @@ function Resources() {
 function InfoBanner() {
   return (
     <section className={styles.infoBanner}>
-      <div className="container">
+      <div className={styles.wrap}>
         <div className={styles.infoBannerInner}>
           <div className={styles.infoBannerText}>
             <Heading as="h3">
