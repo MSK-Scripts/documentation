@@ -7,7 +7,7 @@ sidebar_position: 5
 
 `msk_garage` stores vehicles in the standard ESX **`owned_vehicles`** table and,
 since v5.0.0, keeps its **garage/impound/settings/permission** data in four of
-its own tables. It does **not** ship an `.sql` file — every column and table it
+its own tables. It does **not** ship an `.sql` file. Every column and table it
 needs is created automatically on the first start.
 
 ## Auto-migration
@@ -40,7 +40,7 @@ You do not need to import any SQL by hand. Just make sure the base ESX
 | Column | Type | Set by | Purpose |
 |---|---|---|---|
 | `owner` | `varchar` | ESX | Player identifier (or `society_<job>` for shared job vehicles). |
-| `plate` | `varchar` | ESX | License plate. Stored padded **or** trimmed — the script matches both. |
+| `plate` | `varchar` | ESX | License plate. Stored padded **or** trimmed. The script matches both. |
 | `vehicle` | `longtext` | ESX / garage | Vehicle properties JSON (mods, colors **and** engine/body/tank health, dirt). |
 | `type` | `varchar` | ESX / garage | Vehicle category (`car`, `truck`, `boat`, `helicopter`, `aircraft`, …). |
 | `job` | `varchar` | ESX | Job that owns the vehicle (empty / `civ` for civilian cars). |
@@ -160,11 +160,36 @@ on start:
 On the **first** start your `config/garages.lua`, `config/impounds.lua` and the
 managed settings are imported into these tables **once** (a `__seeded__` marker
 prevents re-importing). After that the tables are authoritative and edited from
-the dashboard — see [Config](./config.md) and [Admin Dashboard](./dashboard.md).
+the dashboard, see [Config](./config.md) and [Admin Dashboard](./dashboard.md).
 :::
 
 :::note[Complex fields are JSON]
 Garage/impound definitions are stored as JSON in the `data` column. `vector4`
 coordinates are saved as plain `{ x, y, z, w }` tables so they survive JSON
 encode/decode; the runtime reads coordinates via `.x/.y/.z/.w` either way.
+:::
+
+## Private garage tables (v5.5.0)
+
+[Private garages](./guides/private-garages.md) add two nullable columns to
+`msk_garage_garages` and one new table. Both are applied automatically on start,
+there is **no SQL to run by hand**:
+
+| Column / Table | Purpose |
+|---|---|
+| `msk_garage_garages.owner` | The identifier of the owner. A garage is private exactly when this is set. |
+| `msk_garage_garages.house_ref` | Links the garage to the id your housing script uses. Only needed for the pull adapters. |
+| `msk_garage_private_access` | Who may use which garage (`garage_id`, `identifier`, `granted_by`, `granted_at`). |
+
+:::note[Why these are columns and not part of `data`]
+`owner` and `house_ref` are looked up per player, and the `data` JSON is shipped
+to clients on every sync. Keeping them as columns means they can be indexed, and
+that the owner identifier never has to leave the server.
+:::
+
+:::warning[Do not point `owner` at a garage by hand without thinking]
+Setting an owner takes the garage away from everyone else. msk_garage handles
+that for you through `/garageowner` and the exports, moving other players
+vehicles out of the garage first. An `UPDATE` straight on the table skips that
+step and can leave cars in a garage their owner can no longer open.
 :::

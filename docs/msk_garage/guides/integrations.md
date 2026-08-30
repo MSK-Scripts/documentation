@@ -12,15 +12,18 @@ only enable what you actually run.
 :::note
 Key holders and faction vehicles have their own page: see
 [Job vehicles](./job-vehicles.md).
+
+Housing scripts are not on this page either. They connect through the private
+garage interface, see [Private garages](./private-garages.md).
 :::
 
 ## AdvancedParking
 
 [AdvancedParking](https://forum.cfx.re/t/advancedparking-v4-11-1-persistent-vehicles-esx-qb-qbox-ox-standalone/2099582)
-makes spawned vehicles persistent — it saves any vehicle a player interacts with
+makes spawned vehicles persistent. It saves any vehicle a player interacts with
 and **respawns it when a player gets close**.
 
-:::info[Auto-detected — no config flag (v5.0.0)]
+:::info[Auto-detected: no config flag (v5.0.0)]
 There is no `Config.AdvancedParking` setting anymore. The integration is enabled
 **automatically** whenever the `AdvancedParking` resource is running
 (`Config.UsesAdvancedParking()` in `config/static.lua`). Just `ensure` it before
@@ -38,7 +41,7 @@ When AdvancedParking is running:
 
 ### Impound lock
 
-:::tip[New in v5.3.0 — export-based since v5.4.1]
+:::tip[New in v5.3.0: export-based since v5.4.1]
 Up to v5.4.0 the lock read AdvancedParking's `vehicles_parking` table directly. It
 now asks AdvancedParking through its own exports, and
 `Config.AdvancedParkingTable` / `Config.AdvancedParkingPlateColumn` are gone.
@@ -56,7 +59,7 @@ With the lock on:
   cleanup, or a manual delete).
 - Affected vehicles show up **greyed out** in the impound UI with a "still in the
   world" label, and the park-out is refused **server-side before the fee is
-  charged** — nobody pays for a blocked vehicle.
+  charged**. Nobody pays for a blocked vehicle.
 - Plates are matched space-insensitively, so a padded database plate and a trimmed
   AdvancedParking plate still find each other.
 
@@ -77,7 +80,7 @@ of standard vehicle properties. To persist it, install
 - On **park-out** it reapplies it (`SetVehicleDeformation`) once the client owns
   the entity.
 
-No configuration is needed — the integration activates automatically when the
+No configuration is needed. The integration activates automatically when the
 `VehicleDeformation` resource is started. Without it, mechanical condition
 (engine/body/tank health, dirt) is still preserved through the vehicle
 properties; only the visual dents are skipped.
@@ -85,7 +88,7 @@ properties; only the visual dents are skipped.
 :::note[Why it "just works"]
 The deformation offsets are `vector3` values that don't survive JSON storage
 intact, so the script flattens them to plain numbers on save and rebuilds real
-`vector3`s on load. This is handled internally — you don't have to do anything.
+`vector3`s on load. This is handled internally. You don't have to do anything.
 :::
 
 ## Vehicle Keys
@@ -176,12 +179,12 @@ Config.closeTextUI = function()
 end
 ```
 
-- **`Config.TargetSystem`** — when enabled, interaction runs through the target
+- **`Config.TargetSystem`:** when enabled, interaction runs through the target
   script (default `ox_target`). The script is a **dropdown** in the
   [Admin Dashboard](../dashboard.md), populated from `AdminPerms.TARGET_SCRIPTS`
   (`shared/admin_perms.lua`). Add adapters for `qb-target`, `qtarget`, … in
   `client/target.lua` and list them there.
-- **`Config.defaultTextUI`** — `true` uses the built-in `msk_core` TextUI;
+- **`Config.defaultTextUI`:** `true` uses the built-in `msk_core` TextUI;
   `false` routes prompts through your own `Config.openTextUI` / `Config.closeTextUI`
   in `config/static.lua`.
 

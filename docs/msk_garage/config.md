@@ -5,12 +5,12 @@ sidebar_position: 4
 
 # Config
 
-:::tip[Config is the seed — the database is authoritative (v5.0.0)]
+:::tip[Config is the seed: the database is authoritative (v5.0.0)]
 Since v5.0.0 garages, impounds and the managed settings are stored in the
 **database** and edited from the [Admin Dashboard](./dashboard.md). The config
 files below are imported **once** on the first start and afterwards only act as
 the **default template** for a fresh install. To change things on a running
-server, use `/garageadmin` — not these files.
+server, use `/garageadmin`, not these files.
 :::
 
 The configuration lives in the `config/` folder. All files are escrow-open
@@ -18,16 +18,16 @@ The configuration lives in the `config/` folder. All files are escrow-open
 
 | File | Contains | Managed by |
 |---|---|---|
-| `config/settings.lua` | Dashboard-managed settings (`Config.*`) — **seed defaults** | DB / Dashboard |
+| `config/settings.lua` | Dashboard-managed settings (`Config.*`), **seed defaults** | DB / Dashboard |
 | `config/static.lua` | Code hooks, adapters & column mapping | **File only** (never touched by the DB) |
 | `config/garages.lua` | `Config.Garages` seed (uses a `garage()` template helper) | DB / Dashboard |
 | `config/impounds.lua` | `Config.Impounds` seed (uses an `impound()` template helper) | DB / Dashboard |
 
 :::info[settings.lua vs static.lua]
 The split is deliberate: **`settings.lua`** holds only values that the dashboard
-writes back to the database (so editing them on a seeded server has no effect —
+writes back to the database (so editing them on a seeded server has no effect:
 use the dashboard). **`static.lua`** holds the code-level hooks (notification,
-TextUI, fuel, lock and column mapping) that the dashboard never manages — edit
+TextUI, fuel, lock and column mapping) that the dashboard never manages, edit
 those directly in the file.
 :::
 
@@ -122,7 +122,7 @@ Config.JobGaragePolicy = {}
 | `Config.Parking` | `string` | `'specific'` = park out only at the storing garage, `'all'` = anywhere. |
 | `Config.DefaultGarages` | `table` | Default garage id **per category** (`land` / `sea` / `air`). Used when reassigning vehicles from a deleted garage. |
 | `Config.DefaultGarage` | `string` | Legacy single default, derived from `DefaultGarages.land`. |
-| `Config.VehicleKeys` | `table` | Second-key support — script is a dropdown in the dashboard. See [Integrations](./guides/integrations.md#vehicle-keys). |
+| `Config.VehicleKeys` | `table` | Second-key support: script is a dropdown in the dashboard. See [Integrations](./guides/integrations.md#vehicle-keys). |
 | `Config.FuelTankDefaultVolume` | `number` | Max-volume denominator (L) for **stored** vehicles without a per-model override. See [Integrations → Fuel](./guides/integrations.md#fuel). |
 | `Config.enableImpound` | `boolean` | Register the impound locations from `config/impounds.lua`. |
 | `Config.parkoutWithKey` | `boolean` | Key holders may also retrieve from the impound. |
@@ -144,7 +144,7 @@ There is no `Config.AdvancedParking` flag anymore. The
 automatically whenever the `AdvancedParking` resource is running.
 :::
 
-## `config/static.lua` (code hooks — not managed by the DB)
+## `config/static.lua` (code hooks, not managed by the DB)
 
 These are the adapters and mappings the dashboard never touches. Edit them
 directly; changes take effect on resource restart.
@@ -173,6 +173,20 @@ Config.LuxuAdmin = {
         -- ['owner'] = 'admin',
     },
 }
+
+-- Private garages (v5.5.0). Full guide: ./guides/private-garages.md
+Config.privateAccessCommand   = 'garagezugriff' -- player shares their own garage
+Config.privateOwnerCommand    = 'garageowner'   -- admin assigns an owner
+Config.PrivateGarageMaxMembers = 10             -- 0 = unlimited
+Config.PrivateGarageTemplate  = { --[[ look of garages created by a housing script ]] }
+
+-- Housing integration (optional, only for the pull adapters)
+Config.Housing = {
+    enable = false,   -- leave false when your housing script calls our exports
+    script = 'db',    -- 'db' | 'export' | 'custom'
+    db = { table = 'owned_properties', houseColumn = 'name', ownerColumn = 'owner' },
+}
+Config.HousingSyncMinutes = 15
 
 -- TextUI adapter (used when Config.defaultTextUI = false)
 Config.openTextUI = function(coloredText, uncoloredText)
@@ -209,7 +223,7 @@ Config.LockVehicle = function(vehicle, locked) ... end
 | `Config.npcVoice` | `table` | Ped "greet/farewell" voice line on enter/leave. |
 | `Config.LuxuAdmin` | `table` | luxu_admin v2 integration for [dashboard access](./dashboard.md#who-can-open-it). `enable` (`'auto'`/`true`/`false`), `resource`, `requireDuty`, `groupMap`. Its staff groups are resolved via the `getPlayerStaffGroup` export because they are not ACE principals. |
 | `Config.openTextUI` / `closeTextUI` | `function` | Your TextUI adapter (default wires `MSK.TextUI`). |
-| `Config.MySQL` | `table` | Column name mapping for `owned_vehicles` — see [Database](./database.md). |
+| `Config.MySQL` | `table` | Column name mapping for `owned_vehicles`, see [Database](./database.md). |
 | `Config.GetDefaultGarage` | `function` | Resolves the default garage id for a vehicle type via `Config.DefaultGarages`. |
 | `Config.UsesAdvancedParking` | `function` | Auto-detects the AdvancedParking resource. |
 | `Config.UsesMskFuel` / `GetModelMaxFuel` | `function` | [Fuel](./guides/integrations.md#fuel) detection & max-volume helper. |
@@ -258,7 +272,7 @@ Config.Garages = {
 ```
 
 The resulting table per garage looks like this (this is also the shape a
-custom-garage export must provide — see [Server Exports](./exports/server.md)):
+custom-garage export must provide, see [Server Exports](./exports/server.md)):
 
 ```lua
 {
@@ -280,7 +294,7 @@ custom-garage export must provide — see [Server Exports](./exports/server.md))
 
 :::note[Coordinates in the database]
 When stored in the DB (or edited in the dashboard), `vector4` locations are kept
-as plain `{ x, y, z, w }` tables — the rest of the script reads coordinates via
+as plain `{ x, y, z, w }` tables. The rest of the script reads coordinates via
 `.x/.y/.z/.w`, so both forms work interchangeably.
 :::
 
@@ -323,7 +337,7 @@ jobs = { { job = 'police', grades = { 0, 2, 4 } } }
 ## `config/impounds.lua`
 
 Same pattern with the `impound()` helper. The **first argument is the impound
-id** (the table key) — it must match the key so the server can resolve the
+id** (the table key). It must match the key so the server can resolve the
 impound when listing or retrieving vehicles.
 
 ```lua

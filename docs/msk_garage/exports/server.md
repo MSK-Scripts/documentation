@@ -104,3 +104,112 @@ RegisterNetEvent('myscript:openTestGarage', function()
     })
 end)
 ```
+
+---
+
+## Private garages
+
+Seven exports for connecting a housing script. The whole topic, including the
+adapters for scripts you cannot patch, is on its own page:
+[Private garages](../guides/private-garages.md).
+
+Every export accepts either the **garage id** or the **house reference**
+(`house_ref`) as its first argument, so you can use whichever you have at hand.
+
+### CreatePrivateGarage
+
+Creates a private garage, or updates it if it already exists. You supply
+coordinates and an owner, everything cosmetic comes from
+`Config.PrivateGarageTemplate`.
+
+**Parameters**
+**def** - `table` - `houseRef`, `owner`, `location`, optional `parkOut`, `label`, `type`, `id`
+
+**Returns**
+**ok** - `boolean`
+**id** - `string` - the garage id that was used (derived from `houseRef` when you did not pass one)
+
+```lua
+local ok, garageId = exports.msk_garage:CreatePrivateGarage({
+    houseRef = 'H17',
+    owner    = xPlayer.identifier,
+    location = vector4(213.98, -808.45, 31.01, 156.59),
+    parkOut  = { vector4(232.98, -790.30, 30.60, 161.46) },
+    label    = 'Haus 17',
+})
+```
+
+:::note[Calling it again is safe]
+Housing scripts call this on every start, or again after a resale. If the owner
+changed, the vehicles of the previous tenants are moved out **before** the row is
+overwritten, so nobody loses a car.
+:::
+
+### SetPrivateGarageOwner
+
+Hands the garage to a different player, or makes it public again with `nil`.
+
+**Parameters**
+**idOrRef** - `string`
+**identifier** - `string | nil` - `nil` turns the garage back into a public one
+
+```lua
+exports.msk_garage:SetPrivateGarageOwner('H17', newOwner.identifier)
+exports.msk_garage:SetPrivateGarageOwner('H17', nil) -- public again
+```
+
+### DeletePrivateGarage
+
+Removes the garage and its access list. Vehicles parked inside are moved to the
+default garage of their category first.
+
+```lua
+exports.msk_garage:DeletePrivateGarage('H17')
+```
+
+### GrantPrivateGarageAccess
+
+**Parameters**
+**idOrRef** - `string`
+**identifier** - `string` - the player who may use it
+**grantedBy** - `string` - optional, stored for reference
+
+**Returns**
+**ok** - `boolean`
+**err** - `string` - `not_found`, `bad_identifier`, `not_private` or `limit_reached`
+
+```lua
+exports.msk_garage:GrantPrivateGarageAccess('H17', roommate.identifier, owner.identifier)
+```
+
+### RevokePrivateGarageAccess
+
+Takes the access away. The vehicles that player has parked there are moved to
+the default garage of their category first.
+
+```lua
+exports.msk_garage:RevokePrivateGarageAccess('H17', roommate.identifier)
+```
+
+### GetPrivateGarageAccess
+
+**Returns** a list of `{ identifier, name }`, sorted by name.
+
+```lua
+for _, row in ipairs(exports.msk_garage:GetPrivateGarageAccess('H17')) do
+    print(row.name, row.identifier)
+end
+```
+
+### PlayerHasGarageAccess
+
+Answers the same question msk_garage asks itself when a player tries to park.
+Consults the housing bridge, so it reflects a house sale immediately.
+
+**Returns** `boolean`
+
+```lua
+if exports.msk_garage:PlayerHasGarageAccess(xPlayer.identifier, 'H17') then
+    -- ...
+end
+```
