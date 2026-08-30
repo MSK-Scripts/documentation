@@ -8,6 +8,8 @@ sidebar_position: 1
 
 A modern, self-hosted Discord ticket bot built on **Discord.js v14**: SQLite out of the box (no external database required), with optional **MySQL/MariaDB** and **PostgreSQL** support. No telemetry, full feature set out of the box.
 
+It is a **plain Discord bot**: no game server, no FiveM, no ESX or QBCore, no framework. All it needs is Node.js and a bot token.
+
 [`License: AGPL-3.0`](https://www.gnu.org/licenses/agpl-3.0) · [`Node.js 24+`](https://nodejs.org) · [`Discord.js v14`](https://discord.js.org) · [`Docs: docu.msk-scripts.de`](https://docu.msk-scripts.de/discord/discord_ticketbot/getting-started)
 
 Prefer the overview first? The

@@ -4,6 +4,9 @@ description: Frequently asked questions about the self-hosted MSK Discord ticket
 sidebar_position: 9
 ---
 
+### Do I need FiveM or a game server for it?
+No. It is a plain Discord bot and has nothing to do with FiveM, ESX, QBCore or any game server. It talks to Discord and to nothing else, and all it needs is Node.js and a bot token. MSK Scripts also publishes FiveM resources, which is where the question usually comes from, but the two share nothing beyond the name on the shop.
+
 ### Do I need an API key?
 No. Without an API key the bot works normally and sends the transcript as a file via DM.  
 The API key is only needed if you want transcripts stored as public links.
