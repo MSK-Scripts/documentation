@@ -195,7 +195,7 @@
 
 /* ── Badge colors per technology ── */
 
-/* ESX — orange-red */
+/* ESX: orange-red */
 .cardBadge[data-badge="ESX"] {
   background: #fff0e6;
   color: #c94a00;
@@ -205,7 +205,7 @@
   color: #ff874d;
 }
 
-/* QBCore — violet */
+/* QBCore: violet */
 .cardBadge[data-badge="QBCore"] {
   background: #f0edff;
   color: #5b3fcf;
@@ -215,7 +215,7 @@
   color: #a68fff;
 }
 
-/* Lua — dark blue */
+/* Lua: dark blue */
 .cardBadge[data-badge="Lua"] {
   background: #e8eeff;
   color: #1a3a8f;
@@ -225,7 +225,7 @@
   color: #7fa3ff;
 }
 
-/* JavaScript — classic yellow */
+/* JavaScript: classic yellow */
 .cardBadge[data-badge="Javascript"],
 .cardBadge[data-badge="JavaScript"] {
   background: #fefac0;
@@ -237,7 +237,7 @@
   color: #f7df1e;
 }
 
-/* Discord — blurple */
+/* Discord: blurple */
 .cardBadge[data-badge="Discord"] {
   background: #edefff;
   color: #3b45c4;
@@ -247,7 +247,7 @@
   color: #8891ff;
 }
 
-/* FiveM — red */
+/* FiveM: red */
 .cardBadge[data-badge="FiveM"] {
   background: #ffecec;
   color: #b91c1c;
@@ -257,7 +257,7 @@
   color: #ff7070;
 }
 
-/* Standalone — neutral gray */
+/* Standalone: neutral gray */
 .cardBadge[data-badge="Standalone"] {
   background: #f0f0f0;
   color: #444;
@@ -267,7 +267,7 @@
   color: #ccc;
 }
 
-/* Python — blue/yellow */
+/* Python: blue/yellow */
 .cardBadge[data-badge="Python"] {
   background: #e8f0fe;
   color: #1a56a0;

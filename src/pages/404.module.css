@@ -10,7 +10,7 @@
     isolation: isolate;
 }
 
-/* Radial glow blob — MSK Grün */
+/* Radial glow blob: MSK Grün */
 .glow {
     position: absolute;
     top: -80px;
@@ -33,7 +33,7 @@
             transparent 70%);
 }
 
-/* Top accent line — MSK Grün */
+/* Top accent line: MSK Grün */
 .topline {
     position: absolute;
     top: 0;
@@ -66,7 +66,7 @@
     }
 }
 
-/* Large 404 number — MSK Grün Gradient */
+/* Large 404 number: MSK Grün Gradient */
 .code {
     font-size: clamp(5rem, 18vw, 9rem);
     font-weight: 800;

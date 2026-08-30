@@ -33,7 +33,7 @@ jobs:
       contents: write
 
     steps:
-      # Tag ermitteln — funktioniert sowohl bei Tag-Push als auch bei manueller Ausführung
+      # Tag ermitteln, funktioniert sowohl bei Tag-Push als auch bei manueller Ausführung
       - name: Tag ermitteln
         id: tag
         run: |
@@ -71,11 +71,11 @@ jobs:
           fi
 
           if [ "${{ inputs.create_tag }}" != "true" ]; then
-            echo "::error::Tag '$TAG' existiert nicht. Workflow erneut ausführen und die Option 'Neuen Tag erstellen' aktivieren — der Tag wird dann aus '${{ inputs.ref }}' erstellt."
+            echo "::error::Tag '$TAG' existiert nicht. Workflow erneut ausführen und die Option 'Neuen Tag erstellen' aktivieren, der Tag wird dann aus '${{ inputs.ref }}' erstellt."
             exit 1
           fi
 
-          echo "🏷️  Tag '$TAG' existiert nicht — wird aus '${{ inputs.ref }}' erstellt."
+          echo "🏷️  Tag '$TAG' existiert nicht, wird aus '${{ inputs.ref }}' erstellt."
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git tag -a "$TAG" -m "Release $TAG"
@@ -102,7 +102,7 @@ jobs:
           # Use --pretty=format:"...%n" so every line (including the last) ends
           # with a newline. The previous `while read` loop silently dropped the
           # most recent commit, because `read` returns non-zero on a final line
-          # without a trailing newline — the loop body was skipped for it.
+          # without a trailing newline, so the loop body was skipped for it.
           echo "## 📝 Commits" >> release_body.md
           git log "$RANGE" \
             --pretty=format:"- [\`%h\`](https://github.com/$REPO/commit/%H) %s (%an)%n" \

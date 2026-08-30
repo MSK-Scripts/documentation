@@ -47,7 +47,7 @@ jobs:
           target: "/var/www/html/docs_msk-scripts/"
           strip_components: 1
 
-      - name: 🛠️ Postdeploy — Ownership, CSP-Snippet, Apache-Reload
+      - name: 🛠️ Postdeploy, Ownership, CSP-Snippet, Apache-Reload
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.FTP_SERVER }}
@@ -69,7 +69,7 @@ jobs:
 
             echo "::group::CSP-Snippet ablegen"
             if [ ! -f "${SNIPPET_SRC}" ]; then
-              echo "❌ ${SNIPPET_SRC} fehlt — build erzeugt es normalerweise via scripts/generate-csp.mjs"
+              echo "❌ ${SNIPPET_SRC} fehlt, build erzeugt es normalerweise via scripts/generate-csp.mjs"
               exit 1
             fi
             mkdir -p "${SNIPPETS_DIR}"
@@ -105,6 +105,6 @@ jobs:
               description:
                 state === 'success'
                   ? 'Build + deploy green'
-                  : 'Build or deploy failed — see workflow logs',
+                  : 'Build or deploy failed, see workflow logs',
               target_url: `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
             });

@@ -19,7 +19,7 @@
  * gesetzt (W3C-Spec: pro Attribut-Hash erforderlich).
  *
  * Warum cheerio statt Regex? "Parsing general HTML using regular
- * expressions is impossible" — ein Regex übersieht z. B. unquoted
+ * expressions is impossible", ein Regex übersieht z. B. unquoted
  * Attribute (style=foo:bar) und matcht fälschlich style= innerhalb von
  * <script>-Text. Der Parser bildet exakt das ab, was der Browser parst
  * und hasht. (Vermeidet außerdem CodeQL js/bad-tag-filter.)
@@ -101,7 +101,7 @@ async function processHtml(path) {
   const html = await readFile(path, 'utf8');
   const $ = load(html);
 
-  // Inline <script> — ohne src, nur ausführbares JavaScript.
+  // Inline <script>, ohne src, nur ausführbares JavaScript.
   $('script').each((_, el) => {
     if (el.attribs && 'src' in el.attribs) return;
     if (!isExecutableJsType(el.attribs?.type)) return;
@@ -117,7 +117,7 @@ async function processHtml(path) {
     styleBlockHashes.add(sha256Base64(body));
   });
 
-  // style="…" Attribute — cheerio liefert den entity-dekodierten Wert,
+  // style="…" Attribute, cheerio liefert den entity-dekodierten Wert,
   // exakt wie der Browser ihn hasht.
   $('[style]').each((_, el) => {
     const value = el.attribs?.style ?? '';
@@ -175,7 +175,7 @@ const csp = cspDirectives.join('; ') + ';';
 
 const generated = new Date().toISOString();
 const snippet = `# ============================================================================
-#  Content-Security-Policy snippet — AUTO-GENERATED. DO NOT EDIT.
+#  Content-Security-Policy snippet. AUTO-GENERATED. DO NOT EDIT.
 #  Source: scripts/generate-csp.mjs (Postbuild)
 #  Generated: ${generated}
 #  Stats:
