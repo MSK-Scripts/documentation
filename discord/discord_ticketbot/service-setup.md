@@ -187,6 +187,8 @@ or visit **[www.msk-scripts.de/ticketbot/dashboard](https://www.msk-scripts.de/t
 
 ### 7.2 Enter your domain
 
+![The Custom Domain tab, with a card for transcripts and one for the bot dashboard](/img/discord_ticketbot_hosting_domain.png)
+
 In the **"Custom Domain"** section, enter your desired domain, e.g.:
 ```
 tickets.yourserver.com
@@ -234,7 +236,7 @@ The VirtualHost will be removed from the server and transcripts revert to the de
 
 You set hosting up yourself in the dashboard. No SSH access, no server knowledge, and no ticket to open first.
 
-![Dashboard, Hosted Bot Management](/img/discord_ticketbot_dashboard.png)
+![The Bot Hosting tab before activation](/img/discord_ticketbot_hosting_install.png)
 
 ### Setting it up
 
@@ -254,6 +256,8 @@ You set hosting up yourself in the dashboard. No SSH access, no server knowledge
 If the bot does not come up, you get its own log back and can correct the value right there. The bot is not reinstalled for that, only restarted.
 
 ### What's available
+
+![Bot Hosting once it runs: its address, bot control and live logs](/img/discord_ticketbot_hosting_dashboard.png)
 
 | Feature | Description |
 |---|---|

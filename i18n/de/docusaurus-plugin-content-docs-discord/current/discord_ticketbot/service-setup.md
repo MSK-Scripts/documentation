@@ -187,6 +187,8 @@ oder öffne direkt **[www.msk-scripts.de/ticketbot/dashboard](https://www.msk-sc
 
 ### 7.2 Domain eintragen
 
+![Der Tab Custom Domain, mit einer Karte für Transkripte und einer für das Bot-Dashboard](/img/discord_ticketbot_hosting_domain.png)
+
 Im Bereich **„Eigene Domain"** trägst du deine gewünschte Domain ein, z.B.:
 ```
 tickets.deinserver.de
@@ -234,7 +236,7 @@ Der VirtualHost wird vom Server entfernt und Transkripte sind wieder über die S
 
 Du richtest das Hosting selbst im Dashboard ein. Kein SSH-Zugang, kein Server-Wissen, und kein Ticket, das du vorher aufmachen musst.
 
-![Dashboard, gehostetes Bot-Management](/img/discord_ticketbot_dashboard.png)
+![Der Tab Bot Hosting vor der Aktivierung](/img/discord_ticketbot_hosting_install.png)
 
 ### Einrichtung
 
@@ -254,6 +256,8 @@ Du richtest das Hosting selbst im Dashboard ein. Kein SSH-Zugang, kein Server-Wi
 Kommt der Bot nicht hoch, bekommst du sein eigenes Log zurück und kannst den Wert direkt korrigieren. Neu installiert wird dafür nichts, er wird nur neu gestartet.
 
 ### Was verfügbar ist
+
+![Bot Hosting im Betrieb: Adresse, Steuerung und Live-Logs](/img/discord_ticketbot_hosting_dashboard.png)
 
 | Feature | Beschreibung |
 |---|---|

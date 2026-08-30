@@ -82,7 +82,7 @@ MSK_API_URL="https://www.msk-scripts.de"
 
 Du willst gar keinen eigenen Server betreiben? In jedem bezahlten Tarif kannst du den Bot **von MSK Scripts hosten lassen**, und du richtest das selbst im Dashboard unter **[msk-scripts.de/ticketbot/dashboard](https://www.msk-scripts.de/ticketbot/dashboard)** ein. Bot-Token, Client ID und Client Secret eintragen, ein Knopf, und wir installieren ihn, starten ihn und prüfen, ob er hochgekommen ist.
 
-![Dashboard, gehostete Bot-Verwaltung](/img/discord_ticketbot_dashboard.png)
+![Dashboard, gehostete Bot-Verwaltung](/img/discord_ticketbot_hosting_dashboard.png)
 
 Dein Bot bekommt danach eine eigene Adresse, `tickets-<id>.msk-scripts.de` oder eine eigene Domain, mit eigenem Discord-Login. Genau das lässt dein ganzes Support-Team in das Dashboard des Bots, nicht nur dich.
 
