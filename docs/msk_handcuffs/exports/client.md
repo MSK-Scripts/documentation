@@ -28,7 +28,7 @@ local hasAnkletracker = exports.msk_handcuffs:getHasAnkletracker()  -- or LocalP
 local hasHeadbag     = exports.msk_handcuffs:getHasHeadbag()        -- or LocalPlayer.state.hasHeadbag
 local hasTape        = exports.msk_handcuffs:getHasTape()           -- or LocalPlayer.state.hasTape
 
--- Other players (by statebag — recommended)
+-- Other players (by statebag, recommended)
 local isHandcuffed = Player(targetServerId).state.isHandcuffed
 ```
 

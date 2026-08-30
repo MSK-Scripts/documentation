@@ -36,7 +36,7 @@ Framework detection and the notification hook live in **`config/static.lua`** (n
 dashboard-managed).
 
 ```lua title="config/static.lua"
--- Supported Frameworks: AUTO, ESX, QBCore — AUTO detects it automatically.
+-- Supported Frameworks: AUTO, ESX, QBCore. AUTO detects it automatically.
 Config.Framework = 'AUTO'
 
 -- Runs BOTH client- and serverside. Forwards to MSK.Notification by default;
@@ -229,7 +229,7 @@ key = {
 
     -- Strict item enforcement for the vehicle OWNER (only relevant when needItem = true).
     -- false (default): the owner can (un)lock WITHOUT the key item in their inventory.
-    -- true:  the owner ALSO needs the key item — no free lock/unlock without the item.
+    -- true:  the owner ALSO needs the key item, no free lock/unlock without the item.
     ownerNeedsItem = false,
 },
 ```

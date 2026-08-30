@@ -97,7 +97,7 @@ Config.BrandTag = 'MSK'             -- badge next to the dashboard title (empty 
 -- vehicle-class icon when an image is missing.
 Config.VehicleImages = { enable = false, ext = 'png' } -- ext: 'png' | 'jpg' | 'webp'
 
--- UI colours (hex) — applied live to dashboard, garage & impound. Derived shades
+-- UI colours (hex), applied live to dashboard, garage & impound. Derived shades
 -- are computed in the UI; only these 5 brand colours are configurable.
 Config.Theme = {
     accent = '#00E676', bg = '#0a0b0d', panel = '#131317',

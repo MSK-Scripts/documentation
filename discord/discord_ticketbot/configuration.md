@@ -194,7 +194,7 @@ The generated HTML transcript can be rendered in two styles and any of the built
 
 ```json
 "transcriptDesign": "modern",  // "modern" (default) or "classic"
-"transcriptLang": "en"         // en, de, fr, es, pt, pl, hu — falls back to English if omitted/unsupported
+"transcriptLang": "en"         // en, de, fr, es, pt, pl, hu. Falls back to English if omitted/unsupported
 ```
 
 | Value      | Look                                                                 |

@@ -31,7 +31,7 @@ MSK Shortener runs as a single Node process on port `3011` and stores everything
 The repository ships with an interactive `install.sh` script that handles Node.js setup, database creation, `.env` generation, Apache vhost, SSL certificate, and the systemd service.
 
 ```bash
-# Run as root — the script clones into /opt/msk-shortener and configures everything
+# Run as root. The script clones into /opt/msk-shortener and configures everything
 curl -fsSL https://raw.githubusercontent.com/MSK-Scripts/msk-shortener/main/deployment/scripts/install.sh \
   | sudo bash
 ```

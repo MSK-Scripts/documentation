@@ -63,7 +63,7 @@ The cleanest integration is via the **[exports](./exports/client.md)** (`dragPla
 -- v2 (callback)
 local isCuffed = MSK.Trigger('msk_handcuffs:getIsHandcuffed', {source = targetId})
 
--- v3 (statebag — no callback needed)
+-- v3 (statebag, no callback needed)
 local isCuffed = Player(targetId).state.isHandcuffed
 -- or the export
 local isCuffed = exports.msk_handcuffs:getIsPlayerHandcuffed({source = targetId})

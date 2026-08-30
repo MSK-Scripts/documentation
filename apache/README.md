@@ -1,4 +1,4 @@
-# Apache vhost Setup — docu.msk-scripts.de
+# Apache vhost Setup für docu.msk-scripts.de
 
 Diese Vorlage gehört zur Hash-basierten CSP-Strategie der Docusaurus-Site. Das vhost-File liest seine `Content-Security-Policy` aus einer Snippet-Datei, die nach jedem `yarn build` von [`scripts/generate-csp.mjs`](../scripts/generate-csp.mjs) automatisch generiert wird.
 
@@ -6,8 +6,8 @@ Diese Vorlage gehört zur Hash-basierten CSP-Strategie der Docusaurus-Site. Das 
 
 | Datei | Zweck |
 |---|---|
-| [`vhost.example.conf`](./vhost.example.conf) | Apache-vhost-Vorlage **als Referenz**. Der laufende vhost auf dem Server bleibt unangetastet (Wildcard-Zert ist dort schon konfiguriert) — aus dem Beispiel werden nur die Header-/Include-Direktiven manuell übernommen. |
-| `../scripts/generate-csp.mjs` | Postbuild-Script — schreibt `build/csp-hashes.conf` |
+| [`vhost.example.conf`](./vhost.example.conf) | Apache-vhost-Vorlage **als Referenz**. Der laufende vhost auf dem Server bleibt unangetastet (Wildcard-Zert ist dort schon konfiguriert). Aus dem Beispiel werden nur die Header-/Include-Direktiven manuell übernommen. |
+| `../scripts/generate-csp.mjs` | Postbuild-Script, schreibt `build/csp-hashes.conf` |
 | `../build/csp-hashes.conf` | Generierter Apache `<IfModule mod_headers.c>`-Block mit allen SHA256-Hashes |
 
 ## Einmaliges Server-Setup
@@ -19,11 +19,11 @@ Da der Deploy-User bereits mit Root-Rechten arbeitet (das bestehende `chown -R w
 a2enmod headers rewrite ssl http2 expires deflate
 
 # 2) Snippet-Verzeichnis anlegen (wird vom Deploy-Workflow auch automatisch
-#    nachgeholt — siehe mkdir -p im Postdeploy-Step)
+#    nachgeholt, siehe mkdir -p im Postdeploy-Step)
 mkdir -p /etc/apache2/snippets
 
 # 3) Im bestehenden vhost (mit Wildcard-Zert) die kritischen Direktiven aus
-#    apache/vhost.example.conf manuell ergänzen — siehe unten.
+#    apache/vhost.example.conf manuell ergänzen, siehe unten.
 
 # 4) Site testen + reloaden
 apachectl configtest
@@ -74,7 +74,7 @@ Diese Direktiven gehören **innerhalb** des `<VirtualHost *:443>` deines bestehe
         Header always set Permissions-Policy "accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), camera=(), display-capture=(), document-domain=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), keyboard-map=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=(), interest-cohort=()"
     </IfModule>
 
-    # CSP-Hashes — wird vom Deploy-Workflow gepflegt
+    # CSP-Hashes, wird vom Deploy-Workflow gepflegt
     Include /etc/apache2/snippets/docu-csp-hashes.conf
 
     ErrorDocument 404 /404.html
@@ -88,11 +88,11 @@ Diese Direktiven gehören **innerhalb** des `<VirtualHost *:443>` deines bestehe
 
 1. `csp-hashes.conf` aus dem DocumentRoot nach `/etc/apache2/snippets/docu-csp-hashes.conf` mit `install -o root -g root -m 0644` kopieren
 2. Die Datei aus dem DocumentRoot wieder entfernen (Defense-in-Depth zusätzlich zum `FilesMatch`-Block im vhost)
-3. `apachectl configtest` — bricht den Workflow ab, falls die Apache-Config kaputt ist
+3. `apachectl configtest`, bricht den Workflow ab, falls die Apache-Config kaputt ist
 4. `systemctl reload apache2`
 5. Health-Check via `systemctl is-active --quiet apache2`
 
-Manueller Aufruf — falls mal nötig:
+Manueller Aufruf, falls mal nötig:
 
 ```bash
 install -o root -g root -m 0644 /var/www/html/docs_msk-scripts/csp-hashes.conf /etc/apache2/snippets/docu-csp-hashes.conf
@@ -100,7 +100,7 @@ rm -f /var/www/html/docs_msk-scripts/csp-hashes.conf
 apachectl configtest && systemctl reload apache2
 ```
 
-## Sicherheits-Header — Übersicht
+## Sicherheits-Header im Überblick
 
 | Header | Wert | Begründung |
 |---|---|---|

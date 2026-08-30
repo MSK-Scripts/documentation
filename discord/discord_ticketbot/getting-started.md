@@ -118,7 +118,7 @@ discord_ticketbot/
 │   ├── de.json                 # German
 │   └── …                       # fr, es, pt, pl, hu
 ├── scripts/
-│   └── migrate-db.js           # npm run db:migrate — SQLite → MySQL/PostgreSQL
+│   └── migrate-db.js           # npm run db:migrate, SQLite → MySQL/PostgreSQL
 ├── data/
 │   └── tickets.db              # SQLite database (auto-created; default backend)
 └── src/

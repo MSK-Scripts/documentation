@@ -32,11 +32,11 @@ TOKEN="your_bot_token"
 CLIENT_ID="your_application_id"
 GUILD_ID="your_server_id"
 
-# Optional — MSK Transcript Service (get your key at www.msk-scripts.de/ticketbot/verify)
+# Optional: MSK Transcript Service (get your key at www.msk-scripts.de/ticketbot/verify)
 MSK_API_KEY="your_msk_api_key"
 MSK_API_URL="https://www.msk-scripts.de"
 
-# Optional — Database (leave unset to use the bundled SQLite file)
+# Optional: Database (leave unset to use the bundled SQLite file)
 # MySQL/MariaDB:  mysql://user:pass@host:3306/ticketbot
 # PostgreSQL:     postgres://user:pass@host:5432/ticketbot
 # DATABASE_URL=""
