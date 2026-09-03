@@ -25,7 +25,7 @@ The easiest way to use the bot is to invite the **official public instance**: no
 
 You can also retrieve this link at any time inside Discord with the `/ginvite` command.
 
-Once the bot has joined, a server manager runs [`/gcreate`](./commands.md) to open a giveaway. Members join with a single button click, and the bot draws the winners automatically when the timer ends.
+Once the bot has joined, a server manager runs [`/gcreate`](./commands.md) to open a giveaway. Members join with a single button click, and the bot draws the winners automatically when the timer ends, or, with [first click wins](./commands.md#first-click-wins), the moment somebody presses the button.
 
 ---
 
@@ -36,6 +36,7 @@ Once the bot has joined, a server manager runs [`/gcreate`](./commands.md) to op
 | 🎉 Button Entry | Members join with a single click, customisable emoji, label and button style |
 | 🔁 Restart-Safe | A poll-based scheduler means no giveaway is lost or orphaned, even after a reboot |
 | 🎁 Multiple Prizes | List several prizes per giveaway, either everyone gets all of them, or [each winner gets their own](./commands.md#multiple-prizes) |
+| ⚡ First Click Wins | For the quick ones: instead of a draw, [the fastest button press takes the prize](./commands.md#first-click-wins) and the giveaway ends right there |
 | 👥 Weighted Bonus Entries | Grant specific roles extra entries (up to 100), [shown in the giveaway message](./configuration.md#bonus-entries-in-the-embed) so everyone knows about them |
 | 🛡️ Eligibility Rules | Whitelist / blacklist roles plus minimum account age and server membership, server-wide, and a single giveaway may use its own rules instead |
 | ⏸️ Pause & Resume | Freeze the timer mid-giveaway and resume seamlessly where you left off |

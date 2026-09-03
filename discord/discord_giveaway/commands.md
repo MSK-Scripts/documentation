@@ -20,8 +20,8 @@ Every manager command below can also be performed from the [**Web Dashboard**](.
 
 | Command | Description |
 |---|---|
-| `/gcreate [mode]` | Opens a modal to create a giveaway in the **current channel**. `mode` chooses how multiple prizes are handed out |
-| `/gedit <id> [title] [description] [winners] [prizes] [mode]` | Edit a running giveaway |
+| `/gcreate [mode] [draw]` | Opens a modal to create a giveaway in the **current channel**. `mode` chooses how multiple prizes are handed out, `draw` how the winners are found |
+| `/gedit <id> [title] [description] [winners] [prizes] [mode] [draw]` | Edit a running giveaway |
 | `/gextend <id> <duration>` | Extend the end time of a running giveaway |
 | `/gend <id>` | Ends a giveaway immediately and draws the winners |
 | `/greroll <id> [winner]` | Draws new winners for an **ended** giveaway. With `winner`, replaces only that single winner |
@@ -60,7 +60,7 @@ Every manager command below can also be performed from the [**Web Dashboard**](.
 |---|---|---|
 | **Title** | Short text | up to 256 characters |
 | **Description** | Paragraph | up to 2000 characters |
-| **Duration** | Short text | format like `1d2h30m`, `45m`, `90s`, **min 10s, max 1 year** |
+| **Duration** | Short text | format like `1d2h30m`, `45m`, `90s`, **min 10s, max 1 year** (a deadline when `draw` is *first click wins*, see below) |
 | **Winners** | Number | 1–100 (hidden when `mode` is *one prize per winner*, see below) |
 | **Prizes** *(optional)* | Paragraph | **one prize per line**, up to 20 prizes, 256 characters each |
 
@@ -76,6 +76,27 @@ Put one prize per line in the **Prizes** field. The `mode` option on `/gcreate` 
 With *one prize per winner* the number of winners is no longer a separate setting: it is the length of the prize list. The modal therefore drops the **Winners** field and asks for the prizes instead, and `/gedit` refuses a `winners` value that does not match the list.
 
 The order matters twice: it is the order shown in the embed, and it is the order the winners are drawn in. If a single winner is replaced with `/greroll <id> <winner>`, the replacement inherits **that winner's** prize. The other winners keep theirs.
+
+### First click wins
+
+By default the winners are drawn when the giveaway ends. The `draw` option offers a second way:
+
+| `draw` | Behaviour |
+|---|---|
+| *Random draw when it ends* (default) | The winners are drawn at the end, weighted by [bonus entries](./configuration.md#bonus-entries-weighted-draw). |
+| *First click wins* | Whoever presses the button first wins. The giveaway ends the moment enough people have clicked. |
+
+This is meant for the small, quick giveaways: a crate key, an event reward, something that should be gone in seconds rather than sit around for a day.
+
+The **Duration** field stays required, but it becomes a **deadline** rather than a runtime. If nobody clicks, the giveaway ends at that time and whoever did click wins. Set more than one winner and the fastest *n* win, in click order, which combines with *one prize per winner* to "fastest gets prize 1, second fastest prize 2".
+
+Three things work differently in this mode, and the giveaway message says so:
+
+- **The button is labelled differently and the message carries a Mode field.** Nobody should press a button expecting a draw and find out afterwards that they lost by half a second.
+- **Bonus entries do nothing** and are hidden from the message. They raise a weight, and a weight only exists in a draw.
+- **An entry cannot be withdrawn.** A second click on the button would otherwise hand back a prize that was already won.
+
+Everything else stays as it is. The [entry conditions](./configuration.md#eligibility-rules) are checked at the button **and** again when the winners are settled, so somebody who was blacklisted or left the server in the meantime lets the next-fastest move up, and a reroll takes the next fastest instead of drawing.
 
 :::info[Looking for the Tebex coupon?]
 Discord caps a modal at five fields, which `/gcreate` already uses. The winner coupon is therefore configured in the [web dashboard](./getting-started.md#-web-dashboard) instead, when you create or edit a giveaway. See [Tebex Winner Coupons](./configuration.md#tebex-winner-coupons). In *one prize per winner* mode the dashboard also lets you pick the discounted packages **per prize**, so the winner of a script gets their discount on that script. The discount percentage and the validity period always apply to the whole giveaway.
@@ -113,11 +134,11 @@ The minimum is **10 seconds** (so the 10-second scheduler tick can fire) and the
 
 ## 🗂️ Templates with `/gtemplate`
 
-A template is a prepared giveaway without a channel and without an end date: title, description, duration, number of winners, the [prize list](#multiple-prizes) with its distribution mode and, if you want, its own [entry conditions](./configuration.md#per-giveaway-blacklist--whitelist--bonus). Ideal for anything you run every week.
+A template is a prepared giveaway without a channel and without an end date: title, description, duration, number of winners, the [prize list](#multiple-prizes) with its distribution mode, the [way the winners are found](#first-click-wins) and, if you want, its own [entry conditions](./configuration.md#per-giveaway-blacklist--whitelist--bonus). Ideal for anything you run every week.
 
 | Subcommand | Description |
 |---|---|
-| `/gtemplate save <name> <title> <description> <duration> [winners] [prizes] [mode]` | Saves a template under a name, overwriting one of the same name |
+| `/gtemplate save <name> <title> <description> <duration> [winners] [prizes] [mode] [draw]` | Saves a template under a name, overwriting one of the same name |
 | `/gtemplate from <giveaway_id> [name]` | Saves an existing giveaway as a template |
 | `/gtemplate list` | Lists all saved templates for the server |
 | `/gtemplate use <name>` | Creates a giveaway from a template, in the current channel |
@@ -131,7 +152,7 @@ A server can hold up to 50 templates.
 
 `/gtemplate from` builds the template out of a giveaway you already ran, which beats typing all of it a second time. In the dashboard, every giveaway card has a **Save as template** button that does the same.
 
-- Taken over: title, description, prizes, distribution mode, number of winners and the entry conditions.
+- Taken over: title, description, prizes, distribution mode, number of winners, the way the winners are found and the entry conditions.
 - The **duration** is the span between creation and planned end (a giveaway stores a point in time, a template a duration).
 - Without a `name` the template is named after the giveaway's title, and an existing name is overwritten rather than refused.
 - Works for running giveaways too, not just ended ones.
