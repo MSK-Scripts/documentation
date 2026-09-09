@@ -15,7 +15,7 @@ Grab the latest release from the [GitHub Releases](https://github.com/MSK-Script
 
 ```ini
 ensure oxmysql
-ensure es_extended   # or qb-core / ox_core (optional)
+ensure es_extended   # or qb-core / qbx_core (optional)
 ensure ox_inventory  # or another inventory (optional)
 ensure msk_core
 # ... your resources that use msk_core

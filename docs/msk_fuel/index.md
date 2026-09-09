@@ -129,7 +129,7 @@ of truth. Edit them in the admin dashboard, not in the file.
 
 ## Requirements
 
-- [msk_core](https://docu.msk-scripts.de/)
+- [msk_core](https://docu.msk-scripts.de/) - 4.0.0 or newer since v1.3.0
 - [ox_target](https://github.com/overextended/ox_target)
 - [ox_inventory](https://github.com/overextended/ox_inventory)
 - [oxmysql](https://github.com/overextended/oxmysql) – since v1.2.0

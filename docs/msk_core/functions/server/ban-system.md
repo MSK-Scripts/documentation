@@ -1,6 +1,6 @@
 ---
 title: Ban System
-sidebar_position: 14
+sidebar_position: 15
 ---
 
 # Ban System

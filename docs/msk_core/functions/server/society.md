@@ -1,18 +1,42 @@
 ---
 title: Society
-sidebar_position: 12
+sidebar_position: 13
 ---
 
 # Society
 
-Manage society / company bank accounts. These functions require a framework (**ESX** or **QBCore**) and the corresponding money resource:
+Manage society and company bank accounts.
 
-- **ESX**: uses `esx_addonaccount` (shared account `society_<name>`)
-- **QBCore**: uses `qb-banking` or `qb-management` (whichever is started)
+Since **v4.0.0** these follow the **banking resource, not the framework**. Before that the code branched on the framework, so a Qbox server got a hard `0` back no matter what was installed.
+
+The first of these that is started wins:
+
+1. `Renewed-Banking`
+2. `qb-banking`
+3. `qb-management`
+4. `esx_addonaccount` (ESX only, shared account `society_<name>`)
 
 :::info
-All functions are **server-side** only. On **OXCore** and **STANDALONE** there is no society backend, so every function returns `0` / `false`.
+All functions are **server-side** only. When none of the four resources runs, every function returns `0` or `false`.
 :::
+
+## MSK.Society.GetProvider
+
+Which banking resource was picked. Useful in a startup check, and the fastest way to find out why a society balance stays at zero. New in v4.0.0.
+
+**Returns**
+**name** - `string` | `nil` - The resource name, `nil` when none was found
+
+```lua
+local provider = MSK.Society.GetProvider()
+
+if not provider then
+    print('No banking resource found, society accounts stay at 0')
+end
+
+-- As an Export:
+local provider = exports.msk_core:SocietyGetProvider()
+```
 
 ## MSK.Society.GetMoney
 

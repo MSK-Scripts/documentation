@@ -107,9 +107,13 @@ local vehicle, netId = exports.msk_core:GetVehicleFromPlate(plate)
 
 Returns the model that is stored for a plate in the framework's vehicle table. Because it reads the database instead of the world, it also answers while the vehicle is parked in a garage and does not exist as an entity at all.
 
-Supported on ESX (`vehicle` column in `owned_vehicles`) and QBCore (`vehicle` and `hash` columns in `player_vehicles`). Every other framework returns `nil`.
+Supported on ESX (`vehicle` column in `owned_vehicles`) and on QBCore and Qbox (`vehicle` and `hash` columns in `player_vehicles`). In STANDALONE it returns `nil`.
 
 If the plate is not found with an indexed lookup, a second query compares the trimmed plate, for setups that store their plates space padded.
+
+:::tip
+If you need more than the model, use [`MSK.VehicleStore`](./vehicle-store.md). It reads and writes the same table, returns owner, properties, garage, type and job in one shape, and knows where every framework keeps them.
+:::
 
 :::warning[Blocking]
 This runs a database query with `.await`, so it has to be called from inside a thread (`CreateThread`, an event handler, a callback).
@@ -120,7 +124,7 @@ This runs a database query with `.await`, so it has to be called from inside a t
 
 **Returns**  
 **model** - `number | nil` - The model hash as it is stored, or `nil` when nothing was found  
-**name** - `string | nil` - The spawn name, only when the framework stores one (QBCore)
+**name** - `string | nil` - The spawn name, only when the framework stores one (QBCore and Qbox)
 
 ```lua
 local model, name = MSK.GetModelFromPlate(plate)

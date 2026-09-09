@@ -21,10 +21,14 @@ sidebar_position: 1
 
 ## Requirements
 
-- [ESX Legacy](https://github.com/esx-framework/esx_core) or [QBCore](https://github.com/qbcore-framework/qb-core)
+- [ESX Legacy](https://github.com/esx-framework/esx_core), [QBCore](https://github.com/qbcore-framework/qb-core) or [Qbox](https://github.com/Qbox-project/qbx_core) - Qbox since v4.6.0
 - [oxmysql](https://github.com/overextended/oxmysql)
 - [ox_lib](https://github.com/overextended/ox_lib)
-- [msk_core](https://github.com/MSK-Scripts/msk_core)
+- [msk_core](https://github.com/MSK-Scripts/msk_core) - 4.0.0 or newer since v4.6.0
+
+The framework is not configured here. msk_core detects it, and this resource asks
+msk_core about it. `Config.Framework` still exists so an old config file does not
+break, but it is not read any more.
 
 ## Optional Requirements
 

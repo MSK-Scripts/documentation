@@ -18,8 +18,8 @@ Make sure the following resources are installed and **start before** `msk_handcu
 | Resource | Required | Notes |
 |---|---|---|
 | [oxmysql](https://github.com/overextended/oxmysql) | ✅ | Database access |
-| [msk_core](https://github.com/MSK-Scripts/msk_core) `3.0.0+` | ✅ | Framework bridge & utilities |
-| ESX **or** QBCore | ✅ | Auto-detected by msk_core |
+| [msk_core](https://github.com/MSK-Scripts/msk_core) `4.0.0+` | ✅ | Framework bridge & utilities, 4.0.0 required since v3.1.0 |
+| ESX, QBCore **or** Qbox | ✅ | Auto-detected by msk_core, Qbox since v3.1.0 |
 | [ox_target](https://github.com/overextended/ox_target) **or** qb-target | optional | Target menu. **ox_target is recommended** |
 | pma-voice **or** saltychat | optional | Tape mute feature |
 

@@ -15,18 +15,19 @@ shared_script '@msk_core/import.lua'
 
 | Page | Description |
 |---|---|
-| [Player](./player.md) | Player getters (`GetPlayer`, `GetPlayers`, …) and the mirrored table |
+| [Player](./player.md) | The unified player object, job and gang definitions, the mirrored table |
 | [Inventory](./inventory.md) | `MSK.HasItem`, `MSK.RegisterItem` and the inventory bridge |
 | [Entities](./entities.md) | Closest entity/player helpers |
 | [Vehicle](./vehicle.md) | Server-side vehicle queries |
+| [Vehicle Store](./vehicle-store.md) | The owned-vehicle table of every framework behind one API |
 | [Coords](./coords.md) | Show / copy coordinates for a player |
 | [World](./world.md) | Spawn-point checks, closest players, `MSK.AddWebhook` |
 | [Notify](./notify.md) | Send notifications to a player by server id |
 | [Scaleform](./scaleform.md) | Trigger scaleforms on a player |
 | [Ace Permission](./ace-permission.md) | Ace checks, `AddAce` / `AddPrincipal` |
 | [Commands](./commands.md) | `MSK.RegisterCommand` with ace restriction |
-| [Society](./society.md) | Company / society account money |
-| [Offline](./offline.md) | Offline player bank money |
+| [Society](./society.md) | Company and society account money |
+| [Offline](./offline.md) | Offline player bank money and the character table |
 | [Ban System](./ban-system.md) | Identifier/token bans and ban commands |
 | [Cron](./cron.md) | Schedule recurring jobs |
 | [Disconnect Logger](./disconnect-logger.md) | Log player disconnects |

@@ -31,7 +31,7 @@ Who may open the dashboard and what they can do is controlled by an ACE-based pe
   least one right to open the dashboard.
 
 Group membership is resolved via a **FiveM ACE principal** (`group.<name>` or QBCore's
-`qbcore.<name>`), your **framework group** (ESX `getGroup()`, QBCore's own permission list) **or**
+`qbcore.<name>`), your **framework group** (resolved through msk_core on ESX, QBCore and Qbox alike since v3.4.0) **or**
 a **luxu_admin** staff group (see below), so it works with all of those setups.
 
 ### Setting up ACE groups

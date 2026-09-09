@@ -47,8 +47,12 @@ Calls `fn` in a protected context (`pcall`) and waits (polling) until it returns
 **fn** - `function` - The function to call protected  
 **timeout** - `number` - Optional - Default: `1000` - Maximum time to wait in milliseconds
 
-**Returns**  
-**value** - `any` - The value returned by `fn`
+**Returns**
+**value** - `any` - The value returned by `fn`, or `nil` on timeout
+
+:::info[Changed in v4.0.0]
+A timeout returns `nil` now. It used to raise, which is not what its own description said and took the calling thread down with it.
+:::
 
 ```lua
 local value = MSK.Call(fn, timeout)

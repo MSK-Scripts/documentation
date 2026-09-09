@@ -34,8 +34,9 @@ line in your `server.cfg`:
 add_ace resource.msk_core command.add_ace allow
 ```
 
-Without it, group access falls back to your framework group (the ESX `users`
-table, QBCore's permission list) and the script says so on start.
+Without it, group access falls back to your framework group and the script says
+so on start. Since v1.3.0 that fallback works on ESX, QBCore and Qbox alike;
+before, it only ever resolved on ESX.
 :::
 
 ### Tabs

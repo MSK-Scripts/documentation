@@ -43,7 +43,7 @@ keywords:
 
 | Area | v2.x | v3.0.0 |
 |---|---|---|
-| **Framework** | ESX only | **ESX & QBCore** (auto-detected via msk_core) |
+| **Framework** | ESX only | **ESX, QBCore and Qbox** (auto-detected via msk_core, Qbox since v3.1.0) |
 | **Configuration** | `config.lua`, restart required | **[In-game admin dashboard](./dashboard.md)**, settings live in the database and apply instantly |
 | **Persistence** | flat `database.json` | **oxmysql** (`msk_handcuffs` table) with **automatic one-time migration** from `database.json` |
 | **Trust model** | client-driven | **server-authoritative**, the server validates distance, item possession and job for every action |
@@ -60,7 +60,7 @@ See **[Migration from v2](./migration.md)** for renamed/removed exports & events
 
 ## Requirements
 
-- [msk_core](https://github.com/MSK-Scripts/msk_core) **3.0.0+**
+- [msk_core](https://github.com/MSK-Scripts/msk_core) **4.0.0+** since v3.1.0
 - [oxmysql](https://github.com/overextended/oxmysql)
 - A framework: [ESX Legacy](https://github.com/esx-framework/esx_core) **or** [QBCore](https://github.com/qbcore-framework/qb-core)
 

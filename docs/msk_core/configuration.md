@@ -17,22 +17,28 @@ Config.VersionChecker = true  -- Self version check of msk_core on start
 ## Framework
 
 ```lua
--- Supported: AUTO, ESX, QBCore, STANDALONE
--- AUTO detects your framework automatically
+-- Supported: AUTO, ESX, QBCore, Qbox, STANDALONE
+-- AUTO searches for your framework (qbx_core > es_extended > qb-core)
 Config.Framework = 'AUTO'
 ```
 
 See [Frameworks](./frameworks.md) for how detection works and what STANDALONE means.
+
+:::danger[`OXCore` is gone since v4.0.0]
+The ox_core branch was removed. `Config.Framework = 'OXCore'` stops the resource on start with an explicit message. Set it to `AUTO` or to a supported framework.
+:::
 
 ## Inventory
 
 ```lua
 -- Supported: AUTO, default, custom, ox_inventory, jaksam_inventory, core_inventory
 -- AUTO order: ox_inventory > core_inventory > jaksam_inventory > default
--- 'default' = ESX default inventory / Chezza inventory
+-- 'default' = the inventory built into the running framework
 -- 'custom'  = your own implementation in inventories/server/custom.lua
 Config.Inventory = 'AUTO'
 ```
+
+Framework and inventory are independent since v4.0.0, every combination that exists on a server is allowed. The one exception is Qbox with `default`: Qbox has no inventory of its own, so msk_core warns on start and the item functions stay unavailable until `ox_inventory` runs.
 
 ## Coords commands
 

@@ -53,6 +53,16 @@ Config.Commands = {
         clear_inventory = true,
         clear_weapons = true,
         clear_money = true,
+
+        -- Since v2.1.0. What clear_money sets the balances to.
+        -- cash and bank work everywhere, the rest is passed through to the
+        -- framework and skipped when it has no such account.
+        startMoney = {
+            cash = 0,
+            bank = 0,
+            black = 0,
+        },
+
         banPlayer = {enable = true, time = 2}
     }
 }

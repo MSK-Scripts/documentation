@@ -5,212 +5,312 @@ sidebar_position: 2
 
 # Player
 
-On the server the core keeps a mirrored player table, `MSK.Player[source]`, that is kept in sync by the `msk_core:onPlayer` net event sent from each client. In addition the Player module exposes a set of framework wrappers (`MSK.GetPlayer`, `MSK.GetPlayers`, and the convenience getters below) that return the underlying framework player / job objects.
+Everything about a player goes through one shape. `MSK.GetPlayer(id)` returns the **same fields on ESX, QBCore and Qbox**, so a script does not have to know which framework it is running on.
 
-## MSK.Player[source]
-
-The mirrored table for a connected player, keyed by their server id. Computed keys (`coords`, `heading`, `state`) are resolved on access; all other keys are populated from the client's `msk_core:onPlayer` updates.
-
-**Properties**  
-**clientId** - `number` - Player Index on the client, equal to `PlayerId()`  
-**serverId** - `number` - Player Server Id  
-**playerId** - `number` - Alias of `serverId`  
-**ped** - `number` - Player Ped, equal to `GetPlayerPed(source)`  
-**playerPed** - `number` - Alias of `ped`  
-**coords** - `vector3` - Player Coords, equal to `GetEntityCoords(ped)`  
-**heading** - `float` - Player Heading, equal to `GetEntityHeading(ped)`  
-**state** - `table` - The player's state bag, equal to `Player(serverId).state`  
-**vehicle** - `number` - The vehicle entity the player is in (resolved from the replicated network id)  
-**vehNetId** - `number` - The network id of the player's vehicle  
-**seat** - `number` - Seat index the player is in  
-**weapon** - `number` - Hash of the player's current weapon  
-**isDead** - `boolean` - Whether the player is dead  
-**Notify** - `function` - Shorthand for `MSK.Notification(source, title, message, type, duration)`
-
-```lua
-local clientId = MSK.Player[source].clientId
-local playerPed = MSK.Player[source].ped
-
-local playerCoords = MSK.Player[source].coords
-local playerHeading = MSK.Player[source].heading
-
-local vehicle = MSK.Player[source].vehicle
-local seat = MSK.Player[source].seat
-
-local currentWeapon = MSK.Player[source].weapon
-
--- Notification
-MSK.Player[source].Notify(title, message, type, duration)
-```
-
-## MSK.GetMirroredPlayer
-
-Returns the mirrored player table (`MSK.Player[id]`) directly. This is the export used by consumer resources to read the server mirror.
-
-**Parameters**  
-**id** - `number` - The server id of the player
-
-**Returns**  
-**player** - `table` - The mirrored player table
-
-```lua
-local player = MSK.GetMirroredPlayer(id)
-
--- Example
-local coords = MSK.GetMirroredPlayer(source).coords
-
--- As an Export:
-local player = exports.msk_core:GetMirroredPlayer(id)
-```
-
-:::info
-The following getter wrappers require a framework (**ESX** / **QBCore** / **OXCore**) and are **not registered in `STANDALONE` mode**. They are convenience wrappers around `MSK.GetPlayer` and `MSK.GetPlayerJob`.
+:::info[Requires a framework]
+The functions on this page are **not registered in `STANDALONE` mode**. The one exception is the mirrored table `MSK.Player[source]` further down, which needs no framework.
 :::
 
-## MSK.GetPlayerFromId
+:::danger[Breaking in v4.0.0]
+`MSK.GetPlayer()` no longer returns the raw framework object. Field names changed: `grade_name` is `gradeName`, `grade_label` is `gradeLabel`, `grade_salary` is `salary`, `dateofbirth` is `dob`. Money is `player.money.cash` and `player.money.bank`. See the [v4.0.0 changelog](../../changelog/v4.0.0.md).
+:::
 
-Gets the framework player object from a server id. Wrapper for `MSK.GetPlayer({source = playerId})`.
-
-**Parameters**  
-**playerId** - `number` - The server id of the player
-
-**Returns**  
-**player** - `table` - The framework player object
+## The player table
 
 ```lua
-local xPlayer = MSK.GetPlayerFromId(playerId)
-
--- Example
-local xPlayer = MSK.GetPlayerFromId(source)
-
--- As an Export:
-local xPlayer = exports.msk_core:GetPlayerFromId(playerId)
+{
+    source     = 1,                     -- server id, nil when the player is offline
+    identifier = 'license:abc123',      -- ESX identifier / citizenid
+    license    = 'license:abc123',
+    name       = 'John Doe',
+    firstName  = 'John',
+    lastName   = 'Doe',
+    dob        = '1990-01-01',
+    sex        = 'male',                -- 'male' or 'female', identical everywhere
+    phone      = '0123456789',          -- nil on ESX
+    group      = 'admin',
+    job        = {},                    -- see below
+    jobs       = {police = 3},          -- name -> grade
+    gang       = nil,                   -- nil when the framework has no gangs
+    gangs      = {},
+    money      = {cash = 500, bank = 12000, black = 0},
+    metadata   = {},
+    position   = vector3(0.0, 0.0, 0.0),
+}
 ```
 
-## MSK.GetPlayerFromIdentifier
+`jobs` and `gangs` are filled on **every** framework. On Qbox that is the real multijob map, on ESX and QBCore it holds the single job the player has, so consumer code can read `player.jobs` without asking which framework it is on.
 
-Gets the framework player object from an identifier. Wrapper for `MSK.GetPlayer({identifier = identifier})`.
+### Job and gang
 
-**Parameters**  
-**identifier** - `string` - The player identifier
-
-**Returns**  
-**player** - `table` - The framework player object
+`job` and `gang` always look the same:
 
 ```lua
-local xPlayer = MSK.GetPlayerFromIdentifier(identifier)
-
--- Example
-local xPlayer = MSK.GetPlayerFromIdentifier('license:abc123')
-
--- As an Export:
-local xPlayer = exports.msk_core:GetPlayerFromIdentifier(identifier)
+{
+    name       = 'police',
+    label      = 'Police Department',
+    grade      = 3,
+    gradeName  = 'sergeant',
+    gradeLabel = 'Sergeant',
+    salary     = 120,
+    isBoss     = false,
+    onDuty     = true,
+}
 ```
 
-## MSK.GetPlayerByCitizenId
+## MSK.GetPlayer
 
-Gets the framework player object from a citizenid (QBCore) / identifier. Wrapper for `MSK.GetPlayer({citizenid = citizenid})`.
+Returns the player object: the table above plus its methods.
 
-**Parameters**  
-**citizenid** - `string` - The citizenid of the player
+**Parameters**
+**id** - `number` | `string` | `table` - A server id, an identifier or citizenid, or a table: `{source = }`, `{identifier = }`, `{citizenid = }`, `{phone = }`, `{userId = }`
 
-**Returns**  
-**player** - `table` - The framework player object
+**Returns**
+**player** - `table` | `nil` - The player object, `nil` when nobody matches
 
 ```lua
-local xPlayer = MSK.GetPlayerByCitizenId(citizenid)
+local player = MSK.GetPlayer(source)
+local player = MSK.GetPlayer('license:abc123')
+local player = MSK.GetPlayer({citizenid = 'ABCD1234'})
 
--- Example
-local xPlayer = MSK.GetPlayerByCitizenId('ABCD1234')
-
--- As an Export:
-local xPlayer = exports.msk_core:GetPlayerByCitizenId(citizenid)
+if player then
+    print(player.name, player.job.label, player.money.bank)
+end
 ```
 
-## MSK.GetPlayerJobFromId
+:::warning[Methods only exist inside your resource]
+Functions do not survive an export. The methods are built by `modules/Player`, which `import.lua` compiles into your resource, so `MSK.GetPlayer(...)` gives you a full object. `exports.msk_core:GetPlayerData(id)` gives you the **data only**. Before v4.0.0 every method arrived as `nil`.
+:::
 
-Gets the job of a player from a server id. Wrapper for `MSK.GetPlayerJob({source = playerId})`.
+## Player methods
 
-**Parameters**  
-**playerId** - `number` - The server id of the player
-
-**Returns**  
-**job** - `table` - The job object
+**Job and gang**
 
 ```lua
-local job = MSK.GetPlayerJobFromId(playerId)
-
--- Example
-local job = MSK.GetPlayerJobFromId(source)
-
--- As an Export:
-local job = exports.msk_core:GetPlayerJobFromId(playerId)
+player.SetJob(name, grade)              -- boolean
+player.SetGang(name, grade)             -- boolean, false on ESX
+player.SetDuty(onDuty)                  -- boolean
+player.AddJob(name, grade)              -- boolean, replaces the job on ESX and QBCore
+player.RemoveJob(name)                  -- boolean
+player.AddGang(name, grade)             -- boolean
+player.RemoveGang(name)                 -- boolean
+player.HasJob(name, minGrade)           -- boolean
+player.HasGang(name, minGrade)          -- boolean
+player.IsBoss()                         -- boolean
+player.IsOnDuty()                       -- boolean
 ```
 
-## MSK.GetPlayerJobFromIdentifier
-
-Gets the job of a player from an identifier. Wrapper for `MSK.GetPlayerJob({identifier = identifier})`.
-
-**Parameters**  
-**identifier** - `string` - The player identifier
-
-**Returns**  
-**job** - `table` - The job object
+**Money**
 
 ```lua
-local job = MSK.GetPlayerJobFromIdentifier(identifier)
-
--- Example
-local job = MSK.GetPlayerJobFromIdentifier('license:abc123')
-
--- As an Export:
-local job = exports.msk_core:GetPlayerJobFromIdentifier(identifier)
+player.GetMoney(account)                    -- number, account: 'cash', 'bank' or 'black'
+player.AddMoney(account, amount, reason)    -- boolean
+player.RemoveMoney(account, amount, reason) -- boolean
+player.SetMoney(account, amount, reason)    -- boolean
 ```
 
-## MSK.GetPlayerJobByCitizenId
-
-Gets the job of a player from a citizenid (QBCore) / identifier. Wrapper for `MSK.GetPlayerJob({citizenid = citizenid})`.
-
-**Parameters**  
-**citizenid** - `string` - The citizenid of the player
-
-**Returns**  
-**job** - `table` - The job object
+**Metadata**
 
 ```lua
-local job = MSK.GetPlayerJobByCitizenId(citizenid)
+player.GetMeta(key)                     -- any
+player.SetMeta(key, value)              -- boolean
+```
 
--- Example
-local job = MSK.GetPlayerJobByCitizenId('ABCD1234')
+**Inventory**
 
--- As an Export:
-local job = exports.msk_core:GetPlayerJobByCitizenId(citizenid)
+```lua
+player.GetInventory()                          -- table
+player.GetItem(name, metadata)                 -- table or nil
+player.HasItem(name, count, metadata)          -- boolean
+player.AddItem(name, count, metadata, slot)    -- boolean
+player.RemoveItem(name, count, metadata, slot) -- boolean
+player.AddWeapon(name, count, metadata, slot)
+player.RemoveWeapon(name, count, metadata, slot)
+player.GetWeapon(name, metadata)
+player.CanCarryItem(name, count, metadata)     -- boolean or nil
+player.CanSwapItem(a, aCount, b, bCount)       -- boolean or nil
+player.SetMaxWeight(kilograms)                 -- boolean or nil
+player.ClearInventory()                        -- boolean or nil
+```
+
+:::warning[nil is not false]
+`CanCarryItem`, `CanSwapItem`, `SetMaxWeight` and `ClearInventory` answer `nil` when the running inventory cannot do it. That is not the same as `false`. Until v4.0.0 `CanCarryItem` answered `true` without checking on QBCore and Qbox, and an item handed out on that promise ends up on the floor.
+:::
+
+**Actions**
+
+```lua
+player.Notify(title, message, type, duration)
+player.Kick(reason)
+player.Save()
+player.Refresh()                        -- re-reads the framework data
+player.IsOnline()                       -- boolean
+player.GetCoords()                      -- vector3 or nil
+player.SetCoords(coords)                -- boolean
+player.GetPed()                         -- number or nil
 ```
 
 ## MSK.GetPlayers
 
-Returns the framework's list of players, optionally filtered by a key/value pair. The behaviour and filter keys depend on the active framework:
+Returns the player **data** of everyone online, optionally filtered.
 
-- **ESX**: returns `ESX.GetExtendedPlayers(key, value)`.
-- **QBCore**: without a `key` returns all QB players; with a `key` filters by `'job'`, `'gang'` or `'group'` (ACE-based).
-- **OXCore**: returns `Ox.GetPlayers({[key] = value})` (or all players when no key is given).
+**Parameters**
+**key** - `string` - `'job'`, `'gang'` or `'group'` (optional)
+**value** - `string` - The value to filter by (optional)
 
-**Parameters**  
-**key** - `string` - The filter key (optional), e.g. `'job'`, `'gang'`, `'group'`  
-**value** - `any` - The value to filter by (optional)
-
-**Returns**  
-**players** - `table` - The list of framework player objects
+**Returns**
+**players** - `table[]` - List of player tables, without methods
 
 ```lua
-local players = MSK.GetPlayers(key, value)
-
--- Example: all players
 local players = MSK.GetPlayers()
-
--- Example: all police
-local police = MSK.GetPlayers('job', 'police')
+local police  = MSK.GetPlayers('job', 'police')
 
 -- As an Export:
 local players = exports.msk_core:GetPlayers(key, value)
+```
+
+:::note
+`MSK.GetPlayers` deliberately returns data without methods, which is what you want for counting and filtering. Feed a `source` back into `MSK.GetPlayer` when you need to act on one of them.
+:::
+
+## Lookup shortcuts
+
+All of these are wrappers around `MSK.GetPlayer` and return the full player object.
+
+```lua
+MSK.GetPlayerFromId(playerId)             -- by server id
+MSK.GetPlayerFromIdentifier(identifier)   -- by identifier
+MSK.GetPlayerByCitizenId(citizenid)       -- same as above, QBCore and Qbox wording
+MSK.GetPlayerByPhone(phone)               -- nil on ESX, which has no phone on the player
+MSK.GetPlayerByUserId(userId)             -- Qbox only, nil everywhere else
+```
+
+## MSK.GetPlayerJob
+
+**Parameters**
+**id** - `number` | `string` | `table` - Same forms as `MSK.GetPlayer`
+
+**Returns**
+**job** - `table` | `nil` - The job table
+
+```lua
+local job = MSK.GetPlayerJob(source)
+
+if job and job.name == 'police' and job.onDuty then
+    -- ...
+end
+
+-- Also available:
+local gang = MSK.GetPlayerGang(source)   -- nil on ESX
+local jobs = MSK.GetPlayerJobs(source)   -- table<string, integer>
+
+-- Older wrapper names, unchanged:
+local job = MSK.GetPlayerJobFromId(playerId)
+local job = MSK.GetPlayerJobFromIdentifier(identifier)
+local job = MSK.GetPlayerJobByCitizenId(citizenid)
+```
+
+## MSK.GetJobs
+
+Every job **definition** the framework knows, not the players holding them. New in v4.0.0.
+
+Each framework keeps this somewhere else: ESX behind `ESX.GetJobs()`, QBCore in `QBCore.Shared.Jobs`, Qbox behind its own export. A script that only wants to fill a dropdown no longer has to know all three.
+
+**Returns**
+**jobs** - `table<string, table>` - Keyed by job name
+
+```lua
+local jobs = MSK.GetJobs()
+
+for name, job in pairs(jobs) do
+    print(name, job.label, #job.grades)
+end
+```
+
+```lua
+-- One entry looks like this
+{
+    name   = 'police',
+    label  = 'Police Department',
+    grades = {
+        {grade = 0, name = 'recruit', label = 'Recruit', salary = 50, isBoss = false},
+        {grade = 1, name = 'officer', label = 'Officer', salary = 75, isBoss = false},
+    },
+}
+```
+
+The grades are normalised into a list sorted by grade number, no matter how the framework stored them. ESX repeats the number inside the entry, QBCore and Qbox keep it in the key, and the pay field is `salary` on one side and `payment` on the other.
+
+## MSK.GetGangs
+
+Same shape as `MSK.GetJobs`, for gangs. **Empty on ESX**, which has no gangs.
+
+```lua
+local gangs = MSK.GetGangs()
+```
+
+## MSK.GetPlayerIdentifier
+
+```lua
+local identifier = MSK.GetPlayerIdentifier(id)   -- alias: MSK.GetIdentifier
+local playerId   = MSK.GetPlayerServerId(id)     -- alias: MSK.GetServerId
+```
+
+Both take a server id, an identifier or a table, same as `MSK.GetPlayer`.
+
+## MSK.HasPlayerItem
+
+```lua
+local hasIt = MSK.HasPlayerItem(id, itemName, count, metadata)
+```
+
+Takes the same id forms as `MSK.GetPlayer` and routes to the inventory bridge. See [Inventory](./inventory.md).
+
+## MSK.Player[source]
+
+A mirrored table of what a client reports about **itself**: ped, vehicle, seat, weapon. It is fed by the `msk_core:onPlayer` net event and is independent of the framework data above, so it works in `STANDALONE` too.
+
+Computed keys (`coords`, `heading`, `state`) are resolved on access, everything else comes from the client's updates.
+
+**Properties**
+**clientId** - `number` - Player index on the client, equal to `PlayerId()`
+**serverId** - `number` - Server id
+**playerId** - `number` - Alias of `serverId`
+**ped** - `number` - Player ped, equal to `GetPlayerPed(source)`
+**playerPed** - `number` - Alias of `ped`
+**coords** - `vector3` - Equal to `GetEntityCoords(ped)`
+**heading** - `float` - Equal to `GetEntityHeading(ped)`
+**state** - `table` - The state bag, equal to `Player(serverId).state`
+**vehicle** - `number` - The vehicle entity, resolved from the replicated network id
+**vehNetId** - `number` - The network id of that vehicle
+**seat** - `number` - Seat index
+**weapon** - `number` - Hash of the current weapon
+**isDead** - `boolean` - Whether the player is dead
+**Notify** - `function` - Shorthand for `MSK.Notification(source, title, message, type, duration)`
+
+```lua
+local playerPed = MSK.Player[source].ped
+local coords = MSK.Player[source].coords
+local vehicle = MSK.Player[source].vehicle
+local seat = MSK.Player[source].seat
+
+MSK.Player[source].Notify(title, message, type, duration)
+```
+
+Every change also fires an event:
+
+```lua
+AddEventHandler('msk_core:OnPlayer', function(playerId, key, value, oldValue) end)
+```
+
+## MSK.GetMirroredPlayer
+
+Returns `MSK.Player[id]` directly. This is what a consumer resource reads the mirror through.
+
+```lua
+local player = MSK.GetMirroredPlayer(id)
+local coords = MSK.GetMirroredPlayer(source).coords
+
+-- As an Export:
+local player = exports.msk_core:GetMirroredPlayer(id)
 ```

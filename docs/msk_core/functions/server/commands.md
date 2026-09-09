@@ -1,6 +1,6 @@
 ---
 title: Commands
-sidebar_position: 11
+sidebar_position: 12
 ---
 
 # Commands
@@ -26,7 +26,7 @@ If `restricted` is set in `properties`, the command is registered as restricted 
 - **allowConsole** - `boolean` - Allow execution from the server console (`source == 0`). Optional, default: `true`
 - **showSuggestion** - `boolean` - Show / hide the chat suggestion. Optional, default: `true`
 - **restricted** - `boolean` or `string` or `table` - Restrict the command to one or more groups via Ace. When a string or table is given, the corresponding `command.<commandName>` Ace is added for those groups.
-- **returnPlayer** - `boolean` - Pass the resolved Player object as the first handler argument instead of `source` (ESX / QBCore only).
+- **returnPlayer** - `boolean` - Pass the resolved player object as the first handler argument instead of `source` (not available in STANDALONE).
 - **help** - `string` - Chat suggestion description
 - **params** - `table` - Typed argument definitions (see below)
 
@@ -38,7 +38,7 @@ If `restricted` is set in `properties`, the command is registered as restricted 
 - **optional** - `boolean` - Mark the argument optional (must be the last one). Optional, default: `false`
 
 :::info
-For `type = 'player'`, the argument is resolved to the full Player object (ESX / QBCore). For `type = 'playerId'`, only the numeric server id is returned. In both cases `me` resolves to the executing player.
+For `type = 'player'`, the argument is resolved to the full player object. For `type = 'playerId'`, only the numeric server id is returned. In both cases `me` resolves to the executing player.
 :::
 
 ```lua
@@ -65,7 +65,7 @@ end, {
     }
 })
 
--- Example 2 -> Framework based (Only ESX and QBCore)
+-- Example 2 -> Framework based (not available in STANDALONE)
 MSK.RegisterCommand('testCommand', function(Player, args, raw)
     local Target = args.player
 

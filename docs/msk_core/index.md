@@ -7,7 +7,7 @@ sidebar_position: 1
 
 # MSK Core
 
-**MSK Core** is the shared library that powers every MSK Scripts resource. It gives you a clean framework abstraction (ESX, QBCore, ox_core, or fully **STANDALONE**), a modern React-based NUI and a large set of battle-tested helper functions, all exposed through a single global `MSK` table that any resource can import in one line.
+**MSK Core** is the shared library that powers every MSK Scripts resource. It gives you a clean framework abstraction (ESX, QBCore, Qbox, or fully **STANDALONE**), a modern React-based NUI and a large set of battle-tested helper functions, all exposed through a single global `MSK` table that any resource can import in one line.
 
 :::info[Version]
 This documentation covers **msk_core `v3.3.1`**. With v3 the whole core was rebuilt around a lazy-loading module system and the NUI was migrated to React + Vite + TypeScript. The public API (`MSK.*` and `exports.msk_core:*`) stays backwards-compatible, legacy names keep working through the alias and export layer.
@@ -15,7 +15,7 @@ This documentation covers **msk_core `v3.3.1`**. With v3 the whole core was rebu
 
 ## Highlights
 
-- **Framework bridge**: write your script once and run it on ESX, QBCore, ox_core or STANDALONE. Detection is automatic (`Config.Framework = 'AUTO'`).
+- **Framework bridge**: write your script once and run it on ESX, QBCore, Qbox or STANDALONE. Detection is automatic (`Config.Framework = 'AUTO'`). Framework and inventory are two independent axes since v4.0.0.
 - **Inventory bridge**: `ox_inventory`, `core_inventory`, `jaksam_inventory`, the ESX/Chezza default, or your own `custom` implementation.
 - **Lazy-loaded modules**: modules are compiled into your resource only when you first touch them, so there is no overhead for what you don't use.
 - **Modern NUI**: Notify, Input, Numpad, Progressbar, TextUI, Context Menu and Menu in the MSK design language (React, fully offline/bundled).
@@ -28,7 +28,7 @@ This documentation covers **msk_core `v3.3.1`**. With v3 the whole core was rebu
 
 ### Optional Requirements
 
-* [ESX 1.9.2 and above](https://github.com/esx-framework/esx_core) or [QBCore](https://github.com/qbcore-framework/qb-core), only required for **framework-based** functions *(see [Frameworks](./frameworks.md))*
+* [ESX 1.9.2 and above](https://github.com/esx-framework/esx_core), [QBCore](https://github.com/qbcore-framework/qb-core) or [Qbox](https://github.com/Qbox-project/qbx_core), only required for **framework-based** functions *(see [Frameworks](./frameworks.md))*
 * [ox_inventory](https://github.com/overextended/ox_inventory) / [core_inventory](https://forum.cfx.re/t/core_inventory/) / [jaksam_inventory](https://forum.cfx.re/t/jaksams-inventory-create-items-in-game/5388694), only required for **inventory-based** functions
 
 ## Quick Start

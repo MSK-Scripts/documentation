@@ -5,6 +5,60 @@ sidebar_position: 2
 
 # Player
 
+There are two different things on this page. **`MSK.GetPlayerData()`** and its neighbours give you the framework data of the local character, in the same unified shape the server uses. **`MSK.Player`** is a live mirror of the ped: coords, vehicle, seat, weapon.
+
+:::info[New in v4.0.0]
+The client has **no framework adapter** any more. The server normalises the player data and sends it with every `msk_core:*` event, and the client receives it. One shape, one place. The client also cannot write player data back, which used to be an exploit path.
+:::
+
+## Framework data
+
+```lua
+local player = MSK.GetPlayerData()   -- unified player table, nil while no character is loaded
+local loaded = MSK.IsPlayerLoaded()  -- boolean
+local job    = MSK.GetPlayerJob()    -- unified job table, nil while not loaded
+local gang   = MSK.GetPlayerGang()   -- nil on ESX, which has no gangs
+local jobs   = MSK.GetPlayerJobs()   -- table<string, integer>, the real multijob map on Qbox
+```
+
+The fields are documented once, on the [server Player page](../server/player.md). They are identical here.
+
+```lua
+AddEventHandler('msk_core:playerLoaded', function(player) end)
+AddEventHandler('msk_core:setJob', function(job, lastJob) end)
+AddEventHandler('msk_core:setGang', function(gang, lastGang) end)
+AddEventHandler('msk_core:setDuty', function(onDuty, job) end)
+AddEventHandler('msk_core:setPlayerData', function(player) end)
+AddEventHandler('msk_core:playerLogout', function() end)
+```
+
+`MSK.Bridge.PlayerData` and `MSK.Bridge.isPlayerLoaded` read the same values and are resolved on access, so they are never a snapshot from resource start.
+
+## MSK.GetJobs
+
+Every job **definition** the framework knows, not the players holding them.
+
+```lua
+CreateThread(function()
+    local jobs = MSK.GetJobs()
+    local gangs = MSK.GetGangs()   -- empty on ESX
+end)
+```
+
+:::warning[Blocking]
+Both are a callback round trip to the server, which is the only side that has the complete list. Call them from inside a thread. The shape is documented on the [server Player page](../server/player.md).
+:::
+
+## MSK.IsPlayerDead
+
+```lua
+if MSK.IsPlayerDead() then end
+```
+
+Covers the plain natives plus the `visn_are` and `osp_ambulance` downed states when those resources are running. It used to sit on the client player object as `PlayerData.IsDead()`, where consumers could not reach it, and it is not a property of the player data anyway: it is a question about the ped plus whichever ambulance script is running.
+
+## The mirrored ped table
+
 The client `MSK.Player` table is a live mirror of the local player. In the `msk_core` runtime a single core thread refreshes the standard keys roughly every 100ms and replicates changes to the server (and other resources) via the `msk_core:onPlayer` event. Consumer resources that import the library through `shared_script '@msk_core/import.lua'` receive a read-only view backed by the same data, so reading `MSK.Player.coords` always returns up-to-date values.
 
 ## MSK.Player

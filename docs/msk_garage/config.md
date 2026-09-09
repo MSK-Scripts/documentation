@@ -196,10 +196,12 @@ Config.closeTextUI = function()
     MSK.TextUI.Close()
 end
 
--- Database column mapping (owned_vehicles)
-Config.MySQL = { type = 'type', job = 'job', stored = 'stored', civ = 'civ' }
+-- Table and column mapping, filled from msk_core on start (since v5.6.0)
+Config.MySQL = { table = 'owned_vehicles', owner = 'owner', props = 'vehicle',
+                 type = 'type', job = 'job', stored = 'stored', civ = 'civ',
+                 storedIn = 1, storedOut = 0 }
 
--- Resolves the default garage id for an owned_vehicles.type value
+-- Resolves the default garage id for a vehicle type value
 function Config.GetDefaultGarage(vehicleType) ... end
 
 -- AdvancedParking auto-detect (no config flag)
@@ -223,7 +225,7 @@ Config.LockVehicle = function(vehicle, locked) ... end
 | `Config.npcVoice` | `table` | Ped "greet/farewell" voice line on enter/leave. |
 | `Config.LuxuAdmin` | `table` | luxu_admin v2 integration for [dashboard access](./dashboard.md#who-can-open-it). `enable` (`'auto'`/`true`/`false`), `resource`, `requireDuty`, `groupMap`. Its staff groups are resolved via the `getPlayerStaffGroup` export because they are not ACE principals. |
 | `Config.openTextUI` / `closeTextUI` | `function` | Your TextUI adapter (default wires `MSK.TextUI`). |
-| `Config.MySQL` | `table` | Column name mapping for `owned_vehicles`, see [Database](./database.md). |
+| `Config.MySQL` | `table` | Table and column mapping for the framework's vehicle table, filled from msk_core on start. See [Database](./database.md). |
 | `Config.GetDefaultGarage` | `function` | Resolves the default garage id for a vehicle type via `Config.DefaultGarages`. |
 | `Config.UsesAdvancedParking` | `function` | Auto-detects the AdvancedParking resource. |
 | `Config.UsesMskFuel` / `GetModelMaxFuel` | `function` | [Fuel](./guides/integrations.md#fuel) detection & max-volume helper. |

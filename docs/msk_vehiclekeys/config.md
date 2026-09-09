@@ -32,11 +32,12 @@ Config.VersionChecker = true  -- Checks for a new version on start
 
 ### Framework & Notification
 
-Framework detection and the notification hook live in **`config/static.lua`** (not
-dashboard-managed).
+The notification hook lives in **`config/static.lua`** (not dashboard-managed).
 
 ```lua title="config/static.lua"
--- Supported Frameworks: AUTO, ESX, QBCore. AUTO detects it automatically.
+-- No longer read since v3.4.0. msk_core detects the framework and this resource
+-- asks msk_core about it, so changing this has no effect. Pin the framework in
+-- msk_core's config.lua instead. The line stays so an old config still loads.
 Config.Framework = 'AUTO'
 
 -- Runs BOTH client- and serverside. Forwards to MSK.Notification by default;

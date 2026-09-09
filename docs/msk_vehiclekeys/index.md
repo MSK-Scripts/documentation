@@ -9,7 +9,7 @@ sidebar_position: 1
 
 # MSK VehicleKeys
 
-A complete vehicle key system for **ESX** and **QBCore**. Lock and unlock vehicles
+A complete vehicle key system for **ESX**, **QBCore** and **Qbox**. Lock and unlock vehicles
 with a command, a hotkey or a target: manage primary, secondary and temporary keys,
 hand keys to other players, exchange locks at a locksmith and even transfer ownership
 of a vehicle to another player.
@@ -52,8 +52,8 @@ are supported. Support for `qs-inventory` and `core_inventory` was removed in **
 
 ## Requirements
 
-- [ESX 1.9.2+](https://github.com/esx-framework/esx_core) or [QBCore](https://github.com/qbcore-framework/qb-core)
-- [msk_core](https://github.com/MSK-Scripts/msk_core)
+- [ESX 1.9.2+](https://github.com/esx-framework/esx_core), [QBCore](https://github.com/qbcore-framework/qb-core) or [Qbox](https://github.com/Qbox-project/qbx_core) - Qbox since v3.4.0
+- [msk_core](https://github.com/MSK-Scripts/msk_core) - 4.0.0 or newer since v3.4.0
 - [ox_lib](https://github.com/overextended/ox_lib)
 - [oxmysql](https://github.com/overextended/oxmysql)
 

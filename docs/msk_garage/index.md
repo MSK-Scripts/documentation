@@ -109,7 +109,7 @@ and the impound fee is always charged on the server (and refunded on failure).
 
 | | Resource |
 |---|---|
-| **Required** | [ESX Legacy](https://github.com/esx-framework/esx_core) · [msk_core](https://github.com/MSK-Scripts/msk_core) · [oxmysql](https://github.com/overextended/oxmysql) |
+| **Required** | [ESX Legacy](https://github.com/esx-framework/esx_core), [QBCore](https://github.com/qbcore-framework/qb-core) or [Qbox](https://github.com/Qbox-project/qbx_core) · [msk_core](https://github.com/MSK-Scripts/msk_core) 4.0.0+ · [ox_lib](https://github.com/overextended/ox_lib) · [oxmysql](https://github.com/overextended/oxmysql) |
 | **Optional** | [AdvancedParking](https://forum.cfx.re/t/advancedparking-v4-11-1-persistent-vehicles-esx-qb-qbox-ox-standalone/2099582) · [VehicleDeformation](https://docs.kiminaze.de/free-scripts/vehicledeformation/) · [MSK VehicleKeys](https://forum.cfx.re/t/esx-qbcore-msk-vehiclekeys-unique-items/5264475) · [VehicleKeyChain](https://forum.cfx.re/t/release-vehicle-key-chain/3319563) · [Jaksam Vehicle Keys](https://forum.cfx.re/t/esx-qbcore-vehicles-keys-vehicles-lock-remote-control-ui-and-much-more/4857274) |
 
 :::info[Vehicle key scripts]

@@ -11,7 +11,7 @@ sidebar_position: 1
 2. Add `ensure msk_vehiclekeys` to your `server.cfg`.
 3. Make sure all [dependencies](../index.md#requirements) start **before** `msk_vehiclekeys`.
 4. Configure `config/settings.lua`, or just manage everything live from the [in-game admin dashboard](../admin.md) after the first start.
-5. Set your framework at `Config.Framework` in `config/static.lua` (or leave it on `AUTO`).
+5. The framework needs no setting here. msk_core detects it and this resource asks msk_core about it.
 6. Set the hotkeys you want. Players can rebind them in the FiveM keybind settings.
 7. Add the **items** (`keys`, `keyring`, `contract`) to your inventory.
 8. Enable or disable `uniqueItems` depending on your inventory.

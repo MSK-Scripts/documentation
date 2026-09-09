@@ -8,7 +8,7 @@ sidebar_position: 3
 Client-side inventory helper. The lookup itself runs on the server through the active inventory bridge. The client function is a callback to `msk_core:hasItem`.
 
 :::info
-`MSK.HasItem` requires a framework (**ESX** / **QBCore** / **OXCore**). In `STANDALONE` mode the function logs an error and returns `nil`.
+`MSK.HasItem` requires a framework (**ESX**, **QBCore** or **Qbox**). In `STANDALONE` mode the function logs an error and returns `nil`.
 :::
 
 ## MSK.HasItem

@@ -15,4 +15,7 @@ Ingame Whitelist System for your Roleplay Server.
 
 ## Requirements
 
-- [msk_core](https://github.com/MSK-Scripts/msk_core)
+- [msk_core](https://github.com/MSK-Scripts/msk_core) - 4.0.0 or newer since v2.1.0
+- [oxmysql](https://github.com/overextended/oxmysql)
+- ESX, QBCore or Qbox. QBCore and Qbox are supported since v2.1.0, before that
+  `es_extended` was a hard dependency and the resource did not start without it.

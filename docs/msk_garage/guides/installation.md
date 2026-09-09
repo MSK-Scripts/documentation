@@ -7,7 +7,7 @@ sidebar_position: 1
 
 1. Drag & drop the `msk_garage` folder into your resources folder.
 2. Make sure the [dependencies](../index.md#-requirements) start **before**
-   `msk_garage` (`es_extended`, `msk_core`, `oxmysql`).
+   `msk_garage` (your framework, `msk_core`, `ox_lib`, `oxmysql`).
 3. Add `ensure msk_garage` to your `server.cfg`.
 4. (Optional) Adjust the default seed in the [`config/`](../config.md) folder
    (`settings.lua`, `static.lua`, `garages.lua`, `impounds.lua`). These are
