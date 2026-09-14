@@ -17,9 +17,9 @@ Config.VoiceSystem = 'pma' -- 'saltychat', 'pma' or 'tokovoip'
 
 Config.Notification = function(source, message, typ)
     if IsDuplicityVersion() then
-        MSK.Notification(source, 'MSK Radio', message, typ, 5000)
+        MSK.Notification(source, { title = 'MSK Radio', message = message, type = typ, duration = 5000 })
     else
-        MSK.Notification('MSK Radio', message, typ, 5000)
+        MSK.Notification({ title = 'MSK Radio', message = message, type = typ, duration = 5000 })
     end
 end
 

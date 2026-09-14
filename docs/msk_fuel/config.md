@@ -31,9 +31,9 @@ Config.VersionChecker = true
 
 Config.Notification = function(source, message, typ)
     if IsDuplicityVersion() then
-        MSK.Notification(source, 'Fuel Station', message, typ, 5000)
+        MSK.Notification(source, { title = 'Fuel Station', message = message, type = typ, duration = 5000 })
     else
-        MSK.Notification('Fuel Station', message, typ, 5000)
+        MSK.Notification({ title = 'Fuel Station', message = message, type = typ, duration = 5000 })
     end
 end
 

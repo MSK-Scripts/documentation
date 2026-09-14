@@ -19,9 +19,9 @@ Config.botAvatar = "https://i.imgur.com/PizJGsh.png"
 
 Config.Notification = function(source, message, typ, duration)
     if IsDuplicityVersion() then
-        MSK.Notification(source, 'MSK Whitelist', message, typ, duration)
+        MSK.Notification(source, { title = 'MSK Whitelist', message = message, type = typ, duration = duration })
     else
-        MSK.Notification('MSK Whitelist', message, typ, duration)
+        MSK.Notification({ title = 'MSK Whitelist', message = message, type = typ, duration = duration })
     end
 end
 

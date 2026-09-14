@@ -172,10 +172,10 @@ Config.defaultTextUI = true -- true = msk_core TextUI, false = your Config.openT
 
 ```lua title="config/static.lua"
 Config.openTextUI = function(coloredText, uncoloredText)
-    MSK.TextUI.Show('E', coloredText)
+    MSK.TextUI.Show({ key = 'E', text = coloredText })
 end
 Config.closeTextUI = function()
-    MSK.TextUI.Close()
+    MSK.TextUI.Hide()
 end
 ```
 

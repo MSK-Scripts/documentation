@@ -19,9 +19,9 @@ Config.botAvatar = "https://i.imgur.com/PizJGsh.png"
 
 Config.Notification = function(source, message, typ)
     if IsDuplicityVersion() then
-        MSK.Notification(source, 'MSK Banking', message, typ, 5000)
+        MSK.Notification(source, { title = 'MSK Banking', message = message, type = typ, duration = 5000 })
     else
-        MSK.Notification('MSK Banking', message, typ, 5000)
+        MSK.Notification({ title = 'MSK Banking', message = message, type = typ, duration = 5000 })
     end
 end
 

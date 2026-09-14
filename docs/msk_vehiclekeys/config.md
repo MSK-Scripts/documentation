@@ -44,9 +44,9 @@ Config.Framework = 'AUTO'
 -- adjust it to use your own notification system.
 Config.Notification = function(source, message, typ)
     if IsDuplicityVersion() then -- serverside
-        MSK.Notification(source, 'Vehicle Keys', message, typ, 5000)
+        MSK.Notification(source, { title = 'Vehicle Keys', message = message, type = typ, duration = 5000 })
     else -- clientside
-        MSK.Notification('Vehicle Keys', message, typ, 5000)
+        MSK.Notification({ title = 'Vehicle Keys', message = message, type = typ, duration = 5000 })
     end
 end
 ```
@@ -269,7 +269,7 @@ Replace it with your own TextUI resource.
 
 ```lua title="config/static.lua"
 Config.openTextUI = function(coloredText, uncoloredText)
-    MSK.TextUI.Show('E', coloredText)
+    MSK.TextUI.Show({ key = 'E', text = coloredText })
 end
 
 Config.closeTextUI = function()

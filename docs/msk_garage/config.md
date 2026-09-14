@@ -155,9 +155,9 @@ Config = Config or {}
 -- Notification (client- AND serverside)
 Config.Notification = function(source, message, typ)
     if IsDuplicityVersion() then
-        MSK.Notification(source, 'MSK Garage', message, typ)
+        MSK.Notification(source, { title = 'MSK Garage', message = message, type = typ })
     else
-        MSK.Notification('MSK Garage', message, typ)
+        MSK.Notification({ title = 'MSK Garage', message = message, type = typ })
     end
 end
 
@@ -190,10 +190,10 @@ Config.HousingSyncMinutes = 15
 
 -- TextUI adapter (used when Config.defaultTextUI = false)
 Config.openTextUI = function(coloredText, uncoloredText)
-    MSK.TextUI.Show('E', coloredText)
+    MSK.TextUI.Show({ key = 'E', text = coloredText })
 end
 Config.closeTextUI = function()
-    MSK.TextUI.Close()
+    MSK.TextUI.Hide()
 end
 
 -- Table and column mapping, filled from msk_core on start (since v5.6.0)
