@@ -11,24 +11,39 @@ All functions silently return if `source` is `nil` or `0`.
 
 ## MSK.Notification
 
-Sends a notification to a player. Also available as the alias `MSK.Notify`.
+Sends a notification to a player, or to everyone with `-1`. Also available as the alias `MSK.Notify`.
+
+See the [client-side documentation](../client/notify.md#msknotification) for all fields (`id`, `icon`, `iconAnimation`, `position`, `showDuration`, `sound`). A notification position the player picked in their settings always wins over `position`.
 
 **Parameters**  
-**source** - `number` - The player server id to send the notification to  
-**title** - `string` - The title of the notification  
-**message** - `string` - The message body  
-**info** - `string` - Optional - Default: `'info'` - The notify type (one of the keys defined in `Config.NotifyTypes`)  
-**time** - `number` - Optional - Default: `5000` - Display duration in milliseconds
+**source** - `number` - The player server id to send the notification to, `-1` for everyone  
+**data** - `table` - Notification data (`title` is optional, `message`, `type`, `duration`, ...)
 
 ```lua
-MSK.Notification(source, title, message, info, time)
+MSK.Notification(source, data)
 
 -- Example
-MSK.Notification(source, 'MSK Scripts', 'Welcome to the server!', 'success', 5000)
+MSK.Notification(source, {
+    title = 'MSK Scripts',
+    message = 'Welcome to the server!',
+    type = 'success',
+    duration = 5000,
+})
+
+-- To everyone
+MSK.Notification(-1, { message = 'Server restart in ~r~5 minutes~s~', type = 'warning', icon = 'clock', position = 'top' })
 
 -- As an Export:
-exports.msk_core:Notification(source, title, message, info, time)
+exports.msk_core:Notification(source, data)
 ```
+
+:::warning[Deprecated]
+The old form `MSK.Notification(source, title, message, info, time)` still works, but is deprecated and logs a warning once per resource. Pass a table instead:
+
+```lua
+MSK.Notification(source, { title = 'MSK Scripts', message = 'Welcome to the server!', type = 'success' })
+```
+:::
 
 ## MSK.HelpNotification
 

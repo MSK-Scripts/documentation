@@ -12,20 +12,25 @@ Client-side vehicle helpers built on top of the Entities module. Every function 
 Returns the closest vehicle to the given coordinates.
 
 **Parameters**  
-**coords** - `vector3` - Coordinates to measure from. Defaults to the local player's coords (optional)
+**coords** - `vector3` - Optional - Default: the player's coords - Coordinates to measure from  
+**maxDistance** - `number` - Optional - Only vehicles within this range count. Without it, every vehicle counts no matter how far away
 
 **Returns**  
-**vehicle** - `number` - The closest vehicle handle, or `-1` if none found  
-**distance** - `number` - Distance to the closest vehicle
+**vehicle** - `number` - The closest vehicle handle, or `-1` if none was found  
+**distance** - `number` - Distance to the closest vehicle, or `-1` if none was found
 
 ```lua
-local vehicle, distance = MSK.GetClosestVehicle(coords)
+local vehicle, distance = MSK.GetClosestVehicle(coords, maxDistance)
 
 -- Example
-local vehicle, distance = MSK.GetClosestVehicle()
+local vehicle, distance = MSK.GetClosestVehicle(nil, 5.0)
+
+if vehicle ~= -1 then
+    print('vehicle in range', vehicle, distance)
+end
 
 -- As an Export:
-local vehicle, distance = exports.msk_core:GetClosestVehicle(coords)
+local vehicle, distance = exports.msk_core:GetClosestVehicle(coords, maxDistance)
 ```
 
 ## MSK.GetClosestVehicles
@@ -33,8 +38,8 @@ local vehicle, distance = exports.msk_core:GetClosestVehicle(coords)
 Returns all vehicles within `distance` of the given coordinates.
 
 **Parameters**  
-**coords** - `vector3` - Coordinates to measure from. Defaults to the local player's coords (optional)  
-**distance** - `number` - Maximum distance to include
+**coords** - `vector3` - Optional - Default: the player's coords - Coordinates to measure from  
+**distance** - `number` - Optional - Maximum distance to include. Without it, every vehicle is included
 
 **Returns**  
 **vehicles** - `table` - Array of vehicle handles
@@ -53,13 +58,15 @@ local vehicles = exports.msk_core:GetClosestVehicles(coords, distance)
 
 Searches vehicles within `distance` of `coords` and returns the one whose number plate matches `plate`.
 
+Both plates are normalized before they are compared: trimmed and upper cased. So `abc123` finds a vehicle with the plate `ABC123  `. Inner spaces are kept, `AB C123` does not match `ABC123`.
+
 **Parameters**  
-**plate** - `string` - The number plate to look for (trimmed before comparison)  
-**coords** - `vector3` - Coordinates to measure from  
-**distance** - `number` - Maximum distance to include
+**plate** - `string` - The number plate to look for  
+**coords** - `vector3` - Optional - Default: the player's coords - Coordinates to measure from  
+**distance** - `number` - Optional - Maximum distance to include. Without it, every vehicle streamed in for this client is searched
 
 **Returns**  
-**vehicle** - `number | boolean` - The matching vehicle handle, or `false` if none found
+**vehicle** - `number | boolean` - The matching vehicle handle, or `false` if none was found or the plate is empty
 
 ```lua
 local vehicle = MSK.GetVehicleWithPlate(plate, coords, distance)
@@ -146,13 +153,13 @@ local model, name = exports.msk_core:GetModelFromPlate(plate)
 
 ## MSK.GetVehicleInDirection
 
-Performs a raycast in front of the player and returns the vehicle that was hit. Also available under the alias `MSK.GetVehicleInFront` (and the `GetVehicleInFront` export).
+Casts a line of sight probe in front of the player (see [`MSK.Request.Raycast`](./request.md#mskrequestraycast)) and returns the vehicle that was hit. Also available under the alias `MSK.GetVehicleInFront` (and the `GetVehicleInFront` export).
 
 **Parameters**  
 **distance** - `number` - Raycast distance. Defaults to `5.0` (optional)
 
 **Returns**  
-**entity** - `number | boolean` - The vehicle handle that was hit, or `false`/`0` if nothing was hit  
+**entity** - `number | boolean` - The vehicle handle that was hit, or `false` if nothing was hit  
 **entityCoords** - `vector3` - Coordinates of the hit entity (only when an entity was hit)  
 **distance** - `string` - Distance to the hit entity formatted to 2 decimals (only when an entity was hit)
 

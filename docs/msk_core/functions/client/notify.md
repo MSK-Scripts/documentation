@@ -23,20 +23,60 @@ When using the `msk` (or `native`) backend you can embed GTA color codes such as
 Displays a notification to the player using the configured `Config.Notification` backend. Also available as the alias `MSK.Notify`, and can be triggered remotely via the `msk_core:notification` net event.
 
 **Parameters**  
-**title** - `string` - The title of the notification (used by the `msk`, `okok` and `custom` backends)  
-**message** - `string` - The message body  
-**typ** - `string` - Optional - Default: `'info'` - One of the keys defined in `Config.NotifyTypes` (`general`, `info`, `success`, `warning`, `error`)  
-**duration** - `number` - Optional - Default: `5000` - Display duration in milliseconds
+**data** - `table` - Notification data
+
+**Description**  
+- **message** - `string` - The message body (`description` works as well)  
+- **title** - `string` - Optional - The title. Without a title the notification is shown in a compact form, with the icon next to the text  
+- **type** - `string` - Optional - Default: `'info'` - One of the keys defined in `Config.NotifyTypes` (`general`, `info`, `success`, `warning`, `error`)  
+- **duration** - `number` - Optional - Default: `5000` - Display duration in milliseconds  
+- **id** - `string` - Optional - A visible notification with the same id is updated and its time restarts, instead of stacking a second one  
+- **icon** - `string` - Optional - FontAwesome icon, overrides the icon of the type. Short name (`car`) or full class (`fas fa-car`)  
+- **iconColor** - `string` - Optional - Color of the icon, default is the color of the type  
+- **iconAnimation** - `string` - Optional - `spin`, `spinPulse`, `spinReverse`, `beat`, `beatFade`, `bounce`, `fade`, `flip`, `shake`  
+- **position** - `string` - Optional - `top-left`, `top`, `top-right`, `center-left`, `center-right`, `bottom-left`, `bottom`, `bottom-right`  
+- **showDuration** - `boolean` - Optional - Default: `true` - `false` hides the progress bar  
+- **sound** - `boolean/table` - Optional - Default: `true` - `false` is silent, `{ bank = ..., set = ..., name = ... }` plays a GTA sound instead of the MSK sound (`bank` is optional)
+
+Everything beyond `title`, `message`, `type` and `duration` only applies to the `msk` backend. The other backends get what they understand, and `Config.customNotification` receives the whole data table as fifth parameter.
+
+:::info[The player's position wins]
+Players can pick their own notification position in the [settings menu](./ui/settings.md). That choice always wins over `position`. The position from your script is only used while the player's setting is "Automatic", and without either one notifications appear top left. A player who turned the notification sound off hears neither the MSK sound nor a GTA sound.
+:::
 
 ```lua
-MSK.Notification(title, message, typ, duration)
+MSK.Notification(data)
 
 -- Example
-MSK.Notification('MSK Scripts', 'You ~g~successfully~s~ saved your vehicle!', 'success', 5000)
+MSK.Notification({
+    title = 'Garage',
+    message = 'You ~g~successfully~s~ saved your vehicle!',
+    type = 'success',
+    duration = 5000,
+})
+
+-- Compact, without a title, updated in place while it is visible
+MSK.Notification({
+    id = 'garage_full',
+    message = 'Your garage is ~r~full~s~.',
+    type = 'error',
+    icon = 'warehouse',
+    iconAnimation = 'shake',
+    position = 'top-right',
+    sound = { set = 'HUD_FRONTEND_DEFAULT_SOUNDSET', name = 'ERROR' },
+})
 
 -- As an Export:
-exports.msk_core:Notification(title, message, typ, duration)
+exports.msk_core:Notification(data)
 ```
+
+:::warning[Deprecated]
+The old form `MSK.Notification(title, message, typ, duration)` still works, but is deprecated and logs a warning once per resource. Pass a table instead:
+
+```lua
+MSK.Notification({ title = 'MSK Scripts', message = 'Saved!', type = 'success', duration = 5000 })
+```
+:::
 
 ## MSK.HelpNotification
 

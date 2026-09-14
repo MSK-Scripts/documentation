@@ -12,14 +12,14 @@ Client-side world and entity helper functions.
 Checks whether there are no vehicles within `maxDistance` of the given coordinates. If `coords` is omitted, the player's current coordinates are used.
 
 **Parameters**  
-**coords** - `vector3` / `table` - Optional - The coordinates to check around. Defaults to the player's current position  
-**maxDistance** - `number` - The maximum distance (in meters) to search for nearby vehicles
+**coords** - `vector3` / `table` - Optional - Default: the player's position - The coordinates to check around  
+**maxDistance** - `number` - Optional - Default: `5.0` - The radius in meters to search for vehicles, the same default as on the server
 
 **Returns**  
 **isClear** - `boolean` - `true` if no vehicles were found within `maxDistance`
 
 ```lua
-MSK.IsSpawnPointClear(coords, maxDistance)
+local isClear = MSK.IsSpawnPointClear(coords, maxDistance)
 
 -- Example
 if MSK.IsSpawnPointClear(vector3(215.5, -810.2, 30.7), 3.0) then
@@ -27,69 +27,82 @@ if MSK.IsSpawnPointClear(vector3(215.5, -810.2, 30.7), 3.0) then
 end
 
 -- As an Export:
-exports.msk_core:IsSpawnPointClear(coords, maxDistance)
+local isClear = exports.msk_core:IsSpawnPointClear(coords, maxDistance)
 ```
 
 ## MSK.GetPedMugshot
 
-Registers and waits for a ped headshot (mugshot), returning the headshot handle and its texture dictionary string. Throws if the ped does not exist.
+Registers a ped headshot (mugshot) and waits until it is ready, then returns the headshot handle and its texture dictionary string. Raises an error if the ped does not exist.
+
+The wait is limited. If the headshot does not get ready in time (for example because too many headshots are registered, or the ped is deleted in the meantime), the headshot is unregistered again, an error is logged and the function returns `nil`.
 
 **Parameters**  
 **ped** - `number` - The ped entity handle  
-**transparent** - `boolean` - Optional - If `true`, registers a transparent headshot
+**transparent** - `boolean` - Optional - Default: `false` - Registers a transparent headshot  
+**timeout** - `number` - Optional - Default: `5000` - How long to wait for the headshot in milliseconds
 
 **Returns**  
-**mugshot** - `number` - The registered headshot handle  
-**txdString** - `string` - The texture dictionary string of the headshot
+**mugshot** - `number | nil` - The registered headshot handle, or `nil` when it did not get ready  
+**txdString** - `string | nil` - The texture dictionary string of the headshot
 
 ```lua
-MSK.GetPedMugshot(ped, transparent)
+local mugshot, txd = MSK.GetPedMugshot(ped, transparent, timeout)
 
 -- Example
-local mugshot, txd = MSK.GetPedMugshot(PlayerPedId(), true)
+local mugshot, txd = MSK.GetPedMugshot(MSK.Player.ped, true)
+
+if mugshot then
+    -- use txd, e.g. as the icon of an advanced notification
+    UnregisterPedheadshot(mugshot)
+end
 
 -- As an Export:
-exports.msk_core:GetPedMugshot(ped, transparent)
+local mugshot, txd = exports.msk_core:GetPedMugshot(ped, transparent, timeout)
 ```
 
 ## MSK.GetClosestPlayer
 
-Returns the closest player entity to the given coordinates. This is a convenience wrapper around `MSK.GetClosestEntity` (Entities module).
+Returns the closest other player to the given coordinates. This is a wrapper around [`MSK.GetClosestEntity`](./entities.md#mskgetclosestentity) with `isPlayerEntity = true`.
 
 **Parameters**  
-**coords** - `vector3` / `table` - Optional - The coordinates to search around
+**coords** - `vector3` / `table` - Optional - Default: the player's position - The coordinates to search around  
+**maxDistance** - `number` - Optional - Only players within this range count
 
 **Returns**  
-**player** - `number` - The closest player entity  
-**distance** - `number` - The distance to that player
+**player** - `number` - The player index of the closest player, or `-1` if none was found  
+**distance** - `number` - The distance to that player, or `-1` if none was found
 
 ```lua
-MSK.GetClosestPlayer(coords)
+local player, distance = MSK.GetClosestPlayer(coords, maxDistance)
 
 -- Example
-local player, distance = MSK.GetClosestPlayer()
+local player, distance = MSK.GetClosestPlayer(nil, 3.0)
+
+if player ~= -1 then
+    TriggerServerEvent('my_script:givePhoneNumber', GetPlayerServerId(player))
+end
 
 -- As an Export:
-exports.msk_core:GetClosestPlayer(coords)
+local player, distance = exports.msk_core:GetClosestPlayer(coords, maxDistance)
 ```
 
 ## MSK.GetClosestPlayers
 
-Returns all player entities within `distance` of the given coordinates. This is a convenience wrapper around `MSK.GetClosestEntities` (Entities module).
+Returns all other players within `distance` of the given coordinates. This is a wrapper around [`MSK.GetClosestEntities`](./entities.md#mskgetclosestentities).
 
 **Parameters**  
-**coords** - `vector3` / `table` - Optional - The coordinates to search around  
-**distance** - `number` - The maximum search distance
+**coords** - `vector3` / `table` - Optional - Default: the player's position - The coordinates to search around  
+**distance** - `number` - Optional - The maximum search distance. Without it, every player is included
 
 **Returns**  
-**players** - `table` - A list of player entities within range
+**players** - `table` - A list of player indices within range
 
 ```lua
-MSK.GetClosestPlayers(coords, distance)
+local players = MSK.GetClosestPlayers(coords, distance)
 
 -- Example
 local players = MSK.GetClosestPlayers(MSK.Player.coords, 10.0)
 
 -- As an Export:
-exports.msk_core:GetClosestPlayers(coords, distance)
+local players = exports.msk_core:GetClosestPlayers(coords, distance)
 ```

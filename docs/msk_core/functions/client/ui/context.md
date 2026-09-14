@@ -9,6 +9,8 @@ The Context module opens a mouse driven menu with clickable options, sub menus a
 
 A context menu is registered once under an `id` and can then be opened as often as you like. Options can navigate into other registered menus, run a callback, trigger a client or a server event, show a progress bar or carry metadata that is revealed on hover.
 
+A menu belongs to the resource that registered it. When that resource stops, its menus are removed, and the menu is closed if it is open at that moment.
+
 :::info[Mouse focus]
 While a context menu is open the NUI takes mouse and keyboard focus (`SetNuiFocus(true, true)`), so the player **cannot move**. That is intended, the mouse is needed to click the options. If you need a menu the player can use while walking or driving, use the [Menu](./menu.md) module instead.
 :::
@@ -21,7 +23,7 @@ The exports are always flat: `exports.msk_core:RegisterContext(...)`.
 
 ## MSK.Context.Register
 
-Registers (or overwrites) a context menu under an id.
+Registers (or overwrites) a context menu under an id. Registering the menu that is currently open shows the new version right away.
 
 **Parameters**  
 **id** - `string` - Unique id of the menu  
@@ -37,7 +39,9 @@ Registers (or overwrites) a context menu under an id.
 | `position` | `string` | `center` (default), `left`, `right`, `top`, `bottom`, `top-left`, `top-right`, `bottom-left`, `bottom-right` |
 | `onExit` | `function` | Called when the menu is closed |
 | `onBack` | `function` | Called when the player navigates back to the parent menu |
-| `options` | `table` | Array of options (see below) |
+| `options` | `table` | A list of options, or a map where the key is the option `id` (see below) |
+
+When `options` is a map, the options are sorted by their keys, so the order stays the same every time the menu opens.
 
 ### Option fields
 
@@ -48,6 +52,7 @@ Registers (or overwrites) a context menu under an id.
 | `description` | `string` | Smaller text below the label |
 | `icon` | `string` | FontAwesome icon. Short name (`car`) or full class (`fas fa-car`) |
 | `iconColor` | `string` | Overrides the icon color. Default is the MSK accent |
+| `iconAnimation` | `string` | `spin`, `spinPulse`, `spinReverse`, `beat`, `beatFade`, `bounce`, `fade`, `flip`, `shake` |
 | `image` | `string` | Image url shown instead of the icon |
 | `arrow` | `boolean` | Shows a chevron on the right. Automatically `true` when `menu` is set |
 | `menu` | `string` | Id of another registered context menu. Selecting the option navigates into it |
@@ -59,7 +64,19 @@ Registers (or overwrites) a context menu under an id.
 | `readOnly` | `boolean` | Visible and not clickable, but not greyed out. Useful for pure information rows |
 | `progress` | `number` | `0` to `100`. Renders a progress bar inside the row |
 | `colorScheme` | `string` | Color of the progress bar. Default is the MSK accent |
-| `metadata` | `table` | `{ { label = 'Plate', value = 'MSK 123' } }` or a key/value table. Shown as a tooltip on hover |
+| `metadata` | `table` | Shown as a tooltip on hover, see below |
+
+### Metadata
+
+`metadata` accepts three forms:
+
+| Form | Example | Result |
+|---|---|---|
+| List of strings | `{ 'Costs $250', 'Takes 5 seconds' }` | One text line per entry |
+| List of tables | `{ { label = 'Engine', value = '40%', progress = 40, colorScheme = '#f43f5e' } }` | Label and value per line. With `progress` (`0` to `100`) the line shows a bar, `colorScheme` sets its color |
+| Map | `{ Plate = 'MSK 123', Model = 'Sultan' }` | One `label: value` line per key, sorted by key |
+
+An error inside `onSelect`, `onExit` or `onBack` is logged with the menu id and the resource that registered it, and no longer breaks the menu.
 
 ```lua
 MSK.Context.Register('vehicle_menu', {
@@ -68,12 +85,13 @@ MSK.Context.Register('vehicle_menu', {
     onExit = function() print('menu closed') end,
     options = {
         { id = 'info', title = 'Vehicle ~g~Info~s~', description = 'Open sub menu', icon = 'circle-info', menu = 'vehicle_info' },
-        { id = 'repair', title = 'Repair', description = 'Restore condition', icon = 'wrench', progress = 45,
-          onSelect = function() MSK.Notification('MSK', 'Vehicle repaired', 'success', 4000) end },
+        { id = 'repair', title = 'Repair', description = 'Restore condition', icon = 'wrench', iconAnimation = 'shake', progress = 45,
+          metadata = { 'Costs $250', { label = 'Engine', value = '45%', progress = 45 } },
+          onSelect = function() MSK.Notification({ title = 'MSK', message = 'Vehicle repaired', type = 'success' }) end },
         { id = 'engine', title = 'Start engine', icon = 'key', event = 'myscript:engine', args = { plate = 'MSK 123' } },
         { id = 'locked', title = 'Locked', description = 'No access', icon = 'lock', disabled = true },
         { id = 'plate', title = 'Plate', icon = 'id-card', readOnly = true,
-          metadata = { { label = 'Plate', value = 'MSK 123' }, { label = 'Model', value = 'Sultan' } } },
+          metadata = { Plate = 'MSK 123', Model = 'Sultan' } },
     }
 })
 
@@ -95,7 +113,7 @@ exports.msk_core:RegisterContext('vehicle_menu', data)
 
 ## MSK.Context.Show
 
-Opens a context menu. Accepts either the `id` of a registered menu or an inline table, which is registered automatically.
+Opens a context menu. Accepts either the `id` of a registered menu or an inline table, which is registered automatically. An inline menu without an `id` is removed again once it is closed.
 
 **Parameters**  
 **idOrData** - `string/table` - Id of a registered menu, or an inline menu definition
@@ -152,7 +170,7 @@ exports.msk_core:UpdateContext('vehicle_menu', 'repair', { progress = 100 })
 Closes the currently open context menu.
 
 **Parameters**  
-**fireExit** - `boolean` - (optional) `true` also runs the menu's `onExit` callback
+**fireExit** - `boolean` - Optional - Default: `false` - `true` also runs the menu's `onExit` callback
 
 ```lua
 MSK.Context.Hide()

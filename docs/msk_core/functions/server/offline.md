@@ -5,7 +5,7 @@ sidebar_position: 14
 
 # Offline
 
-Read and modify the **bank balance of offline players** directly in the database. Requires a framework (**ESX**, **QBCore** or **Qbox**).
+Read and modify the **bank balance of a player by identifier**, no matter if the player is online or not. Requires a framework (**ESX**, **QBCore** or **Qbox**).
 
 The `identifier` parameter depends on the framework:
 
@@ -16,8 +16,10 @@ The `identifier` parameter depends on the framework:
 All functions are **server-side** only and run synchronous database queries (via oxmysql). In **STANDALONE** there is no mapping, so every function returns `nil` or `false`.
 :::
 
-:::warning
-These functions write directly to the database. Use them only for offline players. For online players use the framework's own money functions so the client stays in sync.
+:::info[Online players]
+When the player is online, the functions go through the framework (`GetMoney`, `AddMoney` and `RemoveMoney` on the `bank` account) instead of the database. Writing the database directly for an online player was overwritten by the framework's next save, so added money vanished again and removed money came back.
+
+For an offline player the database is changed directly.
 :::
 
 ## MSK.Offline.GetBank

@@ -7,6 +7,8 @@ sidebar_position: 15
 
 A built-in, identifier- **and** token-based ban system. When enabled, it creates the `msk_bansystem` database table on resource start, checks every connecting player against the stored bans, and drops banned players with the ban reason and expiry. Bans match on **all** player identifiers (steam, license, discord, …) as well as the player's **hardware tokens**, so a ban cannot be evaded by changing a single identifier.
 
+The player name is stored with the ban for the log, but it is **never** used for matching. Before v4.1.0 anybody who used the same display name as a banned player was kicked as well.
+
 All functions are **server-side** only.
 
 ## Config
@@ -43,6 +45,8 @@ Both bans and unbans are logged via `MSK.AddWebhook`.
 
 This will ban a player. The ban (identifiers, tokens, time, reason) is stored in `msk_bansystem` and the target is dropped immediately.
 
+The issuer is saved in the `bannedby` column. A ban issued with `0` (the server console) is stored as `Console`, a ban without any issuer as `System`.
+
 **Parameters**  
 **playerId** - `number` - The ServerId of the player who issues the ban - Optional (pass `0` or `nil` when calling from the server/console)  
 **targetId** - `number` - The ServerId of the player who gets banned  
@@ -56,6 +60,8 @@ This will ban a player. The ban (identifiers, tokens, time, reason) is stored in
 - `1D` = 1 Day
 - `1W` = 1 Week
 - `P` = Permanent
+
+Any other value is refused with an error and no ban is written.
 
 ```lua
 MSK.BanPlayer(playerId, targetId, time, reason)
@@ -95,12 +101,16 @@ exports.msk_core:UnbanPlayer(playerId, banId)
 
 Checks whether the given player matches a stored ban (by identifier or token).
 
+Every matching ban is checked. When a player has an expired ban **and** an active one, the active ban is returned. Before v4.1.0 the first match was used, so an old expired ban could let a player in despite a newer active ban.
+
+A ban whose time cannot be read is treated as active.
+
 **Parameters**  
 **playerId** - `number` - The ServerId of the player
 
 **Returns**  
 **isBanned** - `boolean or table` - `false` if not banned, otherwise the ban entry (`id`, `ids`, `reason`, `time`, `from`, `tokens`)  
-**isExpired** - `boolean` - `true` if the matched ban has already expired
+**isExpired** - `boolean` - `true` if the returned ban has already expired. Also `true` when the player is not banned at all, so always check `isBanned` first
 
 ```lua
 local isBanned, isExpired = MSK.IsPlayerBanned(playerId)
@@ -128,16 +138,16 @@ The commands are only registered when `Config.BanSystem.enable` **and** `Config.
 **Parameters**  
 **playerId** - `number` - The ServerId of the player who gets banned  
 **time** - `string` - The time until the player gets unbanned (`1M`, `1H`, `1D`, `1W`, `P`)  
-**reason** - `string` - The reason why the player gets banned - Optional, default: `'Unknown reason'`
+**reason** - `string` - The reason why the player gets banned. Takes the rest of the line, so no quotes are needed - Optional, default: `'Unknown reason'`
 
 ```lua
 /banPlayer playerId time reason
 
 -- Example 1: Player 1 banned for 2 days for cheating
-/banPlayer 1 2D "Cheating"
+/banPlayer 1 2D Cheating with an aimbot
 
 -- Example 2: Player 1 permanently banned
-/banPlayer 1 P "Cheating"
+/banPlayer 1 P Cheating
 ```
 
 ### /unbanPlayer

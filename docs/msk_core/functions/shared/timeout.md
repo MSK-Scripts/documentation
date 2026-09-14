@@ -64,7 +64,11 @@ exports.msk_core:ClearTimeout(requestId)
 
 ## MSK.Timeout.Await
 
-Calls `cb` repeatedly (polling) until it returns a non-nil value, then returns that value. Time-limit semantics: a `number` sets the limit in milliseconds; `nil` or any other truthy value defaults to `1000` ms; an explicit `false` disables the limit (waits forever). When the limit is exceeded, an error is raised.
+Calls `cb` right away and then once per tick (polling) until it returns a non-nil value, then returns that value. Time-limit semantics: a `number` sets the limit in milliseconds; `nil` or any other truthy value defaults to `1000` ms; an explicit `false` disables the limit (waits forever). When the limit is exceeded, an error is raised.
+
+:::tip
+If a timeout should not end the calling thread, use [`MSK.Call`](./index.md#mskcall). It waits the same way but returns `nil` on a timeout instead of raising, in msk_core as well as in your own resource.
+:::
 
 Thanks to [ox_lib](https://overextended.dev/ox_lib/Modules/WaitFor/Shared) for the inspiration behind this function.
 

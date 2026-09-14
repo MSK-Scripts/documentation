@@ -75,3 +75,31 @@ local vec4Coords = MSK.Vector.TableToVector({x = 0.0, y = 0.0, z = 0.0, h = 0.0}
 -- As an Export:
 local vecCoords = exports.msk_core:TableToVector(tableCoords, toType)
 ```
+
+## MSK.Vector.GetRelativeCoords
+
+Returns the world position of an offset relative to a position and heading, for example a spot two metres in front of a vehicle. The offset is `(right, forward, up)`.
+
+**Parameters**  
+**coords** - `vector3, vector4 or table` - The base position  
+**rotation** - `number or vector3` - A heading in degrees, or a rotation vector whose `z` is used  
+**offset** - `vector3 or table` - The offset as `(right, forward, up)`, `z` is optional
+
+**Returns**  
+**coords** - `vector3` - The world position of the offset
+
+```lua
+local coords = MSK.Vector.GetRelativeCoords(coords, rotation, offset)
+
+-- Example: two metres in front of the vehicle
+local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+local front = MSK.Vector.GetRelativeCoords(GetEntityCoords(vehicle), GetEntityHeading(vehicle), vector3(0.0, 2.0, 0.0))
+
+-- Example: one metre to the right of the player, using the rotation vector
+local ped = PlayerPedId()
+local right = MSK.Vector.GetRelativeCoords(GetEntityCoords(ped), GetEntityRotation(ped, 2), vector3(1.0, 0.0, 0.0))
+```
+
+:::info[New in v4.1.0]
+`GetRelativeCoords` has no export. Use it through `MSK.Vector` in your own resource.
+:::

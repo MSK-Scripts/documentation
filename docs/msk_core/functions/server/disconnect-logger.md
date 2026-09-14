@@ -5,7 +5,7 @@ sidebar_position: 17
 
 # Disconnect Logger
 
-When enabled, the Disconnect Logger reacts to the `playerDropped` event and logs every player who leaves the server. It can write to the **server console**, send a **Discord webhook**, and draws a **3D text marker** at the world position where the player disconnected for every online client.
+When enabled, the Disconnect Logger reacts to the `playerDropped` event and logs every player who leaves the server. It can write to the **server console**, send a **Discord webhook**, and draws a **3D text marker** at the world position where the player disconnected for the players nearby.
 
 This is a passive feature with **no public `MSK.*` functions**, it is controlled entirely through `Config.DisconnectLogger`.
 
@@ -52,11 +52,11 @@ AddEventHandler('playerDropped', function(reason)
     ...
 ```
 
-The embed is sent via `MSK.AddWebhook` and includes the disconnect reason, coordinates and the player's steam / license / discord identifiers.
+The embed is sent via `MSK.AddWebhook` and includes the disconnect reason, coordinates and the player's steam / license / discord identifiers. If the link is still empty, nothing is sent and an error is printed to the console on every disconnect.
 
 ## 3D Disconnect Marker
 
-On every disconnect the server broadcasts `msk_core:discLogger` to all clients. Each client then draws, for **60 seconds**, a green marker plus a 3D text label (player name, id and reason) at the exact coordinates where the player disconnected. The label and marker are only rendered when the local player is within `20.0` units of the disconnect position. This is handled entirely client-side in `modules/DisconnectLogger/client.lua` and requires no configuration beyond `Config.DisconnectLogger.enable`.
+On every disconnect the server sends `msk_core:discLogger` only to the players within **250 meters** of the position where the player disconnected. Before v4.1.0 it went to every client on the server. Each of these clients then draws, for **60 seconds**, a green marker plus a 3D text label (player name, id and reason) at the exact coordinates where the player disconnected. The label and marker are only rendered when the local player is within `20.0` units of the disconnect position. This is handled entirely client-side in `modules/DisconnectLogger/client.lua` and requires no configuration beyond `Config.DisconnectLogger.enable`.
 
 :::info
 All three outputs (console, Discord, 3D marker) are gated by the master `Config.DisconnectLogger.enable` switch; console and Discord additionally require their own `enable` flag.

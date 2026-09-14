@@ -53,6 +53,10 @@ local hasAcePerm = exports.msk_core:IsAceAllowed(playerId, command)
 
 Checks whether a principal has a specific Ace permission. The principal is normalized (see above).
 
+:::info[Client side requests]
+On the server this answers for any principal. The client side `MSK.IsPrincipalAceAllowed` asks the server through a callback, and since v4.1.0 that callback only answers for **groups** and for the **calling player's own** `player.<id>` and `identifier.<...>` principals. Asking about another player returns `false`. Before that, any client could probe the identifiers of every player and find out who is staff.
+:::
+
 **Parameters**  
 **principal** - `string` or `number` - The principal (e.g. `group.admin`, `1`, a license/steam identifier).  
 **ace** - `string` - The Ace permission to check.

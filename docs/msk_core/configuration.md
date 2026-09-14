@@ -107,6 +107,84 @@ Config.ProgressColor = "#00e676"  -- Default Progressbar color (MSK green)
 Config.TextUIColor   = "#00e676"  -- Default TextUI color (MSK green)
 ```
 
+## Radial menu
+
+Scripts add their entries with [`MSK.Radial`](./functions/client/ui/radial.md). Players can change the key in the FiveM key bindings (Settings, Key Bindings, FiveM).
+
+```lua
+Config.Radial = {
+    enable = true,
+    key = 'Z',   -- Default key
+    hold = true, -- true = open while the key is held, false = press to open and close
+}
+```
+
+## Player settings
+
+A menu where every player picks their language, the notification position and whether notifications play a sound. The choice is stored on the player's client.
+
+```lua
+Config.Settings = {
+    enable = true,
+    command = 'mskSettings',
+
+    -- Languages a player can choose. The empty value follows the server language (convar msk:locale)
+    locales = {
+        {value = '', label = 'Server language'},
+        {value = 'en', label = 'English'},
+        {value = 'de', label = 'Deutsch'},
+    },
+}
+```
+
+:::info
+The player's notification position wins over a `position` a script passes. Only while a player keeps the setting on automatic does the script decide.
+:::
+
+## Zone creator
+
+`/zoneCreator box`, `/zoneCreator sphere` or `/zoneCreator poly` lets you draw a zone in game and copies the finished [`MSK.Zones`](./functions/client/zones.md) code to the clipboard.
+
+```lua
+Config.ZoneCreator = {
+    enable = true,
+    command = 'zoneCreator',
+    groups = {'superadmin', 'god', 'admin'}
+}
+```
+
+## txAdmin
+
+Shows txAdmin messages as MSK notifications. txAdmin still shows its own message as well, see `modules/TxAdmin/server.lua` if you want to hide it.
+
+```lua
+Config.TxAdmin = {
+    announcements = false,
+    directMessages = false,
+    restartWarnings = false,
+    duration = 15000,
+}
+```
+
+## Convars
+
+Everything that contains a key or a password is set through convars in your `server.cfg`, never in `config.lua`.
+
+```ini
+# Callback timeout in milliseconds (default 5000)
+set msk:callbackTimeout 5000
+
+# Server language used by MSK.Locale
+setr msk:locale "en"
+
+# Logger, see the Logger page for every service
+set msk:logger "loki"   # loki | datadog | fivemanage
+```
+
+:::danger[Use `set`, not `setr`, for the logger]
+`setr` replicates a convar to every client. An API key set that way can be read by any player.
+:::
+
 ## Logging
 
 ```lua

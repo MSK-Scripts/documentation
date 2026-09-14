@@ -32,37 +32,47 @@ exports.msk_core:IsSpawnPointClear(coords, maxDistance)
 
 ## MSK.GetClosestPlayer
 
-Returns the closest player to the given coordinates, excluding the provided `playerId`. Convenience wrapper around `MSK.GetClosestEntity` (Entities module).
+Returns the closest player. Wrapper around [`MSK.GetClosestEntity`](./entities.md#mskgetclosestentity).
+
+The search starts at `coords`, or at the ped of `playerId` when no coords are given. `playerId` is never returned himself. Without both, an error is raised.
 
 **Parameters**  
-**playerId** - `number` - The player server id to exclude from the search  
-**coords** - `vector3` / `table` - The coordinates to search around
+**playerId** - `number` - Optional - The player to search around. This player is left out of the result  
+**coords** - `vector3` / `table` - Optional - The coordinates to search around. Required when no `playerId` is given  
+**maxDistance** - `number` - Optional - Only players within this distance count  
 
 **Returns**  
-**player** - `number` - The closest player  
-**distance** - `number` - The distance to that player
+**player** - `number` - The server id of the closest player, `-1` if none was found  
+**distance** - `number` - The distance to that player, `-1` if none was found  
 
 ```lua
-MSK.GetClosestPlayer(playerId, coords)
+local player, distance = MSK.GetClosestPlayer(playerId, coords, maxDistance)
 
--- Example
-local player, distance = MSK.GetClosestPlayer(source, coords)
+-- Example: closest player around the player
+local player, distance = MSK.GetClosestPlayer(source)
+
+-- Example: closest player within 3 meters, e.g. for handcuffing
+local targetId = MSK.GetClosestPlayer(source, nil, 3.0)
+
+if targetId ~= -1 then
+    -- ...
+end
 
 -- As an Export:
-exports.msk_core:GetClosestPlayer(playerId, coords)
+local player, distance = exports.msk_core:GetClosestPlayer(playerId, coords, maxDistance)
 ```
 
 ## MSK.GetClosestPlayers
 
-Returns all players within `distance` of the given coordinates, excluding the provided `playerId`. Convenience wrapper around `MSK.GetClosestEntities` (Entities module).
+Returns all players within `distance`. Wrapper around [`MSK.GetClosestEntities`](./entities.md#mskgetclosestentities). The origin works the same way as for `MSK.GetClosestPlayer`.
 
 **Parameters**  
-**playerId** - `number` - The player server id to exclude from the search  
-**coords** - `vector3` / `table` - The coordinates to search around  
-**distance** - `number` - The maximum search distance
+**playerId** - `number` - Optional - The player to search around. This player is left out of the result  
+**coords** - `vector3` / `table` - Optional - The coordinates to search around. Required when no `playerId` is given  
+**distance** - `number` - Optional - Default: no limit - The maximum search distance  
 
 **Returns**  
-**players** - `table` - A list of players within range
+**players** - `table` - A list of server ids within range  
 
 ```lua
 MSK.GetClosestPlayers(playerId, coords, distance)
@@ -88,6 +98,9 @@ Sends a Discord embed message to a webhook using `PerformHttpRequest`. The embed
 **fields** - `table` - Optional - A list of Discord embed field objects (`{name, value, inline}`). If omitted, the embed has no fields  
 **footer** - `table` / `boolean` - Optional - A footer table `{text, link}` (`link` becomes the footer icon). Set to `false` to disable the footer entirely  
 **time** - `string` - Optional - An `os.date` format string; when provided, the formatted timestamp is appended to the footer text
+
+**Returns**  
+**sent** - `boolean` or `nil` - `false` when `webhook` is not a URL starting with `https://`. Nothing is sent then and an error is printed to the console  
 
 ```lua
 MSK.AddWebhook(webhook, color, botName, botAvatar, title, description, fields, footer, time)

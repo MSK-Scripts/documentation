@@ -16,7 +16,7 @@ The exports are always flat: `exports.msk_core:ShowMenu(...)`.
 :::
 
 :::warning[Callbacks do not cross the network]
-Everything you send from the server is serialized. Lua **functions do not survive** that, so `onSelect`, `onSelected`, `onSideScroll`, `onCheck` and `onClose` are lost when you pass an inline menu from the server.
+Everything you send from the server is serialized. Lua **functions do not survive** that, so the menu callback and `onSelect`, `onSelected`, `onSideScroll`, `onCheck` and `onClose` are lost when you pass an inline menu from the server.
 
 You have two clean options:
 
@@ -30,19 +30,25 @@ Opens a menu for a specific player.
 
 **Parameters**  
 **playerId** - `number` - The target player's server id  
-**idOrData** - `string/table` - Id of a menu registered on the client, or an inline menu definition
+**idOrData** - `string/table` - Id of a menu registered on the client, or an inline menu definition  
+**startIndex** - `number` - Optional - Default: the menu's `startIndex` or `1` - Row the selection starts on
 
 ```lua
+MSK.Menu.Show(playerId, idOrData, startIndex)
+
 -- Recommended: the menu (including its callbacks) is registered on the client,
 -- the server only opens it.
 MSK.Menu.Show(playerId, 'tuning_menu')
+
+-- Start on the second item
+MSK.Menu.Show(playerId, 'tuning_menu', 2)
 
 -- Inline from the server. Note: no callbacks, use serverEvent instead.
 MSK.Menu.Show(playerId, {
     id = 'quick_menu',
     title = 'Quick Actions',
     items = {
-        { label = 'Repair', icon = 'wrench', serverEvent = 'myscript:repair', args = { target = playerId } },
+        { label = 'Repair', icon = 'wrench', iconAnimation = 'shake', serverEvent = 'myscript:repair', args = { target = playerId } },
     }
 })
 
@@ -50,12 +56,12 @@ MSK.Menu.Show(playerId, {
 MSK.ShowMenu(playerId, 'tuning_menu')
 
 -- As an Export:
-exports.msk_core:ShowMenu(playerId, 'tuning_menu')
+exports.msk_core:ShowMenu(playerId, 'tuning_menu', startIndex)
 ```
 
 ## MSK.Menu.Hide
 
-Closes the menu of a specific player. `MSK.Menu.Close` is an alias of this function.
+Closes the menu of a specific player. `onClose` on the client receives `forced`. `MSK.Menu.Close` is an alias of this function.
 
 **Parameters**  
 **playerId** - `number` - The target player's server id

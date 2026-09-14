@@ -141,6 +141,33 @@ MSK.Player('test', 'this is a test', true)
 print(MSK.Player.test) -- 'this is a test'
 ```
 
+## MSK.OnPlayer
+
+Calls `cb(value, oldValue)` whenever a key of the local player changes, for example `ped`, `vehicle`, `seat`, `weapon`, `isDead` or one of your own replicated keys. It is a shortcut for listening to the `msk_core:onPlayer` event below and filtering for one key. Also available as `MSK.Player.OnChange`.
+
+**Parameters**  
+**key** - `string` - The key to watch  
+**cb** - `function(value, oldValue)` - Called with the new and the previous value
+
+**Returns**  
+**eventData** - `table` - The event handler. Pass it to `RemoveEventHandler` to stop listening
+
+```lua
+local handler = MSK.OnPlayer(key, cb)
+
+-- Example
+local handler = MSK.OnPlayer('vehicle', function(vehicle, oldVehicle)
+    if vehicle then
+        print('entered vehicle', vehicle)
+    else
+        print('left vehicle', oldVehicle)
+    end
+end)
+
+-- Stop listening
+RemoveEventHandler(handler)
+```
+
 ## Event Handler
 
 The core fires `msk_core:onPlayer` locally whenever a mirrored key changes.

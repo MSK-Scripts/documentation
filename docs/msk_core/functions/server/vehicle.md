@@ -7,26 +7,84 @@ sidebar_position: 5
 
 Server-side vehicle helpers built on top of the Entities module. Every function is also available as an `exports.msk_core` export.
 
+## MSK.SpawnVehicle
+
+Creates a networked vehicle on the server with `CreateVehicleServerSetter`. New in v4.1.0.
+
+**Parameters**  
+**model** - `string` or `number` - The model name or hash  
+**coords** - `vector3`, `vector4` or `table` - Where to spawn the vehicle. A `vector4` or a table with `heading` also sets the heading  
+**options** - `table` - Optional - See below  
+
+**`options` fields**  
+**heading** - `number` - Optional - Default: `coords.w`, then `coords.heading`, then `0.0` - The heading  
+**type** - `string` - Optional - The vehicle type: `automobile`, `bike`, `boat`, `heli`, `plane`, `submarine`, `trailer` or `train`  
+**plate** - `string` - Optional - The plate text  
+**props** - `table` - Optional - Vehicle properties, applied by the client that owns the vehicle  
+**bucket** - `number` - Optional - The routing bucket  
+**warp** - `number` - Optional - Server id of a player who is put into the driver seat  
+**playerId** - `number` - Optional - The player who is asked for the vehicle type, see below  
+
+**Returns**  
+**vehicle** - `number` or `nil` - The vehicle entity handle, `nil` when the vehicle could not be created  
+**netId** - `number` or `nil` - The network id of the vehicle  
+
+```lua
+local vehicle, netId = MSK.SpawnVehicle(model, coords, options)
+
+-- Example
+CreateThread(function()
+    local vehicle, netId = MSK.SpawnVehicle('sultan', vector4(215.5, -810.2, 30.7, 90.0), {
+        plate = 'MSK 123',
+        props = savedProps,
+        warp = source,
+    })
+
+    if not vehicle then return end
+    print('Spawned vehicle with netId', netId)
+end)
+
+-- Example: a trailer always needs the type
+local trailer = MSK.SpawnVehicle('trailers2', coords, { type = 'trailer' })
+
+-- As an Export:
+local vehicle, netId = exports.msk_core:SpawnVehicle(model, coords, options)
+```
+
+:::info[Vehicle type]
+`CreateVehicleServerSetter` needs the vehicle type, and the server cannot read it from a model. When `type` is not given, one client is asked **once per model** and the answer is remembered until msk_core restarts. The client asked is `playerId`, or any connected player when `playerId` is missing or offline. With nobody online, the vehicle is not created and you have to pass `type`.
+
+A **trailer** cannot be told apart from a normal car by its model and comes back as `automobile`. Always pass `type = 'trailer'` for trailers.
+:::
+
+:::warning[Blocking]
+The function may wait for a client to answer, waits up to 5 seconds for the entity to exist and, with `warp`, up to 5 more seconds until the player sits in the vehicle. Call it from inside a thread (`CreateThread`, an event handler, a callback).
+:::
+
 ## MSK.GetClosestVehicle
 
 Returns the closest vehicle to the given coordinates. You may pass a pre-built `vehicles` table to search within.
 
 **Parameters**  
 **coords** - `vector3` - Coordinates to measure from  
-**vehicles** - `table` - Pre-built table of vehicles to search within (optional)
+**vehicles** - `table` - Optional - Default: every vehicle on the server - Pre-built table of vehicles to search within  
+**maxDistance** - `number` - Optional - Only vehicles within this distance count  
 
 **Returns**  
 **vehicle** - `number` - The closest vehicle handle, or `-1` if none found  
-**distance** - `number` - Distance to the closest vehicle
+**distance** - `number` - Distance to the closest vehicle, or `-1` if none found  
 
 ```lua
-local vehicle, distance = MSK.GetClosestVehicle(coords, vehicles)
+local vehicle, distance = MSK.GetClosestVehicle(coords, vehicles, maxDistance)
 
 -- Example
 local vehicle, distance = MSK.GetClosestVehicle(vector3(100.0, 200.0, 30.0))
 
+-- Example: only within 5 meters
+local vehicle = MSK.GetClosestVehicle(GetEntityCoords(GetPlayerPed(source)), nil, 5.0)
+
 -- As an Export:
-local vehicle, distance = exports.msk_core:GetClosestVehicle(coords, vehicles)
+local vehicle, distance = exports.msk_core:GetClosestVehicle(coords, vehicles, maxDistance)
 ```
 
 ## MSK.GetClosestVehicles
@@ -35,11 +93,11 @@ Returns all vehicles within `distance` of the given coordinates.
 
 **Parameters**  
 **coords** - `vector3` - Coordinates to measure from  
-**distance** - `number` - Maximum distance to include  
-**vehicles** - `table` - Pre-built table of vehicles to search within (optional)
+**distance** - `number` - Optional - Default: no limit - Maximum distance to include  
+**vehicles** - `table` - Optional - Default: every vehicle on the server - Pre-built table of vehicles to search within  
 
 **Returns**  
-**vehicles** - `table` - Array of vehicle handles
+**vehicles** - `table` - Array of vehicle handles  
 
 ```lua
 local vehicles = MSK.GetClosestVehicles(coords, distance, vehicles)
@@ -53,16 +111,20 @@ local vehicles = exports.msk_core:GetClosestVehicles(coords, distance, vehicles)
 
 ## MSK.GetClosestVehicleWithPlate
 
-Searches vehicles within `distance` of `coords` and returns the one whose number plate matches `plate`.
+Searches vehicles within `distance` of `coords` and returns the first one whose number plate matches `plate`.
+
+Both plates are trimmed and upper cased before they are compared, so `abc 123` finds `ABC 123 `. Inner spaces are kept.
+
+Without `coords` there is nothing to measure from, so every vehicle on the server is searched, same as [`MSK.GetVehicleFromPlate`](#mskgetvehiclefromplate).
 
 **Parameters**  
-**plate** - `string` - The number plate to look for (trimmed before comparison)  
-**coords** - `vector3` - Coordinates to measure from  
-**distance** - `number` - Maximum distance to include  
-**vehicles** - `table` - Pre-built table of vehicles to search within (optional)
+**plate** - `string` - The number plate to look for  
+**coords** - `vector3` - Optional - Coordinates to measure from. Without them every vehicle is searched  
+**distance** - `number` - Optional - Default: no limit - Maximum distance to include  
+**vehicles** - `table` - Optional - Default: every vehicle on the server - Pre-built table of vehicles to search within  
 
 **Returns**  
-**vehicle** - `number | boolean` - The matching vehicle handle, or `false` if none found
+**vehicle** - `number | boolean` - The matching vehicle handle, or `false` if none found  
 
 ```lua
 local vehicle = MSK.GetClosestVehicleWithPlate(plate, coords, distance, vehicles)
@@ -134,8 +196,7 @@ CreateThread(function()
     local model, name = MSK.GetModelFromPlate('ABC123')
 
     if model then
-        local vehicle = CreateVehicle(model, coords, heading, true, true)
-        SetVehicleNumberPlateText(vehicle, 'ABC123')
+        local vehicle = MSK.SpawnVehicle(model, coords, { plate = 'ABC123' })
     end
 end)
 
@@ -149,10 +210,10 @@ Returns the seat index a ped is sitting in within a vehicle.
 
 **Parameters**  
 **ped** - `number` - The ped to check  
-**vehicle** - `number` - The vehicle to check. Defaults to the vehicle the ped is in (optional)
+**vehicle** - `number` - Optional - Default: the vehicle the ped is in - The vehicle to check  
 
 **Returns**  
-**seat** - `number` - The seat index (`-1` = driver), or `-1` if the ped is not in the vehicle
+**seat** - `number` or `boolean` - The seat index (`-1` = driver), or `false` if the ped is not in the vehicle  
 
 ```lua
 local seat = MSK.GetPedVehicleSeat(ped, vehicle)
@@ -160,6 +221,16 @@ local seat = MSK.GetPedVehicleSeat(ped, vehicle)
 -- Example
 local seat = MSK.GetPedVehicleSeat(GetPlayerPed(source))
 
+if seat == -1 then
+    print('The player is driving')
+elseif seat then
+    print('The player sits in seat ' .. seat)
+end
+
 -- As an Export:
 local seat = exports.msk_core:GetPedVehicleSeat(ped, vehicle)
 ```
+
+:::warning[Changed in v4.1.0]
+Until v4.1.0 the server returned `-1` when the ped was not in the vehicle, which is also the driver seat. It now returns `false`, same as the client. Check with `if seat then` instead of `if seat ~= -1 then`.
+:::

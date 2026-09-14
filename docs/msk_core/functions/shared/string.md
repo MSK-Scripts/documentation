@@ -9,7 +9,7 @@ String helper functions: random strings, prefix checks, trimming, and splitting.
 
 ## MSK.String.Random
 
-Generates a random letter string (characters `A`–`Z` and `a`–`z`) of the given length.
+Generates a random letter string (characters `A` to `Z` and `a` to `z`) of the given length.
 
 **Parameters**  
 **length** - `number` - Length of the generated string
@@ -85,11 +85,11 @@ The export `exports.msk_core:Trim` is the non-legacy `String.Trim`, so it matche
 
 ## MSK.String.Split
 
-Splits `str` at every occurrence of `delimiter` into a list of substrings.
+Splits `str` at every occurrence of `delimiter` into a list of substrings. The whole delimiter is searched as plain text, so separators with several characters like `', '` or `'::'` work, and characters such as `%` or `]` need no escaping. Empty pieces are left out.
 
 **Parameters**  
 **str** - `string` - The string to split  
-**delimiter** - `string` - The delimiter to split on
+**delimiter** - `string` - The delimiter to split on, must not be empty
 
 **Returns**  
 **result** - `string[]` - The list of substrings
@@ -102,6 +102,46 @@ local text = 'license:12345678'
 local result = MSK.String.Split(text, ':')
 print(result[1], result[2]) -- Output: license  12345678
 
+MSK.String.Split('police, ambulance, mechanic', ', ') -- Output: { 'police', 'ambulance', 'mechanic' }
+MSK.String.Split('a::b', '::')                        -- Output: { 'a', 'b' }
+MSK.String.Split('a,,b,', ',')                        -- Output: { 'a', 'b' }
+
 -- As an Export:
 local result = exports.msk_core:Split(str, delimiter)
+```
+
+:::info[Changed in v4.1.0]
+The delimiter used to be treated as a set of single characters. `Split('a, b', ', ')` split on every comma **and** every space, and `'::'` split on each single `:`.
+:::
+
+## MSK.String.RandomPattern
+
+Generates a random string that follows a pattern, for example for plates or phone numbers.
+
+| Character | Becomes |
+|---|---|
+| `1` | a digit |
+| `A` | an uppercase letter |
+| `a` | a lowercase letter |
+| `.` | a letter or digit |
+| `^` | keeps the next character as it is, so `^1` produces a real `1` |
+
+Every other character is kept as it is. With `length` the result has exactly that many characters: a shorter pattern is repeated, a longer result is cut.
+
+**Parameters**  
+**pattern** - `string` - The pattern  
+**length** - `number` - Optional - Exact length of the result
+
+**Returns**  
+**text** - `string` - The generated string
+
+```lua
+local text = MSK.String.RandomPattern(pattern, length)
+
+-- Example
+MSK.String.RandomPattern('11AAA111')    -- e.g. '42KQZ907'
+MSK.String.RandomPattern('AA-1111')     -- e.g. 'KD-4821'
+MSK.String.RandomPattern('^1^1-1111')   -- e.g. '11-7302'
+MSK.String.RandomPattern('1', 6)        -- e.g. '804215'
+MSK.String.RandomPattern('A1', 5)       -- e.g. 'K3M8Q'
 ```

@@ -268,9 +268,22 @@ Takes the same id forms as `MSK.GetPlayer` and routes to the inventory bridge. S
 
 ## MSK.Player[source]
 
-A mirrored table of what a client reports about **itself**: ped, vehicle, seat, weapon. It is fed by the `msk_core:onPlayer` net event and is independent of the framework data above, so it works in `STANDALONE` too.
+A mirrored table of what a client reports about **itself**: ped, vehicle, seat, weapon. It is fed by the `msk_core:onPlayer` net event and is independent of the framework data above, so it works in `STANDALONE` too. The entry of a player is cleared when the player leaves.
 
-Computed keys (`coords`, `heading`, `state`) are resolved on access, everything else comes from the client's updates.
+Computed keys (`coords`, `heading`, `state`) are resolved on access from the server's own view of the ped. They are **never** taken from the client.
+
+:::info[What a client may report]
+Since v4.1.0 the server does not simply store what a client sends. Known keys are checked, and updates that fail the check are ignored:
+
+- `serverId`, `playerId`, `ped` and `playerPed` are always filled in by the server, whatever the client sends
+- `vehicle` has to be the network id of an existing vehicle within 15 meters of the player
+- `seat` has to be a whole number from `-1` to `16`, or `false`
+- `weapon` has to be a whole number, or `false`
+- `isDead` has to be a boolean
+- `clientId` has to be a whole number
+
+Custom keys are still allowed within limits: the key is at most 64 characters, the value is a number, a boolean, a string of up to 1024 characters or a table of up to 4096 characters as JSON, and one player can hold about 64 custom keys.
+:::
 
 **Properties**
 **clientId** - `number` - Player index on the client, equal to `PlayerId()`
@@ -297,11 +310,44 @@ local seat = MSK.Player[source].seat
 MSK.Player[source].Notify(title, message, type, duration)
 ```
 
-Every change also fires an event:
+Every accepted change also fires an event:
 
 ```lua
 AddEventHandler('msk_core:OnPlayer', function(playerId, key, value, oldValue) end)
 ```
+
+## MSK.OnPlayer
+
+Calls `cb` whenever `key` changes in the mirror of any player. Shorter than listening to `msk_core:OnPlayer` and comparing the key yourself. Works for the built-in keys like `vehicle`, `seat`, `weapon` and `isDead`, and for custom keys.
+
+**Parameters**  
+**key** - `string` - The key to watch  
+**cb** - `function` - Called as `cb(playerId, value, oldValue)`  
+
+**Returns**  
+**eventData** - `table` - The event handler. Pass it to `RemoveEventHandler` to stop listening  
+
+```lua
+local handler = MSK.OnPlayer(key, cb)
+
+-- Example
+MSK.OnPlayer('isDead', function(playerId, isDead, wasDead)
+    if isDead then
+        print(('Player %s died'):format(playerId))
+    end
+end)
+
+-- Example: stop listening
+local handler = MSK.OnPlayer('vehicle', function(playerId, vehicle)
+    print(playerId, 'entered or left a vehicle', vehicle)
+end)
+
+RemoveEventHandler(handler)
+```
+
+:::note
+There is no export for this function. The event handler has to live in the resource that listens, so `MSK.OnPlayer` runs inside your own resource.
+:::
 
 ## MSK.GetMirroredPlayer
 

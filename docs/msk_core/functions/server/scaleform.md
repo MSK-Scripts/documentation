@@ -92,7 +92,9 @@ exports.msk_core:TrafficMovie(playerId, duration)
 ## MSK.Scaleform.ScaleformAnnounce
 
 :::warning[Deprecated]
-`MSK.ScaleformAnnounce` is deprecated. Use `MSK.Scaleform.FreemodeMessage` (type `1`) or `MSK.Scaleform.PopupWarning` (type `2`) instead.
+`MSK.ScaleformAnnounce` is deprecated and will be removed in a future version. Use `MSK.Scaleform.FreemodeMessage` (type `1`) or `MSK.Scaleform.PopupWarning` (type `2`) instead.
+
+Each resource that still calls it gets a warning in the server console, **once** per resource. Before v4.1.0 an error was printed on every single call.
 :::
 
 Legacy wrapper that triggers a freemode message (`typ == 1`) or popup warning (`typ == 2`) on the target player.

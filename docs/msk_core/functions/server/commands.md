@@ -13,6 +13,8 @@ Registers a server command. The handler runs as `callback(source, args, raw)`. P
 
 If `restricted` is set in `properties`, the command is registered as restricted and the matching `command.<commandName>` Ace is granted to the given group(s) automatically (via `MSK.AddAce`) unless already allowed.
 
+Every name gets its own copy of `properties`. When you register aliases like `{'ban', 'b'}`, all of them keep the `restricted` setting. Before v4.1.0 only the first name was restricted and every alias after it could be used by anyone.
+
 **Parameters**  
 **commandName** - `string` or `table` - The command name, or a list of names sharing one handler.  
 **callback** - `function` - Handler executed as `callback(source, args, raw)` (or `callback(Player, args, raw)` when `returnPlayer` is set).  
@@ -33,12 +35,16 @@ If `restricted` is set in `properties`, the command is registered as restricted 
 **Description: `params`**
 
 - **name** - `string` - Name of the argument (becomes the key in `args`)
-- **type** - `string` - One of `number`, `string`, `playerId`, `player`, `any`
+- **type** - `string` - One of `number`, `string`, `longString`, `playerId`, `player`, `any`
 - **help** - `string` - Chat suggestion of the argument
 - **optional** - `boolean` - Mark the argument optional (must be the last one). Optional, default: `false`
 
 :::info
 For `type = 'player'`, the argument is resolved to the full player object. For `type = 'playerId'`, only the numeric server id is returned. In both cases `me` resolves to the executing player.
+:::
+
+:::tip[longString]
+`type = 'string'` only takes a single word. `type = 'longString'` takes the rest of the line, so `/ban 1 2D Using an aimbot` gives you `Using an aimbot` as one value. New in v4.1.0. It swallows every argument after it, so it has to be the **last** parameter.
 :::
 
 ```lua
@@ -61,7 +67,7 @@ end, {
     params = {
         {name = 'playerId', type = 'playerId', help = 'Target players server id'},
         {name = 'time', type = 'string', help = 'Ban Time'},
-        {name = 'reason', type = 'string', help = 'Ban Reason', optional = true},
+        {name = 'reason', type = 'longString', help = 'Ban Reason', optional = true},
     }
 })
 

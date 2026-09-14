@@ -7,7 +7,7 @@ sidebar_position: 5
 
 The server-side Context module opens a context menu for a target player identified by their server id. The first parameter is always the player's server id. The call is forwarded to the client through the MSK callback system.
 
-See the [client-side documentation](../../client/ui/context.md) for the full list of menu and option fields.
+See the [client-side documentation](../../client/ui/context.md) for the full list of menu and option fields. Plain data such as `iconAnimation`, `progress` and all forms of `metadata` travel from the server without any problem.
 
 :::note[Naming]
 The namespaced form `MSK.Context.*` is the recommended one. The flat names `MSK.ShowContext` and `MSK.HideContext` point at the exact same functions and stay supported.
@@ -42,8 +42,9 @@ MSK.Context.Show(playerId, {
     id = 'admin_actions',
     title = 'Admin Actions',
     options = {
-        { title = 'Heal', icon = 'heart', serverEvent = 'myscript:heal', args = { target = playerId } },
-        { title = 'Revive', icon = 'kit-medical', serverEvent = 'myscript:revive', args = { target = playerId } },
+        { title = 'Heal', icon = 'heart', iconAnimation = 'beat', serverEvent = 'myscript:heal', args = { target = playerId } },
+        { title = 'Revive', icon = 'kit-medical', serverEvent = 'myscript:revive', args = { target = playerId },
+          metadata = { { label = 'Health', value = '12%', progress = 12, colorScheme = '#f43f5e' } } },
     }
 })
 
