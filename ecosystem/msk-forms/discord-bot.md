@@ -68,14 +68,42 @@ DMs use the server's [bot language](#bot-language) when one is set, so the whole
 
 ## Activity log
 
-Point the bot at a **log channel** (Bot config → Log channel) and it posts an embed for **every recorded event** in the guild, a Discord-native audit log. Logged actions include:
+Every change in your server's MSK Forms setup is recorded: who did it, what changed and when. Each entry names the person with their Discord mention next to the name, so it stays attributable even after they rename themselves. Entries about a submission link straight to it in the dashboard.
 
-- Submission lifecycle: created, status changed, message sent, withdrawn, deleted
-- Role granted on acceptance
-- Form admin: created, updated, deleted, posted
-- Team & config: member added / role changed / removed, bot config updated, branding updated, domain updated
+There are two ways to receive the log in Discord. You can use both at the same time.
 
-If no log channel is set, nothing is posted.
+### Audit log webhooks (recommended)
+
+Open the **Audit log** tab in the dashboard. This works on every plan.
+
+1. In Discord, open the settings of the channel that should receive the log, go to **Integrations → Webhooks → New Webhook** and copy the webhook URL.
+2. Paste the URL into **Add Discord webhook**, optionally give it a name (for example "Mod log").
+3. Choose **what should be logged**. Everything is selected by default, grouped into Submissions, Forms, Team, Settings and Security & integrations. You can also limit the webhook to a single form.
+4. Click **Add webhook**. MSK Forms checks the URL with Discord before saving it.
+
+You can add up to 10 webhooks, each with its own selection, for example one channel for the moderators with only submission events and one for the admins with team and settings changes. **Send test** posts a test entry right away, and each webhook shows whether its last delivery went through.
+
+A few details worth knowing:
+
+- The bot does not need to be in the server the webhook points to, so you can log into a private staff server.
+- Treat the webhook URL like a password, anyone who has it can post into the channel. The dashboard only ever shows it masked.
+- Pausing, changing or removing a webhook is logged too, before the change takes effect. When a webhook is removed it receives one last message saying who removed it, so the log cannot be switched off unnoticed.
+- If the webhook is deleted in Discord, MSK Forms pauses it and shows why.
+- A burst of changes (for example a bulk status change) is delivered at Discord's pace and in order, nothing gets dropped.
+
+### Log channel
+
+Alternatively point the bot at a **log channel** (Bot config → Log channel). The bot then posts **every** entry there, without a selection. This needs the bot to be able to post in that channel.
+
+### What gets logged
+
+- **Submissions:** new submission, status changed, message sent to the applicant, internal note added (not its content), role granted on acceptance, archived, restored, withdrawn or deleted by the applicant, exported (format and number of rows)
+- **Forms:** created, edited, deleted, posted in Discord, categories changed
+- **Team:** member added, role changed, form access changed, member removed
+- **Settings:** bot settings, branding, statuses, status messages, custom domain, public hub link, Discord login settings, captcha settings
+- **Security & integrations:** webhooks added, changed or removed, API keys created or revoked, plan changes, data processing agreement accepted
+
+The entries use the bot's language for your server (see below).
 
 ---
 
