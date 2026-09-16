@@ -13,6 +13,15 @@ permissions:
   # instead of stuck-on-pending.
   statuses: write
 
+# Only one deploy at a time. Parallel runs upload into the same DocumentRoot,
+# and the post-deploy step of one run moves the csp-hashes.conf the other run
+# still needs. A newer push waits for the running deploy instead of cancelling
+# it, because an interrupted upload would leave a half-updated site. GitHub
+# keeps just the newest waiting run, so the site always ends on the latest commit.
+concurrency:
+  group: deploy-docs
+  cancel-in-progress: false
+
 jobs:
   build-and-deploy:
     name: Build & Deploy
