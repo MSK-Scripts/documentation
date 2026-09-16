@@ -130,7 +130,7 @@ Beyond the Viewer default, you can grant access in two ways:
 - **Per form:** on the **Team** page, each form has a **Form access** picker for a Viewer with three levels:
   - **No access** (default).
   - **Review** lets them read and act on that one form's submissions.
-  - **Manage** lets them fully run that one form (edit it in the builder, delete it, export it, and review its submissions) without any guild-wide access. Use this to hand a single form to someone without making them an Admin.
+  - **Manage** lets them fully run that one form (edit it in the builder, archive and restore it, export it, and review its submissions) without any guild-wide access. Use this to hand a single form to someone without making them an Admin. It does not include deleting the form permanently, see [Archiving & deleting forms](form-builder.md#archiving--deleting-forms).
 
 Managing the guild itself (creating new forms, bot/branding/domain settings, the team) stays with Owners and Admins.
 

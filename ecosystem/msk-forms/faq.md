@@ -85,7 +85,11 @@ No. Reviewers need to read submissions, so answers are stored readable by the gu
 
 ### How do I (or an applicant) delete a submission?
 
-An applicant can **delete** their own submission from the status page (it removes the row and any uploaded files). Teams can delete submissions or whole forms. This satisfies GDPR erasure. See [Applicant self-service](submissions-and-review.md#applicant-self-service-gdpr).
+An applicant can **delete** their own submission from the status page (it removes the row and any uploaded files). Teams can delete submissions, and the server owner can permanently delete archived forms (see [Archiving & deleting forms](form-builder.md#archiving--deleting-forms)). This satisfies GDPR erasure.
+
+### Someone deleted a form by accident. Can we get it back?
+
+Forms are archived rather than deleted, so a manager can restore it from **Forms → Archive** with all its submissions. Only a form that was permanently deleted from the archive is gone, and that requires the server owner (or an admin the owner allowed). See [Applicant self-service](submissions-and-review.md#applicant-self-service-gdpr).
 
 ### Can I export submissions?
 
