@@ -11,6 +11,10 @@ MSK Forms connects to the rest of your stack through outgoing webhooks, Zapier /
 
 ## Outgoing webhooks
 
+:::tip Looking for an audit log?
+To get a record of who changed what in Discord, use the **Audit log** tab instead. It is free on every plan and lets you choose per webhook what gets logged. See [Activity log](discord-bot.md#activity-log). The webhooks on this page are for integrations and send submission data.
+:::
+
 :::note[Pro feature]
 Webhooks require a [Pro](plans.md) subscription.
 :::

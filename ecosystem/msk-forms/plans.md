@@ -25,6 +25,7 @@ A subscription applies to **one guild**. Each server you run is upgraded indepen
 | Quiz / scoring + calculated fields | ✅ | ✅ | ✅ |
 | Review pipeline, custom statuses, Kanban | ✅ | ✅ | ✅ |
 | Discord bot, status DMs, activity log | ✅ | ✅ | ✅ |
+| Audit log webhooks (choose what to log) | ✅ | ✅ | ✅ |
 | Accent color + logo branding | ✅ | ✅ | ✅ |
 | Form categories + public hub | ✅ | ✅ | ✅ |
 | 7 languages, installable PWA | ✅ | ✅ | ✅ |
