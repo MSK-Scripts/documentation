@@ -43,6 +43,10 @@ After that you can use every function directly:
 MSK.Notification('Title', 'This is a Notification', 'general', 5000)
 ```
 
+:::tip
+Install the [MSK Core VS Code extension](./vscode-extension.md) to get autocompletion and type checking for `MSK.*` in your editor.
+:::
+
 ## Eager loading (optional)
 
 Modules are loaded lazily on first use. If you want a module to be compiled into your resource up front (for example to register events as early as possible), list it in your `fxmanifest.lua` with the `msk_core` key:

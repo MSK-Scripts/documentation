@@ -10,7 +10,7 @@ sidebar_position: 1
 **MSK Core** is the shared library that powers every MSK Scripts resource. It gives you a clean framework abstraction (ESX, QBCore, Qbox, or fully **STANDALONE**), a modern React-based NUI and a large set of battle-tested helper functions, all exposed through a single global `MSK` table that any resource can import in one line.
 
 :::info[Version]
-This documentation covers **msk_core `v3.3.1`**. With v3 the whole core was rebuilt around a lazy-loading module system and the NUI was migrated to React + Vite + TypeScript. The public API (`MSK.*` and `exports.msk_core:*`) stays backwards-compatible, legacy names keep working through the alias and export layer.
+This documentation covers **msk_core `v4.1.0`**. With v3 the whole core was rebuilt around a lazy-loading module system and the NUI was migrated to React + Vite + TypeScript. The public API (`MSK.*` and `exports.msk_core:*`) stays backwards-compatible, legacy names keep working through the alias and export layer.
 :::
 
 ## Highlights
@@ -51,6 +51,10 @@ print(('There are %s players online'):format(#players))
 ```
 
 See [Installation](./installation.md) for the full setup, [Configuration](./configuration.md) for `config.lua`, [Frameworks](./frameworks.md) for the bridge, and **Functions** for the complete API reference.
+
+:::tip[Autocompletion in VS Code]
+Get autocompletion, signatures and type checking for the whole `MSK.*` API with the [MSK Core VS Code extension](./vscode-extension.md).
+:::
 
 ## UI Preview
 
