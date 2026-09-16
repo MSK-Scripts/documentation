@@ -1,7 +1,9 @@
 version: 2
 
 updates:
-  # ── npm (Next.js app) ─────────────────────────────────────────────────────
+  # ── npm packages (Docusaurus site, managed with yarn 1) ────────────────────
+  # The ecosystem is called "npm" for yarn projects too. Dependabot detects
+  # yarn.lock and updates it.
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
@@ -9,36 +11,32 @@ updates:
       day: "monday"
       time: "08:00"
       timezone: "Europe/Berlin"
-    # Group all non-breaking updates into a single PR to reduce noise
+    # Group minor and patch version updates into a single PR to reduce noise.
+    # Security updates are not affected by this group and still get their own PR.
     groups:
       dependencies:
         update-types:
           - "minor"
           - "patch"
-    # Block major version bumps for packages with known breaking changes:
-    # - eslint v10+: not supported by eslint-config-next@15.x
-    # - eslint-config-next: must stay in sync with installed Next.js version
-    # - next: major upgrades require manual migration (App Router changes)
-    # - tailwindcss: v4 is a complete rewrite (no tailwind.config.js, CSS-based config)
-    # - typescript: major compiler changes require manual verification
-    # - lucide-react: v1.x API changes from 0.x need manual review
-    # - @types/node: major bumps should stay in sync with Node.js runtime version
+    # Major versions need a manual migration and a test build of both locales:
+    # - @docusaurus/*: major releases change config, theme components and the
+    #   swizzled Footer and NotFound in src/theme/
+    # - @easyops-cn/docusaurus-search-local: follows the Docusaurus major
+    # - react, react-dom, @types/react: must match what Docusaurus supports
+    # - typescript: pinned with ~, major compiler changes need a typecheck pass
     ignore:
-      - dependency-name: "eslint"
+      - dependency-name: "@docusaurus/*"
         update-types: ["version-update:semver-major"]
-      - dependency-name: "eslint-config-next"
+      - dependency-name: "@easyops-cn/docusaurus-search-local"
         update-types: ["version-update:semver-major"]
-      - dependency-name: "next"
+      - dependency-name: "react"
         update-types: ["version-update:semver-major"]
-      - dependency-name: "tailwindcss"
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/react"
         update-types: ["version-update:semver-major"]
       - dependency-name: "typescript"
         update-types: ["version-update:semver-major"]
-      - dependency-name: "lucide-react"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "@types/node"
-        update-types: ["version-update:semver-major"]
-    # Security updates always get their own PR regardless of grouping
     open-pull-requests-limit: 10
     labels:
       - "dependencies"
