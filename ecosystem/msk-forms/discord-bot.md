@@ -98,10 +98,10 @@ Alternatively point the bot at a **log channel** (Bot config → Log channel). T
 ### What gets logged
 
 - **Submissions:** new submission, status changed, message sent to the applicant, internal note added (not its content), role granted on acceptance, archived, restored, withdrawn or deleted by the applicant, exported (format and number of rows)
-- **Forms:** created, edited, deleted, posted in Discord, categories changed
+- **Forms:** created, edited, archived, restored, permanently deleted, posted in Discord, categories changed
 - **Team:** member added, role changed, form access changed, member removed
 - **Settings:** bot settings, branding, statuses, status messages, custom domain, public hub link, Discord login settings, captcha settings
-- **Security & integrations:** webhooks added, changed or removed, API keys created or revoked, plan changes, data processing agreement accepted
+- **Security & integrations:** webhooks added, changed or removed, API keys created or revoked, who may delete forms permanently, plan changes, data processing agreement accepted
 
 The entries use the bot's language for your server (see below).
 

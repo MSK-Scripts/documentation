@@ -217,7 +217,25 @@ Move a form between servers, keep a backup, or reuse a template:
 
 - **Save** stores the form as a draft.
 - Set the **status to Live** to start accepting submissions (subject to any [schedule](#scheduling)).
-- **Delete** removes a form and its submissions (cascade), including any uploaded files.
+- **Archive** takes a form out of use without losing anything (see below).
+
+### Archiving & deleting forms
+
+Forms are not deleted from the Forms list, they are **archived**:
+
+- An archived form disappears from the Forms list, its public link shows the form as closed, and it is removed from the public hub and the bot's form list.
+- Its submissions are kept. They leave the Submissions list and the Board together with the form and stay readable from the archive (**Archive → View submissions**). Applicants' status links keep working.
+- **Restore** brings the form back with the status it had before, including its public link if it was live.
+
+Open the archive with the **Archive (n)** button above the Forms list. Everyone who manages a form (Owner, Admin, or a per-form **Manage** grant) can archive and restore it.
+
+**Delete permanently** is only available inside the archive and removes the form, its submissions and uploaded files for good. By default only the **server owner** can do that. The owner can allow admins as well on the **Team** page (*Deleting forms*). Per-form managers can never delete permanently.
+
+Archiving, restoring, deleting and changes to that setting all show up in the [activity log](discord-bot.md#activity-log).
+
+:::info[Free plan]
+Archived forms don't count toward the Free plan's form limit. Restoring one is blocked while you are at the limit.
+:::
 
 **Preview before you publish.** Every form has a **Preview** action (managers, opens in a new tab) that renders the exact public form, branding, multi-step flow, all field types, for any status, including drafts. Preview validates and lets you walk the pages like the real thing, but never submits.
 
