@@ -13,9 +13,8 @@ const content = {
         <h2>Angaben gemäß § 5 DDG</h2>
         <p>
           <strong>Moritz Kohm</strong><br />
-          c/o Impressumservice Dein-Impressum<br />
-          Stettiner Str. 41<br />
-          35410 Hungen
+          Hauptstraße 103<br />
+          68535 Edingen-Neckarhausen
         </p>
         <p><strong>Kontakt:</strong><br />E-Mail: info@msk-scripts.de</p>
 
@@ -32,8 +31,8 @@ const content = {
         <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
         <p>
           <strong>Moritz Kohm</strong><br />
-          c/o Impressumservice Dein-Impressum<br />
-          Stettiner Str. 41<br />
+          Hauptstraße 103<br />
+          68535 Edingen-Neckarhausen
           35410 Hungen
         </p>
 
@@ -77,9 +76,8 @@ const content = {
         <h2>Information according to § 5 DDG</h2>
         <p>
           <strong>Moritz Kohm</strong><br />
-          c/o Impressumservice Dein-Impressum<br />
-          Stettiner Str. 41<br />
-          35410 Hungen<br />
+          Hauptstraße 103<br />
+          68535 Edingen-Neckarhausen
           Germany
         </p>
         <p><strong>Contact:</strong><br />Email: info@msk-scripts.de</p>
@@ -97,9 +95,8 @@ const content = {
         <h2>Responsible for content according to § 18 Para. 2 MStV</h2>
         <p>
           <strong>Moritz Kohm</strong><br />
-          c/o Impressumservice Dein-Impressum<br />
-          Stettiner Str. 41<br />
-          35410 Hungen<br />
+          Hauptstraße 103<br />
+          68535 Edingen-Neckarhausen
           Germany
         </p>
 
