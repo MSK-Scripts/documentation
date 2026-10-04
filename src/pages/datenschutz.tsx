@@ -96,9 +96,8 @@ const content = {
         </p>
         <p>
           <strong>Moritz Kohm</strong><br />
-          c/o Impressumservice Dein-Impressum<br />
-          Stettiner Str.&nbsp;41<br />
-          35410 Hungen
+          Hauptstraße 103<br />
+          68535 Edingen-Neckarhausen
         </p>
         <p>
           <strong>Kontakt:</strong><br />
@@ -357,9 +356,8 @@ const content = {
         <p>The party responsible for data processing on this website is:</p>
         <p>
           <strong>Moritz Kohm</strong><br />
-          c/o Impressumservice Dein-Impressum<br />
-          Stettiner Str.&nbsp;41<br />
-          35410 Hungen<br />
+          Hauptstraße 103<br />
+          68535 Edingen-Neckarhausen
           Germany
         </p>
         <p>
