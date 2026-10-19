@@ -53,6 +53,9 @@ Config.defaultTextUI = true
 
 Config.Parking = 'specific' -- 'all' | 'specific'
 
+-- Who creates the vehicle on park-out (since v5.7.0)
+Config.spawnMode = 'server' -- 'server' | 'client'
+
 -- Default garages per vehicle category (land / sea / air)
 Config.DefaultGarages = {
     land = 'A',      -- car / truck / bike / bicycle / trailer / train
@@ -120,6 +123,7 @@ Config.JobGaragePolicy = {}
 | `Config.TargetSystem` | `table` | Use a target script (`ox_target`) instead of hotkey + TextUI. Script is a dropdown in the dashboard. |
 | `Config.defaultTextUI` | `boolean` | `true` = msk_core HelpNotification, `false` = your TextUI (`config/static.lua`). |
 | `Config.Parking` | `string` | `'specific'` = park out only at the storing garage, `'all'` = anywhere. |
+| `Config.spawnMode` | `string` | **New in v5.7.0.** `'server'` (default) = the server spawns the car with `CreateVehicleServerSetter`. `'client'` = the player's client spawns it and owns it from the first frame, so the tuning lands at once, also on slow PCs. The server then checks owner, model and position (max. 10 m from the reserved spot) before the park-out counts. Does **not** work with `sv_entityLockdown strict`. |
 | `Config.DefaultGarages` | `table` | Default garage id **per category** (`land` / `sea` / `air`). Used when reassigning vehicles from a deleted garage. |
 | `Config.DefaultGarage` | `string` | Legacy single default, derived from `DefaultGarages.land`. |
 | `Config.VehicleKeys` | `table` | Second-key support: script is a dropdown in the dashboard. See [Integrations](./guides/integrations.md#vehicle-keys). |
@@ -134,7 +138,7 @@ Config.JobGaragePolicy = {}
 | `Config.adminCommand` | `string` | Command that opens the [Admin Dashboard](./dashboard.md). |
 | `Config.dashboardGroups` | `table` | ACE groups (besides `admin`) allowed to open the dashboard. `user` is always denied. |
 | `Config.BrandTag` | `string` | Badge shown next to the dashboard title (default `MSK`). Empty hides it. Editable in Settings → Colors. |
-| `Config.VehicleImages` | `table` | Per-model vehicle images: `{ enable, ext }` (`ext` = `png`/`jpg`/`webp`). Images go in `vehicle_images/<spawnname>.<ext>`; missing ones fall back to the class icon. See [Dashboard → Vehicle images](./dashboard.md#vehicle-images). |
+| `Config.VehicleImages` | `table` | Per-model vehicle images: `{ enable, ext }` (`ext` = `png`/`jpg`/`webp`). Master switch for all image sources (export, CDN, local folder). Local images go in `vehicle_images/<spawnname>.<ext>`; missing ones fall back to the class icon. See [Dashboard → Vehicle images](./dashboard.md#vehicle-images). |
 | `Config.Theme` | `table` | UI colours (`accent`, `bg`, `panel`, `textPrimary`, `textSecondary`) applied to dashboard/garage/impound. Editable in Settings → Colors. |
 | `Config.JobGaragePolicy` | `table` | Per-job public-garage access (whitelist/blacklist), managed from the [Job Garages tab](./dashboard.md#job-garages). Empty = jobs have no public-garage access. |
 
@@ -217,6 +221,13 @@ Config.GetFuel = function(vehicle) ... end
 
 -- Lock adapter (uses the vehicle-keys script's lock export when present)
 Config.LockVehicle = function(vehicle, locked) ... end
+
+-- Vehicle images from an export or a CDN (since v5.7.0)
+-- Tokens: {model} = spawn name lowercase, {MODEL} = uppercase, {hash} = model hash
+Config.VehicleImageCdn = 'https://cdn.msk-scripts.de/vehicles/{model}.png' -- nil = no CDN
+
+-- Returns one URL, a list of URLs or nil. Default: JG Vehicle Studio, then the CDN.
+Config.GetVehicleImage = function(model, hash) ... end
 ```
 
 | Key | Type | Description |
@@ -231,6 +242,8 @@ Config.LockVehicle = function(vehicle, locked) ... end
 | `Config.UsesMskFuel` / `GetModelMaxFuel` | `function` | [Fuel](./guides/integrations.md#fuel) detection & max-volume helper. |
 | `Config.SetFuel` / `GetFuel` | `function` | [Fuel](./guides/integrations.md#fuel) adapter (clientside). |
 | `Config.LockVehicle` | `function` | Lock adapter (uses the keys script's lock export when present). |
+| `Config.VehicleImageCdn` | `string` | **New in v5.7.0.** CDN link for vehicle images with the tokens `{model}`, `{MODEL}` and `{hash}`. Default is the MSK Scripts CDN, `nil` turns it off. |
+| `Config.GetVehicleImage` | `function` | **New in v5.7.0.** Returns the image URLs for a model (one URL, a list or `nil`). By default it uses [JG Vehicle Studio](./dashboard.md#vehicle-images) while it runs, then `Config.VehicleImageCdn`. Change it for any other image source. |
 
 ## `config/garages.lua`
 

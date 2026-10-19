@@ -192,6 +192,13 @@ in code:
 
 The **default garages** are set per category here (see below).
 
+**Park-out spawn mode** (`Config.spawnMode`, new in v5.7.0) decides who creates
+the vehicle on park-out. **Server** (default) spawns it with
+`CreateVehicleServerSetter`. **Client** lets the player's PC create it, so the
+tuning is there at once, even on weak PCs. The server checks owner, model and
+position before the park-out counts. Client mode does not work with
+`sv_entityLockdown strict`.
+
 #### Impounds
 
 :::tip[New in v5.3.0]
@@ -236,6 +243,27 @@ generic vehicle-class icon.
 If a model has no image the UI **falls back to the class icon**, so a partial set
 is fine. Images are served locally over `nui://` (no internet required), and the
 folder lives **outside** `html/` so rebuilding the NUI never deletes them.
+
+##### Export or CDN
+
+:::tip[New in v5.7.0]
+:::
+
+Images can also come from a script export or a CDN. This is set in
+`config/static.lua`, not in the dashboard, and only applies while the switch
+above is on.
+
+- **JG Vehicle Studio** is used automatically while `jg-vehiclestudio` is started:
+  first the stored photo from `exports['jg-vehiclestudio']:getImage(model)`, then
+  its configured fallbacks.
+- **CDN:** `Config.VehicleImageCdn` defaults to the MSK Scripts CDN,
+  `https://cdn.msk-scripts.de/vehicles/{model}.png`. Point it to your own CDN or
+  set it to `nil`. Tokens: `{model}`, `{MODEL}`, `{hash}`.
+- **Anything else:** change `Config.GetVehicleImage(model, hash)`. Return one URL,
+  a list of URLs or `nil`.
+
+The UI tries the export and CDN URLs in order, then the local `vehicle_images/`
+folder, then the class icon, and shows the first one that loads.
 
 #### Colors & branding
 
