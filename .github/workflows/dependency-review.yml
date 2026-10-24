@@ -40,3 +40,8 @@ jobs:
             MIT, ISC, Apache-2.0, BSD-2-Clause, BSD-3-Clause, 0BSD,
             Unlicense, CC0-1.0, CC-BY-4.0, BlueOak-1.0.0, Python-2.0,
             MIT-0, Zlib, OFL-1.1
+          # TruffleHog (AGPL-3.0) only runs as a CI action in secret-scan.yml
+          # and is never part of the built site, so its license does not
+          # reach anything we distribute. Without this every Dependabot bump
+          # of the action fails this check.
+          allow-dependencies-licenses: pkg:githubactions/trufflesecurity/trufflehog
