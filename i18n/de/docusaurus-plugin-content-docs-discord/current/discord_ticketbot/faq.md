@@ -8,7 +8,8 @@ sidebar_position: 9
 Nein. Es ist ein reiner Discord-Bot und hat mit FiveM, ESX, QBCore oder irgendeinem Gameserver nichts zu tun. Er spricht mit Discord und sonst mit nichts, und er braucht nur Node.js und einen Bot-Token. MSK Scripts veröffentlicht daneben auch FiveM-Ressourcen, daher kommt die Frage meistens, aber die beiden teilen sich nichts außer dem Namen auf dem Shop.
 
 ### Muss ich einen API Key haben?
-Nein. Ohne API Key funktioniert der Bot normal und sendet das Transkript als Datei per DM.  
+Nein. Ohne API Key funktioniert der Bot normal und hängt das Transkript als HTML-Datei an den Log-Kanal
+(und an die DM beim Schließen, außer `closeOption.transcriptToUser` steht auf `false`).  
 Der Key ist nur nötig, wenn Transkripte als öffentliche Links gespeichert werden sollen.
 
 ### Was passiert wenn ich mein Abo kündige?
@@ -34,7 +35,7 @@ Ja. SSL-Zertifikate werden automatisch über **Let's Encrypt** (Certbot) ohne Ko
 und erneuern sich automatisch vor Ablauf.
 
 ### Was ist „Gehostetes Bot-Management"?
-In jedem bezahlten Tarif kannst du deinen Bot von MSK Scripts hosten lassen. Der Bot läuft auf unserem Server, und du richtest das selbst im Tab **Bot Hosting** deines Dashboards ein: Bot-Token, Client ID und Client Secret eintragen, den Rest machen wir, inklusive der Prüfung, ob er wirklich hochgekommen ist. Du behältst die Bot-Steuerung (starten, stoppen, neu starten, aktualisieren), eine Live-Log-Konsole und ein Formular zum Korrigieren dieser Zugangsdaten. Kein SSH-Zugang, kein Server-Wissen, und keine Absprache vorab.
+Mit Premium+ und Business kannst du deinen Bot von MSK Scripts hosten lassen. Der Bot läuft auf unserem Server, und du richtest das selbst im Tab **Bot Hosting** deines Dashboards ein: Bot-Token, Client ID und Client Secret eintragen, den Rest machen wir, inklusive der Prüfung, ob er wirklich hochgekommen ist. Du behältst die Bot-Steuerung (starten, stoppen, neu starten, aktualisieren), eine Live-Log-Konsole und ein Formular zum Korrigieren dieser Zugangsdaten. Kein SSH-Zugang, kein Server-Wissen, und keine Absprache vorab.
 
 ### Wie kommt mein Team in das Dashboard des Bots?
 Jeder gehostete Bot wird unter einer eigenen Adresse veröffentlicht, `tickets-<id>.msk-scripts.de` oder einer eigenen Domain, und dort läuft der Discord-Login des Bots selbst. Gib die Adresse an dein Team weiter: es meldet sich mit dem eigenen Konto an und sieht genau das, was seine Rechte erlauben. Einen Schritt musst du selbst machen, weil nur du ihn machen kannst: die im Dashboard angezeigte Redirect-URL im Discord Developer Portal unter **OAuth2 → Redirects** eintragen. Ohne sie endet die Anmeldung auf einer Discord-Fehlerseite.

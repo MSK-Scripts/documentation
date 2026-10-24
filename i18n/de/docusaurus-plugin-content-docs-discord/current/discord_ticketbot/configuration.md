@@ -68,13 +68,24 @@ hinzugefügt oder ausgetauscht hast.
   "ticketNameOption": "",         // USERNAME, USERID, TICKETCOUNT oder ""
   "customDescription": "...",     // Variablen: REASON1, REASON2, USERNAME, USERID
   "cantAccess": ["roleId"],
-  "staffRoles": [],               // Team-Rollen nur für diesen Typ
+  "staffRoles": [],               // Team-Rollen nur für diesen Typ, leer = globale Team-Rollen
   "askQuestions": true,
   "questions": [
     { "label": "Frage", "placeholder": "...", "style": "SHORT", "maxLength": 500 }
   ]
 }
 ```
+
+> **`staffRoles` ersetzt die globalen Rollen.** Ein Typ mit eigenen `staffRoles` wird nur von diesen Rollen betreut: Sie sehen den Kanal, können übernehmen, sperren, verschieben und schließen, und die Team-Erinnerung pingt sie. Die globalen `rolesWhoHaveAccessToTheTickets` wirken bei so einem Ticket nicht. Soll die globale Team-Rolle Zugriff behalten, gehört sie in die `staffRoles` des Typs. Administratoren haben immer Zugriff.
+
+### Sperren beim Öffnen
+
+```json
+"rolesWhoCanNotCreateTickets": [],   // Rollen, die gar kein Ticket öffnen können
+"maxTicketOpened": 2                 // offene Tickets pro Nutzer, 0 = unbegrenzt
+```
+
+Zusammen mit `cantAccess` pro Typ und der `/blacklist` wird das auf jedem Weg geprüft, auf dem ein Ticket entstehen kann, und das Limit lässt sich auch durch schnelles Mehrfachklicken nicht umgehen.
 
 ### Bot-Status
 
@@ -150,15 +161,34 @@ Beschreibung an, um zu filtern.
 Der Bot prüft alle offenen Tickets alle **15 Minuten**. Je Ticket wird **nur einmal**
 erinnert.
 
+### Schließen
+
+```json
+"closeOption": {
+  "closeButton": true,
+  "dmUser": true,             // dem Ersteller beim Schließen eine DM schicken
+  "createTranscript": true,
+  "transcriptToUser": true,   // false = Transkript nur im Log-Kanal, nicht in der DM
+  "askReason": true,
+  "whoCanCloseTicket": "EVERYONE",  // oder "STAFFONLY"
+  "closeTicketCategoryId": "CATEGORY_ID_HERE"
+}
+```
+
+Ohne MSK-API-Key ist das Transkript eine eigenständige HTML-Datei, Avatare, eigene Emojis und Bilder (bis 5 MB) sind eingebettet. Mit Key wird es hochgeladen und als Link geteilt, siehe [Service Setup](./service-setup.md).
+
 ### Bewertungssystem
 
 ```json
 "ratingSystem": {
   "enabled": true,
-  "dmUser": true,
-  "ratingsChannelId": "CHANNEL_ID_HERE"
+  "dmUser": true,             // per DM fragen statt im Kanal
+  "ratingsChannelId": "CHANNEL_ID_HERE",
+  "commentRoles": []          // wer „Comment Feedback“ nutzen darf; leer = Team
 }
 ```
+
+Bewerten kann nur der Ersteller des Tickets. Der Beitrag zeigt die Ticket-Kategorie und den Avatar des Nutzers. Das Team antwortet per Rechtsklick → Apps → **Comment Feedback**; der Kommentar landet im Embed, ein zweiter Kommentar derselben Person ersetzt den ersten.
 
 ### Auto-Close
 
@@ -170,6 +200,19 @@ erinnert.
   "excludeClaimed": true
 }
 ```
+
+`/autoclose pause` nimmt ein einzelnes Ticket von Warnung, Auto-Close und Team-Erinnerung aus. `/autoclose resume` startet ein frisches Inaktivitätsfenster.
+
+### Update-Hinweis
+
+```json
+"updateNotification": {
+  "enabled": true,     // Standard an, auch wenn der Block fehlt
+  "intervalHours": 1   // mindestens 0.25
+}
+```
+
+Postet ein Embed in `logsChannelId`, sobald auf GitHub eine neuere Version liegt. Jede Version wird nur einmal gemeldet, auch über Neustarts hinweg. Ohne `logsChannelId` läuft die Prüfung nicht.
 
 ### Wieder öffnen
 

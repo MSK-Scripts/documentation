@@ -135,3 +135,15 @@ sudo journalctl -u ticketbot.service -f
 | `sudo systemctl enable ticketbot.service`  | Enable autostart  |
 | `sudo systemctl disable ticketbot.service` | Disable autostart |
 | `sudo journalctl -u ticketbot.service -f`  | Follow live logs with colors |
+
+## 🔄 Updating
+
+The bot checks for new releases on start and posts them to the log channel (`updateNotification` in the [configuration](./configuration.md)).
+
+```bash
+cd /opt/discord_ticketbot
+git pull && npm install
+sudo systemctl restart ticketbot.service
+```
+
+With Docker: `docker compose pull && docker compose up -d`. Read the [changelog](https://github.com/MSK-Scripts/discord_ticketbot/blob/main/CHANGELOG.md) for every version you skip, especially entries marked **Breaking**. Database migrations run automatically on the next start.

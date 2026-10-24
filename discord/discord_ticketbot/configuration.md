@@ -65,13 +65,24 @@ Supported formats: PNG, JPG, GIF, WEBP. Run `/setup` again after adding or chang
   "ticketNameOption": "",         // USERNAME, USERID, TICKETCOUNT or ""
   "customDescription": "...",     // Variables: REASON1, REASON2, USERNAME, USERID
   "cantAccess": ["roleId"],
-  "staffRoles": [],               // Type-specific staff roles
+  "staffRoles": [],               // Type-specific staff roles, empty = global staff roles
   "askQuestions": true,
   "questions": [
     { "label": "Question", "placeholder": "...", "style": "SHORT", "maxLength": 500 }
   ]
 }
 ```
+
+> **`staffRoles` replaces the global roles.** A type with its own `staffRoles` is handled by those roles only: they see the channel, can claim, lock, move and close, and the staff reminder pings them. The global `rolesWhoHaveAccessToTheTickets` do not act on such a ticket. If the global staff role should keep access, add it to the type's `staffRoles`. Administrators always have access.
+
+### Open Restrictions
+
+```json
+"rolesWhoCanNotCreateTickets": [],   // roles that cannot open any ticket
+"maxTicketOpened": 2                 // open tickets per user, 0 = unlimited
+```
+
+Together with `cantAccess` per type and the `/blacklist`, these are checked on every way a ticket can be opened, and the open limit cannot be bypassed by clicking quickly several times.
 
 ### Bot Status
 
@@ -145,15 +156,34 @@ Snippets support autocomplete, start typing the name or description to filter.
 
 The bot checks all open tickets every **15 minutes**. Each ticket is only reminded **once**.
 
+### Closing
+
+```json
+"closeOption": {
+  "closeButton": true,
+  "dmUser": true,             // send the creator a DM when the ticket closes
+  "createTranscript": true,
+  "transcriptToUser": true,   // false = transcript only in the log channel, not in the DM
+  "askReason": true,
+  "whoCanCloseTicket": "EVERYONE",  // or "STAFFONLY"
+  "closeTicketCategoryId": "CATEGORY_ID_HERE"
+}
+```
+
+Without an MSK API key the transcript is a self-contained HTML file with avatars, custom emojis and images (up to 5 MB) embedded. With a key it is uploaded and shared as a link, see [Service Setup](./service-setup.md).
+
 ### Rating System
 
 ```json
 "ratingSystem": {
   "enabled": true,
-  "dmUser": true,
-  "ratingsChannelId": "CHANNEL_ID_HERE"
+  "dmUser": true,             // ask in the DM instead of the channel
+  "ratingsChannelId": "CHANNEL_ID_HERE",
+  "commentRoles": []          // who may use "Comment Feedback"; empty = staff
 }
 ```
+
+Only the ticket creator can rate. The post shows the ticket category and the user's avatar. Staff reply to it via right click → Apps → **Comment Feedback**; the comment is added to the embed, and a second comment by the same person replaces the first.
 
 ### Auto-Close
 
@@ -165,6 +195,19 @@ The bot checks all open tickets every **15 minutes**. Each ticket is only remind
   "excludeClaimed": true
 }
 ```
+
+`/autoclose pause` excludes a single ticket from the warning, the auto-close and the staff reminder. `/autoclose resume` starts a fresh inactivity window.
+
+### Update Notification
+
+```json
+"updateNotification": {
+  "enabled": true,     // default on, also when the block is missing
+  "intervalHours": 1   // minimum 0.25
+}
+```
+
+Posts an embed to `logsChannelId` when a newer release is available on GitHub. Each version is announced once, also across restarts. Without `logsChannelId` the check does not run.
 
 ### Reopen
 

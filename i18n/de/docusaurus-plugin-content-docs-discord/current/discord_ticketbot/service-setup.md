@@ -13,7 +13,8 @@ Premium-Nutzer können Transkripte zusätzlich unter ihrer eigenen Domain bereit
 ## 1. Was ist der Transcript Service?
 
 Wenn ein Ticket geschlossen wird, generiert der Bot ein vollständiges HTML-Transkript aller Nachrichten.  
-Ohne konfigurierten API Key wird das Transkript wie bisher als Dateianhang per DM versendet.
+Ohne konfigurierten API Key wird nichts hochgeladen: Das Transkript hängt als eigenständige HTML-Datei
+im Log-Kanal und, außer `closeOption.transcriptToUser` steht auf `false`, an der DM beim Schließen.
 
 Mit dem MSK Transcript Service wird das Transkript stattdessen auf **www.msk-scripts.de** hochgeladen  
 und ein öffentlicher Link zurückgegeben. Nutzer können das Transkript direkt im Browser öffnen.
@@ -25,58 +26,26 @@ Premium-Nutzer erhalten zusätzlich herunterladbare Dateianhänge im Transkript 
 
 ## 2. Abo-Modelle im Überblick
 
-| Feature | Basic (kostenlos) | Premium (3,99 €/Monat) | Premium+ (6,99 €/Monat) | Business (9,99 €/Monat) |
+| Feature | Basic (kostenlos) | Premium | Premium+ | Business |
 |---|---|---|---|---|
+| Preis pro Monat | kostenlos | 4,99 € | 9,99 € | 19,99 € |
+| Preis pro Jahr | kostenlos | 49 € | 99 € | 199 € |
 | Transkript als Link | ✅ | ✅ | ✅ | ✅ |
 | Max. Transkriptgröße | 10 MB | 50 MB | 100 MB | 200 MB |
 | Dateianhänge im Transkript | ❌ | ✅ | ✅ | ✅ |
 | Max. Anhangsgröße pro Ticket | — | 100 MB | 200 MB | 500 MB |
 | Eigene Domain | ❌ | ✅ | ✅ | ✅ |
 | Speicherdauer | 30 Tage | 180 Tage | 365 Tage | 10 Jahre |
-| Uploads pro Stunde | 30 | 60 | 300 | 300 |
+| Uploads pro Stunde | 30 | 60 | 120 | 300 |
 | MSK-Hinweis entfernen | ❌ | ✅ | ✅ | ✅ |
-| **Gehostetes Bot-Management** | ❌ | ✅ | ✅ | ✅ |
+| **Gehostetes Bot-Management** | ❌ | ❌ | ✅ | ✅ |
 
 > Die bezahlten Stufen werden im Dashboard über **Stripe** abonniert, mit **14 Tagen kostenloser Testphase**, ohne Kreditkarte,  
 > für Neukunden (jederzeit kündbar). Verwaltung/Kündigung jederzeit über das Stripe-Kundenportal.
 
 ---
 
-## 3. Schritt 1 – Stripe einrichten (Abos)
-
-> **Zweck:** Premium und Premium+ werden über Stripe abgerechnet. Dieser Schritt ist nur nötig,  
-> wenn du die Website selbst hostest. Auf dem offiziellen **msk-scripts.de** ist alles bereits eingerichtet.
-
-### Anleitung
-
-1. Im [Stripe-Dashboard](https://dashboard.stripe.com) → **Produkte** zwei Produkte mit je einem
-   **monatlichen wiederkehrenden Preis** anlegen:
-   - `Ticketbot Premium` → 3,99 € / Monat
-   - `Ticketbot Premium+` → 6,99 € / Monat
-   - `Ticketbot Business` → 9,99 € / Monat
-
-   Kopiere jeweils die **Price-ID** (`price_…`). Am Preis **keine** Testphase einstellen, die
-   14-Tage-Testphase wird im Code automatisch für Neukunden angewendet.
-2. **Entwickler → API-Schlüssel** → **Geheimen Schlüssel** (`sk_…`) kopieren.
-3. **Einstellungen → Abrechnung → Kundenportal** → aktivieren (Kündigung + Tarifwechsel erlauben).
-4. **Entwickler → Webhooks** → Endpunkt `https://www.msk-scripts.de/api/webhook/stripe` mit den Events
-   `checkout.session.completed`, `customer.subscription.created/updated/deleted`,
-   `invoice.payment_succeeded`, `invoice.payment_failed` anlegen. **Signing-Secret** (`whsec_…`) kopieren.
-
-### Wo eintragen
-
-Diese Werte kommen in die `.env.local` auf dem **Webserver** (nicht in die Bot-`.env`):
-
-```bash
-STRIPE_SECRET_KEY=sk_live_xxx
-STRIPE_WEBHOOK_SECRET=whsec_xxx
-STRIPE_PRICE_PREMIUM=price_xxx
-STRIPE_PRICE_PREMIUM_PLUS=price_xxx
-```
-
----
-
-## 4. Schritt 2 – Discord OAuth App erstellen
+## 3. Schritt 1 – Discord OAuth App erstellen
 
 > **Zweck:** Die Website liest deine Discord-Server-Liste, damit du auswählen kannst,  
 > für welchen Server der API Key gelten soll.
@@ -107,17 +76,17 @@ DISCORD_VERIFY_CLIENT_SECRET=dein_client_secret_hier
 
 ---
 
-## 5. Schritt 3 – Verifizierung auf der Website
+## 4. Schritt 2 – Verifizierung auf der Website
 
 Dieser Prozess muss **einmalig pro Server** von einem Server-Administrator durchgeführt werden.
 
-### 5.1 Website aufrufen
+### 4.1 Website aufrufen
 
 Öffne **[www.msk-scripts.de/ticketbot/verify](https://www.msk-scripts.de/ticketbot/verify)** in deinem Browser.
 
 ---
 
-### 5.2 Discord verbinden
+### 4.2 Discord verbinden
 
 Klicke auf **„Mit Discord anmelden"**.  
 Du wirst zu Discord weitergeleitet, klicke dort auf **„Autorisieren"**.
@@ -128,7 +97,7 @@ Die App benötigt zwei Berechtigungen:
 
 ---
 
-### 5.3 Server auswählen
+### 4.3 Server auswählen
 
 Du siehst nun eine Liste aller Discord-Server, auf denen du **Administrator**-Rechte hast.  
 Wähle den Server aus, für den du den API Key haben möchtest, und klicke auf **„API Key generieren"**.
@@ -138,7 +107,7 @@ Wähle den Server aus, für den du den API Key haben möchtest, und klicke auf *
 
 ---
 
-### 5.4 API Key speichern
+### 4.4 API Key speichern
 
 Nach der Generierung wird dein persönlicher API Key angezeigt.  
 **Kopiere ihn sofort**, er wird nicht erneut angezeigt.
@@ -157,7 +126,7 @@ MSK_API_KEY=a1b2c3d4e5f6...
 
 ---
 
-## 6. Schritt 4 – API Key in den Bot eintragen
+## 5. Schritt 3 – API Key in den Bot eintragen
 
 Öffne die `.env`-Datei in deinem Bot-Ordner und trage ein:
 
@@ -170,22 +139,22 @@ Starte den Bot danach neu.
 
 ---
 
-## 7. Schritt 5 – Eigene Domain einrichten (Premium)
+## 6. Schritt 4 – Eigene Domain einrichten (Premium)
 
-> Dieser Schritt ist **nur für Premium und Premium+** verfügbar.  
+> Dieser Schritt ist in **jeder bezahlten Stufe** verfügbar (Premium, Premium+, Business).  
 > Basic-Nutzer können diesen Schritt überspringen.
 
 Mit einer eigenen Domain sind Transkripte unter deiner URL abrufbar,  
 z.B. `https://tickets.deinserver.de/...` statt `https://www.msk-scripts.de/...`
 
-### 7.1 Dashboard aufrufen
+### 6.1 Dashboard aufrufen
 
 Klicke nach der Verifizierung auf **„Zum Dashboard"**,  
 oder öffne direkt **[www.msk-scripts.de/ticketbot/dashboard](https://www.msk-scripts.de/ticketbot/dashboard)**.
 
 ---
 
-### 7.2 Domain eintragen
+### 6.2 Domain eintragen
 
 ![Der Tab Custom Domain, mit einer Karte für Transkripte und einer für das Bot-Dashboard](/img/discord_ticketbot_hosting_domain.png)
 
@@ -198,7 +167,7 @@ Klicke auf **„Setzen"**. Falls der DNS noch nicht korrekt gesetzt ist, werden 
 
 ---
 
-### 7.3 DNS A-Record setzen
+### 6.3 DNS A-Record setzen
 
 Melde dich bei deinem Domain-Anbieter an (z.B. Cloudflare, IONOS, Namecheap) und erstelle einen **A-Record**:
 
@@ -211,7 +180,7 @@ Melde dich bei deinem Domain-Anbieter an (z.B. Cloudflare, IONOS, Namecheap) und
 
 ---
 
-### 7.4 DNS prüfen und aktivieren
+### 6.4 DNS prüfen und aktivieren
 
 Sobald die DNS-Propagierung abgeschlossen ist, klicke im Dashboard auf **„DNS prüfen"**.  
 Falls die Domain korrekt auf den Server zeigt, wird sie automatisch aktiviert:
@@ -222,16 +191,16 @@ Falls die Domain korrekt auf den Server zeigt, wird sie automatisch aktiviert:
 
 ---
 
-### 7.5 Domain entfernen
+### 6.5 Domain entfernen
 
 Um eine eigene Domain zu entfernen, klicke im Dashboard auf das **Papierkorb-Symbol** neben der aktiven Domain.  
 Der VirtualHost wird vom Server entfernt und Transkripte sind wieder über die Standard-URL abrufbar.
 
 ---
 
-## 8. Schritt 6 – Gehostetes Bot-Management (Premium, Premium+ & Business)
+## 7. Schritt 5 – Gehostetes Bot-Management (Premium+ & Business)
 
-> Dieser Schritt ist **nur für bezahlte Abos** gedacht, die den Bot von uns betreiben lassen wollen.
+> Dieser Schritt ist für **Premium+ und Business** gedacht, die den Bot von uns betreiben lassen wollen.
 > Basic-Nutzer und alle, die ihn gern selbst betreiben, können ihn überspringen.
 
 Du richtest das Hosting selbst im Dashboard ein. Kein SSH-Zugang, kein Server-Wissen, und kein Ticket, das du vorher aufmachen musst.
@@ -276,7 +245,7 @@ Innerhalb dieser 14 Tage fragt eine erneute Aktivierung, ob du die alte Installa
 
 ---
 
-## 9. Konsolenausgabe beim Start
+## 8. Konsolenausgabe beim Start
 
 Beim Start siehst du folgende Ausgabe im Terminal:
 
@@ -325,3 +294,4 @@ Connecting to Discord...
 | `MSK server unreachable → Basic` | www.msk-scripts.de ist vorübergehend nicht erreichbar |
 | `API key valid → Premium` | ✅ Premium aktiv |
 | `API key valid → Premium+` | ✅ Premium+ aktiv |
+| `API key valid → business` | ✅ Business aktiv |

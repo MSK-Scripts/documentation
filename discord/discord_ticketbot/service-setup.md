@@ -6,77 +6,46 @@ sidebar_position: 7
 
 This guide explains how to set up the MSK Transcript Service for your self-hosted bot instance.  
 The service stores ticket transcripts online and makes them accessible via a public link.  
-Optionally, Premium users can serve transcripts under their own custom domain.
+Paid tiers can serve transcripts under their own domain, and from Premium+ on the bot itself can be hosted by us.
 
 ---
 
 ## 1. What is the Transcript Service?
 
 When a ticket is closed, the bot generates a complete HTML transcript of all messages.  
-Without a configured API key, the transcript is sent as a file attachment via DM, as before.
+Without a configured API key nothing is uploaded: the transcript is attached as a self-contained HTML file
+to the log channel and, unless `closeOption.transcriptToUser` is `false`, to the close DM.
 
 With the MSK Transcript Service, the transcript is uploaded to **www.msk-scripts.de** instead  
 and a public link is returned. Users can open the transcript directly in their browser.
 
-Premium users additionally get downloadable file attachments in the transcript and can  
+Paid tiers additionally get downloadable file attachments in the transcript and can  
 configure a **custom domain** so transcripts are served under their own URL.
 
 ---
 
 ## 2. Subscription Tiers
 
-| Feature | Basic (free) | Premium (€3.99/month) | Premium+ (€6.99/month) | Business (€9.99/month) |
+| Feature | Basic (free) | Premium | Premium+ | Business |
 |---|---|---|---|---|
+| Price per month | free | €4.99 | €9.99 | €19.99 |
+| Price per year | free | €49 | €99 | €199 |
 | Transcript as link | ✅ | ✅ | ✅ | ✅ |
 | Max. transcript size | 10 MB | 50 MB | 100 MB | 200 MB |
 | File attachments in transcript | ❌ | ✅ | ✅ | ✅ |
 | Max. attachment size per ticket | — | 100 MB | 200 MB | 500 MB |
 | Custom domain | ❌ | ✅ | ✅ | ✅ |
 | Storage duration | 30 days | 180 days | 365 days | 10 years |
-| Uploads per hour | 30 | 60 | 300 | 300 |
+| Uploads per hour | 30 | 60 | 120 | 300 |
 | Remove the MSK notice | ❌ | ✅ | ✅ | ✅ |
-| **Hosted bot management** | ❌ | ✅ | ✅ | ✅ |
+| **Hosted bot management** | ❌ | ❌ | ✅ | ✅ |
 
 > Paid tiers are subscribed in your dashboard via **Stripe**, with a **14-day free trial** and no card  
 > for new customers (cancel anytime). Manage or cancel anytime via the Stripe customer portal.
 
 ---
 
-## 3. Step 1 – Set up Stripe (subscriptions)
-
-> **Purpose:** Premium and Premium+ are billed via Stripe. This step is only needed  
-> if you self-host the website. On the official **msk-scripts.de** it is already configured.
-
-### Instructions
-
-1. In the [Stripe Dashboard](https://dashboard.stripe.com) → **Products**, create two products,
-   each with a **recurring monthly price**:
-   - `Ticketbot Premium` → €3.99 / month
-   - `Ticketbot Premium+` → €6.99 / month
-   - `Ticketbot Business` → €9.99 / month
-
-   Copy each **Price ID** (`price_…`). Do **not** configure a trial on the price:
-   14-day trial is applied automatically in code for new customers.
-2. **Developers → API keys** → copy your **Secret key** (`sk_…`).
-3. **Settings → Billing → Customer portal** → enable it (allow cancellation + plan changes).
-4. **Developers → Webhooks** → add an endpoint `https://www.msk-scripts.de/api/webhook/stripe`
-   with the events `checkout.session.completed`, `customer.subscription.created/updated/deleted`,
-   `invoice.payment_succeeded`, `invoice.payment_failed`. Copy the **signing secret** (`whsec_…`).
-
-### Where to add these
-
-These values go into `.env.local` on the **web server** (not the bot's `.env`):
-
-```bash
-STRIPE_SECRET_KEY=sk_live_xxx
-STRIPE_WEBHOOK_SECRET=whsec_xxx
-STRIPE_PRICE_PREMIUM=price_xxx
-STRIPE_PRICE_PREMIUM_PLUS=price_xxx
-```
-
----
-
-## 4. Step 2 – Create a Discord OAuth App
+## 3. Step 1 – Create a Discord OAuth App
 
 > **Purpose:** The website reads your Discord server list so you can select  
 > which server the API key should apply to.
@@ -107,17 +76,17 @@ DISCORD_VERIFY_CLIENT_SECRET=your_client_secret_here
 
 ---
 
-## 5. Step 3 – Verify on the Website
+## 4. Step 2 – Verify on the Website
 
 This process must be completed **once per server** by a server administrator.
 
-### 5.1 Open the website
+### 4.1 Open the website
 
 Go to **[www.msk-scripts.de/ticketbot/verify](https://www.msk-scripts.de/ticketbot/verify)** in your browser.
 
 ---
 
-### 5.2 Connect Discord
+### 4.2 Connect Discord
 
 Click **"Sign in with Discord"**.  
 You will be redirected to Discord, click **"Authorize"**.
@@ -128,7 +97,7 @@ The app requests two permissions:
 
 ---
 
-### 5.3 Select your server
+### 4.3 Select your server
 
 You will see a list of all Discord servers where you have **Administrator** permissions.  
 Select the server you want the API key for and click **"Generate API Key"**.
@@ -138,7 +107,7 @@ Select the server you want the API key for and click **"Generate API Key"**.
 
 ---
 
-### 5.4 Save your API Key
+### 4.4 Save your API Key
 
 After generation, your personal API key is displayed.  
 **Copy it immediately:** it will not be shown again.
@@ -157,7 +126,7 @@ MSK_API_KEY=a1b2c3d4e5f6...
 
 ---
 
-## 6. Step 4 – Add the API Key to the Bot
+## 5. Step 3 – Add the API Key to the Bot
 
 Open the `.env` file in your bot folder and add:
 
@@ -170,22 +139,22 @@ Then restart the bot.
 
 ---
 
-## 7. Step 5 – Set up a Custom Domain (Premium)
+## 6. Step 4 – Set up a Custom Domain (Premium)
 
-> This step is **only available for Premium and Premium+** subscribers.  
+> This step is available on **every paid tier** (Premium, Premium+, Business).  
 > Basic users can skip this step.
 
 A custom domain lets your users access transcripts under your own URL,  
 e.g. `https://tickets.yourserver.com/...` instead of `https://www.msk-scripts.de/...`
 
-### 7.1 Open the Dashboard
+### 6.1 Open the Dashboard
 
 After completing the verify process, click **"Go to Dashboard"**,  
 or visit **[www.msk-scripts.de/ticketbot/dashboard](https://www.msk-scripts.de/ticketbot/dashboard)** directly.
 
 ---
 
-### 7.2 Enter your domain
+### 6.2 Enter your domain
 
 ![The Custom Domain tab, with a card for transcripts and one for the bot dashboard](/img/discord_ticketbot_hosting_domain.png)
 
@@ -198,7 +167,7 @@ Click **"Set"**. If the DNS is not yet pointing to the server, you will see the 
 
 ---
 
-### 7.3 Set the DNS A-Record
+### 6.3 Set the DNS A-Record
 
 Log in to your domain registrar (e.g. Cloudflare, Namecheap, IONOS) and create an **A-Record**:
 
@@ -211,7 +180,7 @@ Log in to your domain registrar (e.g. Cloudflare, Namecheap, IONOS) and create a
 
 ---
 
-### 7.4 Validate DNS and activate
+### 6.4 Validate DNS and activate
 
 Once DNS has propagated, click **"Check DNS"** in the dashboard.  
 If the domain points correctly to the server, it will be activated automatically:
@@ -222,16 +191,16 @@ If the domain points correctly to the server, it will be activated automatically
 
 ---
 
-### 7.5 Remove a domain
+### 6.5 Remove a domain
 
 To remove a custom domain, click the **trash icon** next to the active domain in the dashboard.  
 The VirtualHost will be removed from the server and transcripts revert to the default URL.
 
 ---
 
-## 8. Step 6 – Hosted Bot Management (Premium, Premium+ & Business)
+## 7. Step 5 – Hosted Bot Management (Premium+ & Business)
 
-> This step is **only for paid subscribers** who want us to run the bot for them.
+> This step is for **Premium+ and Business** subscribers who want us to run the bot for them.
 > Basic users, and anyone happy running it themselves, can skip it.
 
 You set hosting up yourself in the dashboard. No SSH access, no server knowledge, and no ticket to open first.
@@ -276,7 +245,7 @@ Within those 14 days, activating hosting again asks whether you want the old ins
 
 ---
 
-## 9. Console Output on Startup
+## 8. Console Output on Startup
 
 When the bot starts you will see the following in the terminal:
 
@@ -291,7 +260,7 @@ When the bot starts you will see the following in the terminal:
 ...
                  https://github.com/MSK-Scripts/discord_ticketbot
 
-Checking for updates... up to date (v2.10.0)
+Checking for updates... up to date (v2.20.0)
 Checking API Key... API key valid → Premium+
 
 Connecting to Discord...
@@ -325,3 +294,4 @@ Connecting to Discord...
 | `MSK server unreachable → Basic` | www.msk-scripts.de is temporarily unreachable |
 | `API key valid → Premium` | ✅ Premium active |
 | `API key valid → Premium+` | ✅ Premium+ active |
+| `API key valid → business` | ✅ Business active |
