@@ -39,6 +39,7 @@ Once the bot has joined, a server manager runs [`/gcreate`](./commands.md) to op
 | ⚡ First Click Wins | For the quick ones: instead of a draw, [the fastest button press takes the prize](./commands.md#first-click-wins) and the giveaway ends right there |
 | 👥 Weighted Bonus Entries | Grant specific roles extra entries (up to 100), [shown in the giveaway message](./configuration.md#bonus-entries-in-the-embed) so everyone knows about them |
 | 🛡️ Eligibility Rules | Whitelist / blacklist roles plus minimum account age and server membership, server-wide, and a single giveaway may use its own rules instead |
+| 🗓️ Scheduled Giveaways | Create a giveaway now and [let the bot post it later](./commands.md#scheduled-giveaways), by command or at an exact time in the dashboard |
 | ⏸️ Pause & Resume | Freeze the timer mid-giveaway and resume seamlessly where you left off |
 | 🗂️ Templates | Save any giveaway as a template with one click, prizes and entry conditions included, and reuse it by command or in the dashboard |
 | ✨ Reroll | Draw fresh winners for any ended giveaway, respecting the blacklist |
@@ -86,9 +87,12 @@ Prefer a browser over slash commands? Server admins can manage everything at
 
 1. Log in with **Discord** (you'll only see servers where you have *Manage Server* **and** the bot is present).
 2. Pick a server.
-3. Create, edit, extend, pause/resume, end, cancel and reroll giveaways, and change every per-server setting.
+3. Create giveaways right away or [for a later start](./commands.md#scheduled-giveaways), with a preview of the message while you fill in the form. Edit, extend, pause/resume, end, cancel, reroll and delete them, and change every per-server setting. Winners are listed with their name and avatar.
 4. Manage [templates](./commands.md#templates-in-the-dashboard) in their own tab, and start from one when creating a giveaway: pick it above the form and every field is filled in. **Save as template** on a giveaway card turns a giveaway you already ran into one.
 5. Set the [entry conditions](./configuration.md#bonus-entries-weighted-draw): blocked and required roles plus bonus entries per role, server-wide in the *Settings* tab or for one giveaway in its own form. The per-giveaway fields start out as a copy of the server settings and apply instead of them, so you can lift a server-wide rule for a single giveaway.
+6. Follow your server's activity: giveaways created and ended and entries made, per day.
+
+**Deleting** removes a giveaway for good, together with its message, entries and winners. It is possible for giveaways that ended, were cancelled or have not started yet; a running one has to be ended or cancelled first. Coupon codes that were already sent stay valid in your store, and the dashboard tells you how many there are before you confirm. The activity chart counts what is stored, so withdrawn entries and deleted giveaways are not in it.
 
 The dashboard also holds the two things that have no slash command: the [winner coupon](./configuration.md#tebex-winner-coupons) settings of a giveaway, and the **Tebex store** tab, which is visible to the server owner only.
 

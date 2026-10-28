@@ -20,12 +20,12 @@ Every manager command below can also be performed from the [**Web Dashboard**](.
 
 | Command | Description |
 |---|---|
-| `/gcreate [mode] [draw]` | Opens a modal to create a giveaway in the **current channel**. `mode` chooses how multiple prizes are handed out, `draw` how the winners are found |
-| `/gedit <id> [title] [description] [winners] [prizes] [mode] [draw]` | Edit a running giveaway |
+| `/gcreate [mode] [draw] [start_in]` | Opens a modal to create a giveaway in the **current channel**. `mode` chooses how multiple prizes are handed out, `draw` how the winners are found, `start_in` [posts it later](#scheduled-giveaways) |
+| `/gedit <id> [title] [description] [winners] [prizes] [mode] [draw]` | Edit a running or scheduled giveaway |
 | `/gextend <id> <duration>` | Extend the end time of a running giveaway |
 | `/gend <id>` | Ends a giveaway immediately and draws the winners |
 | `/greroll <id> [winner]` | Draws new winners for an **ended** giveaway. With `winner`, replaces only that single winner |
-| `/gcancel <id>` | Cancels an active giveaway **without** drawing a winner |
+| `/gcancel <id>` | Cancels an active or scheduled giveaway **without** drawing a winner |
 | `/gpause <id>` | Pauses a giveaway and freezes its timer |
 | `/gresume <id>` | Resumes a paused giveaway |
 | `/gtemplate save \| from \| list \| delete \| use` | Manage reusable giveaway templates |
@@ -34,7 +34,7 @@ Every manager command below can also be performed from the [**Web Dashboard**](.
 
 | Command | Description |
 |---|---|
-| `/glist` | Lists the active giveaways in the server |
+| `/glist` | Lists the active giveaways in the server, scheduled ones in their own section |
 | `/ginfo <id>` | Shows details about a specific giveaway |
 | `/gstats` | Shows this server's giveaway statistics (totals, entries, win rate) |
 | `/ghelp` | Overview of all commands |
@@ -97,6 +97,16 @@ Three things work differently in this mode, and the giveaway message says so:
 - **An entry cannot be withdrawn.** A second click on the button would otherwise hand back a prize that was already won.
 
 Everything else stays as it is. The [entry conditions](./configuration.md#eligibility-rules) are checked at the button **and** again when the winners are settled, so somebody who was blacklisted or left the server in the meantime lets the next-fastest move up, and a reroll takes the next fastest instead of drawing.
+
+### Scheduled giveaways
+
+Set `start_in` on `/gcreate` to post the giveaway later instead of right away, for example `start_in:2h` or `start_in:1d12h`. It uses the same format as the duration (at least 10 seconds, at most 1 year ahead), and the duration counts from the start: `start_in:1d` with a duration of `2h` posts tomorrow and ends two hours after that.
+
+Until it starts, the giveaway is **scheduled**: it has an ID and shows up in `/glist`, `/ginfo` and `/gstats`, but there is no message in the channel yet and nobody can join. At the start time the bot posts it like any other giveaway, pings the notify role and writes it to the log channel.
+
+While it waits you can change it with `/gedit` or call it off with `/gcancel`. `/gend`, `/gpause`, `/gresume`, `/gextend` and `/greroll` tell you when it starts instead. In the [web dashboard](./getting-started.md#-web-dashboard) you pick an exact date and time, and can move the start and the duration of a scheduled giveaway later.
+
+If the bot cannot post it at the start time, because the channel was deleted or it lacks permissions there, the giveaway is cancelled and the reason goes to your [log channel](./configuration.md#notify-role--logging). If the bot was offline at the start time, it posts the giveaway as soon as it is back and the giveaway still runs for its full duration.
 
 :::info[Looking for the Tebex coupon?]
 Discord caps a modal at five fields, which `/gcreate` already uses. The winner coupon is therefore configured in the [web dashboard](./getting-started.md#-web-dashboard) instead, when you create or edit a giveaway. See [Tebex Winner Coupons](./configuration.md#tebex-winner-coupons). In *one prize per winner* mode the dashboard also lets you pick the discounted packages **per prize**, so the winner of a script gets their discount on that script. The discount percentage and the validity period always apply to the whole giveaway.
