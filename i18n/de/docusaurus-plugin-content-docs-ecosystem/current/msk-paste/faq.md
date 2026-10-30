@@ -16,7 +16,8 @@ eigenen Infrastruktur betreiben.
 ### Brauche ich ein Konto?
 
 Nein. MSK Paste hat bewusst kein Nutzersystem. Der Lösch-Token, den du beim Anlegen
-bekommst, ist das, womit du einen Paste später wieder entfernst.
+bekommst, ist das, womit du einen Paste später wieder entfernst. Nur wer über die API
+Pastes anlegt, braucht einen API-Key, siehe weiter unten.
 
 ### Kann ich einen Paste nachträglich bearbeiten?
 
@@ -55,14 +56,32 @@ Nein. Jeder Paste ist ungelistet, nur wer die ID kennt, findet ihn. Es gibt kein
 
 ### Wo ist mein API-Key?
 
-Es gibt keinen. Alle Endpunkte sind öffentlich. Schreibende Aufrufe schützt die
-Ratenbegrenzung, also 10 Anlagen pro Stunde je IP-Hash.
+Den bekommst du vom Betreiber. Wer über die API Pastes anlegen will, braucht einen Key, der
+mit `mskp_` beginnt. Ausgestellt werden Keys nur auf dem Server, eine Registrierung oder
+Selbstbedienung gibt es nicht. Die gehostete Instanz paste.msk-scripts.de gibt keine Keys an andere aus, dort legst du Pastes über die Website an. Hostest du MSK Paste selbst,
+legst du einen mit `sudo bash /opt/msk-paste/scripts/api-key.sh create "<label>"` an, siehe
+[Installation](installation.md#api-keys). Abrufen, Freischalten und Löschen mit dem
+Lösch-Token gehen weiterhin ohne Key.
 
 ### Warum bekomme ich `429 Too Many Requests`?
 
-Du hast die Ratenbegrenzung von `POST /api/pastes` erreicht. Im Header `Retry-After` steht,
-wie viele Sekunden du warten musst. Betreibst du eine eigene Instanz und brauchst mehr,
-ändere `RATE_LIMIT_CREATE_PER_HOUR` in der `.env`.
+Du hast eine Grenze von `POST /api/pastes` erreicht. Welche, steht im Feld `code` der
+Antwort, und wie viele Sekunden du warten musst, im Header `Retry-After`, sofern er
+mitkommt:
+
+- **Mit API-Key:** 120 Pastes pro Stunde je Key (`key-limit`)
+- **Aus dem Formular:** 10 Pastes pro Stunde je IP-Hash (`rate-limit`) sowie 20 Pastes und zusammen 5 MB je IP-Adresse und 24 Stunden (`daily-limit`)
+
+Betreibst du eine eigene Instanz und brauchst mehr, ändere `API_KEY_CREATE_PER_HOUR`,
+`RATE_LIMIT_CREATE_PER_HOUR`, `DAILY_PASTES_PER_IP` oder `DAILY_BYTES_PER_IP` in der `.env`.
+
+### Warum wird mein Paste mit `422` oder `409` abgelehnt?
+
+Er ist an der Inhaltsprüfung hängen geblieben. Kodierte Dateien (lange Blöcke aus Base64
+oder Hex), Pastes, die vor allem aus Links bestehen, und derselbe Inhalt noch einmal binnen
+24 Stunden werden abgelehnt, im Formular genauso wie mit API-Key. Welche Prüfung es war,
+steht im Feld `code`: `blob`, `links` oder `duplicate`. Einzelheiten auf der
+[Seite zur REST-API](api.md#inhaltsprüfung).
 
 ### Wie lösche ich einen Paste über die API?
 
@@ -135,6 +154,15 @@ openssl rand -hex 32
 ```
 
 Trag es in die `.env` ein und starte den Dienst neu.
+
+### Das Formular legt keine Pastes an
+
+In Produktion braucht das Formular Cloudflare Turnstile. Fehlen `CAPTCHA_SITE_KEY` und
+`CAPTCHA_SECRET_KEY` in der `.env`, legt es nichts an und antwortet mit `503` und
+`code: "captcha-unavailable"`. Lege im Cloudflare-Dashboard ein Turnstile-Widget für den
+Hostnamen deiner Instanz an, trag beide Schlüssel in die `.env` ein und starte den Dienst
+neu. Die Testschlüssel von Cloudflare funktionieren nur außerhalb der Produktion. Siehe
+[Installation](installation.md#umgebungsvariablen).
 
 ### Ratenbegrenzung von Let's Encrypt erreicht
 

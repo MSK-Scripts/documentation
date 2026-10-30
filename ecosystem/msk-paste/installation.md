@@ -14,7 +14,7 @@ This guide walks you through installing MSK Paste on your own Debian or Ubuntu s
 | Component | Minimum Version |
 |---|---|
 | OS | Debian 11+ / Ubuntu 22.04+ |
-| Node.js | 20.x or 22.x LTS |
+| Node.js | 24 LTS or newer |
 | MariaDB | 10.6+ |
 | Apache | 2.4+ (with `mod_proxy`, `mod_proxy_http`, `mod_headers`, `mod_ssl`) |
 | Domain | A subdomain pointing to your server (e.g. `paste.example.com`) |
@@ -54,10 +54,10 @@ When it finishes, the service is live at your domain over HTTPS.
 
 If you prefer to do it step by step:
 
-### 1. Install Node.js 22
+### 1. Install Node.js 24
 
 ```bash
-curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+curl -fsSL https://deb.nodesource.com/setup_24.x | sudo -E bash -
 sudo apt install -y nodejs
 ```
 
@@ -147,9 +147,20 @@ DB_NAME=msk_paste
 # Generate with:  openssl rand -hex 32
 IP_HASH_SECRET=change_me_with_openssl_rand_hex_32
 
+# ─── Spam protection ─────────────────────────────────────────────────
+# Cloudflare Turnstile for the create form, required in production
+CAPTCHA_SITE_KEY=
+CAPTCHA_SECRET_KEY=
+# Pastes and bytes one IP address may create through the form per 24 hours
+DAILY_PASTES_PER_IP=20
+DAILY_BYTES_PER_IP=5242880
+# Pastes one API key may create per hour
+API_KEY_CREATE_PER_HOUR=120
+
 # ─── Limits ──────────────────────────────────────────────────────────
 RATE_LIMIT_CREATE_PER_HOUR=10
-MAX_PASTE_SIZE_BYTES=1048576           # 1 MB
+# 1 MB
+MAX_PASTE_SIZE_BYTES=1048576
 PASTE_ID_LENGTH=8
 PASTE_ID_MIN_CUSTOM=4
 PASTE_ID_MAX_CUSTOM=32
@@ -157,6 +168,10 @@ PASTE_ID_MAX_CUSTOM=32
 
 :::warning
 The `IP_HASH_SECRET` must be at least 32 hex characters. Generate it with `openssl rand -hex 32`. **Never commit it to git.**
+:::
+
+:::info
+The create form needs a Cloudflare Turnstile widget. Create one in the Cloudflare dashboard under **Turnstile** for the hostname of your instance (e.g. `paste.example.com`) and put its site key and secret key into `CAPTCHA_SITE_KEY` and `CAPTCHA_SECRET_KEY`. Both are required in production: without them the form refuses to create pastes. Cloudflare's test keys (site key `1x00000000000000000000AA`, secret `1x0000000000000000000000000000000AA`) always pass, but only outside production.
 :::
 
 ---
@@ -179,6 +194,33 @@ sudo crontab -e
 
 ---
 
+## API keys
+
+Creating pastes through the [REST API](api.md#authentication) needs an API key. There is no self-service, you issue keys on the server with the key script. It needs read access to `/opt/msk-paste/.env`, so run it as root or as the service user:
+
+```bash
+sudo bash /opt/msk-paste/scripts/api-key.sh help
+```
+
+The commands:
+
+- `list`: all keys with id, prefix, label, creation time, last use and state
+- `create ["<label>"]`: issues a new key starting with `mskp_`. It is shown **once**, store it right away
+- `revoke <key|prefix|id>`: blocks a key at once. Its row stays, with the time it was revoked
+- `delete <key|prefix|id>`: removes a key entirely
+- `help`: shows this overview
+
+For example:
+
+```bash
+sudo bash /opt/msk-paste/scripts/api-key.sh create "CI pipeline"
+sudo bash /opt/msk-paste/scripts/api-key.sh revoke 3
+```
+
+Only a scrypt hash of a key is stored, in the table `api_keys` that migration `003_api_keys.sql` adds, together with a short prefix so you can tell keys apart in `list`. A lost key cannot be shown again: revoke it and issue a new one. Each key may create 120 pastes per hour (`API_KEY_CREATE_PER_HOUR`).
+
+---
+
 ## Updating
 
 The repository includes an `update.sh` script for manual updates:
@@ -190,6 +232,10 @@ sudo bash /opt/msk-paste/deployment/scripts/update.sh
 This pulls the latest commit, installs dependencies, runs migrations, rebuilds, and restarts the service.
 
 If you have configured GitHub Actions deployment, pushing to `main` does this automatically.
+
+:::warning
+Coming from a version without spam protection? Install Node.js 24 first and add the new variables to `.env` (see [Environment variables](#environment-variables)). Without `CAPTCHA_SITE_KEY` and `CAPTCHA_SECRET_KEY` the form stops creating pastes in production, and scripts that create pastes through the API need an [API key](#api-keys) from then on.
+:::
 
 ---
 

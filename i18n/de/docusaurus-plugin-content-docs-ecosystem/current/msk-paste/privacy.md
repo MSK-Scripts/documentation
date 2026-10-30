@@ -27,10 +27,14 @@ Zu jedem angelegten Paste enthält die Datenbankzeile:
 | `delete_token` | Zufälliger Token mit 64 Zeichen, nur dem Ersteller gezeigt |
 | `size_bytes` | Größe von `content` in Bytes |
 | `created_at` | Zeitpunkt des Anlegens |
-| `created_ip_hash` | **HMAC-SHA-256** der IP des Erstellers, ausschließlich für die Ratenbegrenzung |
+| `created_ip_hash` | **HMAC-SHA-256** der IP des Erstellers, ausschließlich für die Ratenbegrenzung, auch für die Tagesgrenze des Formulars. Wird mit dem Paste gelöscht |
 
 Mehr nicht. Es gibt keine Tabelle für Aufrufe, keine für Nutzer, keine für Sitzungen und
 keine Spalte mit einer IP-Adresse im Klartext.
+
+API-Keys für die REST-API liegen in einer eigenen Tabelle, `api_keys`. Darin stehen nur der
+scrypt-Hash jedes Keys, ein kurzes Präfix, eine Bezeichnung und wann der Key angelegt,
+zuletzt benutzt und gesperrt wurde. Der Key selbst wird nie gespeichert.
 
 ---
 
@@ -39,8 +43,8 @@ keine Spalte mit einer IP-Adresse im Klartext.
 - **Keine IP-Adressen im Klartext.** IPs werden mit HMAC-SHA-256 und einem serverseitigen Geheimnis (`IP_HASH_SECRET`) gehasht. Ohne das Geheimnis lassen sich die Hashes nicht zurückrechnen.
 - **Kein GeoIP, keine Länderabfragen.** Die Anwendung fragt nie einen Standortdienst.
 - **Keine Analyse.** Kein Google Analytics, kein Plausible, kein Fathom, kein Matomo, gar nichts.
-- **Keine Tracking-Cookies.** Das einzige Cookie von MSK Paste heißt `MSK_PASTE_LOCALE` und merkt sich deine Sprache (`de` oder `en`).
-- **Keine Skripte von Dritten.** Alle Dateien kommen vom selben Ursprung. Shiki und die Schriften werden beim Bauen mit eingepackt.
+- **Keine Tracking-Cookies.** Das einzige Cookie von MSK Paste heißt `NEXT_LOCALE` und merkt sich deine Sprache (`de` oder `en`).
+- **Ein einziges Skript von Dritten, und nur auf der Seite zum Anlegen.** Die Seite mit dem Formular lädt Cloudflare Turnstile als Spamschutz, siehe [unten](#spamschutz-cloudflare-turnstile). Seiten, die einen Paste anzeigen, laden nichts von Dritten. Alles andere kommt vom selben Ursprung, Shiki und die Schriften werden beim Bauen mit eingepackt.
 - **Kein Referer-Logging auf Anwendungsebene.** Apache schreibt möglicherweise übliche Zugriffsprotokolle, das entscheidet der Betreiber.
 - **Kein Aufrufverlauf.** Der Zähler steigt, aber die Anwendung hat keine Möglichkeit zu wissen, *wer* einen Paste angesehen hat.
 
@@ -51,16 +55,38 @@ keine Spalte mit einer IP-Adresse im Klartext.
 Eine Ratenbegrenzung muss „denselben Client" erkennen, ohne identifizierende Daten zu
 speichern. Der Ablauf:
 
-1. Die anfragende IP aus `X-Forwarded-For` (von Apache gesetzt) oder von der Socket-Adresse nehmen.
+1. Die IP des Clients aus `X-Real-IP` nehmen. Den Header setzt Apache aus der Verbindung, er ersetzt alles, was ein Client selbst mitschickt. Fehlt er, gilt der letzte Eintrag in `X-Forwarded-For`, den Apache angehängt hat. `CF-Connecting-IP` und der erste Eintrag in `X-Forwarded-For` werden nie benutzt, weil der Client sie selbst schreibt und sich damit für jede Anfrage eine neue Adresse aussuchen könnte.
 2. `HMAC-SHA-256(ip, IP_HASH_SECRET)` berechnen.
-3. Den Hash in einem **rein im Speicher** gehaltenen gleitenden Fenster der letzten Anfragen ablegen.
+3. Den Hash in einem **rein im Speicher** gehaltenen gleitenden Fenster der letzten Anfragen ablegen. Das ist die Grenze pro Stunde.
+
+Die Tagesgrenze des Formulars (20 Pastes und 5 MB je 24 Stunden) zählt die Pastes, die mit
+demselben `created_ip_hash` gespeichert sind. Der Hash wird zusammen mit dem Paste gelöscht.
 
 Weil das Geheimnis je Installation erzeugt wird (`openssl rand -hex 32`), kann selbst
 jemand mit vollem Datenbankzugriff die Hashes nicht in IP-Adressen zurückverwandeln. Ohne
 das Geheimnis lässt sich keine Rainbow Table dafür berechnen.
 
-Der Speicher-Eimer wird bei jedem Neustart geleert, selbst der Zustand der Ratenbegrenzung
-ist also kurzlebig.
+Der Speicher-Eimer der Grenze pro Stunde wird bei jedem Neustart geleert, dieser Teil der
+Ratenbegrenzung ist also kurzlebig. Anfragen mit API-Key werden je Key gezählt, nicht je
+IP-Adresse.
+
+---
+
+## Spamschutz (Cloudflare Turnstile)
+
+Die Seite mit dem Formular zum Anlegen lädt Cloudflare Turnstile von
+`challenges.cloudflare.com`. Turnstile prüft, ob ein Mensch das Formular abschickt. Es ist
+das einzige Skript von Dritten in MSK Paste, und auf Seiten, die einen Paste anzeigen, wird
+es nicht geladen.
+
+Beim Laden der Seite zum Anlegen verbindet sich dein Browser mit Cloudflare, Cloudflare
+erhält dabei deine IP-Adresse und Angaben zu deinem Browser. Schickst du das Formular ab,
+reicht MSK Paste das Turnstile-Token und deine IP-Adresse an Cloudflare weiter, um die
+Prüfung zu bestätigen.
+
+- **Anbieter:** Cloudflare, Inc., USA
+- **Rechtsgrundlage:** Art. 6 Abs. 1 lit. f DSGVO, das berechtigte Interesse, den Dienst frei von Spam und Missbrauch zu halten
+- **Übermittlung in die USA:** Cloudflare ist nach dem EU-US Data Privacy Framework zertifiziert. Zusätzlich gelten Standardvertragsklauseln.
 
 ---
 
@@ -121,17 +147,20 @@ Sie sicher aufzubewahren, ist deine Aufgabe. Denk an:
 
 ## CSP und Sicherheits-Header
 
-MSK Paste bringt über die `next.config.ts` eine strikte Content Security Policy und weitere
-Header mit:
+MSK Paste setzt bei jeder Antwort eine strikte Content Security Policy und weitere Header,
+und zwar in `proxy.ts`:
 
 ```
-Content-Security-Policy: default-src 'self'; ...
+Content-Security-Policy: default-src 'none'; script-src 'self' 'nonce-...' 'strict-dynamic' https://challenges.cloudflare.com; ...
 Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
 X-Content-Type-Options: nosniff
 Referrer-Policy: strict-origin-when-cross-origin
 X-Frame-Options: DENY
-Permissions-Policy: camera=(), microphone=(), geolocation=()
+Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
 ```
+
+Die einzige fremde Quelle, die die Policy zulässt, ist `https://challenges.cloudflare.com`,
+für das Skript von Turnstile, seinen Frame und seine Anfragen.
 
 Der Apache-vHost erzwingt zusätzlich HTTPS, OCSP-Stapling und zeitgemäße TLS-Verfahren.
 

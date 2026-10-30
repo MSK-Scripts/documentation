@@ -16,7 +16,7 @@ oder Ubuntu-Server. Willst du einfach die gehostete Instanz nutzen, geh direkt z
 | Komponente | Mindestversion |
 |---|---|
 | Betriebssystem | Debian 11+ / Ubuntu 22.04+ |
-| Node.js | 20.x oder 22.x LTS |
+| Node.js | 24 LTS oder neuer |
 | MariaDB | 10.6+ |
 | Apache | 2.4+ (mit `mod_proxy`, `mod_proxy_http`, `mod_headers`, `mod_ssl`) |
 | Domain | Eine Subdomain, die auf deinen Server zeigt, etwa `paste.example.com` |
@@ -59,10 +59,10 @@ Ist es durch, läuft der Dienst unter deiner Domain über HTTPS.
 
 Wenn du lieber Schritt für Schritt vorgehst:
 
-### 1. Node.js 22 installieren
+### 1. Node.js 24 installieren
 
 ```bash
-curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+curl -fsSL https://deb.nodesource.com/setup_24.x | sudo -E bash -
 sudo apt install -y nodejs
 ```
 
@@ -152,9 +152,20 @@ DB_NAME=msk_paste
 # Erzeugen mit:  openssl rand -hex 32
 IP_HASH_SECRET=change_me_with_openssl_rand_hex_32
 
+# ─── Spamschutz ──────────────────────────────────────────────────────
+# Cloudflare Turnstile für das Formular, in Produktion Pflicht
+CAPTCHA_SITE_KEY=
+CAPTCHA_SECRET_KEY=
+# Pastes und Bytes, die eine IP-Adresse über das Formular in 24 Stunden anlegen darf
+DAILY_PASTES_PER_IP=20
+DAILY_BYTES_PER_IP=5242880
+# Pastes, die ein API-Key pro Stunde anlegen darf
+API_KEY_CREATE_PER_HOUR=120
+
 # ─── Grenzen ─────────────────────────────────────────────────────────
 RATE_LIMIT_CREATE_PER_HOUR=10
-MAX_PASTE_SIZE_BYTES=1048576           # 1 MB
+# 1 MB
+MAX_PASTE_SIZE_BYTES=1048576
 PASTE_ID_LENGTH=8
 PASTE_ID_MIN_CUSTOM=4
 PASTE_ID_MAX_CUSTOM=32
@@ -163,6 +174,16 @@ PASTE_ID_MAX_CUSTOM=32
 :::warning
 Das `IP_HASH_SECRET` muss mindestens 32 Hex-Zeichen lang sein. Erzeuge es mit
 `openssl rand -hex 32` und **committe es niemals nach Git.**
+:::
+
+:::info
+Das Formular zum Anlegen braucht ein Turnstile-Widget von Cloudflare. Lege es im
+Cloudflare-Dashboard unter **Turnstile** für den Hostnamen deiner Instanz an, etwa
+`paste.example.com`, und trag Site-Key und Secret-Key in `CAPTCHA_SITE_KEY` und
+`CAPTCHA_SECRET_KEY` ein. In Produktion sind beide Pflicht, ohne sie legt das Formular
+keine Pastes an. Die Testschlüssel von Cloudflare (Site-Key `1x00000000000000000000AA`,
+Secret `1x0000000000000000000000000000000AA`) bestehen immer, aber nur außerhalb der
+Produktion.
 :::
 
 ---
@@ -185,6 +206,40 @@ sudo crontab -e
 
 ---
 
+## API-Keys
+
+Wer über die [REST-API](api.md#authentifizierung) Pastes anlegen will, braucht einen
+API-Key. Selbstbedienung gibt es nicht, du stellst Keys auf dem Server mit dem Key-Skript
+aus. Es muss `/opt/msk-paste/.env` lesen können, führe es also als root oder als
+Dienstnutzer aus:
+
+```bash
+sudo bash /opt/msk-paste/scripts/api-key.sh help
+```
+
+Die Befehle:
+
+- `list`: alle Keys mit ID, Präfix, Bezeichnung, Anlagezeitpunkt, letzter Nutzung und Zustand
+- `create ["<label>"]`: stellt einen neuen Key aus, der mit `mskp_` beginnt. Er wird **nur einmal** angezeigt, sichere ihn sofort
+- `revoke <key|prefix|id>`: sperrt einen Key sofort. Seine Zeile bleibt mit dem Zeitpunkt der Sperre stehen
+- `delete <key|prefix|id>`: entfernt einen Key ganz
+- `help`: zeigt diese Übersicht
+
+Zum Beispiel:
+
+```bash
+sudo bash /opt/msk-paste/scripts/api-key.sh create "CI-Pipeline"
+sudo bash /opt/msk-paste/scripts/api-key.sh revoke 3
+```
+
+Gespeichert wird nur ein scrypt-Hash eines Keys, in der Tabelle `api_keys`, die die
+Migration `003_api_keys.sql` anlegt, dazu ein kurzes Präfix, damit du die Keys in `list`
+auseinanderhalten kannst. Ein verlorener Key lässt sich nicht erneut anzeigen: sperre ihn
+und stell einen neuen aus. Jeder Key darf 120 Pastes pro Stunde anlegen
+(`API_KEY_CREATE_PER_HOUR`).
+
+---
+
 ## Aktualisieren
 
 Im Repository liegt ein Skript `update.sh` für Updates von Hand:
@@ -198,6 +253,14 @@ baut neu und startet den Dienst neu.
 
 Hast du den Deploy über GitHub Actions eingerichtet, passiert das bei jedem Push auf `main`
 automatisch.
+
+:::warning
+Kommst du von einer Fassung ohne Spamschutz? Installiere zuerst Node.js 24 und ergänze die
+neuen Variablen in der `.env`, siehe [Umgebungsvariablen](#umgebungsvariablen). Ohne
+`CAPTCHA_SITE_KEY` und `CAPTCHA_SECRET_KEY` legt das Formular in Produktion keine Pastes
+mehr an, und Skripte, die über die API Pastes anlegen, brauchen ab dann einen
+[API-Key](#api-keys).
+:::
 
 ---
 

@@ -13,7 +13,7 @@ Yes. The hosted instance at [paste.msk-scripts.de](https://paste.msk-scripts.de)
 
 ### Do I need an account?
 
-No. MSK Paste has no user system by design. The delete token you receive after creating a paste is what allows you to remove it later.
+No. MSK Paste has no user system by design. The delete token you receive after creating a paste is what allows you to remove it later. Creating pastes through the API needs an API key, though, see below.
 
 ### Can I edit a paste after creating it?
 
@@ -45,11 +45,20 @@ No. Every paste is unlisted, knowing the ID is the only way to find a paste. The
 
 ### Where's my API key?
 
-There is no API key. All endpoints are public. Write operations are protected by rate limiting (10 creates per hour per IP hash).
+You get it from the operator. Creating pastes through the API needs a key starting with `mskp_`, and keys are only issued on the server, there is no sign-up or self-service. The hosted instance at paste.msk-scripts.de does not issue keys to others; create pastes there through the website. If you host MSK Paste yourself, create one with `sudo bash /opt/msk-paste/scripts/api-key.sh create "<label>"`, see [Installation](installation.md#api-keys). Fetching, unlocking and deleting with the delete token still work without a key.
 
 ### Why am I getting `429 Too Many Requests`?
 
-You've hit the rate limit on `POST /api/pastes`. Check the `Retry-After` header for how many seconds to wait. If you're self-hosting and need a higher limit, change `RATE_LIMIT_CREATE_PER_HOUR` in `.env`.
+You've hit a limit on `POST /api/pastes`. The `code` field in the response says which one, and the `Retry-After` header, where present, says how many seconds to wait:
+
+- **With an API key:** 120 pastes per hour per key (`key-limit`)
+- **From the web form:** 10 pastes per hour per IP hash (`rate-limit`), and 20 pastes and 5 MB in total per IP address and 24 hours (`daily-limit`)
+
+If you're self-hosting and need higher limits, change `API_KEY_CREATE_PER_HOUR`, `RATE_LIMIT_CREATE_PER_HOUR`, `DAILY_PASTES_PER_IP` or `DAILY_BYTES_PER_IP` in `.env`.
+
+### Why is my paste refused with `422` or `409`?
+
+It failed a content check. Encoded files (long runs of base64 or hex), pastes that are mostly links, and the same content again within 24 hours are refused, from the form and from API keys alike. The `code` field says which check it was: `blob`, `links` or `duplicate`. Details on the [REST API page](api.md#content-checks).
 
 ### How do I delete a paste via the API?
 
@@ -117,6 +126,10 @@ openssl rand -hex 32
 ```
 
 Paste it into `.env`, then restart the service.
+
+### The form refuses to create pastes
+
+In production the form needs Cloudflare Turnstile. Without `CAPTCHA_SITE_KEY` and `CAPTCHA_SECRET_KEY` in `.env` it creates nothing and answers `503` with `code: "captcha-unavailable"`. Create a Turnstile widget for your instance's hostname in the Cloudflare dashboard, put both keys into `.env` and restart the service. Cloudflare's test keys only work outside production. See [Installation](installation.md#environment-variables).
 
 ### Let's Encrypt rate limit hit
 

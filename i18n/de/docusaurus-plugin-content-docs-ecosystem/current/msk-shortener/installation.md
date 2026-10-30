@@ -16,7 +16,7 @@ Debian- oder Ubuntu-Server. Willst du einfach nur einen Kurzlink, geh direkt zu
 | Komponente | Mindestversion |
 |---|---|
 | Betriebssystem | Debian 11+ / Ubuntu 22.04+ |
-| Node.js | 20.x oder 22.x LTS |
+| Node.js | 24 LTS oder neuer |
 | MariaDB | 10.6+ |
 | Apache | 2.4+ (mit `mod_proxy`, `mod_proxy_http`, `mod_headers`, `mod_ssl`) |
 | Domain | Eine kurze Subdomain, die auf deinen Server zeigt, etwa `s.example.com` |
@@ -56,10 +56,10 @@ Ist es durch, läuft der Dienst unter deiner Domain über HTTPS.
 
 Wenn du lieber Schritt für Schritt vorgehst:
 
-### 1. Node.js 22 installieren
+### 1. Node.js 24 installieren
 
 ```bash
-curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+curl -fsSL https://deb.nodesource.com/setup_24.x | sudo -E bash -
 sudo apt install -y nodejs
 ```
 
@@ -152,6 +152,15 @@ IP_HASH_SECRET=change_me_with_openssl_rand_hex_32
 # ─── Ratenbegrenzung ─────────────────────────────────────────────────
 RATE_LIMIT_CREATE_PER_HOUR=20
 
+# ─── Spamschutz ──────────────────────────────────────────────────────
+# Cloudflare Turnstile für das Formular, in Produktion Pflicht
+CAPTCHA_SITE_KEY=
+CAPTCHA_SECRET_KEY=
+# Links, die eine IP-Adresse über das Formular in 24 Stunden kürzen darf
+DAILY_LINKS_PER_IP=20
+# Links, die ein API-Key pro Stunde kürzen darf
+API_KEY_CREATE_PER_HOUR=120
+
 # ─── Einstellungen der Kurzcodes ─────────────────────────────────────
 SHORTCODE_LENGTH=7
 SHORTCODE_MIN_CUSTOM=3
@@ -162,6 +171,16 @@ SHORTCODE_MAX_CUSTOM=20
 Das `IP_HASH_SECRET` muss mindestens 32 Hex-Zeichen lang sein. Erzeuge es mit
 `openssl rand -hex 32` und **committe es niemals nach Git**. Ohne dieses Geheimnis verliert
 deine Klickstatistik ihre Anonymität.
+:::
+
+:::info
+Das Formular zum Kürzen braucht ein Turnstile-Widget von Cloudflare. Lege es im
+Cloudflare-Dashboard unter **Turnstile** für den Hostnamen deiner Instanz an, etwa
+`s.example.com`, und trag Site-Key und Secret-Key in `CAPTCHA_SITE_KEY` und
+`CAPTCHA_SECRET_KEY` ein. In Produktion sind beide Pflicht, ohne sie kürzt das Formular
+keine Links. Die Testschlüssel von Cloudflare (Site-Key `1x00000000000000000000AA`,
+Secret `1x0000000000000000000000000000000AA`) bestehen immer, aber nur außerhalb der
+Produktion.
 :::
 
 ---
@@ -184,6 +203,40 @@ sudo crontab -e
 
 ---
 
+## API-Keys
+
+Wer über die [REST-API](api.md#authentifizierung) Links anlegen will, braucht einen
+API-Key. Selbstbedienung gibt es nicht, du stellst Keys auf dem Server mit dem Key-Skript
+aus. Es muss `/opt/msk-shortener/.env` lesen können, führe es also als root oder als
+Dienstnutzer aus:
+
+```bash
+sudo bash /opt/msk-shortener/scripts/api-key.sh help
+```
+
+Die Befehle:
+
+- `list`: alle Keys mit ID, Präfix, Bezeichnung, Anlagezeitpunkt, letzter Nutzung und Zustand
+- `create ["<label>"]`: stellt einen neuen Key aus, der mit `msks_` beginnt. Er wird **nur einmal** angezeigt, sichere ihn sofort
+- `revoke <key|prefix|id>`: sperrt einen Key sofort. Seine Zeile bleibt mit dem Zeitpunkt der Sperre stehen
+- `delete <key|prefix|id>`: entfernt einen Key ganz
+- `help`: zeigt diese Übersicht
+
+Zum Beispiel:
+
+```bash
+sudo bash /opt/msk-shortener/scripts/api-key.sh create "Discord-Bot"
+sudo bash /opt/msk-shortener/scripts/api-key.sh revoke 3
+```
+
+Gespeichert wird nur ein scrypt-Hash eines Keys, in der Tabelle `api_keys`, die die
+Migration `005_api_keys.sql` anlegt, dazu ein kurzes Präfix, damit du die Keys in `list`
+auseinanderhalten kannst. Ein verlorener Key lässt sich nicht erneut anzeigen: sperre ihn
+und stell einen neuen aus. Jeder Key darf 120 Links pro Stunde kürzen
+(`API_KEY_CREATE_PER_HOUR`).
+
+---
+
 ## Aktualisieren
 
 Im Repository liegt ein Skript `update.sh` für Updates von Hand:
@@ -197,6 +250,14 @@ baut neu und startet den Dienst neu.
 
 Hast du den Deploy über GitHub Actions eingerichtet, passiert das bei jedem Push auf `main`
 automatisch.
+
+:::warning
+Kommst du von einer Fassung ohne Spamschutz? Installiere zuerst Node.js 24 und ergänze die
+neuen Variablen in der `.env`, siehe [Umgebungsvariablen](#umgebungsvariablen). Ohne
+`CAPTCHA_SITE_KEY` und `CAPTCHA_SECRET_KEY` kürzt das Formular in Produktion keine Links
+mehr, und Skripte, die über die API Links anlegen, brauchen ab dann einen
+[API-Key](#api-keys).
+:::
 
 ---
 

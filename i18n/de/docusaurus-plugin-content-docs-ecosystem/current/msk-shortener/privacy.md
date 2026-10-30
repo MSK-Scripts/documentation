@@ -23,7 +23,7 @@ Zu jedem angelegten Kurzlink enthält die Zeile in `links`:
 | `delete_token` | Zufälliger Token mit 48 Zeichen, nur dem Ersteller gezeigt |
 | `click_count` | Anonymer Zähler, nie mit einzelnen Klicks verknüpft |
 | `created_at` | Zeitpunkt des Anlegens |
-| `created_ip_hash` | **HMAC-SHA-256** der IP des Erstellers, ausschließlich für die Ratenbegrenzung |
+| `created_ip_hash` | **HMAC-SHA-256** der IP des Erstellers, ausschließlich für die Ratenbegrenzung, auch für die Tagesgrenze des Formulars |
 
 ---
 
@@ -54,10 +54,10 @@ verschwinden seine Klicks mit.
 - **Keine IP-Adressen im Klartext.** IPs werden mit HMAC-SHA-256 und einem serverseitigen Geheimnis (`IP_HASH_SECRET`) gehasht. Ohne das Geheimnis lassen sich die Hashes nicht zurückrechnen.
 - **Kein GeoIP, keine Länderabfragen.** Die Anwendung fragt nie einen Standortdienst.
 - **Keine Analyse.** Kein Google Analytics, kein Plausible, kein Fathom, kein Matomo, gar nichts.
-- **Keine Tracking-Cookies.** Das einzige Cookie von MSK Shortener heißt `MSK_SHORTENER_LOCALE` und merkt sich deine Sprache (`de` oder `en`).
-- **Keine Skripte von Dritten.** Alle Dateien kommen vom selben Ursprung.
+- **Keine Tracking-Cookies.** Das einzige Cookie von MSK Shortener heißt `NEXT_LOCALE` und merkt sich deine Sprache (`de` oder `en`).
+- **Ein einziges Skript von Dritten, und nur auf der Seite zum Anlegen.** Die Seite mit dem Formular lädt Cloudflare Turnstile als Spamschutz, siehe [unten](#spamschutz-cloudflare-turnstile). Wer einen Kurzlink aufruft, lädt nichts von Dritten. Alles andere kommt vom selben Ursprung.
 - **Kein Referer-Logging über den Host hinaus.** Query-String und vollständiger Pfad werden vor dem Speichern abgeschnitten.
-- **Keine Konten, Sitzungen oder Tokens.** Es gibt weder eine Tabelle `users` noch `sessions`, kein JWT, also auch nichts, was auslaufen könnte.
+- **Keine Konten oder Sitzungen.** Es gibt weder eine Tabelle `users` noch `sessions`, kein JWT, also auch nichts, was auslaufen könnte. API-Keys für die REST-API liegen nur als scrypt-Hash in der Tabelle `api_keys`, mit kurzem Präfix, Bezeichnung und ihren Zeitpunkten.
 
 ---
 
@@ -66,15 +66,37 @@ verschwinden seine Klicks mit.
 Eine Ratenbegrenzung muss „denselben Client" erkennen, ohne identifizierende Daten zu
 speichern. Der Ablauf:
 
-1. Die anfragende IP aus `X-Forwarded-For` (von Apache gesetzt) oder von der Socket-Adresse nehmen.
+1. Die IP des Clients aus `X-Real-IP` nehmen. Den Header setzt Apache aus der Verbindung, er ersetzt alles, was ein Client selbst mitschickt. Fehlt er, gilt der letzte Eintrag in `X-Forwarded-For`, den Apache angehängt hat. `CF-Connecting-IP` und der erste Eintrag in `X-Forwarded-For` werden nie benutzt, weil der Client sie selbst schreibt und sich damit für jede Anfrage eine neue Adresse aussuchen könnte.
 2. `HMAC-SHA-256(ip, IP_HASH_SECRET)` berechnen.
-3. Den Hash in einem **rein im Speicher** gehaltenen gleitenden Fenster der letzten Anfragen ablegen.
+3. Den Hash in einem **rein im Speicher** gehaltenen gleitenden Fenster der letzten Anfragen ablegen. Das ist die Grenze pro Stunde.
+
+Die Tagesgrenze des Formulars (20 Links je 24 Stunden) zählt die Links, die mit demselben
+`created_ip_hash` gespeichert sind. Der Hash wird zusammen mit dem Link gelöscht.
 
 Weil das Geheimnis je Installation erzeugt wird (`openssl rand -hex 32`), kann selbst jemand
 mit vollem Datenbankzugriff die Hashes nicht in IP-Adressen zurückverwandeln.
 
-Der Speicher-Eimer wird bei jedem Neustart geleert, selbst der Zustand der Ratenbegrenzung
-ist also kurzlebig.
+Der Speicher-Eimer der Grenze pro Stunde wird bei jedem Neustart geleert, dieser Teil der
+Ratenbegrenzung ist also kurzlebig. Anfragen mit API-Key werden je Key gezählt, nicht je
+IP-Adresse.
+
+---
+
+## Spamschutz (Cloudflare Turnstile)
+
+Die Seite mit dem Formular zum Anlegen lädt Cloudflare Turnstile von
+`challenges.cloudflare.com`. Turnstile prüft, ob ein Mensch das Formular abschickt. Es ist
+das einzige Skript von Dritten in MSK Shortener, und wer einen Kurzlink aufruft, lädt es
+nicht.
+
+Beim Laden der Seite zum Anlegen verbindet sich dein Browser mit Cloudflare, Cloudflare
+erhält dabei deine IP-Adresse und Angaben zu deinem Browser. Schickst du das Formular ab,
+reicht MSK Shortener das Turnstile-Token und deine IP-Adresse an Cloudflare weiter, um die
+Prüfung zu bestätigen.
+
+- **Anbieter:** Cloudflare, Inc., USA
+- **Rechtsgrundlage:** Art. 6 Abs. 1 lit. f DSGVO, das berechtigte Interesse, den Dienst frei von Spam und Missbrauch zu halten
+- **Übermittlung in die USA:** Cloudflare ist nach dem EU-US Data Privacy Framework zertifiziert. Zusätzlich gelten Standardvertragsklauseln.
 
 ---
 
@@ -93,6 +115,10 @@ wird. Gesperrt sind:
 
 Akzeptiert werden ausschließlich die Schemata `http://` und `https://`, also kein `file://`,
 `gopher://`, `ftp://` und dergleichen.
+
+Darüber hinaus werden Links auf nackte IP-Adressen abgelehnt, auch auf öffentliche, ebenso
+Links auf andere URL-Kürzer und auf Hostnamen, die wie Phishing-Seiten gebaut sind. Siehe
+[Bedienung](usage.md#was-blockiert-wird).
 
 ---
 
@@ -136,17 +162,20 @@ Sie sicher aufzubewahren, ist deine Aufgabe. Denk an:
 
 ## CSP und Sicherheits-Header
 
-MSK Shortener bringt über die `next.config.ts` eine strikte Content Security Policy und
-weitere Header mit:
+MSK Shortener setzt bei jeder Antwort eine strikte Content Security Policy und weitere
+Header, und zwar in `proxy.ts`:
 
 ```
-Content-Security-Policy: default-src 'self'; ...
+Content-Security-Policy: default-src 'none'; script-src 'self' 'nonce-...' 'strict-dynamic' https://challenges.cloudflare.com; ...
 Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
 X-Content-Type-Options: nosniff
 Referrer-Policy: strict-origin-when-cross-origin
 X-Frame-Options: DENY
-Permissions-Policy: camera=(), microphone=(), geolocation=()
+Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
 ```
+
+Die einzige fremde Quelle, die die Policy zulässt, ist `https://challenges.cloudflare.com`,
+für das Skript von Turnstile, seinen Frame und seine Anfragen.
 
 Der Apache-vHost erzwingt zusätzlich HTTPS, OCSP-Stapling und zeitgemäße TLS-Verfahren.
 

@@ -13,7 +13,23 @@ MSK Paste exposes a full JSON REST API. All features available in the web UI are
 
 ## Authentication
 
-There is **no authentication**. All endpoints are public. Write operations (create / delete) are protected by rate limiting and, in the case of deletion, a one-time random delete token.
+Creating a paste through the API needs an API key. Send it as a Bearer header:
+
+```http
+Authorization: Bearer mskp_...
+```
+
+Keys for MSK Paste start with `mskp_`. The operator issues them on the server, there is no sign-up and no self-service. The hosted instance at paste.msk-scripts.de does not issue keys to others; create pastes there through the website. On your own instance you create keys with the key script, see [Installation](installation.md#api-keys).
+
+Without a key, `POST /api/pastes` only accepts requests from the site's own form and answers `401`:
+
+```json
+{ "error": "Creating pastes through the API requires an API key", "code": "api-key-required" }
+```
+
+A wrong or revoked key also gets `401`, with `"code": "api-key-invalid"`.
+
+Everything else works without a key, as before: fetching a paste, unlocking it with `POST /api/pastes/:id/verify`, deleting it with its delete token, and `GET /api/stats`.
 
 ---
 
@@ -24,23 +40,25 @@ All errors share the same shape:
 ```json
 {
   "error": "Human-readable message",
+  "code": "api-key-required",
   "details": {
     "fieldName": ["validation error 1", "validation error 2"]
   }
 }
 ```
 
-`details` is only present on `400 Bad Request` (validation failures).
+`code` names the reason in a fixed, machine-readable form. It comes with the refusals of `POST /api/pastes` for the API key, the limits and the content checks, so scripts should check `code` rather than the message. `details` is only present on `400 Bad Request` (validation failures).
 
 | Status | Meaning |
 |---|---|
 | `400` | Validation failed, see `details` |
-| `401` | Wrong password (on `/verify`) |
+| `401` | Missing or invalid API key (on create), wrong password (on `/verify`) |
 | `403` | Password required (on `/api/pastes/:id`) |
 | `404` | Paste does not exist, has expired, or was burned |
-| `409` | Custom ID is already in use |
+| `409` | Custom ID is already in use, or the same content was pasted within the last 24 hours (`code: "duplicate"`) |
 | `413` | Content exceeds 1 MB |
-| `429` | Rate limit exceeded, see `Retry-After` header |
+| `422` | Content refused by the [content checks](#content-checks) |
+| `429` | Rate limit exceeded, see [Rate limiting](#rate-limiting) |
 
 ---
 
@@ -50,6 +68,7 @@ All errors share the same shape:
 
 ```http
 POST /api/pastes HTTP/1.1
+Authorization: Bearer mskp_...
 Content-Type: application/json
 
 {
@@ -97,6 +116,7 @@ The `deleteToken` is the **only** way to delete the paste later. Save it. It is 
 
 ```bash
 curl -X POST https://paste.msk-scripts.de/api/pastes \
+  -H "Authorization: Bearer $MSK_PASTE_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "content": "print(\"hello\")",
@@ -104,6 +124,16 @@ curl -X POST https://paste.msk-scripts.de/api/pastes \
     "expiresIn": "1d"
   }'
 ```
+
+---
+
+## Content checks
+
+Every new paste goes through the same checks, whether it comes from the web form or from an API key. A paste is refused when it
+
+- contains an encoded file: an unbroken run of 16 KB of base64 or hex characters, or a paste of 64 KB or more made almost only of wrapped base64 (`422`, `code: "blob"`)
+- is mostly links: 3 or more links that make up at least half of the text, or 3 or more BBCode `[url=` or HTML `<a href=` links (`422`, `code: "links"`)
+- repeats content that was already pasted within the last 24 hours (`409`, `code: "duplicate"`)
 
 ---
 
@@ -213,29 +243,39 @@ Returns anonymous aggregate numbers shown on the [/stats](https://paste.msk-scri
 
 ## Rate limiting
 
-The create endpoint is limited to **10 requests per hour per IP hash** by default. When exceeded:
+Requests with an API key and requests from the web form are limited separately:
+
+| Sent by | Limit | `code` on `429` | Setting |
+|---|---|---|---|
+| API key | 120 pastes per hour per key | `key-limit` | `API_KEY_CREATE_PER_HOUR` |
+| Wrong API keys | 10 per address in 10 minutes, then the address waits | `key-attempts` | fixed |
+| Web form | 10 pastes per hour per IP hash | `rate-limit` | `RATE_LIMIT_CREATE_PER_HOUR` |
+| Web form | 20 pastes and 5 MB in total per IP address and 24 hours | `daily-limit` | `DAILY_PASTES_PER_IP`, `DAILY_BYTES_PER_IP` |
+
+Requests with a key are not held to the limits of the web form. When the hourly limit per IP hash is exceeded:
 
 ```http
 HTTP/1.1 429 Too Many Requests
 Retry-After: 1742
 Content-Type: application/json
 
-{ "error": "Rate limit exceeded. Please try again later." }
+{ "error": "Rate limit exceeded", "code": "rate-limit" }
 ```
 
-`Retry-After` is in seconds. Self-hosted instances can change the limit via `RATE_LIMIT_CREATE_PER_HOUR`.
+`Retry-After` is in seconds. Self-hosted instances can change every limit with the settings in the table.
 
 ---
 
 ## Example: command-line uploader
 
-A minimal Bash function to upload a file:
+A minimal Bash function to upload a file. It reads your API key from `MSK_PASTE_KEY`:
 
 ```bash
 mskpaste() {
   local file="$1"
   local lang="${2:-plaintext}"
   curl -sS -X POST https://paste.msk-scripts.de/api/pastes \
+    -H "Authorization: Bearer $MSK_PASTE_KEY" \
     -H "Content-Type: application/json" \
     -d "$(jq -n \
       --arg c "$(cat "$file")" \
@@ -244,7 +284,8 @@ mskpaste() {
     | jq -r '.url'
 }
 
-# Usage:
+# Usage (the key you got from the operator, e.g. set in ~/.bashrc):
+export MSK_PASTE_KEY="mskp_..."
 mskpaste script.lua lua
 mskpaste server.log
 ```
@@ -256,7 +297,10 @@ mskpaste server.log
 ```js
 const res = await fetch('https://paste.msk-scripts.de/api/pastes', {
   method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+  headers: {
+    'Authorization': `Bearer ${process.env.MSK_PASTE_KEY}`,
+    'Content-Type': 'application/json',
+  },
   body: JSON.stringify({
     content: 'console.log("hi")',
     language: 'javascript',
@@ -272,10 +316,12 @@ console.log(paste.url)
 ## Example: Python
 
 ```python
+import os
 import requests
 
 r = requests.post(
     "https://paste.msk-scripts.de/api/pastes",
+    headers={"Authorization": f"Bearer {os.environ['MSK_PASTE_KEY']}"},
     json={
         "content": "print('hi')",
         "language": "python",

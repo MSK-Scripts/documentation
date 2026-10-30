@@ -25,6 +25,20 @@ Open [paste.msk-scripts.de](https://paste.msk-scripts.de) (or your self-hosted i
 | **Burn after read** | optional | When enabled, the paste is **permanently deleted** after the first successful view. |
 | **Custom ID** | optional | 4–32 characters, only `a–z`, `A–Z`, `0–9`, `_`, `-`. Reserved IDs (`raw`, `api`, `stats`, …) are rejected. |
 
+### Spam protection
+
+Before a paste is created, the form runs a few checks. Most of them you won't notice:
+
+- **Cloudflare Turnstile** runs on the page. Usually it passes on its own, sometimes it asks you to tick a box.
+- The request has to come from the page itself. A hidden field that people never see must stay empty, and the form has to be sent at least 2 seconds and at most 24 hours after the page was loaded. If the tab was open longer, reload it.
+- Per IP address and 24 hours the form creates at most **20 pastes and 5 MB in total**, in addition to the hourly limit.
+
+Some content is refused, from the form and from the [REST API](api.md#content-checks) alike:
+
+- **Encoded files:** an unbroken run of 16 KB of base64 or hex characters, or a paste of 64 KB or more made almost only of wrapped base64.
+- **Link spam:** 3 or more links that make up at least half of the text, or 3 or more BBCode `[url=` or HTML `<a href=` links.
+- **Repeats:** the same content again within 24 hours.
+
 ### After creation
 
 You receive:
@@ -128,7 +142,9 @@ There is **no per-paste view tracking**, no IP information, and no breakdown tha
 |---|---|---|
 | Max paste size | 1 MB | Enforced server-side via Zod + DB column. |
 | Max title length | 100 characters | Truncated in UI, rejected by API. |
-| Rate limit (create) | 10 / hour per IP hash | Returns `429 Too Many Requests` with `Retry-After`. |
+| Rate limit (web form) | 10 / hour per IP hash | Returns `429 Too Many Requests` with `Retry-After`. |
+| Daily limit (web form) | 20 pastes and 5 MB per IP address and 24 hours | Returns `429` with `code: "daily-limit"`. |
+| Rate limit (API key) | 120 / hour per key | Returns `429` with `code: "key-limit"`. |
 | Max expiration | 1 year | Cannot be extended after creation. |
 | Custom ID length | 4–32 characters | Reserved IDs are blocked at creation. |
 

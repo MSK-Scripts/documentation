@@ -16,7 +16,8 @@ Domain betreiben.
 ### Brauche ich ein Konto?
 
 Nein. MSK Shortener hat bewusst kein Nutzersystem. Der Lösch-Token, den du beim Anlegen
-bekommst, ist das, womit du einen Link später wieder entfernst.
+bekommst, ist das, womit du einen Link später wieder entfernst. Nur wer über die API Links
+anlegt, braucht einen API-Key, siehe weiter unten.
 
 ### Kann ich einen Kurzlink auf ein anderes Ziel umbiegen?
 
@@ -53,19 +54,25 @@ gibt es nicht.
 
 ### Wo ist mein API-Key?
 
-Es gibt keinen. Alle Endpunkte sind öffentlich. Schreibende Aufrufe schützt die
-Ratenbegrenzung, also 20 Anlagen pro Stunde je IP-Hash.
+Den bekommst du vom Betreiber. Wer über die API Links anlegen will, braucht einen Key, der
+mit `msks_` beginnt. Ausgestellt werden Keys nur auf dem Server, eine Registrierung oder
+Selbstbedienung gibt es nicht. Die gehostete Instanz s.msk-scripts.de gibt keine Keys an andere aus, dort kürzt du Links über die Website. Hostest du MSK Shortener
+selbst, legst du einen mit `sudo bash /opt/msk-shortener/scripts/api-key.sh create "<label>"`
+an, siehe [Installation](installation.md#api-keys). Links nachschlagen, Passwörter prüfen
+und mit dem Lösch-Token löschen geht weiterhin ohne Key.
 
 ### Warum bekomme ich `429 Too Many Requests`?
 
-Du hast eine Ratenbegrenzung erreicht. Schau in den Header `Retry-After`. Es gibt zwei
+Du hast eine Grenze erreicht. Welche, steht im Feld `code` der Antwort, und wie viele
+Sekunden du warten musst, im Header `Retry-After`, sofern er mitkommt. Es gibt diese
 Grenzen:
 
-- **Anlegen:** 20 pro Stunde je IP-Hash
+- **Anlegen mit API-Key:** 120 pro Stunde je Key (`key-limit`)
+- **Anlegen aus dem Formular:** 20 pro Stunde je IP-Hash (`rate-limit`) und 20 je IP-Adresse und 24 Stunden (`daily-limit`)
 - **Prüfen (Passwort):** 10 je 5 Minuten und IP-Hash, als Schutz gegen Durchprobieren
 
-Betreibst du eine eigene Instanz und brauchst mehr, ändere `RATE_LIMIT_CREATE_PER_HOUR` in
-der `.env`.
+Betreibst du eine eigene Instanz und brauchst mehr, ändere `API_KEY_CREATE_PER_HOUR`,
+`RATE_LIMIT_CREATE_PER_HOUR` oder `DAILY_LINKS_PER_IP` in der `.env`.
 
 ### Wie lösche ich einen Link über die API?
 
@@ -81,6 +88,14 @@ curl -X DELETE https://s.msk-scripts.de/api/links/msk \
 Du wolltest eine URL kürzen, die auf einen privaten IP-Bereich oder auf localhost zeigt. Das
 ist der **SSRF-Schutz**, siehe [Datenschutz und Sicherheit](privacy.md#ssrf-schutz). Der
 Kürzer ist nur für öffentliche Ziele gedacht.
+
+### Warum lehnt die API meinen Link mit `422` ab?
+
+Das Ziel ist an der Zielprüfung hängen geblieben. Links auf den Kürzer selbst, auf andere
+URL-Kürzer, auf nackte IP-Adressen und auf Hostnamen, die wie Phishing-Seiten gebaut sind,
+werden abgelehnt, im Formular genauso wie mit API-Key. Welche Prüfung es war, steht im Feld
+`code`: `own-link`, `shortener`, `ip-host` oder `phishing`. Einzelheiten unter
+[Bedienung](usage.md#was-blockiert-wird).
 
 ### Bekomme ich eine Liste aller Links, die ich angelegt habe?
 
@@ -155,6 +170,15 @@ Ratenbegrenzung und der Klicks als „andere Besucher". Daten verlierst du dabei
 die Kontinuität im Fenster der Ratenbegrenzung.
 :::
 
+### Das Formular kürzt keine Links
+
+In Produktion braucht das Formular Cloudflare Turnstile. Fehlen `CAPTCHA_SITE_KEY` und
+`CAPTCHA_SECRET_KEY` in der `.env`, kürzt es nichts und antwortet mit `503` und
+`code: "captcha-unavailable"`. Lege im Cloudflare-Dashboard ein Turnstile-Widget für den
+Hostnamen deiner Instanz an, trag beide Schlüssel in die `.env` ein und starte den Dienst
+neu. Die Testschlüssel von Cloudflare funktionieren nur außerhalb der Produktion. Siehe
+[Installation](installation.md#umgebungsvariablen).
+
 ### Ratenbegrenzung von Let's Encrypt erreicht
 
 Hast du beim Ausprobieren mit certbot die Grenze gerissen, nimm zum Testen die
@@ -215,12 +239,14 @@ betreibe eine zweite Instanz.
 
 ### Kann ich Links stapelweise importieren oder exportieren?
 
-Über die Oberfläche nicht, aber die REST-API lässt sich für beide Richtungen skripten:
+Über die Oberfläche nicht, aber die REST-API lässt sich für beide Richtungen skripten. Zum
+stapelweisen Anlegen brauchst du einen API-Key, ein Key kürzt bis zu 120 Links pro Stunde:
 
 ```bash
 # Stapelweise anlegen
 while read url; do
   curl -sS -X POST https://s.msk-scripts.de/api/links \
+    -H "Authorization: Bearer $MSK_SHORTENER_KEY" \
     -H "Content-Type: application/json" \
     -d "$(jq -n --arg u "$url" '{url: $u}')" \
     | jq -r '"\(.shortUrl) \(.deleteToken)"'

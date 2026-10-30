@@ -37,6 +37,23 @@ Aus Sicherheitsgründen lehnt MSK Shortener URLs ab, die auf Folgendes zeigen:
 Das ist der **SSRF-Schutz**. Er verhindert, dass dein Kürzer dazu benutzt wird, Verkehr auf
 interne Dienste umzulenken.
 
+Außerdem lehnt er Ziele ab, die typisch für Spam und Phishing sind, im Formular genauso wie
+über die [REST-API](api.md#zielprüfung):
+
+- Links auf diesen Dienst selbst, also einen Kurzlink auf einen Kurzlink
+- Links auf andere URL-Kürzer wie bit.ly oder tinyurl.com, auch auf deren Subdomains
+- Links auf nackte IP-Adressen, auch auf öffentliche
+- Hostnamen, die wie Phishing-Seiten gebaut sind: zwei oder mehr Köderwörter wie `login`, `verify`, `update`, `account` oder `access` im Hostnamen, oder eines davon zusammen mit einer billigen TLD wie `.sbs`, `.top`, `.xyz` oder `.info`, mit zwei oder mehr Bindestrichen oder mit Punycode (`xn--`)
+
+### Spamschutz
+
+Bevor ein Link entsteht, prüft das Formular noch ein paar Dinge. Das meiste davon merkst du
+nicht:
+
+- **Cloudflare Turnstile** läuft auf der Seite. Meist geht die Prüfung von allein durch, manchmal sollst du ein Kästchen anklicken.
+- Die Anfrage muss von der Seite selbst kommen. Ein verstecktes Feld, das Menschen nie sehen, muss leer bleiben, und das Formular muss frühestens 2 Sekunden und spätestens 24 Stunden nach dem Laden der Seite abgeschickt werden. War der Tab länger offen, lade die Seite neu.
+- Je IP-Adresse und 24 Stunden kürzt das Formular höchstens **20 Links**, zusätzlich zur Grenze pro Stunde.
+
 ### Nach dem Anlegen
 
 Du bekommst:
@@ -158,7 +175,9 @@ jeweiligen Links, und IP-Angaben ebenso wenig.
 | Maximale URL-Länge | 2048 Zeichen | Serverseitig über Zod durchgesetzt. |
 | Länge eines eigenen Codes | 3 bis 20 Zeichen | Reservierte Codes wie `api`, `stats` oder `privacy` sind gesperrt. |
 | Passwortlänge | 4 bis 100 Zeichen | bcrypt mit Kostenfaktor 12. |
-| Ratenbegrenzung beim Anlegen | 20 pro Stunde je IP-Hash | Antwortet mit `429 Too Many Requests` und `Retry-After`. |
+| Ratenbegrenzung im Formular | 20 pro Stunde je IP-Hash | Antwortet mit `429 Too Many Requests` und `Retry-After`. |
+| Tagesgrenze im Formular | 20 Links je IP-Adresse und 24 Stunden | Antwortet mit `429` und `code: "daily-limit"`. |
+| Ratenbegrenzung mit API-Key | 120 pro Stunde je Key | Antwortet mit `429` und `code: "key-limit"`. |
 | Ratenbegrenzung bei der Passwortprüfung | 10 je 5 Minuten und IP-Hash | Schutz gegen Durchprobieren. |
 | Längster Ablauf | jeder künftige ISO-Zeitpunkt | Keine harte Grenze, das Aufräumen der Datenbank läuft nächtlich. |
 
