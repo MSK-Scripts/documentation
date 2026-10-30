@@ -34,6 +34,21 @@ For security, MSK Shortener refuses URLs that point at:
 
 This is **SSRF protection**, preventing your shortener from being used to bounce traffic to internal services.
 
+It also refuses targets that are typical for spam and phishing, from the form and from the [REST API](api.md#target-checks) alike:
+
+- links to this service itself, so a short link to a short link
+- links to other URL shorteners such as bit.ly or tinyurl.com, including their subdomains
+- links to bare IP addresses, public ones included
+- hostnames built like phishing pages: two or more bait words such as `login`, `verify`, `update`, `account` or `access` in the hostname, or one of them together with a cheap TLD like `.sbs`, `.top`, `.xyz` or `.info`, two or more hyphens, or punycode (`xn--`)
+
+### Spam protection
+
+Before a link is created, the form runs a few more checks. Most of them you won't notice:
+
+- **Cloudflare Turnstile** runs on the page. Usually it passes on its own, sometimes it asks you to tick a box.
+- The request has to come from the page itself. A hidden field that people never see must stay empty, and the form has to be sent at least 2 seconds and at most 24 hours after the page was loaded. If the tab was open longer, reload it.
+- Per IP address and 24 hours the form shortens at most **20 links**, in addition to the hourly limit.
+
 ### After creation
 
 You receive:
@@ -140,7 +155,9 @@ There is **no per-link drill-down** here (those live on the per-link stats page)
 | Max URL length | 2048 characters | Enforced server-side via Zod. |
 | Custom code length | 3–20 characters | Reserved codes (e.g. `api`, `stats`, `privacy`) are blocked. |
 | Password length | 4–100 characters | bcrypt cost 12. |
-| Rate limit (create) | 20 / hour per IP hash | Returns `429 Too Many Requests` with `Retry-After`. |
+| Rate limit (web form) | 20 / hour per IP hash | Returns `429 Too Many Requests` with `Retry-After`. |
+| Daily limit (web form) | 20 links per IP address and 24 hours | Returns `429` with `code: "daily-limit"`. |
+| Rate limit (API key) | 120 / hour per key | Returns `429` with `code: "key-limit"`. |
 | Rate limit (verify password) | 10 / 5 minutes per IP hash | Brute-force protection. |
 | Max expiration | Any future ISO timestamp | No hard cap, but DB cleanup runs nightly. |
 

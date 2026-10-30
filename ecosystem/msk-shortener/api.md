@@ -13,9 +13,27 @@ MSK Shortener exposes a full JSON REST API. Every feature in the web UI is avail
 
 ## Authentication
 
-There is **no API key**. All endpoints are public. Write operations (create / delete) are protected by:
+Creating a link through the API needs an API key. Send it as a Bearer header:
 
-- **Rate limiting** (20 creates per hour per IP hash)
+```http
+Authorization: Bearer msks_...
+```
+
+Keys for MSK Shortener start with `msks_`. The operator issues them on the server, there is no sign-up and no self-service. The hosted instance at s.msk-scripts.de does not issue keys to others; shorten links there through the website. On your own instance you create keys with the key script, see [Installation](installation.md#api-keys).
+
+Without a key, `POST /api/links` only accepts requests from the site's own form and answers `401`:
+
+```json
+{ "error": "Shortening links through the API requires an API key", "code": "api-key-required" }
+```
+
+A wrong or revoked key also gets `401`, with `"code": "api-key-invalid"`.
+
+Everything else works without a key, as before: looking up a link, its statistics and QR code, `POST /api/verify` for password-protected links, and `DELETE` with the delete token. On `DELETE` the Bearer header carries the delete token, not the API key.
+
+Besides the key, write operations are protected by:
+
+- **Rate limiting**, see [Rate limiting](#rate-limiting)
 - **One-time delete tokens** returned at creation time (for `DELETE`)
 - **Verify rate limiting** (10 password attempts per 5 minutes for protected links)
 
@@ -28,21 +46,23 @@ All errors share the same shape:
 ```json
 {
   "error": "Human-readable message",
+  "code": "api-key-required",
   "details": {
     "fieldName": ["validation error 1", "validation error 2"]
   }
 }
 ```
 
-`details` is only present on `400 Bad Request` (validation failures).
+`code` names the reason in a fixed, machine-readable form. It comes with the refusals of `POST /api/links` for the API key, the limits and the target checks, so scripts should check `code` rather than the message. `details` is only present on `400 Bad Request` (validation failures).
 
 | Status | Meaning |
 |---|---|
 | `400` | Validation failed, see `details` |
-| `401` | Wrong password / missing delete token |
+| `401` | Missing or invalid API key (on create), wrong password / missing delete token |
 | `404` | Link does not exist or token is invalid |
 | `409` | Custom short code is already in use |
-| `429` | Rate limit exceeded, see `Retry-After` header |
+| `422` | Target refused by the [target checks](#target-checks) |
+| `429` | Rate limit exceeded, see [Rate limiting](#rate-limiting) |
 
 ---
 
@@ -52,6 +72,7 @@ All errors share the same shape:
 
 ```http
 POST /api/links HTTP/1.1
+Authorization: Bearer msks_...
 Content-Type: application/json
 
 {
@@ -66,7 +87,7 @@ Content-Type: application/json
 
 | Field | Type | Required | Notes |
 |---|---|---|---|
-| `url` | string | yes | `http://` or `https://` only. Max 2048 chars. Private IPs are rejected. |
+| `url` | string | yes | `http://` or `https://` only. Max 2048 chars. Must pass the [target checks](#target-checks), private IPs are rejected as well. |
 | `customCode` | string | no | 3–20 chars, `[a-zA-Z0-9_-]`. Auto-generated if omitted. |
 | `password` | string | no | 4–100 characters. |
 | `expiresAt` | string (ISO 8601) | no | Must be in the future. |
@@ -83,7 +104,7 @@ Content-Type: application/json
 }
 ```
 
-The response also includes rate-limit headers:
+The response also includes rate-limit headers. They describe the hourly limit per IP hash of the web form, not the limit of your API key:
 
 ```
 X-RateLimit-Limit:     20
@@ -99,6 +120,7 @@ The `deleteToken` is the **only** way to delete the link later. Save it. It is n
 
 ```bash
 curl -X POST https://s.msk-scripts.de/api/links \
+  -H "Authorization: Bearer $MSK_SHORTENER_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "url": "https://msk-scripts.de",
@@ -106,6 +128,19 @@ curl -X POST https://s.msk-scripts.de/api/links \
     "expiresAt": "2026-12-31T23:59:59Z"
   }'
 ```
+
+---
+
+## Target checks
+
+Every new link goes through the same checks, whether it comes from the web form or from an API key. The target is refused with `422` when it points to
+
+- this service itself, so a short link to a short link (`code: "own-link"`)
+- another URL shortener such as bit.ly or tinyurl.com, including their subdomains (`code: "shortener"`)
+- a bare IP address instead of a hostname (`code: "ip-host"`)
+- a hostname built like a phishing page (`code: "phishing"`): two or more bait words such as `login`, `verify`, `update`, `account` or `access` in the hostname, or one of them together with a cheap TLD like `.sbs`, `.top`, `.xyz` or `.info`, two or more hyphens, or punycode (`xn--`)
+
+Private and loopback addresses are refused as before, see [Privacy & Security](privacy.md#ssrf-protection).
 
 ---
 
@@ -291,7 +326,15 @@ Returns anonymous aggregate numbers shown on the [/stats](https://s.msk-scripts.
 
 ## Rate limiting
 
-The create endpoint is limited to **20 requests per hour per IP hash** by default. When exceeded:
+Requests with an API key and requests from the web form are limited separately:
+
+| Sent by | Limit | `code` on `429` | Setting |
+|---|---|---|---|
+| API key | 120 links per hour per key | `key-limit` | `API_KEY_CREATE_PER_HOUR` |
+| Web form | 20 links per hour per IP hash | `rate-limit` | `RATE_LIMIT_CREATE_PER_HOUR` |
+| Web form | 20 links per IP address and 24 hours | `daily-limit` | `DAILY_LINKS_PER_IP` |
+
+Requests with a key are not held to the limits of the web form. When the hourly limit per IP hash is exceeded:
 
 ```http
 HTTP/1.1 429 Too Many Requests
@@ -301,10 +344,10 @@ X-RateLimit-Remaining: 0
 X-RateLimit-Reset:     1764547200
 Content-Type: application/json
 
-{ "error": "Zu viele Anfragen. Bitte später erneut versuchen." }
+{ "error": "Zu viele Anfragen. Bitte später erneut versuchen.", "code": "rate-limit" }
 ```
 
-`Retry-After` is in seconds. Self-hosted instances can change the limit via `RATE_LIMIT_CREATE_PER_HOUR`.
+`Retry-After` is in seconds. Self-hosted instances can change every limit with the settings in the table.
 
 The verify endpoint has a separate **10 attempts per 5 minutes** limit per IP hash for brute-force protection.
 
@@ -312,17 +355,19 @@ The verify endpoint has a separate **10 attempts per 5 minutes** limit per IP ha
 
 ## Example: command-line shortener
 
-A minimal Bash function to shorten a URL:
+A minimal Bash function to shorten a URL. It reads your API key from `MSK_SHORTENER_KEY`:
 
 ```bash
 mskshort() {
   curl -sS -X POST https://s.msk-scripts.de/api/links \
+    -H "Authorization: Bearer $MSK_SHORTENER_KEY" \
     -H "Content-Type: application/json" \
     -d "$(jq -n --arg u "$1" '{url: $u}')" \
     | jq -r '.shortUrl'
 }
 
-# Usage:
+# Usage (the key you got from the operator, e.g. set in ~/.bashrc):
+export MSK_SHORTENER_KEY="msks_..."
 mskshort "https://example.com/very/long/url"
 ```
 
@@ -333,7 +378,10 @@ mskshort "https://example.com/very/long/url"
 ```js
 const res = await fetch('https://s.msk-scripts.de/api/links', {
   method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+  headers: {
+    'Authorization': `Bearer ${process.env.MSK_SHORTENER_KEY}`,
+    'Content-Type': 'application/json',
+  },
   body: JSON.stringify({
     url: 'https://msk-scripts.de',
     customCode: 'msk',
@@ -348,10 +396,12 @@ console.log(link.shortUrl)
 ## Example: Python
 
 ```python
+import os
 import requests
 
 r = requests.post(
     "https://s.msk-scripts.de/api/links",
+    headers={"Authorization": f"Bearer {os.environ['MSK_SHORTENER_KEY']}"},
     json={
         "url": "https://msk-scripts.de",
         "customCode": "msk",

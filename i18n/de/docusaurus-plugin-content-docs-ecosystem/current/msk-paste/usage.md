@@ -26,6 +26,22 @@ steht dort das Formular zum Anlegen.
 | **Nach dem Lesen löschen** | optional | Ist es aktiv, wird der Paste nach dem ersten erfolgreichen Aufruf **endgültig gelöscht**. |
 | **Eigene ID** | optional | 4 bis 32 Zeichen, nur `a–z`, `A–Z`, `0–9`, `_` und `-`. Reservierte IDs (`raw`, `api`, `stats`, …) werden abgelehnt. |
 
+### Spamschutz
+
+Bevor ein Paste entsteht, prüft das Formular ein paar Dinge. Das meiste davon merkst du
+nicht:
+
+- **Cloudflare Turnstile** läuft auf der Seite. Meist geht die Prüfung von allein durch, manchmal sollst du ein Kästchen anklicken.
+- Die Anfrage muss von der Seite selbst kommen. Ein verstecktes Feld, das Menschen nie sehen, muss leer bleiben, und das Formular muss frühestens 2 Sekunden und spätestens 24 Stunden nach dem Laden der Seite abgeschickt werden. War der Tab länger offen, lade die Seite neu.
+- Je IP-Adresse und 24 Stunden legt das Formular höchstens **20 Pastes mit zusammen 5 MB** an, zusätzlich zur Grenze pro Stunde.
+
+Manche Inhalte werden abgelehnt, im Formular genauso wie über die
+[REST-API](api.md#inhaltsprüfung):
+
+- **Kodierte Dateien:** ein ununterbrochener Block von 16 KB aus Base64- oder Hex-Zeichen, oder ein Paste ab 64 KB, der fast nur aus umbrochenem Base64 besteht.
+- **Linkspam:** 3 oder mehr Links, die mindestens die Hälfte des Textes ausmachen, oder 3 oder mehr Links als BBCode `[url=` oder HTML `<a href=`.
+- **Wiederholungen:** derselbe Inhalt noch einmal innerhalb von 24 Stunden.
+
 ### Nach dem Anlegen
 
 Du bekommst:
@@ -144,7 +160,9 @@ Es gibt **keine Aufrufverfolgung je Paste**, keine IP-Angaben und keine Aufschl�
 |---|---|---|
 | Maximale Paste-Größe | 1 MB | Serverseitig über Zod und die Datenbankspalte durchgesetzt. |
 | Maximale Titellänge | 100 Zeichen | In der Oberfläche gekürzt, von der API abgelehnt. |
-| Ratenbegrenzung beim Anlegen | 10 pro Stunde je IP-Hash | Antwortet mit `429 Too Many Requests` und `Retry-After`. |
+| Ratenbegrenzung im Formular | 10 pro Stunde je IP-Hash | Antwortet mit `429 Too Many Requests` und `Retry-After`. |
+| Tagesgrenze im Formular | 20 Pastes und 5 MB je IP-Adresse und 24 Stunden | Antwortet mit `429` und `code: "daily-limit"`. |
+| Ratenbegrenzung mit API-Key | 120 pro Stunde je Key | Antwortet mit `429` und `code: "key-limit"`. |
 | Längster Ablauf | 1 Jahr | Nach dem Anlegen nicht verlängerbar. |
 | Länge einer eigenen ID | 4 bis 32 Zeichen | Reservierte IDs werden beim Anlegen blockiert. |
 

@@ -13,7 +13,7 @@ Yes. The hosted instance at [s.msk-scripts.de](https://s.msk-scripts.de) is free
 
 ### Do I need an account?
 
-No. MSK Shortener has no user system by design. The delete token you receive after creating a link is what allows you to remove it later.
+No. MSK Shortener has no user system by design. The delete token you receive after creating a link is what allows you to remove it later. Creating links through the API needs an API key, though, see below.
 
 ### Can I edit a short link to point at a different URL?
 
@@ -41,16 +41,17 @@ Yes. MSK Shortener stores the URL you submitted verbatim. If the destination dis
 
 ### Where's my API key?
 
-There is no API key. All endpoints are public. Write operations are protected by rate limiting (20 creates per hour per IP hash).
+You get it from the operator. Creating links through the API needs a key starting with `msks_`, and keys are only issued on the server, there is no sign-up or self-service. The hosted instance at s.msk-scripts.de does not issue keys to others; shorten links there through the website. If you host MSK Shortener yourself, create one with `sudo bash /opt/msk-shortener/scripts/api-key.sh create "<label>"`, see [Installation](installation.md#api-keys). Looking up links, verifying passwords and deleting with the delete token still work without a key.
 
 ### Why am I getting `429 Too Many Requests`?
 
-You've hit a rate limit. Check the `Retry-After` header. Two limits exist:
+You've hit a limit. The `code` field in the response says which one, and the `Retry-After` header, where present, says how many seconds to wait. These limits exist:
 
-- **Create:** 20 per hour per IP hash
+- **Create with an API key:** 120 per hour per key (`key-limit`)
+- **Create from the web form:** 20 per hour per IP hash (`rate-limit`) and 20 per IP address and 24 hours (`daily-limit`)
 - **Verify (password):** 10 per 5 minutes per IP hash (brute-force protection)
 
-If you're self-hosting and need a higher create limit, change `RATE_LIMIT_CREATE_PER_HOUR` in `.env`.
+If you're self-hosting and need higher create limits, change `API_KEY_CREATE_PER_HOUR`, `RATE_LIMIT_CREATE_PER_HOUR` or `DAILY_LINKS_PER_IP` in `.env`.
 
 ### How do I delete a link via the API?
 
@@ -64,6 +65,10 @@ curl -X DELETE https://s.msk-scripts.de/api/links/msk \
 ### Why does the API reject my URL with "Interne / private Adressen sind nicht erlaubt"?
 
 You tried to shorten a URL pointing at a private IP range or localhost. This is **SSRF protection**, see [Privacy & Security](privacy.md#ssrf-protection). The shortener is only meant for public destinations.
+
+### Why does the API refuse my link with `422`?
+
+The target failed a target check. Links to the shortener itself, to other URL shorteners, to bare IP addresses and to hostnames built like phishing pages are refused, from the form and from API keys alike. The `code` field says which check it was: `own-link`, `shortener`, `ip-host` or `phishing`. Details in [Usage](usage.md#what-gets-blocked).
 
 ### Can I get a list of all links I've created?
 
@@ -132,6 +137,10 @@ Paste it into `.env`, then restart the service.
 If you change `IP_HASH_SECRET` after the fact, all existing rate-limit hashes and click hashes become "different visitors", but you don't lose any data, just continuity in the rate-limit window.
 :::
 
+### The form refuses to shorten links
+
+In production the form needs Cloudflare Turnstile. Without `CAPTCHA_SITE_KEY` and `CAPTCHA_SECRET_KEY` in `.env` it shortens nothing and answers `503` with `code: "captcha-unavailable"`. Create a Turnstile widget for your instance's hostname in the Cloudflare dashboard, put both keys into `.env` and restart the service. Cloudflare's test keys only work outside production. See [Installation](installation.md#environment-variables).
+
 ### Let's Encrypt rate limit hit
 
 If you've been experimenting with certbot and hit a rate limit, use the **staging** environment for testing:
@@ -178,12 +187,13 @@ Not in the current design. The shortener assumes a single base URL per instance 
 
 ### Can I bulk-import or bulk-export links?
 
-Not via the UI, but the REST API can be scripted for both directions:
+Not via the UI, but the REST API can be scripted for both directions. Bulk-creating needs an API key, and one key shortens up to 120 links per hour:
 
 ```bash
 # Bulk-create
 while read url; do
   curl -sS -X POST https://s.msk-scripts.de/api/links \
+    -H "Authorization: Bearer $MSK_SHORTENER_KEY" \
     -H "Content-Type: application/json" \
     -d "$(jq -n --arg u "$url" '{url: $u}')" \
     | jq -r '"\(.shortUrl) \(.deleteToken)"'
