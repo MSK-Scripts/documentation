@@ -248,6 +248,7 @@ Requests with an API key and requests from the web form are limited separately:
 | Sent by | Limit | `code` on `429` | Setting |
 |---|---|---|---|
 | API key | 120 pastes per hour per key | `key-limit` | `API_KEY_CREATE_PER_HOUR` |
+| Wrong API keys | 10 per address in 10 minutes, then the address waits | `key-attempts` | fixed |
 | Web form | 10 pastes per hour per IP hash | `rate-limit` | `RATE_LIMIT_CREATE_PER_HOUR` |
 | Web form | 20 pastes and 5 MB in total per IP address and 24 hours | `daily-limit` | `DAILY_PASTES_PER_IP`, `DAILY_BYTES_PER_IP` |
 

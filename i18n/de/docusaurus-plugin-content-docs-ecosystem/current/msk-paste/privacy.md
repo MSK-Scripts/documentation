@@ -33,7 +33,7 @@ Mehr nicht. Es gibt keine Tabelle für Aufrufe, keine für Nutzer, keine für Si
 keine Spalte mit einer IP-Adresse im Klartext.
 
 API-Keys für die REST-API liegen in einer eigenen Tabelle, `api_keys`. Darin stehen nur der
-SHA-256-Hash jedes Keys, ein kurzes Präfix, eine Bezeichnung und wann der Key angelegt,
+scrypt-Hash jedes Keys, ein kurzes Präfix, eine Bezeichnung und wann der Key angelegt,
 zuletzt benutzt und gesperrt wurde. Der Key selbst wird nie gespeichert.
 
 ---

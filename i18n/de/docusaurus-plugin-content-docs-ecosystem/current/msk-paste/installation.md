@@ -232,7 +232,7 @@ sudo bash /opt/msk-paste/scripts/api-key.sh create "CI-Pipeline"
 sudo bash /opt/msk-paste/scripts/api-key.sh revoke 3
 ```
 
-Gespeichert wird nur der SHA-256-Hash eines Keys, in der Tabelle `api_keys`, die die
+Gespeichert wird nur ein scrypt-Hash eines Keys, in der Tabelle `api_keys`, die die
 Migration `003_api_keys.sql` anlegt, dazu ein kurzes Präfix, damit du die Keys in `list`
 auseinanderhalten kannst. Ein verlorener Key lässt sich nicht erneut anzeigen: sperre ihn
 und stell einen neuen aus. Jeder Key darf 120 Pastes pro Stunde anlegen

@@ -30,7 +30,7 @@ For every paste created, the database row contains:
 
 That's it. There is no `views` table, no user table, no session table, no IP-address column in plain text.
 
-API keys for the REST API live in a table of their own, `api_keys`. It holds only the SHA-256 hash of each key, a short prefix, a label, and when the key was created, last used and revoked. The key itself is never stored.
+API keys for the REST API live in a table of their own, `api_keys`. It holds only a scrypt hash of each key, a short prefix, a label, and when the key was created, last used and revoked. The key itself is never stored.
 
 ---
 

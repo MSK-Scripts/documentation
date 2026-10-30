@@ -57,7 +57,7 @@ verschwinden seine Klicks mit.
 - **Keine Tracking-Cookies.** Das einzige Cookie von MSK Shortener heißt `NEXT_LOCALE` und merkt sich deine Sprache (`de` oder `en`).
 - **Ein einziges Skript von Dritten, und nur auf der Seite zum Anlegen.** Die Seite mit dem Formular lädt Cloudflare Turnstile als Spamschutz, siehe [unten](#spamschutz-cloudflare-turnstile). Wer einen Kurzlink aufruft, lädt nichts von Dritten. Alles andere kommt vom selben Ursprung.
 - **Kein Referer-Logging über den Host hinaus.** Query-String und vollständiger Pfad werden vor dem Speichern abgeschnitten.
-- **Keine Konten oder Sitzungen.** Es gibt weder eine Tabelle `users` noch `sessions`, kein JWT, also auch nichts, was auslaufen könnte. API-Keys für die REST-API liegen nur als SHA-256-Hash in der Tabelle `api_keys`, mit kurzem Präfix, Bezeichnung und ihren Zeitpunkten.
+- **Keine Konten oder Sitzungen.** Es gibt weder eine Tabelle `users` noch `sessions`, kein JWT, also auch nichts, was auslaufen könnte. API-Keys für die REST-API liegen nur als scrypt-Hash in der Tabelle `api_keys`, mit kurzem Präfix, Bezeichnung und ihren Zeitpunkten.
 
 ---
 

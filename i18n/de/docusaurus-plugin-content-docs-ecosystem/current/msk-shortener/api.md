@@ -353,6 +353,7 @@ Anfragen mit API-Key und Anfragen aus dem Formular sind getrennt begrenzt:
 | Gesendet über | Grenze | `code` bei `429` | Einstellung |
 |---|---|---|---|
 | API-Key | 120 Links pro Stunde je Key | `key-limit` | `API_KEY_CREATE_PER_HOUR` |
+| Falsche API-Keys | 10 je Adresse in 10 Minuten, danach wartet die Adresse | `key-attempts` | fest |
 | Formular | 20 Links pro Stunde je IP-Hash | `rate-limit` | `RATE_LIMIT_CREATE_PER_HOUR` |
 | Formular | 20 Links je IP-Adresse und 24 Stunden | `daily-limit` | `DAILY_LINKS_PER_IP` |
 

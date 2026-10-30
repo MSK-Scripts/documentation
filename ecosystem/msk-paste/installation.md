@@ -217,7 +217,7 @@ sudo bash /opt/msk-paste/scripts/api-key.sh create "CI pipeline"
 sudo bash /opt/msk-paste/scripts/api-key.sh revoke 3
 ```
 
-Only the SHA-256 hash of a key is stored, in the table `api_keys` that migration `003_api_keys.sql` adds, together with a short prefix so you can tell keys apart in `list`. A lost key cannot be shown again: revoke it and issue a new one. Each key may create 120 pastes per hour (`API_KEY_CREATE_PER_HOUR`).
+Only a scrypt hash of a key is stored, in the table `api_keys` that migration `003_api_keys.sql` adds, together with a short prefix so you can tell keys apart in `list`. A lost key cannot be shown again: revoke it and issue a new one. Each key may create 120 pastes per hour (`API_KEY_CREATE_PER_HOUR`).
 
 ---
 

@@ -54,7 +54,7 @@ Click rows are tied to a `link_id` via `ON DELETE CASCADE`, when a link is delet
 - **No tracking cookies.** The only cookie set by MSK Shortener is `NEXT_LOCALE`, which stores your language preference (`de` or `en`).
 - **One third-party script, and only on the create page.** The page with the create form loads Cloudflare Turnstile as spam protection, see [below](#spam-protection-cloudflare-turnstile). Opening a short link loads nothing from third parties. Everything else is served from the same origin.
 - **No referer logging at the app level beyond the host.** The query string and full path are stripped before storage.
-- **No user accounts / sessions.** There is no `users` table, no `sessions` table, no JWT, nothing to leak. API keys for the REST API are stored only as SHA-256 hashes in the table `api_keys`, with a short prefix, a label and their timestamps.
+- **No user accounts / sessions.** There is no `users` table, no `sessions` table, no JWT, nothing to leak. API keys for the REST API are stored only as scrypt hashes in the table `api_keys`, with a short prefix, a label and their timestamps.
 
 ---
 
