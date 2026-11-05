@@ -26,16 +26,16 @@ Zwei Dinge hält der Bot außerhalb des Images: seine Datenbank und seine Konfig
 Beide werden eingehängt, ein Image-Update fasst sie deshalb nie an.
 
 ```bash
-mkdir -p ticketbot/config ticketbot/data
+mkdir -p ticketbot/config ticketbot/data ticketbot/assets ticketbot/locales-custom
 cd ticketbot
 ```
 
 :::info[Der Container läuft unter einem unprivilegierten Nutzer]
-Im Image läuft der Bot als uid 1000, nicht als root. Unter Linux müssen die beiden
+Im Image läuft der Bot als uid 1000, nicht als root. Unter Linux müssen die
 eingehängten Verzeichnisse für diesen Nutzer beschreibbar sein:
 
 ```bash
-sudo chown -R 1000:1000 config data
+sudo chown -R 1000:1000 config data assets locales-custom
 ```
 
 Ohne das stoppt der Container sofort und nennt im Log das Verzeichnis, in das er nicht
@@ -78,7 +78,15 @@ services:
     volumes:
       - ./data:/app/data
       - ./config:/app/config
+      - ./assets:/app/assets
+      - ./locales-custom:/app/locales/custom
 ```
+
+In `assets/` liegen Logo und Banner, die du im Dashboard hochlädst, in
+`locales-custom/` die Bot-Texte, die du dort änderst (nur die geänderten Werte).
+Ohne diese beiden Mounts gehen beide verloren, wenn der Container neu angelegt
+wird. Die Standardbilder werden bei jedem Start nach `assets/default/` kopiert,
+deine eigenen Dateien in `assets/` fasst das nie an.
 
 `init: true` wird wichtig, sobald du das Dashboard nutzt: es startet den Bot als
 Kindprozess, und ohne einen Init-Prozess wird dieses Kind nie aufgeräumt.

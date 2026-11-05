@@ -25,16 +25,16 @@ The bot keeps two things outside the image: its database and its configuration.
 Both are mounted, so an image update never touches them.
 
 ```bash
-mkdir -p ticketbot/config ticketbot/data
+mkdir -p ticketbot/config ticketbot/data ticketbot/assets ticketbot/locales-custom
 cd ticketbot
 ```
 
 :::info[The container runs as an unprivileged user]
-Inside the image the bot runs as uid 1000, not as root. On Linux the two mounted
+Inside the image the bot runs as uid 1000, not as root. On Linux the mounted
 directories have to be writable by that user:
 
 ```bash
-sudo chown -R 1000:1000 config data
+sudo chown -R 1000:1000 config data assets locales-custom
 ```
 
 Without it the container stops immediately with a message naming the directory
@@ -77,7 +77,15 @@ services:
     volumes:
       - ./data:/app/data
       - ./config:/app/config
+      - ./assets:/app/assets
+      - ./locales-custom:/app/locales/custom
 ```
+
+`assets/` keeps the panel logo and banner you upload in the dashboard, and
+`locales-custom/` keeps the bot texts you change there (only the changed values).
+Without these two mounts both are lost when the container is recreated. The
+default images are copied into `assets/default/` on every start; your own files
+in `assets/` are never touched.
 
 `init: true` matters as soon as you run the dashboard: it forks the bot as a
 child process, and without an init process that child is never reaped.
