@@ -49,7 +49,14 @@ jobs:
       # commit SHA instead of a moving branch. Both point to the master commit
       # the deploy already ran with: the last releases are older and lack
       # fixes that landed on master afterwards. Bump the SHAs deliberately.
-      - name: 🚀 Deploy to Server via SFTP
+      #
+      # The build goes to a staging folder first, not into the DocumentRoot.
+      # The next step syncs it over with rsync --delete, so pages that were
+      # removed from the docs also disappear from the server. Before this,
+      # every deploy only added files and old pages stayed reachable.
+      # rm: true empties the staging folder first, so leftovers of a failed
+      # run never reach the site.
+      - name: 🚀 Upload build to staging folder
         uses: appleboy/scp-action@7e85c2e09aa21988492acd66466b5d68bda49e2b # master 2026-08-09, v1.0.0 plus 10 commits
         with:
           host: ${{ secrets.FTP_SERVER }}
@@ -57,10 +64,11 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.FTP_PORT }}
           source: "build/*"
-          target: "/var/www/html/docs_msk-scripts/"
+          target: "/var/www/docs_msk-scripts.staging/"
           strip_components: 1
+          rm: true
 
-      - name: 🛠️ Postdeploy, Ownership, CSP-Snippet, Apache-Reload
+      - name: 🛠️ Sync, Ownership, CSP-Snippet, Apache-Reload
         uses: appleboy/ssh-action@c4f70287fc37c43b14b30b407224bbbc8e8c6327 # master 2026-08-16, v1.2.5 plus 10 commits (drone-ssh checksum check)
         with:
           host: ${{ secrets.FTP_SERVER }}
@@ -74,25 +82,48 @@ jobs:
             set -euo pipefail
 
             DOCROOT=/var/www/html/docs_msk-scripts
+            STAGING=/var/www/docs_msk-scripts.staging
             SNIPPETS_DIR=/etc/apache2/snippets
             SNIPPET_DST="${SNIPPETS_DIR}/docu-csp-hashes.conf"
-            SNIPPET_SRC="${DOCROOT}/csp-hashes.conf"
+            SNIPPET_SRC="${STAGING}/csp-hashes.conf"
+
+            # Refuse to sync an incomplete upload: rsync --delete would
+            # otherwise wipe the live site down to whatever arrived.
+            echo "::group::Upload prüfen"
+            if [ ! -f "${STAGING}/index.html" ] || [ ! -f "${STAGING}/de/index.html" ]; then
+              echo "❌ ${STAGING} ist unvollständig, index.html oder de/index.html fehlt"
+              exit 1
+            fi
+            if [ ! -f "${SNIPPET_SRC}" ]; then
+              echo "❌ ${SNIPPET_SRC} fehlt, build erzeugt es normalerweise via scripts/generate-csp.mjs"
+              exit 1
+            fi
+            echo "✓ $(find "${STAGING}" -type f | wc -l) Dateien hochgeladen"
+            echo "::endgroup::"
+
+            # --checksum compares contents, not size and mtime, so a changed
+            # file of the same size is never skipped. --delay-updates moves
+            # all new files into place at the end, which keeps the window of
+            # a half-updated site short. csp-hashes.conf is excluded because
+            # it must not be served publicly. Everything under img/ and
+            # de/img/ is protected from deletion: external pages such as
+            # forum posts and READMEs may still embed old images.
+            echo "::group::Build in den DocumentRoot abgleichen"
+            mkdir -p "${DOCROOT}"
+            rsync -a --checksum --delete --delay-updates --itemize-changes \
+              --exclude=/csp-hashes.conf \
+              --filter='P /img/**' --filter='P /de/img/**' \
+              "${STAGING}/" "${DOCROOT}/" > /tmp/docs-rsync.log
+            echo "✓ $(grep -c '^\*deleting' /tmp/docs-rsync.log || true) veraltete Einträge entfernt, $(grep -cE '^[<>]f' /tmp/docs-rsync.log || true) Dateien neu oder geändert"
+            echo "::endgroup::"
 
             echo "::group::Datei-Besitzer auf www-data setzen"
             chown -R www-data:www-data "${DOCROOT}"
             echo "::endgroup::"
 
             echo "::group::CSP-Snippet ablegen"
-            if [ ! -f "${SNIPPET_SRC}" ]; then
-              echo "❌ ${SNIPPET_SRC} fehlt, build erzeugt es normalerweise via scripts/generate-csp.mjs"
-              exit 1
-            fi
             mkdir -p "${SNIPPETS_DIR}"
             install -o root -g root -m 0644 "${SNIPPET_SRC}" "${SNIPPET_DST}"
-            # Snippet aus dem DocumentRoot wieder entfernen, damit es nicht
-            # versehentlich öffentlich ausgeliefert wird (FilesMatch im vhost
-            # schützt zusätzlich, aber doppelt hält besser).
-            rm -f "${SNIPPET_SRC}"
             echo "✓ ${SNIPPET_DST} aktualisiert"
             echo "::endgroup::"
 
@@ -103,6 +134,10 @@ jobs:
             echo "::group::Apache reloaden"
             systemctl reload apache2
             systemctl is-active --quiet apache2 && echo "✓ apache2 läuft"
+            echo "::endgroup::"
+
+            echo "::group::Staging-Ordner aufräumen"
+            rm -rf "${STAGING}"
             echo "::endgroup::"
 
       - name: ✅ Post CI commit status (legacy API)
