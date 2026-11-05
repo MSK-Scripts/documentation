@@ -119,18 +119,6 @@
     "message": "Changelog",
     "description": "The label for category 'Changelog' in sidebar 'tutorialSidebar'"
   },
-  "sidebar.tutorialSidebar.category.MSK Radio": {
-    "message": "MSK Radio",
-    "description": "The label for category 'MSK Radio' in sidebar 'tutorialSidebar'"
-  },
-  "sidebar.tutorialSidebar.category.msk_radio.exports": {
-    "message": "Exports",
-    "description": "The label for category 'Exports' in sidebar 'tutorialSidebar'"
-  },
-  "sidebar.tutorialSidebar.category.msk_radio.events": {
-    "message": "Events",
-    "description": "The label for category 'Events' in sidebar 'tutorialSidebar'"
-  },
   "sidebar.tutorialSidebar.category.MSK VehicleKeys": {
     "message": "MSK VehicleKeys",
     "description": "The label for category 'MSK VehicleKeys' in sidebar 'tutorialSidebar'"
