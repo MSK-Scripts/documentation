@@ -187,6 +187,89 @@ A member who is turned away sees a clear "limited to staff" message. Either gran
 them a permission under **Permissions**, or enable `DASHBOARD_PUBLIC_PORTAL`.
 :::
 
+## Panel images
+
+In **Configuration**, section *Ticket Panel*, the logo and the banner each have
+an upload, a preview of the current image and **Reset to default**. This is the
+way to change them on a hosted bot, where you have no access to the server's
+files. It needs the `config.edit` permission, and every upload and reset is in
+the audit log.
+
+Accepted are **PNG, JPEG, GIF, WebP and SVG**, up to **5 MB** per file (see
+`ASSET_UPLOAD_MAX_MB` below). The type is read from the file's content, not from
+its name. Every image is then converted:
+
+* It is decoded and saved again as a new file. Metadata such as the location,
+  camera data or comments does not survive, and neither does anything hidden
+  behind the image data.
+* The logo is scaled down to at most 1024 px, the banner to at most 2048 px.
+  Smaller images keep their size.
+* PNG stays PNG, JPEG stays JPEG, WebP stays WebP, an animated GIF stays
+  animated. A still GIF becomes PNG.
+* **SVG is always converted to PNG.** Discord cannot show SVG in the panel, and
+  an SVG file can contain scripts. SVGs with scripts, links to other files or
+  web addresses, or entity declarations are refused.
+* Images with very many pixels (more than 30 megapixels, for example a
+  "decompression bomb" that is tiny as a file and huge in memory) are refused
+  before they are decoded.
+
+The image is stored in `assets/` under a generated name such as
+`custom-logo-3f2a9c1e5b7d4a60.png`, and `panel.logo.file` or `panel.banner.file`
+in `config.jsonc` is set to that name, with all comments kept. The previously
+uploaded image of the same slot is deleted; images you put into `assets/`
+yourself and the shipped default are never touched. **Reset to default** sets
+the name back to `logo.png` or `banner.png` and deletes the uploaded file. Like
+any other config change, the panel uses the new image after the next restart of
+the bot.
+
+### Virus scan (optional)
+
+If [ClamAV](https://www.clamav.net/) runs on the server, the dashboard can have
+every upload scanned by `clamd` before it is processed. Set either
+`CLAMAV_SOCKET` (the path of clamd's local socket, on Debian usually
+`/var/run/clamav/clamd.ctl`) or `CLAMAV_HOST` and `CLAMAV_PORT`. The user the
+dashboard runs as must be allowed to use the socket.
+
+* A file clamd flags is refused and written to the audit log with the name of
+  the finding.
+* If ClamAV is configured but does not answer (stopped, wrong path, timeout),
+  uploads are **refused** until it answers again. A configured scanner never
+  lets a file through unscanned.
+* Without these variables the dashboard logs once at start that uploads are not
+  virus scanned. Images are still converted as described above.
+
+clamd's `StreamMaxLength` (25 MB by default) has to be larger than the upload
+limit.
+
+#### Setting up ClamAV
+
+ClamAV is optional. Without it uploads still work and are converted as described
+above. clamd keeps its signature database in memory and needs well over 1 GB of
+RAM, so check that your server has room for it.
+
+**Debian or Ubuntu**, with the bot running directly on the server:
+
+```bash
+sudo apt install clamav-daemon
+sudo systemctl enable --now clamav-freshclam clamav-daemon
+```
+
+The first signature download takes a few minutes, and clamd only starts once it
+is done. Then add this to the bot's `.env` and restart the dashboard:
+
+```bash
+CLAMAV_SOCKET=/var/run/clamav/clamd.ctl
+```
+
+If the log says the socket cannot be opened, the bot's user may not use it.
+Check `LocalSocketGroup` and `LocalSocketMode` in `/etc/clamav/clamd.conf`.
+
+**Docker:** run the official image next to the bot, see
+[ClamAV for image uploads](https://docu.msk-scripts.de/discord/discord_ticketbot/docker/#clamav-for-image-uploads).
+
+After a restart the dashboard logs whether ClamAV answers:
+`Image uploads are virus scanned with ClamAV (...)` means it works.
+
 ## Dashboard settings
 
 A **Dashboard settings** tab lets you brand the panel for everyone who uses it.
@@ -217,6 +300,9 @@ nothing about the bot or its database changes.
 | `DASHBOARD_ALLOW_INSECURE` | `false` | Only if you terminate TLS somewhere the bot cannot see |
 | `SESSION_SECRET` | *generated* | Cookie signing key. Never share or reuse it. |
 | `CLIENT_SECRET` | *(none)* | Discord OAuth2 client secret |
+| `ASSET_UPLOAD_MAX_MB` | `5` | Size limit for a panel image upload in MB, between 1 and 10 |
+| `CLAMAV_SOCKET` | *(none)* | clamd socket for the virus scan of uploads, e.g. `/var/run/clamav/clamd.ctl` |
+| `CLAMAV_HOST` / `CLAMAV_PORT` | *(none)* / `3310` | clamd over TCP instead of a socket. `CLAMAV_SOCKET` wins when both are set. |
 
 ## Running it as a service
 

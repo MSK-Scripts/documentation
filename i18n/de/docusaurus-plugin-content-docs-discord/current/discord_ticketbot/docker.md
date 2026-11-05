@@ -191,6 +191,34 @@ bestehende SQLite-Datei umziehst, steht unter [Datenbank](./database.md).
 
 ---
 
+### ClamAV für den Bild-Upload
+
+Das Dashboard kann hochgeladene Panel-Bilder auf Viren prüfen lassen. Unter
+Docker läuft dafür das offizielle ClamAV-Image als zweiter Dienst in derselben
+`docker-compose.yml`:
+
+```yaml
+  clamav:
+    image: clamav/clamav:stable
+    container_name: clamav
+    restart: unless-stopped
+    volumes:
+      - ./clamav:/var/lib/clamav
+```
+
+In der `.env` des Bots:
+
+```bash
+CLAMAV_HOST=clamav
+CLAMAV_PORT=3310
+```
+
+Das Volume behält die Signaturen, ein Neustart lädt sie also nicht neu. Der erste
+Start des ClamAV-Containers dauert ein paar Minuten. Bis er antwortet, lehnt das
+Dashboard Uploads ab, statt sie ungeprüft zu speichern. ClamAV braucht deutlich
+mehr als 1 GB RAM. Ohne ClamAV beide Variablen weglassen: Der Upload funktioniert
+trotzdem und die Bilder werden umgewandelt, nur der Virenscan entfällt.
+
 ### Das Image selbst bauen
 
 Im Repository liegt das `Dockerfile` bei, ein lokaler Build kommt also ohne die

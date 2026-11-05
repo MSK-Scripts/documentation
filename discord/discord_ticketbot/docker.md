@@ -189,6 +189,33 @@ The host name is the service name from the compose file, not `localhost`. See
 
 ---
 
+### ClamAV for image uploads
+
+The dashboard can have uploaded panel images scanned for viruses. In Docker, run
+the official ClamAV image as a second service in the same `docker-compose.yml`:
+
+```yaml
+  clamav:
+    image: clamav/clamav:stable
+    container_name: clamav
+    restart: unless-stopped
+    volumes:
+      - ./clamav:/var/lib/clamav
+```
+
+and point the bot at it in `.env`:
+
+```bash
+CLAMAV_HOST=clamav
+CLAMAV_PORT=3310
+```
+
+The volume keeps the signatures, so a restart does not download them again. The
+first start of the ClamAV container takes a few minutes; until it answers, the
+dashboard refuses uploads instead of storing them unscanned. ClamAV needs well
+over 1 GB of RAM. Without it, leave both variables out: uploads still work and are
+converted, only the virus scan is skipped.
+
 ### Building the image yourself
 
 The repository ships the `Dockerfile`, so a local build works without the

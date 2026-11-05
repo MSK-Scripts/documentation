@@ -194,6 +194,93 @@ ist. Gib der Person entweder unter **Berechtigungen** ein Recht oder aktiviere
 `DASHBOARD_PUBLIC_PORTAL`.
 :::
 
+## Panel-Bilder
+
+Unter **Konfiguration**, Abschnitt *Ticket Panel*, haben Logo und Banner je einen
+Upload, eine Vorschau des aktuellen Bildes und **Auf Standard zurücksetzen**. So
+änderst du sie bei einem gehosteten Bot, bei dem du keinen Zugriff auf die
+Dateien des Servers hast. Dafür braucht es das Recht `config.edit`, und jeder
+Upload und jedes Zurücksetzen steht im Audit-Log.
+
+Angenommen werden **PNG, JPEG, GIF, WebP und SVG** bis **5 MB** je Datei (siehe
+`ASSET_UPLOAD_MAX_MB` unten). Der Typ wird aus dem Inhalt der Datei gelesen,
+nicht aus ihrem Namen. Danach wird jedes Bild umgewandelt:
+
+* Es wird dekodiert und als neue Datei gespeichert. Metadaten wie Standort,
+  Kameradaten oder Kommentare überstehen das nicht, und auch nichts, was hinter
+  den Bilddaten versteckt ist.
+* Das Logo wird auf höchstens 1024 px verkleinert, das Banner auf höchstens
+  2048 px. Kleinere Bilder behalten ihre Größe.
+* PNG bleibt PNG, JPEG bleibt JPEG, WebP bleibt WebP, ein animiertes GIF bleibt
+  animiert. Ein unbewegtes GIF wird zu PNG.
+* **SVG wird immer zu PNG.** Discord kann SVG im Panel nicht anzeigen, und eine
+  SVG-Datei kann Skripte enthalten. SVGs mit Skripten, Verweisen auf andere
+  Dateien oder Webadressen oder mit Entity-Deklarationen werden abgelehnt.
+* Bilder mit sehr vielen Pixeln (mehr als 30 Megapixel, etwa eine
+  "Dekompressionsbombe", die als Datei winzig und im Speicher riesig ist) werden
+  abgelehnt, bevor sie dekodiert werden.
+
+Gespeichert wird das Bild in `assets/` unter einem erzeugten Namen wie
+`custom-logo-3f2a9c1e5b7d4a60.png`, und `panel.logo.file` beziehungsweise
+`panel.banner.file` in `config.jsonc` wird auf diesen Namen gesetzt, alle
+Kommentare bleiben erhalten. Das zuvor hochgeladene Bild desselben Platzes wird
+gelöscht; Bilder, die du selbst in `assets/` gelegt hast, und das mitgelieferte
+Standardbild bleiben unangetastet. **Auf Standard zurücksetzen** setzt den Namen
+zurück auf `logo.png` beziehungsweise `banner.png` und löscht die hochgeladene
+Datei. Wie jede andere Änderung an der Konfiguration verwendet das Panel das neue
+Bild nach dem nächsten Neustart des Bots.
+
+### Virenscan (optional)
+
+Läuft [ClamAV](https://www.clamav.net/) auf dem Server, kann das Dashboard jeden
+Upload von `clamd` prüfen lassen, bevor es ihn verarbeitet. Setze entweder
+`CLAMAV_SOCKET` (den Pfad des lokalen Sockets von clamd, unter Debian meist
+`/var/run/clamav/clamd.ctl`) oder `CLAMAV_HOST` und `CLAMAV_PORT`. Der Benutzer,
+unter dem das Dashboard läuft, muss den Socket benutzen dürfen.
+
+* Eine Datei, die clamd meldet, wird abgelehnt und mit dem Namen des Fundes ins
+  Audit-Log geschrieben.
+* Ist ClamAV eingetragen, antwortet aber nicht (gestoppt, falscher Pfad,
+  Zeitüberschreitung), werden Uploads **abgelehnt**, bis es wieder antwortet. Ein
+  eingetragener Scanner lässt nie eine Datei ungeprüft durch.
+* Ohne diese Variablen meldet das Dashboard beim Start einmal im Log, dass
+  Uploads nicht auf Viren geprüft werden. Umgewandelt werden die Bilder trotzdem
+  wie oben beschrieben.
+
+`StreamMaxLength` von clamd (Vorgabe 25 MB) muss größer sein als das Upload-Limit.
+
+#### ClamAV einrichten
+
+ClamAV ist optional. Ohne läuft der Upload trotzdem, und die Bilder werden wie
+oben beschrieben umgewandelt. clamd hält seine Signaturdatenbank im Arbeitsspeicher
+und braucht deutlich mehr als 1 GB RAM. Prüfe also vorher, ob dein Server dafür
+Platz hat.
+
+**Debian oder Ubuntu**, wenn der Bot direkt auf dem Server läuft:
+
+```bash
+sudo apt install clamav-daemon
+sudo systemctl enable --now clamav-freshclam clamav-daemon
+```
+
+Der erste Download der Signaturen dauert ein paar Minuten, clamd startet erst
+danach. Dann diese Zeile in die `.env` des Bots eintragen und das Dashboard neu
+starten:
+
+```bash
+CLAMAV_SOCKET=/var/run/clamav/clamd.ctl
+```
+
+Meldet das Log, dass der Socket nicht geöffnet werden kann, darf der Nutzer des
+Bots ihn nicht verwenden. Dann `LocalSocketGroup` und `LocalSocketMode` in
+`/etc/clamav/clamd.conf` prüfen.
+
+**Docker:** das offizielle Image neben dem Bot laufen lassen, siehe
+[ClamAV für den Bild-Upload](https://docu.msk-scripts.de/de/discord/discord_ticketbot/docker/#clamav-für-den-bild-upload).
+
+Nach einem Neustart steht im Log, ob ClamAV antwortet:
+`Image uploads are virus scanned with ClamAV (...)` heißt, es funktioniert.
+
 ## Dashboard-Einstellungen
 
 Über den Reiter **Dashboard-Einstellungen** passt du das Panel für alle an, die es nutzen.
@@ -225,6 +312,9 @@ und gehört allein zum Dashboard, am Bot und seiner Datenbank ändert sich nicht
 | `DASHBOARD_ALLOW_INSECURE` | `false` | Nur, wenn du TLS an einer Stelle beendest, die der Bot nicht sehen kann |
 | `SESSION_SECRET` | *wird erzeugt* | Signaturschlüssel für das Cookie. Niemals weitergeben oder wiederverwenden. |
 | `CLIENT_SECRET` | *(keiner)* | Client Secret für Discord OAuth2 |
+| `ASSET_UPLOAD_MAX_MB` | `5` | Größenlimit für einen Panel-Bild-Upload in MB, zwischen 1 und 10 |
+| `CLAMAV_SOCKET` | *(keiner)* | clamd-Socket für den Virenscan der Uploads, z. B. `/var/run/clamav/clamd.ctl` |
+| `CLAMAV_HOST` / `CLAMAV_PORT` | *(keiner)* / `3310` | clamd über TCP statt Socket. `CLAMAV_SOCKET` gewinnt, wenn beides gesetzt ist. |
 
 ## Als Dienst betreiben
 
