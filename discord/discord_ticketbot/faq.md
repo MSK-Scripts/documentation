@@ -35,7 +35,7 @@ Yes. SSL certificates are obtained automatically via **Let's Encrypt** (Certbot)
 They renew automatically before expiry.
 
 ### What is "Hosted Bot Management"?
-On Premium+ and Business your bot can be hosted by MSK Scripts. The bot runs on our server, and you set it up yourself in the **Bot Hosting** tab of your dashboard: enter your bot token, client ID and client secret, and we install it, start it and check that it came up. You keep bot control (start/stop/restart/update), a live log console and a form for correcting those credentials. No SSH access or server knowledge is required, and no arrangement with us beforehand.
+On Hosted and Business your bot can be hosted by MSK Scripts. The bot runs on our server, and you set it up yourself in the **Bot Hosting** tab of your dashboard: enter your bot token, client ID and client secret, and we install it, start it and check that it came up. You keep bot control (start/stop/restart/update), a live log console and a form for correcting those credentials. No SSH access or server knowledge is required, and no arrangement with us beforehand.
 
 ### How does my team get into the bot's dashboard?
 Every hosted bot is published at its own address, `tickets-<id>.msk-scripts.de` or a domain of your own, and that address runs the bot's own Discord login. Share it with your staff: they sign in with their own account and see exactly what their permissions allow. One step is yours to do, because only you can: add the redirect URL shown in the dashboard under **OAuth2 → Redirects** in the Discord developer portal. Without it the login ends on a Discord error page.

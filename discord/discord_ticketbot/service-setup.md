@@ -6,7 +6,7 @@ sidebar_position: 7
 
 This guide explains how to set up the MSK Transcript Service for your self-hosted bot instance.  
 The service stores ticket transcripts online and makes them accessible via a public link.  
-Paid tiers can serve transcripts under their own domain, and from Premium+ on the bot itself can be hosted by us.
+Paid tiers can serve transcripts under their own domain, and from Hosted on the bot itself can be hosted by us.
 
 ---
 
@@ -26,7 +26,7 @@ configure a **custom domain** so transcripts are served under their own URL.
 
 ## 2. Subscription Tiers
 
-| Feature | Basic (free) | Premium | Premium+ | Business |
+| Feature | Basic (free) | Premium | Hosted | Business |
 |---|---|---|---|---|
 | Price per month | free | €4.99 | €9.99 | €19.99 |
 | Price per year | free | €49 | €99 | €199 |
@@ -141,7 +141,7 @@ Then restart the bot.
 
 ## 6. Step 4 – Set up a Custom Domain (Premium)
 
-> This step is available on **every paid tier** (Premium, Premium+, Business).  
+> This step is available on **every paid tier** (Premium, Hosted, Business).  
 > Basic users can skip this step.
 
 A custom domain lets your users access transcripts under your own URL,  
@@ -198,9 +198,9 @@ The VirtualHost will be removed from the server and transcripts revert to the de
 
 ---
 
-## 7. Step 5 – Hosted Bot Management (Premium+ & Business)
+## 7. Step 5 – Hosted Bot Management (Hosted & Business)
 
-> This step is for **Premium+ and Business** subscribers who want us to run the bot for them.
+> This step is for **Hosted and Business** subscribers who want us to run the bot for them.
 > Basic users, and anyone happy running it themselves, can skip it.
 
 You set hosting up yourself in the dashboard. No SSH access, no server knowledge, and no ticket to open first.
@@ -261,7 +261,7 @@ When the bot starts you will see the following in the terminal:
                  https://github.com/MSK-Scripts/discord_ticketbot
 
 Checking for updates... up to date (v2.20.0)
-Checking API Key... API key valid → Premium+
+Checking API Key... API key valid → Hosted
 
 Connecting to Discord...
 
@@ -293,5 +293,5 @@ Connecting to Discord...
 | `Invalid API key → Basic` | The key is incorrect or has been regenerated |
 | `MSK server unreachable → Basic` | www.msk-scripts.de is temporarily unreachable |
 | `API key valid → Premium` | ✅ Premium active |
-| `API key valid → Premium+` | ✅ Premium+ active |
+| `API key valid → Hosted` | ✅ Hosted active |
 | `API key valid → business` | ✅ Business active |

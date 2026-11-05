@@ -26,7 +26,7 @@ Premium-Nutzer erhalten zusätzlich herunterladbare Dateianhänge im Transkript 
 
 ## 2. Abo-Modelle im Überblick
 
-| Feature | Basic (kostenlos) | Premium | Premium+ | Business |
+| Feature | Basic (kostenlos) | Premium | Hosted | Business |
 |---|---|---|---|---|
 | Preis pro Monat | kostenlos | 4,99 € | 9,99 € | 19,99 € |
 | Preis pro Jahr | kostenlos | 49 € | 99 € | 199 € |
@@ -141,7 +141,7 @@ Starte den Bot danach neu.
 
 ## 6. Schritt 4 – Eigene Domain einrichten (Premium)
 
-> Dieser Schritt ist in **jeder bezahlten Stufe** verfügbar (Premium, Premium+, Business).  
+> Dieser Schritt ist in **jeder bezahlten Stufe** verfügbar (Premium, Hosted, Business).  
 > Basic-Nutzer können diesen Schritt überspringen.
 
 Mit einer eigenen Domain sind Transkripte unter deiner URL abrufbar,  
@@ -198,9 +198,9 @@ Der VirtualHost wird vom Server entfernt und Transkripte sind wieder über die S
 
 ---
 
-## 7. Schritt 5 – Gehostetes Bot-Management (Premium+ & Business)
+## 7. Schritt 5 – Gehostetes Bot-Management (Hosted & Business)
 
-> Dieser Schritt ist für **Premium+ und Business** gedacht, die den Bot von uns betreiben lassen wollen.
+> Dieser Schritt ist für **Hosted und Business** gedacht, die den Bot von uns betreiben lassen wollen.
 > Basic-Nutzer und alle, die ihn gern selbst betreiben, können ihn überspringen.
 
 Du richtest das Hosting selbst im Dashboard ein. Kein SSH-Zugang, kein Server-Wissen, und kein Ticket, das du vorher aufmachen musst.
@@ -261,7 +261,7 @@ Beim Start siehst du folgende Ausgabe im Terminal:
                  https://github.com/MSK-Scripts/discord_ticketbot
 
 Checking for updates... up to date (v2.0.0)
-Checking API Key... API key valid → Premium+
+Checking API Key... API key valid → Hosted
 
 Connecting to Discord...
 
@@ -293,5 +293,5 @@ Connecting to Discord...
 | `Invalid API key → Basic` | Der Key ist falsch oder wurde neu generiert |
 | `MSK server unreachable → Basic` | www.msk-scripts.de ist vorübergehend nicht erreichbar |
 | `API key valid → Premium` | ✅ Premium aktiv |
-| `API key valid → Premium+` | ✅ Premium+ aktiv |
+| `API key valid → Hosted` | ✅ Hosted aktiv |
 | `API key valid → business` | ✅ Business aktiv |
