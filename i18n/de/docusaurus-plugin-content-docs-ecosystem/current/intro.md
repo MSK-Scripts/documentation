@@ -17,7 +17,7 @@ Codequalität und demselben Respekt vor deinen Daten.
 - **[MSK Shortener](msk-shortener/index.md)**: ein selbst gehosteter URL-Kürzer mit anonymer Klickstatistik, QR-Codes und ablaufenden Links.
 - **[MSK Forms](msk-forms/index.md)**: eine gehostete Plattform für Formulare und Bewerbungen, mit Live-Statusverfolgung für Bewerber und einem mandantenfähigen Discord-Bot, den jeder Server einladen kann.
 
-Weitere Projekte sind geplant, unter anderem MSK Banking.
+Weitere Projekte sind geplant.
 
 ---
 

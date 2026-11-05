@@ -15,7 +15,7 @@ The MSK Ecosystem is a growing family of self-hosted, privacy-friendly web tools
 - **[MSK Shortener](msk-shortener/index.md):** A self-hosted URL shortener with anonymous click statistics, QR codes, and link expiration.
 - **[MSK Forms](msk-forms/index.md):** A hosted form & application platform with a live status loop for applicants and a multi-tenant Discord bot any server can invite.
 
-More projects are planned, including MSK Banking, and more.
+More projects are planned.
 
 ---
 

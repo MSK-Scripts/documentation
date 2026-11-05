@@ -43,22 +43,6 @@
     "message": "Changelog",
     "description": "The label for category 'Changelog' in sidebar 'tutorialSidebar'"
   },
-  "sidebar.tutorialSidebar.category.MSK Banking": {
-    "message": "MSK Banking",
-    "description": "The label for category 'MSK Banking' in sidebar 'tutorialSidebar'"
-  },
-  "sidebar.tutorialSidebar.category.Installation": {
-    "message": "Installation",
-    "description": "The label for category 'Installation' in sidebar 'tutorialSidebar'"
-  },
-  "sidebar.tutorialSidebar.category.msk_banking.exports": {
-    "message": "Exports",
-    "description": "The label for category 'Exports' in sidebar 'tutorialSidebar'"
-  },
-  "sidebar.tutorialSidebar.category.msk_banking.events": {
-    "message": "Events",
-    "description": "The label for category 'Events' in sidebar 'tutorialSidebar'"
-  },
   "sidebar.tutorialSidebar.category.MSK EngineToggle": {
     "message": "MSK EngineToggle",
     "description": "The label for category 'MSK EngineToggle' in sidebar 'tutorialSidebar'"
