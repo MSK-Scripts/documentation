@@ -65,6 +65,7 @@ Supported formats: PNG, JPG, GIF, WEBP. Run `/setup` again after adding or chang
   "ticketNameOption": "",         // USERNAME, USERID, TICKETCOUNT or ""
   "customDescription": "...",     // Variables: REASON1, REASON2, USERNAME, USERID
   "cantAccess": ["roleId"],
+  "requiredRoles": [],            // Empty = everyone, otherwise one of these roles is needed
   "staffRoles": [],               // Type-specific staff roles, empty = global staff roles
   "askQuestions": true,
   "questions": [
@@ -75,6 +76,8 @@ Supported formats: PNG, JPG, GIF, WEBP. Run `/setup` again after adding or chang
 
 > **`staffRoles` replaces the global roles.** A type with its own `staffRoles` is handled by those roles only: they see the channel, can claim, lock, move and close, and the staff reminder pings them. The global `rolesWhoHaveAccessToTheTickets` do not act on such a ticket. If the global staff role should keep access, add it to the type's `staffRoles`. Administrators always have access.
 
+> **`requiredRoles` limits who can open a type.** Empty (the default) means everyone may open it. With roles listed, a member needs at least one of them, otherwise the bot refuses with "This category is only open to members with a specific role." Use it for a category like script support that only sponsors may open, while order or invoice types stay open to all. `cantAccess` still applies on top and wins: a member with a blocked role cannot open the type even if they hold a required role. There is no exception for staff or administrators, so give your team one of the roles if they should be able to open the type themselves. With the `BUTTON` panel, the type list a member sees only offers the types they may open; if just one is left it opens directly. The `SELECT_MENU` panel is the same for everyone, so there the refusal message is shown after picking.
+
 ### Open Restrictions
 
 ```json
@@ -82,7 +85,7 @@ Supported formats: PNG, JPG, GIF, WEBP. Run `/setup` again after adding or chang
 "maxTicketOpened": 2                 // open tickets per user, 0 = unlimited
 ```
 
-Together with `cantAccess` per type and the `/blacklist`, these are checked on every way a ticket can be opened, and the open limit cannot be bypassed by clicking quickly several times.
+Together with `cantAccess` and `requiredRoles` per type and the `/blacklist`, these are checked on every way a ticket can be opened, and the open limit cannot be bypassed by clicking quickly several times.
 
 ### Bot Status
 

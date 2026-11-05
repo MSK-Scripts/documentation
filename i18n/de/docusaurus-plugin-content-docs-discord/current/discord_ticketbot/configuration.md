@@ -68,6 +68,7 @@ hinzugefügt oder ausgetauscht hast.
   "ticketNameOption": "",         // USERNAME, USERID, TICKETCOUNT oder ""
   "customDescription": "...",     // Variablen: REASON1, REASON2, USERNAME, USERID
   "cantAccess": ["roleId"],
+  "requiredRoles": [],            // Leer = alle, sonst wird eine dieser Rollen gebraucht
   "staffRoles": [],               // Team-Rollen nur für diesen Typ, leer = globale Team-Rollen
   "askQuestions": true,
   "questions": [
@@ -78,6 +79,8 @@ hinzugefügt oder ausgetauscht hast.
 
 > **`staffRoles` ersetzt die globalen Rollen.** Ein Typ mit eigenen `staffRoles` wird nur von diesen Rollen betreut: Sie sehen den Kanal, können übernehmen, sperren, verschieben und schließen, und die Team-Erinnerung pingt sie. Die globalen `rolesWhoHaveAccessToTheTickets` wirken bei so einem Ticket nicht. Soll die globale Team-Rolle Zugriff behalten, gehört sie in die `staffRoles` des Typs. Administratoren haben immer Zugriff.
 
+> **`requiredRoles` legt fest, wer einen Typ öffnen darf.** Leer (die Vorgabe) heißt, alle dürfen ihn öffnen. Stehen Rollen drin, braucht ein Mitglied mindestens eine davon, sonst lehnt der Bot mit "Für diese Kategorie brauchst du eine bestimmte Rolle." ab. So lässt sich etwa der Script-Support auf Sponsoren beschränken, während Bestellungen und Rechnungen für alle offen bleiben. `cantAccess` gilt zusätzlich und hat Vorrang: Wer eine gesperrte Rolle hat, kann den Typ nicht öffnen, auch wenn er eine der benötigten Rollen besitzt. Eine Ausnahme für Staff oder Administratoren gibt es nicht. Soll dein Team den Typ selbst öffnen können, gib ihm eine der Rollen. Beim Panel `BUTTON` zeigt die Typ-Auswahl nur die Typen, die das Mitglied öffnen darf; bleibt genau einer übrig, öffnet er direkt. Das Panel `SELECT_MENU` ist für alle gleich, dort erscheint die Ablehnung nach der Auswahl.
+
 ### Sperren beim Öffnen
 
 ```json
@@ -85,7 +88,7 @@ hinzugefügt oder ausgetauscht hast.
 "maxTicketOpened": 2                 // offene Tickets pro Nutzer, 0 = unbegrenzt
 ```
 
-Zusammen mit `cantAccess` pro Typ und der `/blacklist` wird das auf jedem Weg geprüft, auf dem ein Ticket entstehen kann, und das Limit lässt sich auch durch schnelles Mehrfachklicken nicht umgehen.
+Zusammen mit `cantAccess` und `requiredRoles` pro Typ und der `/blacklist` wird das auf jedem Weg geprüft, auf dem ein Ticket entstehen kann, und das Limit lässt sich auch durch schnelles Mehrfachklicken nicht umgehen.
 
 ### Bot-Status
 
