@@ -107,8 +107,8 @@ How far the cleanup reaches depends on what the key script exposes:
 `vehicles_keys` offers no plate-wide remove, so second-key holders of that plate
 keep their keys there. `RemoveAllKeys` is also an **optional** part of the adapter
 contract: an adapter without it turns the call into a harmless no-op, which matters
-if you add your own adapter in `server/keys/`. Those files are not
-escrow-protected, so you can adjust the exports to whatever your build ships.
+if you add your own adapter in `server/keys/`, where you can adjust the exports to
+whatever your build ships.
 
 ## Second-key badge
 
@@ -130,4 +130,4 @@ single-`name`-column schemas. Results are cached for five minutes. Society owner
 never get a name. Those aren't people.
 
 Running a different framework or a `users` table that doesn't match? Rewrite the
-body of that function, it is not escrow-protected.
+body of that function.

@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # MSK Garage & Impound
 
-[**CFX Post**](https://forum.cfx.re/t/esx-msk-garage-and-impound/5122014)
+[**GitHub Download**](https://github.com/MSK-Scripts/msk_garage/releases) | [**CFX Post**](https://forum.cfx.re/t/esx-msk-garage-and-impound/5122014)
 
 An advanced, server-authoritative garage & impound system for **ESX Legacy**,
 built on top of [msk_core](https://github.com/MSK-Scripts/msk_core). Park cars,

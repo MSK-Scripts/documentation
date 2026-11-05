@@ -5,7 +5,7 @@ sidebar_position: 1
 
 ![MSK VehicleKeys](/img/msk_vehiclekeys-banner.png)
 
-[**CFX Post**](https://forum.cfx.re/t/esx-qbcore-msk-vehiclekeys-unique-items/5264475)
+[**GitHub Download**](https://github.com/MSK-Scripts/msk_vehiclekeys/releases) | [**CFX Post**](https://forum.cfx.re/t/esx-qbcore-msk-vehiclekeys-unique-items/5264475)
 
 # MSK VehicleKeys
 

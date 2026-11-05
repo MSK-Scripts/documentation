@@ -15,7 +15,7 @@ Hier findest du Installationsanleitungen, Referenzen zu Events und Exports sowie
 
 Du brauchst Hilfe oder willst auf dem Laufenden bleiben?
 
-- 🌐 **Tebex:** [https://www.msk-scripts.de](https://www.msk-scripts.de)
+- 🌐 **Website:** [https://www.msk-scripts.de](https://www.msk-scripts.de)
 - 💬 **Discord:** [https://discord.gg/5hHSBRHvJE](https://discord.gg/5hHSBRHvJE)
 - 🌐 **Github:** [https://github.com/MSK-Scripts](https://github.com/MSK-Scripts)
 - 🌐 **CFX Forum:** [https://forum.cfx.re/u/MSK-Scripts/](https://forum.cfx.re/u/MSK-Scripts/summary)

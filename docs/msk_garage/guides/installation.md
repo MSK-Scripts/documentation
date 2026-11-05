@@ -5,7 +5,8 @@ sidebar_position: 1
 
 # Installation
 
-1. Drag & drop the `msk_garage` folder into your resources folder.
+1. Download the latest [release](https://github.com/MSK-Scripts/msk_garage/releases)
+   and drag & drop the `msk_garage` folder into your resources folder.
 2. Make sure the [dependencies](../index.md#-requirements) start **before**
    `msk_garage` (your framework, `msk_core`, `ox_lib`, `oxmysql`).
 3. Add `ensure msk_garage` to your `server.cfg`.
@@ -71,9 +72,8 @@ are seeded into the database once. After that, use the dashboard.
 
 ## Updating
 
-Replace the resource folder and restart. `config/` and `locales/` are
-escrow-open, so back up your changes before overwriting and re-apply them
-afterwards. If you added **vehicle images**, back up your `vehicle_images/` folder
+Replace the resource folder and restart. Back up your changes in `config/` and
+`locales/` before overwriting and re-apply them afterwards. If you added **vehicle images**, back up your `vehicle_images/` folder
 too and copy it back after updating.
 
 :::info[Your garages survive updates]

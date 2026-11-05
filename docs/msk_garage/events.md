@@ -11,8 +11,7 @@ so use `AddEventHandler` (not `RegisterNetEvent`).
 
 :::tip
 Empty handler stubs already exist in `client/handler.lua` and
-`server/handler.lua`: both files are escrow-open, so you can add your own logic
-there directly if you prefer not to create a separate resource.
+`server/handler.lua`, so you can add your own logic there directly if you prefer not to create a separate resource.
 :::
 
 ## Client events

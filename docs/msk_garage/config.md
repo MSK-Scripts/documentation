@@ -13,8 +13,8 @@ the **default template** for a fresh install. To change things on a running
 server, use `/garageadmin`, not these files.
 :::
 
-The configuration lives in the `config/` folder. All files are escrow-open
-(`escrow_ignore`), so you can edit them freely:
+The configuration lives in the `config/` folder, and you can edit every file
+in it:
 
 | File | Contains | Managed by |
 |---|---|---|

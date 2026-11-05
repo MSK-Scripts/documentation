@@ -38,7 +38,7 @@ MSK.Check.Version({
     author = 'MSK-Scripts',
     name = 'msk_garage',
     print = true,
-    download = 'https://msk-scripts.tebex.io/',
+    download = 'https://github.com/MSK-Scripts/msk_garage/releases',
 })
 
 -- As an Export:

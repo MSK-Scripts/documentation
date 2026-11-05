@@ -7,7 +7,8 @@ sidebar_position: 1
 
 ## Steps
 
-1. Drag & drop the `msk_vehiclekeys` folder into your resources directory.
+1. Download the latest [release](https://github.com/MSK-Scripts/msk_vehiclekeys/releases)
+   and drag & drop the `msk_vehiclekeys` folder into your resources directory.
 2. Add `ensure msk_vehiclekeys` to your `server.cfg`.
 3. Make sure all [dependencies](../index.md#requirements) start **before** `msk_vehiclekeys`.
 4. Configure `config/settings.lua`, or just manage everything live from the [in-game admin dashboard](../admin.md) after the first start.

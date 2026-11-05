@@ -108,7 +108,7 @@ they store there.
 A naive `type = 'helicopter'` query would then return nothing just because the
 shop stored `'heli'`, so a heli garage would stay empty. To avoid that, every
 category is expanded to a list of accepted synonyms before matching. This lives
-in `shared/classes.lua` (escrow-open, so you can edit it):
+in `shared/classes.lua`, where you can edit it:
 
 ```lua
 local TYPE_SYNONYMS = {
